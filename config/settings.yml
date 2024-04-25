@@ -1,0 +1,17 @@
+default: &default_settings
+
+  site_name: "Learning Life"
+  #site_host: "www.learninglife.com"
+  #site_email_host: "learninglife.com"
+  #site_email: "service@learninglife.com"
+
+  admin_subdomain: "admin"
+  app_path: "app"
+
+development:
+  <<: *default_settings
+
+
+production:
+  <<: *default_settings
+

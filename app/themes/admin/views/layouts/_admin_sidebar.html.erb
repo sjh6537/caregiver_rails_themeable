@@ -1,0 +1,59 @@
+
+<style>
+
+	.side-menu__icon {
+		height: auto !important;
+	}
+  
+</style>
+
+	<!-- main-sidebar -->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar sidebar-scroll">
+		<!-- logo -->
+		<div class="main-sidebar-header active">
+			<a class="desktop-logo logo-light active" href="index.html"><img  class="main-logo" alt="logo" src="/website/logo/default"></a>
+			<a class="logo-icon mobile-logo icon-light active" href="index.html"><img  class="logo-icon" alt="logo" src="/website/favicon/default"></a>
+		</div>
+
+		<div class="main-sidemenu">
+			<!-- admin user -->
+			<div class="app-sidebar__user clearfix">
+				<div class="dropdown user-pro-body">
+					<div class="">
+						<img alt="user-img" class="avatar avatar-xl brround" src="/assets/valex/img/faces/6.jpg"><span class="avatar-status profile-status bg-green"></span>
+					</div>
+					<div class="user-info">
+						<h4 class="font-weight-semibold mt-3 mb-0"><%= current_admin.name %></h4>
+						<span class="mb-0 text-muted">
+							<%= current_admin.type %>
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<ul class="side-menu">
+				<!-- <li class="side-item side-item-category">Main</li> -->
+				<li class="slide">
+					<a class="side-menu__item" href="<%= admin_root_path %>">
+						<i class="side-menu__icon fas fa-tachometer-alt"></i><span class="side-menu__label"><%= t(:DashBoard , scope: "Sidebar.Item") %></span><span class="badge badge-danger side-badge">20</span>
+					</a>
+				</li>
+
+				<li class="slide">
+					<a class="side-menu__item" href="<%= admin_admins_path %>">
+						<i class="side-menu__icon mdi mdi-account-card-details"></i><span class="side-menu__label"><%= t(:Administrator , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
+					</a>
+				</li>
+
+				<!-- <li class="side-item side-item-category">Customer</li> -->
+				<li class="slide">
+					<a class="side-menu__item" href="<%= admin_customers_path %>">
+						<i class="side-menu__icon icon ion-md-pricetags"></i><span class="side-menu__label"><%= t(:Customer , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Customer.count %></span>
+					</a>
+				</li>
+
+			</ul>
+		</div>
+	</aside>
+	<!-- main-sidebar -->

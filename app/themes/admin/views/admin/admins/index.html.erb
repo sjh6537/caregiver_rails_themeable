@@ -1,0 +1,180 @@
+
+<%= content_for :head_css do %>
+
+	<!-- Internal Data table css -->
+	<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+<% end %>
+
+
+<!--Row-->
+<div class="row row-sm">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card">
+
+
+	<div class="card-header pb-0">
+		<div class="d-flex justify-content-between">
+			<h4 class="card-title mg-b-0"><%= t(:ADMINISTRATORS_TABLE, scope: "Title") %></h4>
+			<i class="mdi mdi-dots-horizontal text-gray"></i>
+		</div>
+
+		<p class="tx-12 tx-gray-500 mb-2 mg-t-10">
+			<%= t(:Cannot_del_Admin, scope: "Note") %>
+			<a href=""><%= t(:Login_super_admin, scope: "Note") %></a>
+		</p>
+
+		<div class="row row-xs wd-xl-80p mg-t-10">
+				<div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
+					<%= link_to( t(:CREATE_NEW_ADMIN, scope: "Button"), new_admin_admin_path,
+                      :method => :GET,
+                      :class => 'btn btn-success btn-block') %>
+				</div>
+		</div>
+
+	</div>
+
+
+	<div class="card-body">
+		<div class="table-responsive border-top userlist-table">
+			<table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+				<thead>
+					<tr>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Account, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Name, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Email, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Last_Sign_in, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Status, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><%= t(:Action, scope: "Table") %></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @admins.map do |c| %>
+					<tr>
+						<td>
+							<% if current_admin.super_admin == true || (current_admin.super_admin == false && c.super_admin == false) %>
+								<%= c.account %>
+							<% else %>
+								<div class="tx-danger"><%= t(:Super_Admin, scope: "Table") %></div>
+							<% end %>
+						</td>
+						<td><%= c.name %></td>
+						<td><%= c.email %></td>
+						<td><%= c.updated_at.strftime('%Y/%m/%d %T') %></td>
+						<td class="text-center">
+							<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div><%= c.status %></span>
+						</td>
+						<td>
+							<a href="<%= admin_admin_path(c.id) %>" class="btn btn-sm btn-primary">
+								<i class="las la-search"></i>
+							</a>
+							<a href="<%= edit_admin_admin_path(c.id) %>" class="btn btn-sm btn-info">
+								<i class="las la-pen"></i>
+							</a>
+							<% if current_admin.super_admin == true %>
+								<% if current_admin.id == c.id %>
+									<a data-target="#modal_cannot_del_self" data-toggle="modal" href="#" class="btn btn-sm btn-danger">
+									<i class="las la-trash"></i></a>
+								<% else %>
+									<a class="btn ripple btn-sm btn-danger mg-l-10 delete_button" data-val=<%= c.id %> data-target="#modal_del" data-toggle="modal" href=""><i class="las la-trash"></i></a>
+								<% end %>
+
+							<% else %>
+								<a data-target="#modal_cannot_del_admin" data-toggle="modal" href="#" class="btn btn-sm btn-danger">
+								<i class="las la-trash"></i></a>
+							<% end %>
+
+						</td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</div>
+</div><!-- COL END -->
+</div>
+<!-- row closed  -->
+
+<div class="modal" id="modal_cannot_del_admin">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+				<h4 class="tx-danger mg-b-20"><%= t(:DEL_CANNOT, scope: "Title") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t(:Only_Super_Admin, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t(:CLOSE, scope: "Button") %></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modal_cannot_del_self">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+				<h4 class="tx-danger mg-b-20"><%= t(:DEL_CANNOT, scope: "Title") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t(:Cannot_Del_Self, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t(:CLOSE, scope: "Button") %></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal" id="modal_del">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+				<h4 class="tx-danger mg-b-20"><%= t(:DEL_ADMIN, scope: "Title") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE" ><%= t(:CONTINUE, scope: "Button") %></a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= content_for :script_js do %>
+
+	<!-- Internal Data tables -->
+	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+
+	<!--Internal  Datatable js -->
+	<script src="/assets/valex/js/table-data.js"></script>
+
+    <!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+	<script type="text/javascript">
+
+	    $(document).on('click', '.delete_button', function(event) {
+			var id = $(this).data("val");
+			$('.delete_alerm').attr("href", "/admins/" + id);
+	    });
+
+	</script>
+
+<% end %>

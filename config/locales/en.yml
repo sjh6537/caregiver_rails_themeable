@@ -1,14 +1,14 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
 #
 # To use the locales, use `I18n.t`:
 #
-#     I18n.t "hello"
+#     I18n.t 'hello'
 #
 # In views, this is aliased to just `t`:
 #
-#     <%= t("hello") %>
+#     <%= t('hello') %>
 #
 # To use a different locale, set it with `I18n.locale`:
 #
@@ -16,16 +16,153 @@
 #
 # This would use the information in config/locales/es.yml.
 #
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
 #
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
+# true, false, on, off, yes, no
 #
-#     en:
-#       "yes": yup
-#       enabled: "ON"
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  Login:
+    CMS_System: "%{name} SCHOOL CMS"
+    Account: Account
+    Email: Email
+    Password: Password
+    Sign_in: Sign in
+    Teacher: Teacher
+    Student: Student
+  Sidebar:
+    Super_Admin: Super Administrator
+    Admin: Administrator
+    Item:
+      DashBoard: DashBoard
+      Customer: Customer
+      Administrator: Administrator
+      WebSite: Web Site
+      WebSetting: Web Setting
+      Line_Notify: Line Notify
+      Teaching: Teaching
+      Message: Message
+      Register: Register
+      Users: Users
+      School: School
+      Group: Group
+      Teachers: Teachers
+      Students: Students
+  Title:
+      ADMINISTRATORS_TABLE: ADMINISTRATORS TABLE
+      ADMINISTRATORS: ADMINISTRATORS
+      ADMINISTRATOR_INFO: ADMINISTRATOR INFORMATION
+      USER_INFO: USER INFO
+      CONTACT_INFO: CONTACT INFO
+      CUSTOMERS: CUSTOMERS
+      CUSTOMERS_TABLE: CUSTOMERS TABLE
+      NEW_CUSTOMER: CUSTOMER CREATE
+      NEW_ADMINISTRATOR: ADMINISTRATOR CREATE
+      CUSTOMER_INFO: CUSTOMER INFORMATION
+      LINE_NOTIFY_SERVICE: LINE NOTIFY SERVICE
+      STUDENTS: STUDENTS
+      STUDENT_INFO: STUDENT INFO
+      TEACHERS: TEACHERS
+      TEACHER_INFO: TEACHER INFO
+      DEL_ADMIN: DELETE ADMINISTRATOR
+      DEL_CUSTOMER: DELETE CUSTOMER
+      DEL_LINE_NOTIFY_SERVICE: DELETE LINE NOTIFY SERVICE
+      DEL_TEACHER: DELETE TEACHER
+      DEL_STUDENT: DELETE STUDENT
+      DEL_CANNOT: CANNOT DELETE
+      DISABLE_USER_SERVICE: DISABLE USER LINE NOTIFY SERVICE
+      ENABLE_USER_SERVICE: ENABLE USER LINE NOTIFY SERVICE
+      ATTENDANCE: ATTENDANCE
+      SCORE: SCORE
+      GROUP: GROUP
+      Table: / Table
+      New: / New
+      Edit: / Edit
+      Information: / Information
+  Note:
+      Cannot_del_Admin: "Note: administrator cannot delete member except super administrator."
+      Cannot_del_Customer: "Note: Customer cannot delete except super administrator."
+      Cannot_del_Service: "Note: Service cannot delete member except super administrator."
+      Login_super_admin: Login super administrator
+      Del_Admin: Attention!! Continue will delete this administrator.
+      Del_Customer: Attention!! Delete customer will also delete all students data and info for this customer.
+      Del_Line_Notify_Service: Attention!! Deleting the service will make the connected user lose the service.
+      Del_Line_Notify_Service2: "And you also need to delete this service from <a>%{addr}</a> for really delete"
+      How_to_add_Line_Notify_service: How to add Line Notify service ..
+      Please_add_service_first: Please Add Line Notify Service First ..
+      Disable_user_service: It will disable user line notify for this service. Attention!! User's connect will be delete.
+      Enable_user_service: It will enable user line notify for this service. It will be work after user conncet this service by self.
+      Del_teacher: Attention!! Continue will delete this teacher. The teacher's data will be deleted too.
+      Del_student: Attention!! Continue will delete this student. The student's data will be deleted too.
+      Only_Super_Admin: Only super administrator can delete.
+      Cannot_Del_Self: You cannot delete self.
+  Button:
+      CREATE_NEW_ADMIN: CREATE NEW ADMINISTRATOR
+      CREATE_NEW_CUSTOMER: CREATE NEW CUSTOMER
+      CREATE_NEW_SERVICE: CREATE NEW SERVICE
+      CREATE_NEW_TEACHER: CREATE NEW TEACHER
+      CREATE_NEW_STUDENT: CREATE NEW STUDENT
+      CREATE: CREATE
+      UPDATE: UPDATE
+      DELETE: DELETE
+      CONTINUE: CONTINUE
+      CLOSE: CLOSE
+      FINISH: FINISH
+      EDIT: EDIT
+      RESET_PASSWORD: RESET PASSWORD
+      NON_SELECTED: NON SELECTED
+  Table:
+      Account: ACCOUNT
+      Name: NAME
+      Email: EMAIL
+      Manager: Manager
+      Non: Non
+      Descrition: Descrition
+      Created: CREATED
+      Last_Sign_in: LAST SIGN IN
+      Admin_Count: Admin Count
+      Password: PASSWORD
+      Password_Confirm: PASSWORD CONFIRM
+      Address: ADDRESS
+      Phone: PHONE NUMBER
+      Phone2: PHONE NUMBER 2
+      Status: STATUS
+      User_Connect_Status: User Connect Status
+      Active: Active
+      Banned: Banned
+      Action: ACTION
+      Inactive: INACTIVE
+      Unconnected: UNCONNECTED
+      Super_Admin: Super Admin
+      Client_ID: Client ID
+      Client_Secret: Client Secret
+      Line_Notify_Url: Line Notify Url
+      User_Count: User Count
+  Notice:
+      Customer: Customer
+      Admin: Administrator
+      Non_Super_Del_Admin: Only Super Administrator Can Delete Administrator.
+      Non_Super_Del_Cus: Only Super Administrator Can Delete Customer.
+      Non_Super_Del_Service: Only Super Administrator Can Delete This Service.
+      Cannot_Del_Super: Can Not Delete Super Administrator.
+      Sure_Del_Admin: Are You sure to delete this administrator?
+      Updated: "Successfully Updated Account <strong>%{name}</strong>."
+      Deleted: "Successfully Deleted Account <strong>%{name}</strong>."
+      Created: "Successfully Created Account <strong>%{name}</strong>."
+      Updated_Fail: "Account <strong>%{name}</strong> Update Failed."
+      Deleted_Fail: "Account <strong>%{name}</strong> Delete Failed."
+      Created_Fail: "Account <strong>%{name}</strong> Create Failed."
+      Error_different_id: "some thing error! %{user} is not this service %{service} user."
+      Error_add_service: "some thing error! %{user} add %{service} service fail!!"
+      Error_rm_service: "some thing error! %{user} remove %{service} service fail!!"
+      Add_service_success: "%{user} add %{service} success!!"
+      Rm_service_success: "%{user} remove %{service} success!!"
+

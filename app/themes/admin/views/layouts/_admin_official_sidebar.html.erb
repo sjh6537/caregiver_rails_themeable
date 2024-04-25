@@ -1,0 +1,84 @@
+
+<style>
+
+	.side-menu__icon {
+		height: auto !important;
+	}
+
+</style>
+
+	<!-- main-sidebar -->
+	<div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+	<aside class="app-sidebar sidebar-scroll">
+		<!-- logo -->
+		<div class="main-sidebar-header active">
+			<% if !@website.logo.nil? && @website.logo.asset? %>
+			<a class="desktop-logo logo-light active" href="index.html">
+				<img  class="main-logo" alt="logo" src="<%= @website.try(:logo).try(:asset).try(:url) %>">
+			</a>
+			<% end %>
+			<% if !@website.favicon.nil? && @website.favicon.asset? %>
+			<a class="logo-icon mobile-logo icon-light active" href="index.html">
+				<img  class="logo-icon" alt="logo" src="<%= @website.try(:favicon).try(:asset).try(:url) %>">
+			</a>
+			<% end %>
+		</div>
+
+		<div class="main-sidemenu">
+			<!-- admin user -->
+			<div class="app-sidebar__user clearfix">
+				<div class="dropdown user-pro-body">
+					<div class="">
+						<img alt="user-img" class="avatar avatar-xl brround" src="/assets/valex/img/faces/6.jpg"><span class="avatar-status profile-status bg-green"></span>
+					</div>
+					<div class="user-info">
+						<h4 class="font-weight-semibold mt-3 mb-0"><%= current_admin.name %></h4>
+						<span class="mb-0 text-muted">
+							<%= current_admin.type %>
+					</div>
+				</div>
+			</div>
+
+			<ul class="side-menu">
+				<!-- <li class="side-item side-item-category">Main</li> -->
+
+				<li class="slide">
+					<a class="side-menu__item" href=<%= customer_official_root_path %>>
+						<i class="side-menu__icon fas fa-tachometer-alt"></i><span class="side-menu__label"><%= t(:DashBoard , scope: "Sidebar.Item") %></span><span class="badge badge-danger side-badge">20</span>
+					</a>
+				</li>
+
+				<!-- <li class="side-item side-item-category">Customer</li> -->
+
+				<li class="slide">
+					<a class="side-menu__item" data-toggle="slide" href="#">
+						<i class="side-menu__icon icon ion-md-cube"></i><span class="side-menu__label"><%= t(:WebSite , scope: "Sidebar.Item") %></span>
+						<i class="angle fe fe-chevron-down"></i>
+					</a>
+					<ul class="slide-menu">
+						<li>
+							<a class="slide-item" href=<%= customer_official_edit_website_path %>><%= t(:WebSetting , scope: "Sidebar.Item") %></a>
+						</li>
+						<li>
+							<a class="slide-item" href=<%= customer_official_home_sliders_path %>><%= t(:HomeEdit , scope: "Sidebar.Item") %></a>
+						</li>
+						<li>
+							<a class="slide-item" href=<%= customer_official_achievements_path %>><%= t(:AchievementSetting , scope: "Sidebar.Item") %></a>
+						</li>
+						<li>
+							<a class="slide-item" href=<%= customer_official_courses_path %>><%= t(:CourseSetting , scope: "Sidebar.Item") %></a>
+						</li>
+						<li>
+							<a class="slide-item" href=<%= customer_official_material_menuitems_path %>><%= t(:MaterialSetting , scope: "Sidebar.Item") %></a>
+						</li>
+						<li>
+							<a class="slide-item" href=<%= customer_official_announcements_path %>><%= t(:AnnouncementManage , scope: "Sidebar.Item") %></a>
+						</li>
+					</ul>
+				</li>
+
+
+			</ul>
+		</div>
+	</aside>
+	<!-- main-sidebar -->

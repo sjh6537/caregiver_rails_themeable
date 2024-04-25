@@ -1,0 +1,492 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   'true': 'foo'
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+zh-TW:
+  Login:
+    CMS_System: "%{name} 後台管理系統"
+    Account: 帳號
+    Email: Email
+    Password: 密碼
+    Sign_in: 登入
+    Teacher: 職員
+    Student: 學生
+  Sidebar:
+    Super_Admin: 超級管理者
+    Admin: 管理者
+    Item:
+      DashBoard: 後台資訊
+      Customer: 客戶管理
+      Administrator: 管理者
+      WebSite: 網站管理
+      WebSetting: 網站設定
+      HomeEdit: 首頁編輯
+      AchievementSetting: 成就選單
+      AchievementManage: 成就管理
+      CourseSetting: 課程選單
+      CourseManage: 課程管理
+      MaterialSetting: 教材選單
+      Line_Notify: Line通知
+      Teaching: 登錄教學
+      Message: 訊息發送
+      Register: 註冊登錄
+      Users: 使用者管理
+      School: 人員管理
+      Group: 群組管理
+      Teachers: 教職員管理
+      Students: 學生管理
+      Register: 登錄管理
+      AnnouncementSetting: 公告選單
+      AnnouncementManage: 公告管理
+  Title:
+    CANNOT_DELETE: 無法刪除
+    USER_INFO: 個人資訊
+    CONTACT_INFO: 連絡資訊
+  Subtitle:
+    Table: / 列表
+    New: / 新增
+    Edit: / 編輯
+    Information: / 資訊
+  Note:
+    Login_super_admin: 登出並登入超級管理員
+    Only_Super_Admin_Can_del: "注意: 只有超級管理者可以刪除"
+    Account_Created: "帳號 <strong>%{name}</strong> 成功創建."
+    Account_Updated: "帳號 <strong>%{name}</strong> 成功更新."
+    Account_Deleted: "帳號 <strong>%{name}</strong> 成功刪除."
+    Account_Created_Fail: "帳號 <strong>%{name}</strong> 創建失敗."
+    Account_Updated_Fail: "帳號 <strong>%{name}</strong> 更新失敗."
+    Account_Deleted_Fail: "帳號 <strong>%{name}</strong> 刪除失敗."
+    Created: "<strong>%{name}</strong> 成功創建."
+    Created_Fail: "<strong>%{name}</strong> 創建失敗."
+  Button:
+    CREATE: 新建
+    UPDATE: 更新
+    DELETE: 刪除
+    CONTINUE: 繼續
+    CLOSE: 關閉
+    FINISH: 完成
+    EDIT: 編輯
+    JOIN: 加入
+    QUIT: 退出
+    RESET_PASSWORD: 重設密碼
+    SEND_MESSAGE: 傳送訊息
+    NON_SELECTED: 未選擇
+    PREVIOUS: 上一頁
+    NEXT: 下一頁
+    PAGINATION: 分頁
+    CANCEL: 取消
+    Current_Step: 目前階段
+    loading: 載入中...
+  Table:
+    Account: 帳號
+    Name: 名稱
+    Email: EMAIL
+    Descrition: 備註
+    Address: 聯絡地址
+    Phone: 聯絡電話
+    Phone2: 聯絡電話2
+    Phone3: 聯絡電話3
+    Line: LINE
+    Facebook: Facebook
+    IG: IG
+    Created: 建立時間
+    Last_Sign_in: 最後登入時間
+    Password: 密碼
+    Password_Confirm: 密碼確認
+    Status: 狀態
+    Action: 動作
+    Active: 允許
+    Banned: 禁止
+    Connected: 連接
+    Unconnected: 未連接
+    Manager: 管理者
+    Join: 已加入
+    Not_Join: 未加入
+    Enable: 啟用
+    Disable: 未啟用
+    Hour: 小時
+    Minute: 分
+    Second: 秒
+    Non: 沒有
+  Tooltip:
+    Edit: 編輯資訊
+    Delete: 刪除
+
+  Log:
+    Action:
+      Create: 新建
+      Update: 更新
+      Destroy: 刪除
+      Move: 移動
+      Up: 上移
+      Down: 下移
+    Klass:
+      Customer: 網站
+      Admin: 管理者
+      Student: 學生
+      Teacher: 教職員
+      Group: 群組
+      Message: 訊息
+      Notify: LINE Notify 服務
+      Website: 網站
+      HomeSlider: 首頁Slider
+      AchievementMenuitem: 成就選單
+      Achievement: 成就
+      CourseMenuitem: 課程選單
+      Course: 課程
+      MaterialMenuitem: 教材選單
+      Materia: 教材
+
+  Dashboard:
+    Title:
+      DASHBOARD: 後台資訊
+
+  Customer:
+    Title:
+      CUSTOMERS: 客戶
+      CUSTOMER_INFO: 客戶資訊
+      CUSTOMER_SETTING: 基本設定
+      NEW_CUSTOMER: 新建客戶
+      DELETE_CANNOT: 無法刪除該客戶
+      DELETE: 刪除客戶
+    Table:
+      Name: 網站名稱
+      Owner: 負責人
+    Button:
+      CREATE_NEW_CUSTOMER: 建立新客戶
+    Note:
+      Create_Success: "客戶 <strong>%{name}</strong> 新增成功."
+      Create_Fail: "客戶 <strong>%{name}</strong> 新增失敗."
+      Updated_Success: "客戶 <strong>%{name}</strong> 成功更新."
+      Updated_Fail: "客戶 <strong>%{name}</strong> 更新失敗."
+      Delete_Success: "客戶 <strong>%{name}</strong> 成功刪除."
+      Delete_Fail: "客戶 <strong>%{name}</strong> 刪除失敗."
+      Delete_Not_Super: 非超級管理員無法刪除客戶
+      Only_Super_Can_Del: 只有超級管理員可以刪除客戶
+      Delete_Customer: 確定要刪除該客戶? 該客戶所有的資料和學生使用者將會一併刪除
+
+  Admin:
+    Title:
+      CREATE_SUPER_ADMIN: 建立超級管理員
+      ADMINISTRATORS: 人員管理
+      ADMINISTRATORS_TABLE: 管理者表單
+      ADMINISTRATOR_INFO: 管理者資訊
+      DEL_ADMIN: 刪除管理員
+    Note:
+      Cannot_Modify_Admin: "注意: 一般管理員只能修改個人資訊 , 不能刪除和修改其他管理員."
+      Cannot_Del_Self: "注意: 管理員不能刪除自已"
+      Del_Admin: 注意!! 你確定要刪除此管理員?
+      Cannot_Del_Super_Admin: 不能刪除超級管理者.
+      Only_Super_Can_Del_Admin: 只有超級管理者帳號才能刪除其他帳號.
+      Only_Super_Can_Update_Admin: 只有超級管理者帳號才能修改其他帳號.
+    Button:
+      CREATE_NEW_ADMIN: 建立新管理員
+
+  Website:
+    Title:
+      WEBSITE: 網站
+      SETTING: 基本設定
+      INFORMATION: 網站資訊
+    Table:
+      Name: 網站名稱
+      Forward_url: 轉址網址(非必填)
+      Logo: 網站 LOGO (200x50)
+      Favicon: 網站 ICON
+    Note:
+      Update_Success: "網站 <strong>%{name}</strong> 成功更新"
+      Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
+
+  Home:
+    Title:
+      HOME: 首頁
+      SLIDER: Slider 圖片
+      DEL_HOME_SLIDER: 刪除首頁該 Slider 圖片
+    Table:
+      Picture: 圖片 (建議1600x1200)
+      Link: 圖片連結
+      Motion_Content: 自定義動作內容
+    Note:
+      Delete_Home_Slider: 繼續將刪除首頁該 Slider 圖片
+      Create_No_image: 創建失敗 , 請先選擇圖片再新建!!
+      Create_Success: "首頁 <strong>%{name}</strong> 成功創建"
+      Create_Fail: "首頁 <strong>%{name}</strong> 創建失敗"
+      Update_Success: "首頁 <strong>%{name}</strong> 成功更新"
+      Update_Fail: "首頁 <strong>%{name}</strong> 更新失敗"
+      Delete_Success: "首頁 <strong>%{name}</strong> 成功刪除"
+      Delete_Fail: "首頁 <strong>%{name}</strong> 刪除失敗"
+
+  MenuItem:
+    Title:
+      MENU_SETTING: 選單設定
+    Button:
+      CREATE_NEW_MENUITEM: 建立新選單
+      UPDATE_MENUITEM: 更新選單
+      CANCEL: 取消
+    Table:
+      Parent_Item: 於標籤底下建立巢狀選單
+      Name: 選單名稱
+      Tags: 標籤
+      SelectParentItem: 選擇上層選單
+      SelectTags: 選擇標籤 或 直接輸入名稱新增標籤
+      RootItem: 屬於根目錄選單
+    Note:
+      Add_Item_Success: 增加選單 <strong>%{name}</strong> 成功
+      Add_Item_Fail: 增加選單 <strong>%{name}</strong> 失敗
+      Del_Item_Success: 刪除選單 <strong>%{name}</strong> 成功
+      Del_Item_Fail: 刪除選單 <strong>%{name}</strong> 失敗
+      Rename_Item_Success: 修改選單名稱 <strong>%{name}</strong> 成功
+      Rename_Item_Fail: 修改選單名稱 <strong>%{name}</strong> 失敗
+      Move_Item_Success: 移動選單 <strong>%{name}</strong> 成功
+      Move_Item_Fail: 移動選單 <strong>%{name}</strong> 失敗
+      Already_First: 選單 <strong>%{name}</strong> 已經為該層最上面
+      Already_Last: 選單 <strong>%{name}</strong> 已經為該層最下面
+      Delete_Confirm: 確定要刪除此選單?
+
+  Achievement:
+    Title:
+      ACHIEVEMENT_MANAGE: 成就管理
+      ACHIEVEMENT_INFO: 成就資訊
+      DEL_ACHIEVEMENT: 刪除成就
+    Table:
+      Cover_Image: 封面圖片
+      Content: 內容
+      Style: 顯示樣式
+      Style_Default: 預設樣式
+      Style_Content: 自行編輯內容
+      Name: 姓名
+      Content: 成就內容
+      Icon_Style: Icon樣式
+    Button:
+      CREATE_NEW_ACHIEVEMENT: 建立新成就頁面
+      ADD_STUDENT: 增加成就學生
+      UPDATE_STUDENT: 更新
+      CANCEL: 取消
+    Note:
+      Create_Achievement_First: 請先建立頁面後才能建立 list
+      Update_Success: 修改成就 <strong>%{name}</strong> 成功
+      Update_Fail: 修改成就 <strong>%{name}</strong> 失敗
+      No_Achievements: 無此標籤的成就
+      Delete_Achievement: 確定要刪除此成就嗎?? 該成就內容的圖片將不會被刪除 , 需到圖片管理內去刪除
+      Add_List_Success: 增加成就學生<strong>%{name}</strong>成功
+      Add_List_Fail: 增加成就學生<strong>%{name}</strong>失敗
+      Update_List_Success: 更新成就學生<strong>%{name}</strong>成功
+      Update_List_Fail: 更新成就學生<strong>%{name}</strong>失敗
+      Delete_List_Success: 刪除成就學生<strong>%{name}</strong>成功
+      Delete_List_Fail: 刪除成就學生<strong>%{name}</strong>失敗
+      Fontawesome: '你也可以到 <a href="https://fontawesome.com/icons?d=gallery&m=free" target="_blank">fontawesome</a> 找尋icon'
+
+  Announcement:
+    Title:
+      ANNOUNCEMENT_MANAGE: 公告管理
+      ANNOUNCEME_INFO: 公告資訊
+      DEL_ANNOUNCEME: 刪除公告
+    Table:
+      Cover_Image: 封面圖片
+      Content: 內容
+    Button:
+      CREATE_NEW_ANNOUNCEME: 建立新公告頁面
+    Note:
+      Update_Success: 修改公告 <strong>%{name}</strong> 成功
+      Update_Fail: 修改公告 <strong>%{name}</strong> 失敗
+      No_Announcements: 無此標籤的公告
+      Delete_Announcement: 確定要刪除此公告嗎?? 該公告內容的圖片將不會被刪除 , 需到圖片管理內去刪除
+
+  Course:
+    Title:
+      COURSE_MANAGE: 課程管理
+      COURSE_INFO: 課程介紹資訊
+      DEL_COURSE: 刪除課程
+      CATEGORY: 類別
+    Table:
+      Cover_Image: 封面圖片
+      Max_Students: 學生上限(0為無限制)
+      Content: 內容
+    Button:
+      CREATE_NEW_COURSE: 建立新課程頁面
+    Note:
+      Update_Success: 修改教材 <strong>%{name}</strong> 成功
+      Update_Fail: 修改教材 <strong>%{name}</strong> 失敗
+      No_Courses: 無此標籤的課程
+      Delete_Course: 確定要刪除此課程嗎?? 該課程內容的圖片將不會被刪除 , 需到圖片管理內去刪除
+
+  Group:
+    Title:
+      GROUP: 群組管理
+      GROUP_TABLE: 群組列表
+      GROUP_INFO: 群組資訊
+      DEL_GROUP: 刪除群組
+      JOIN_GROUP: 加入群組
+      QUIT_GROUP: 離開群組
+    Note:
+      Group_Note: Line Notify 群發功能需要透過學生加入群組 , 否則只能選擇所有學生
+      Del_Group: 注意!! 你確定要刪除此群組? 該群組將會解除所屬學生 , 且原本預計發送的訊息也會取消
+      Cannot_Delete_This: 不能刪除此群組
+      Login_Line_To_Check_ID: 登入 Line Notify 去查詢 Clint ID ...
+      Group_Created: "群組 <strong>%{name}</strong> 成功創建."
+      Group_Updated: "群組 <strong>%{name}</strong> 成功更新."
+      Group_Deleted: "群組 <strong>%{name}</strong> 成功刪除."
+      Group_Created_Fail: "群組 <strong>%{name}</strong> 創建失敗."
+      Group_Updated_Fail: "群組 <strong>%{name}</strong> 更新失敗."
+      Group_Deleted_Fail: "群組 <strong>%{name}</strong> 刪除失敗."
+      Join_Group_Success: "%{user} 加入群組 %{group} 成功!!"
+      Quit_Group_Success: "%{user} 離開群組 %{group} 成功!!"
+      Join_Group_FAil: "發生錯誤! %{user} 加入群組 %{group} 失敗!!"
+      Quit_Group_Fail: "發生錯誤! %{user} 離開群組 %{group} 失敗!!"
+      Error_User_ID: "發生錯誤! %{user} 不是該群組 %{group} 的成員."
+      Please_Create_Group: 無任何群組 , 請先創建群組!!
+      Join_Group: "加入群組"
+      Quit_Group: "離開群組"
+    Button:
+      CREATE_NEW_GROUP: 建立新群組
+    Table:
+      User_Count: 人數
+      Non_Client_Id: 未設定 Notify Client ID
+
+  Notify:
+    Title:
+      LINE_NOTIFY: LINE NOTIFY 訊息
+      MESSAGE_GROUP: 群組訊息
+      MESSAGE_PERSONAL: 個人訊息
+      LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
+      LINE_NOTIFY_SERVICE_REGISTER: LINE NOTIFY 發送訊息服務登錄
+      LINE_NOTIFY_GROUP_SERVICE: LINE NOTIFY 群組發送訊息服務
+      LINE_NOTIFY_PERSONAL_SERVICE: LINE NOTIFY 個人發送訊息服務
+      ENABLE_NOTIFY: 開啟 LINE 通知服務
+      DISABLE_NOTIFY: 關閉 LINE 通知服務
+      DELETE_NOTIFY: 刪除 LINE 通知服務
+      ATTENTION: 注意
+    Button:
+      CREATE_NEW_SERVICE: 建立新服務
+    Subtitle:
+      Message: / 訊息發送
+      Teaching: / 登錄教學
+    Note:
+      Just_Register_One_Service: "每位使用者只能選擇其中一個服務連結 , 每個服務都沒有差異 <br>但若使用人數超過500人則不能再連結該服務"
+      How_To_Add_Line_Notify_Service: 如何增加登錄 Line Notify 服務 ...
+      How_To_Link_Line_Notify_Service: 使用者如何連結 Line Notify 服務 ...
+      Disable_Notify: "繼續將關閉該使用者 Line Notify 服務 , 請注意: 若要重新啟用Notify , 使用者必須重新登錄連結該服務"
+      Enable_Notify: "繼續將開啟該使用者 Line Notify 服務"
+      Delete_Notify: "繼續將刪除該 Line Notify 服務 , 請注意: 所有使用該服務的使用者皆無法使用 Line Notify , 若重新建立 , 使用者也必須重新登錄連結該服務"
+      No_Line_Notify_Service: 目前無任何 Line Notify 服務 ...
+      Please_Select_One_Group: "*請至少選擇一個群組"
+      Please_Input_Text: "*請輸入文字內容"
+      Notify_Created: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功創建."
+      Notify_Updated: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功更新."
+      Notify_Deleted: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功刪除."
+      Notify_Created_Fail: "LINE NOTIFY SERVICE <strong>%{name}</strong> 創建失敗."
+      Notifyp_Updated_Fail: "LINE NOTIFY SERVICE <strong>%{name}</strong> 更新失敗."
+      Notify_Deleted_Fail: "LINE NOTIFY SERVICE <strong>%{name}</strong> 刪除失敗."
+      Cannot_Delete_Notify: "注意: 一般管理員不能刪除 LINE NOTIFY SERVICE....."
+      Add_Message_Fail: 加入訊息失敗 , 請聯絡管理員
+      Add_Message_Success: " 將在 <strong>%{time}</strong> 對 <strong>%{who}</strong>... 發送訊息: <strong>%{content}</strong>..."
+      Delete_Message_Fail:  刪除訊息失敗 , 請聯絡管理員
+      Delete_Message_Success:  刪除訊息成功
+    Table:
+      Group_Select: 群組選擇
+      Text_Message: 文字訊息
+      Student_Count: 學生人數
+      Connect_Status: Notify 連接狀態
+      Send_After_30s: 30秒後傳送
+      Send_After_Hours: 幾小時後傳送
+      Send_Select_Time: 選擇時間傳送
+      All_Student: 所有學生
+      Connecte_Already: 已連結
+      Connecte: 連結
+      Cancel: 取消
+      Service: 服務
+
+
+  Teacher:
+    Title:
+      TEACHERS: 教職員管理
+      TEACHER_INFO: 教職員資訊
+      DEL_TEACHER: 刪除教師
+      INTRODUCTION: 個人簡介
+    Table:
+      Nick_Name: 暱稱
+      Introduction: 簡介
+      Education: 學經歷
+    Button:
+      CREATE_NEW_TEACHER: 建立新教師
+    Note:
+      Delete_teacher: 注意!! 你確定要刪除此教師? 該教師的相關資料將全部一併被刪除
+      Teacher_Join_Group_Become_Owner: 注意!! 教師加入群組即可發訊 Line Notify 給該群組學生
+
+  Student:
+    Title:
+      STUDENTS: 學生管理
+      STUDENTS_TABLE: 學生列表
+      STUDENT_INFO: 學生資訊
+      CREATE_NEW_STUDENT: 建立新學生
+      CREATE_STUDENT_ACCOUNT: 建立學生帳號
+      CREATE_CONTACT_INFO: 個人聯絡資訊
+      SELECT_GROUP: 選擇群組
+      ATTENDANCE: 出勤記錄
+      SCORE: 成績查詢
+      DEL_STUDENT: 刪除學生
+    Button:
+      CREATE_NEW_STUDENT: 建立新學生
+    Note:
+      Delete_Student: 注意!! 你確定要刪除此學生? 該學生的相關資料將全部一併被刪除
+      Student_Join_Group: 注意!! 學生加入群組才可收到該群組 Line Notify 訊息
+      Remember_Join_Group_After_Create: 學生建立後 , 記的要加入群組才能連結使用 Line Notify 服務
+
+
+
+
+
+# for end user
+  User:
+    Title:
+      HOME: 首頁
+      NEWS: NEWS #最新消息
+
+      ABOUT_US: 關於我們
+      KNOW_US: KNOW_US #認識我們
+      OUR_TEAM: 我們的團隊
+      CONTACT_US: 聯絡我們
+
+      ACHIEVEMENTS: 英雄成就
+      
+      COURSES: 課程資訊
+
+      MATERIALS: 線上教材
+      FREE_MATERIALS: FREE_MATERIALS #免費教材
+      PAID_MATERIALS: PAID_MATERIALS #VIP教材
+
+      PERSONAL: 個人資訊
+      CLOCK_IN_HISTORY: CLOCK_IN_HISTORY #簽到紀錄
+      SETTING: SETTING #資料修改
+      LINE_NOTIFY: Line通知連結
+      LINE_NOTIFY_TEACH: 連結教學
+      LINE_NOTIFY_LINK: 連結設定
+
+
+

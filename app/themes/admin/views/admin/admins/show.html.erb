@@ -1,0 +1,58 @@
+<div class="row row-sm">
+	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+		<div class="card">
+			<div class="card-body">
+				<div class="pl-0">
+					<div class="main-profile-overview">
+						<div class="main-img-user profile-user">
+							<img alt="" src="/assets/valex/img/7.jpg"><a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a>
+						</div>
+						<div class="d-flex justify-content-between mg-b-20">
+							<div>
+								<h5 class="main-profile-name"><%= @admin.name %></h5>
+								<p class="main-profile-name-text"><%= @admin.account %></p>
+							</div>
+						</div>
+						<hr class="mg-y-30">
+						<label class="main-content-label tx-13 mg-b-20"><%= t(:CONTACT_INFO, scope: "Title") %></label>
+						<div class="form-group ">
+							<div class="row">
+								<div class="col-md-3">
+									<label class="form-label"><%= t(:Email, scope: "Table") %></label>
+								</div>
+								<div class="col-md-9">
+									<label class="form-label"><%= @admin.email %></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<div class="row">
+								<div class="col-md-3">
+									<label class="form-label"><%= t(:Created, scope: "Table") %></label>
+								</div>
+								<div class="col-md-9">
+									<label class="form-label"><%= @admin.created_at.strftime('%Y/%m/%d %T') %></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group ">
+							<div class="row">
+								<div class="col-md-3">
+									<label class="form-label"><%= t(:Last_Sign_in, scope: "Table") %></label>
+								</div>
+								<div class="col-md-9">
+									<label class="form-label"><%= @admin.updated_at.strftime('%Y/%m/%d %T') %></label>
+								</div>
+							</div>
+						</div>
+					</div><!-- main-profile-overview -->
+				</div>
+			</div>
+			<div class="card-footer">
+				<a href="<%= edit_admin_admin_path(@admin.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></a>
+			</div>
+
+		</div>
+	</div>
+</div>
+<!-- row closed -->

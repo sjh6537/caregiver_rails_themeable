@@ -65,3 +65,15 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+################################### for LearningLife #################################
+
+# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
+gem 'turbolinks'
+
+gem 'simple_form'
+
+gem 'themes_on_rails' # 多 themes
+
+gem 'oauth2' # use for line notify token
+gem 'devise' # use for 多方登入
