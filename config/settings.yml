@@ -8,6 +8,11 @@ default: &default_settings
   admin_subdomain: "admin"
   app_path: "app"
 
+  line_login_channel_id: 2004751931
+  line_login_lift_id: 2004751931-1jrD53LP
+  line_login_lift_url: https://liff.line.me/2004751931-1jrD53LP
+
+
 development:
   <<: *default_settings
 

@@ -23,11 +23,21 @@ Rails.application.routes.draw do
 
           root to: 'dashboard#index', as: :root
           resources :admins
-          resources :customers
       end
 
     end
-    
 
-  
+    #================= User Subdomain =============================
+    #user subdomain chang to customer account , verify in application
+
+    # user account create by cus_admin , so don't need registrations....
+    devise_for :user, skip: [:sessions,:registrations,:confirmations]
+    as :user do
+      get      '/login'       , to: 'user/sessions#new'     , as: :new_user_session
+      get      '/linelogin'   , to: 'user/sessions#line'    , as: :line_session
+      post     '/login'       , to: 'user/sessions#create'  , as: :user_session
+      delete   '/logout'      , to: 'user/sessions#destroy' , as: :destroy_user_session
+    end
+
+
 end

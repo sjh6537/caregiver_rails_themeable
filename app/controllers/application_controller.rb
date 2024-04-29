@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
       # elsif request.path.split('/')[1] == APP_CONFIG[:vip_path]
       #  :admin
       else
-        :admin
+        :valex
       end
     end
    
