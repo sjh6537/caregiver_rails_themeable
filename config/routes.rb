@@ -30,14 +30,16 @@ Rails.application.routes.draw do
     #================= User Subdomain =============================
     #user subdomain chang to customer account , verify in application
 
-    # user account create by cus_admin , so don't need registrations....
+    # user account create by line , so don't need registrations....
     devise_for :user, skip: [:sessions,:registrations,:confirmations]
     as :user do
-      get      '/login'       , to: 'user/sessions#new'     , as: :new_user_session
-      get      '/linelogin'   , to: 'user/sessions#line'    , as: :line_session
-      post     '/login'       , to: 'user/sessions#create'  , as: :user_session
-      delete   '/logout'      , to: 'user/sessions#destroy' , as: :destroy_user_session
+      get      '/login'            , to: 'user/sessions#new'                , as: :new_user_session
+      get      '/authorize'        , to: 'user/sessions#line_authorize'     , as: :line_authorize
+      get      '/callback'         , to: 'user/sessions#line_callback'      , as: :line_callback
+      delete   '/logout'           , to: 'user/sessions#destroy'            , as: :destroy_user_session
     end
 
+    get      '/error'            , to: 'web/notice#error'                   , as: :error_notice
+    get      '/user'             , to: 'web/user#edit'                      , as: :edit_user
 
 end

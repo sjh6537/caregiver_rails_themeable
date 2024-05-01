@@ -1,5 +1,5 @@
 # -*- encoding : utf-8 -*-
-class User::UserController < ApplicationUserController
+class Web::UserController < ApplicationWebController
     before_action :set_user, only: [:show, :edit, :update]
 
     def show
