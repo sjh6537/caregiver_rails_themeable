@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       delete   '/logout'           , to: 'user/sessions#destroy'            , as: :destroy_user_session
     end
 
+    get      ''                  , to: 'web/dashboard#index'                , as: :root
     get      '/error'            , to: 'web/notice#error'                   , as: :error_notice
     get      '/user'             , to: 'web/user#edit'                      , as: :edit_user
 

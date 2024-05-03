@@ -15,7 +15,7 @@ class Web::UserController < ApplicationWebController
 
     def update
         @title_sub = I18n.t(:Edit, scope: "Title")
-        result = @user.update_without_password(user_params)     
+        result = @user.update_without_password(user_params)
 
         respond_to do |format|
             if result
