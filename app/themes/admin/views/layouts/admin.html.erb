@@ -22,7 +22,7 @@
 
         <!-- **Font Awesome** -->
         <!--
-        <link rel="stylesheet" href="/assets/valex/plugins/fontawesome-free/css/fontawesome_470.min.css"> 
+        <link rel="stylesheet" href="/assets/valex/plugins/fontawesome-free/css/fontawesome_470.min.css">
         -->
 
         <!-- Favicon -->
@@ -67,15 +67,7 @@
         <!-- /Loader -->
 
         <!-- main navigation bar -->
-        <% if !current_customer_admin.nil? %>
-            <% if @webtype == WEB_TYPE_OFFICIAL %>
-                <%= render :partial => 'layouts/admin_official_sidebar' %>
-            <% elsif  @webtype == WEB_TYPE_SCHOOL %>
-                <%= render :partial => 'layouts/admin_school_sidebar' %>
-            <% end %>
-        <% else %>
-            <%= render :partial => 'layouts/admin_sidebar' %>
-        <% end %>
+        <%= render :partial => 'layouts/admin_sidebar' %>
 
         <!-- main-content -->
         <div class="main-content app-content">

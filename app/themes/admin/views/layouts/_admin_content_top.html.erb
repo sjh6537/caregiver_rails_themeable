@@ -10,8 +10,8 @@
                             <a href="index.html"><img src="/assets/valex/img/brand/favicon.png" class="dark-logo-2" alt="logo"></a>
                         </div>
                         <div class="app-sidebar__toggle" data-toggle="sidebar">
-                            <a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
-                            <a class="close-toggle" href="#"><i class="header-icons fe fe-x"></i></a>
+                            <a class="open-toggle" href="#"><i class="header-icon far fa-arrow-alt-circle-left" ></i></a>
+                            <a class="close-toggle" href="#"><i class="header-icons far fa-arrow-alt-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="main-header-right">
@@ -70,7 +70,7 @@
                                     </div>
                                 </form>
                             </div>
-                                    
+
                             <!-- message -->
                             <%#= render :partial => 'layouts/admin_header_message' %>
 
@@ -81,27 +81,27 @@
                                 <a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
                             </div>
                             <div class="dropdown main-profile-menu nav nav-item nav-link">
-                                <a class="profile-user d-flex" href=""><img alt="" src="/assets/valex/img/faces/6.jpg"></a>
+                                <a class="profile-user d-flex" href=""><img alt="" src="/assets/valex/img/faces/hunter.png"></a>
                                 <div class="dropdown-menu">
                                     <div class="main-header-profile bg-primary p-3">
                                         <div class="d-flex wd-100p">
-                                            <div class="main-img-user"><img alt="" src="/assets/valex/img/faces/6.jpg" class=""></div>
+                                            <div class="main-img-user"><img alt="" src="/assets/valex/img/faces/hunter.png" class=""></div>
                                             <div class="ml-3 my-auto">
                                                 <h6><%= current_admin.name %></h6>
                                                 <span><%= current_admin.type %></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <a class="dropdown-item" href=<%= customer_school_admin_path(current_admin.id) %> ><i class="bx bx-user-circle"></i>Profile</a>
-                                    <a class="dropdown-item" href=<%= edit_customer_school_admin_path(current_admin.id) %>><i class="bx bx-cog"></i>Edit Profile</a>
+                                    <a class="dropdown-item" href=<%= "123" %> ><i class="bx bx-user-circle"></i>Profile</a>
+                                    <a class="dropdown-item" href=<%=  "123" %>><i class="bx bx-cog"></i>Edit Profile</a>
                                     <% if current_admin.class.name == :admin %>
-                                    <a class="dropdown-item" data-method="delete" href=<%= destroy_customer_admin_session_path %> ><i class="bx bx-log-out"></i> Sign Out</a>
+                                    <a class="dropdown-item" data-method="delete" href=<%= 123 %> ><i class="bx bx-log-out"></i> Sign Out</a>
                                     <% else %>
-                                    <a class="dropdown-item" data-method="delete" href=<%= destroy_admin_session_path %> ><i class="bx bx-log-out"></i> Sign Out</a>
+                                    <a class="dropdown-item" data-method="delete" href=<%= 123 %> ><i class="bx bx-log-out"></i> Sign Out</a>
                                     <% end %>
                                 </div>
                             </div>
-                            
+
                             <!-- right sidebar toggle -->
                             <!--
                             <div class="dropdown main-header-message right-toggle">

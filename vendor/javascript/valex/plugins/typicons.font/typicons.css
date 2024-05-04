@@ -7,8 +7,8 @@
   font-style: normal;
   src: url('typicons.eot');
   src: url('typicons.eot?#iefix') format('embedded-opentype'),
-       url('typicons.woff') format('woff'),
-       url('typicons.ttf') format('truetype'),
+       url('typicons.font/typicons.woff') format('woff'),
+       url('typicons.font/typicons.ttf') format('truetype'),
        url('typicons.svg#typicons') format('svg');
 }
  

@@ -6,5 +6,5 @@ class Admin::DashboardController < ApplicationAdminController
         flash[:notice] = nil
     end
   
-  end
+end
   

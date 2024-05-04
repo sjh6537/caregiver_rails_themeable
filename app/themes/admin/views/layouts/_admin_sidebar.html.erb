@@ -4,7 +4,7 @@
 	.side-menu__icon {
 		height: auto !important;
 	}
-  
+
 </style>
 
 	<!-- main-sidebar -->
@@ -21,7 +21,7 @@
 			<div class="app-sidebar__user clearfix">
 				<div class="dropdown user-pro-body">
 					<div class="">
-						<img alt="user-img" class="avatar avatar-xl brround" src="/assets/valex/img/faces/6.jpg"><span class="avatar-status profile-status bg-green"></span>
+						<img alt="user-img" class="avatar avatar-xl brround" src="/assets/valex/img/faces/hunter.png"><span class="avatar-status profile-status bg-green"></span>
 					</div>
 					<div class="user-info">
 						<h4 class="font-weight-semibold mt-3 mb-0"><%= current_admin.name %></h4>
@@ -40,16 +40,17 @@
 					</a>
 				</li>
 
+
 				<li class="slide">
 					<a class="side-menu__item" href="<%= admin_admins_path %>">
-						<i class="side-menu__icon mdi mdi-account-card-details"></i><span class="side-menu__label"><%= t(:Administrator , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
+						<i class="side-menu__icon far fa-address-card"></i><span class="side-menu__label"><%= t(:Administrator , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
 					</a>
 				</li>
 
-				<!-- <li class="side-item side-item-category">Customer</li> -->
+				<!-- <li class="side-item side-item-category">User</li> -->
 				<li class="slide">
-					<a class="side-menu__item" href="<%= admin_customers_path %>">
-						<i class="side-menu__icon icon ion-md-pricetags"></i><span class="side-menu__label"><%= t(:Customer , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Customer.count %></span>
+					<a class="side-menu__item" href="<%= admin_users_path %>">
+						<i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t(:User , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= User.count %></span>
 					</a>
 				</li>
 

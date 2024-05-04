@@ -20,9 +20,9 @@ Rails.application.routes.draw do
       end
 
       namespace :admin, path: '/' do
-
           root to: 'dashboard#index', as: :root
           resources :admins
+          get     'users'    , to: 'user#index'             , as: :users
       end
 
     end
