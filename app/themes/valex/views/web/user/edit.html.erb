@@ -1,3 +1,36 @@
-<a class="dropdown-item" data-method="delete" href=<%= destroy_user_session_path %> ><i class="bx bx-log-out"></i> Sign Out</a>
-<a data-confirm="Are you sure?" data-method="delete" href=<%= destroy_user_session_path %> rel="nofollow">Delete</a>
 
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card">
+<div class="card-body">
+
+	<div class="pl-0">
+		<div class="main-profile-overview d-flex">
+			<div class="main-img-user profile-user mg-r-10">
+				<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+				<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+			</div>
+			<div class="main-content-label tx-success mr-auto pd-t-50"><%= @user.line_name %></div>
+		</div>
+	</div>
+
+	<%= render :partial => 'form' %>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+    <!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+<% end %>

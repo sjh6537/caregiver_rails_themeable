@@ -14,15 +14,15 @@ class Web::UserController < ApplicationWebController
     end
 
     def update
-        @title_sub = I18n.t(:Edit, scope: "Title")
-        result = @user.update_without_password(user_params)
+        @title_sub = I18n.t(:Update, scope: "Title")
+        result = @user.update(user_params)
 
         respond_to do |format|
-            if result
-                format.html { redirect_to admin_admins_path, notice: I18n.t(:Updated, scope: "Notice", name: "#{@admin.account}") }
-            else
-                format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@admin.account}") }
-            end
+            #if result
+            #    format.html { redirect_to web_user_show_path, notice: I18n.t(:Updated, scope: "Notice", name: "#{@user.line_name}") }
+            #else
+                format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@user.line_name}") }
+            #end
         end
     end
 
@@ -128,6 +128,7 @@ class Web::UserController < ApplicationWebController
 
     def set_user
         @user = current_user
+        @profile = current_user.profile
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

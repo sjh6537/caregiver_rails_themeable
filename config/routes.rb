@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
     get      ''                  , to: 'web/dashboard#index'                , as: :root
     get      '/error'            , to: 'web/notice#error'                   , as: :error_notice
-    get      '/user'             , to: 'web/user#edit'                      , as: :edit_user
+    get      '/user'             , to: 'web/user#show'                      , as: :web_user_show
+    get      '/user/edit'        , to: 'web/user#edit'                      , as: :web_user_edit
+    patch    '/user'             , to: 'web/user#update'                    , as: :web_user_update
 
 end

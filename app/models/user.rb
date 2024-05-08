@@ -14,6 +14,14 @@ class User < ActiveRecord::Base
       self.profile.line_token
     end
 
+    def line_image
+      self.profile.line_image
+    end
+
+    def line_name
+      self.profile.line_name
+    end
+
     def self.find_for_authentication(warden_conditions)
         warden_conditions[:account].upcase!
         where(customer_id: warden_conditions[:customer_id], account: warden_conditions[:account]).first
