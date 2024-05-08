@@ -3,20 +3,28 @@
 <div class="row row-sm">
 <!-- Col -->
 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-<div class="card">
+<div class="card bg-teal">
 <div class="card-body">
 
 	<div class="pl-0">
-		<div class="main-profile-overview d-flex">
+
+        <div class="d-flex flex-row justify-content-center mg-b-0">
+            <div class="pd-10">
+                <%= t(:Member_Centre, scope: "Website") %>
+            </div>
+        </div>
+
+        <div class="main-profile-overview d-flex">
+
 			<div class="main-img-user profile-user mg-r-20">
 				<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
 				<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
 			</div>
-			<div class="main-content-label tx-success mr-auto pd-t-50"><%= @user.line_name %></div>
+			<div class="h5 mr-auto pd-t-20 tx-white"><%= t(:Member, scope: "Website") %> : <%= @user.name %>  <%= @user.line_name %></div>
+
 		</div>
 	</div>
 
-	<%= render :partial => 'form' %>
 
 </div>
 </div>

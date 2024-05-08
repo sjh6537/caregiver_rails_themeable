@@ -95,15 +95,8 @@ zh-TW:
     Non: 沒有
 
   Website:
-    Title:
-      WEBSITE: 網站
-      SETTING: 基本設定
-      INFORMATION: 網站資訊
-    Table:
-      Name: 網站名稱
-      Forward_url: 轉址網址(非必填)
-      Logo: 網站 LOGO (200x50)
-      Favicon: 網站 ICON
+    Member_Centre: 會員中心
+    Member: 會員
     Note:
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
