@@ -113,9 +113,9 @@
 										</div>
 									</div>
 								</div>
-                                <form class="button_to" method="delete" action="/logout">
+                                <form class="button_to" method="post" action="/logout">
                                 <input type="hidden" name="_method" value="delete" autocomplete="off">
-                                <button class="link-button dropdown-item" type="submit"><i class="bx bx-log-out"></i> Sign Out</button>
+                                <button class="link-button dropdown-item" type="submit"><i class="bx bx-log-out"></i> <%= t(:Sign_out, scope: "Button") %></button>
                                 </form>
 							</div>
 						</div>

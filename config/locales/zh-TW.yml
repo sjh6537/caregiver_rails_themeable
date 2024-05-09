@@ -30,12 +30,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 zh-TW:
-  Login:
-    Account: 帳號
-    Email: Email
-    Password: 密碼
-    Sign_in: 登入
   Button:
+    SIGN_IN: 登入
+    SIGN_OUT: 登出
     CREATE: 新建
     UPDATE: 更新
     DELETE: 刪除

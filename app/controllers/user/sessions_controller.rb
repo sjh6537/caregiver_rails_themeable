@@ -4,6 +4,12 @@ class User::SessionsController < Devise::SessionsController
     include LineHelper
     #include Devise::Controllers::Rememberable
 
+    def new
+        session[:state] = form_authenticity_token
+        auth_url = login_authorize(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret] , session[:state])
+        redirect_to auth_url, allow_other_host: true
+    end
+
     def line_authorize
         session[:state] = form_authenticity_token
         auth_url = login_authorize(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret] , session[:state])
@@ -25,19 +31,22 @@ class User::SessionsController < Devise::SessionsController
             @user = User.find_by_account(uid)
             if @user
                 #remember_me(@user)
-                @user.update(name: name, oauth_token: id_token)
+                @user.update(oauth_token: id_token)
                 @user.profile.update(line_name: name,line_token: id_token, line_image: image, line_email: email)
             else
-                @user = User.new(account: uid, name: name, oauth_token: id_token)
+                @user = User.new(account: uid, oauth_token: id_token)
                 if @user.save
                     @user.create_profile(line_uid: uid,line_name: name,line_token: id_token, line_image: image, line_email: email)
-
                 end
                 #redirect_to new_user_registration_url
             end
             sign_in(@user)
 
-            redirect_to edit_user_path
+            if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
+                redirect_to web_user_edit_path
+            else
+                redirect_to web_user_show_path
+            end
         else
             redirect_to error_notice_path, notice: 'invalid varification'
         end

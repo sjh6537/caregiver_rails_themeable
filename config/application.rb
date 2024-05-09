@@ -17,7 +17,8 @@ module LearningLife
     config.autoload_lib(ignore: %w(assets tasks))
 
     config.autoload_paths << Rails.root.join('app/worker')
-    config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
+
+    config.i18n.default_locale = :'zh-TW'
 
     # Configuration for the application, engines, and railties goes here.
     #
@@ -26,8 +27,6 @@ module LearningLife
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
-
-    config.hosts << "admin.learninglife.com:3000"
 
   end
 end
