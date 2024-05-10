@@ -77,3 +77,5 @@ gem 'themes_on_rails' # 多 themes
 
 gem 'oauth2' # use for line notify token
 gem 'devise' # use for 多方登入
+
+gem 'line-bot-api'

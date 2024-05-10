@@ -22,7 +22,9 @@ Rails.application.routes.draw do
       namespace :admin, path: '/' do
           root to: 'dashboard#index', as: :root
           resources :admins
-          get     'users'    , to: 'user#index'             , as: :users
+          # get     'users'    , to: 'user#index'             , as: :users
+          resources :users
+          get       'users/:id/push'    , to: 'users#push'     , as: :push_admin_user
       end
 
     end
@@ -44,5 +46,9 @@ Rails.application.routes.draw do
     get      '/user'             , to: 'web/user#show'                      , as: :web_user_show
     get      '/user/edit'        , to: 'web/user#edit'                      , as: :web_user_edit
     patch    '/user'             , to: 'web/user#update'                    , as: :web_user_update
+
+    post     '/line_notify'         , to: 'linemsg#notify'                  , as: :line_notify
+    post     '/line_push'           , to: 'linemsg#push'                    , as: :line_push
+    post     '/line_push_all'       , to: 'linemsg#broadcast'               , as: :line_broadcast
 
 end

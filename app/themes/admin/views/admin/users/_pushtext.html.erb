@@ -1,0 +1,107 @@
+<style>
+	span.error {
+		color: red;
+		font-size: 14px;
+	}
+</style>
+
+
+<div class="card-body">
+	<div class="main-content-label mg-b-5">
+		Line message
+	</div>
+	<div class="panel panel-primary tabs-style-1">
+		<div class=" tab-menu-heading">
+			<div class="tabs-menu1">
+				<!-- Tabs -->
+				<ul class="nav panel-tabs main-nav-line">
+					<li><a href="#tab1" class="nav-link active" data-toggle="tab"><%= t(:Text, scope: "Tab") %></a>
+					<li><a href="#tab2" class="nav-link" data-toggle="tab"><%= t(:GraphAndText, scope: "Tab") %></a>
+					<li><a href="#tab3" class="nav-link" data-toggle="tab"><%= t(:RichMenu, scope: "Tab") %></a>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body tabs-menu-body main-content-body-right border">
+		<div class="tab-content">
+			<div class="tab-pane active" id="tab1">
+					<form>
+						<div class="form-group">
+							<div class="row ">
+								<label class="col-sm-2"><%= t(:Message, scope: "Table") %></label>
+								<div class="col-sm-10">
+									<textarea rows="10" class="form-control" placeholder="Please enter text" id="text_send_message"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="card-footer d-sm-flex">
+							<div class="mt-2 mb-2">
+								<a href="javascript:void(0)" class="mr-3" data-toggle="tooltip" title="" data-original-title="Photos"><i class="bx bx-image text-muted tx-22"></i></a>
+							</div>
+							<div class="btn-list ml-auto">
+								<button type="button" class="btn btn-danger btn-space clear_button" data-btn_src="text_send_message"><%= t(:CLEAR, scope: "Button") %></button>
+								<button type="button" class="btn btn-primary btn-space send_button" data-msgtype="0" data-btn_src="text_send_message"><%= t(:SEND, scope: "Button") %></button>
+							</div>
+						</div>
+					</form>
+			</div>
+			<div class="tab-pane" id="tab2">
+				<%= form_with url: line_push_path, method: :push do |form| %>
+				  <%= form.text_field :text %>
+				  <%= form.submit "Send message" %>
+				<% end %>
+			</div>
+			<div class="tab-pane" id="tab3">
+				<div class="row">
+					<div class="col-md-3">
+						<label class="form-label"><%= t(:Message, scope: "Table") %></label>
+					</div>
+					<div class="col-md-9">
+						<input type="text" class="form-control" placeholder="Please enter text" value="">
+					</div>
+					<div class="card-footer">
+						<a class="btn btn-primary waves-effect waves-light"><%= t(:SEND, scope: "Button") %></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%= content_for :script_js do %>
+	<script type="text/javascript">
+	    $(document).on('click', '.send_button', function(obj) {
+			var src_text = $(this).data('btn_src');
+			var msgtype = $(this).data('msgtype');
+			var text = $('#' + src_text).val();
+			var image = $(this).data('image');
+<% if @user.present? %>
+			var id = <%="#{@user.id}"%>;
+			var link = "/line_push";
+<% else %>
+			var id = "0";
+			var link = "/line_push_all"
+<% end %>
+			if(msgtype == "0")
+			{
+				if(image != null)
+					msgtype = "1";
+			}
+
+			$.ajax({
+				type: "POST",
+				url:  link,
+				data: { "text": text, "id": id, "image": image, "msgtype": msgtype},
+				dataType: "JSON",
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+				success: function(data) {
+				}
+			});
+		});
+	    $(document).on('click', '.clear_button', function(obj) {
+			var src_text = $(this).data('btn_src');
+			$('#' + src_text).val("");
+		});
+	</script>
+<% end %>

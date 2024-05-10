@@ -87,6 +87,8 @@ en:
       New: / New
       Edit: / Edit
       Information: / Information
+      SURE_SEND: SEND MESSAGE
+      USER_TABLE: USER TABLE
   Note:
       Cannot_del_Admin: "Note: administrator cannot delete member except super administrator."
       Cannot_del_Customer: "Note: Customer cannot delete except super administrator."
@@ -119,6 +121,9 @@ en:
       EDIT: EDIT
       RESET_PASSWORD: RESET PASSWORD
       NON_SELECTED: NON SELECTED
+      SEND: SEND
+      CLEAR: CLEAR
+      BROADCAST: BROADCAST
   Table:
       Account: ACCOUNT
       Name: NAME
@@ -146,6 +151,7 @@ en:
       Client_Secret: Client Secret
       Line_Notify_Url: Line Notify Url
       User_Count: User Count
+      Message: Message
   Notice:
       Customer: Customer
       Admin: Administrator
@@ -154,6 +160,7 @@ en:
       Non_Super_Del_Service: Only Super Administrator Can Delete This Service.
       Cannot_Del_Super: Can Not Delete Super Administrator.
       Sure_Del_Admin: Are You sure to delete this administrator?
+      SURE_SEND: Are You sure to send this message?
       Updated: "Successfully Updated Account <strong>%{name}</strong>."
       Deleted: "Successfully Deleted Account <strong>%{name}</strong>."
       Created: "Successfully Created Account <strong>%{name}</strong>."
@@ -165,4 +172,7 @@ en:
       Error_rm_service: "some thing error! %{user} remove %{service} service fail!!"
       Add_service_success: "%{user} add %{service} success!!"
       Rm_service_success: "%{user} remove %{service} success!!"
-
+  Tab:
+      Text: Text
+      GraphAndText: Graph&Text
+      RichMenu: Rich Menu

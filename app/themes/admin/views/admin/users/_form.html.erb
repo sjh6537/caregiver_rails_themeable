@@ -1,0 +1,95 @@
+<style>
+	span.error {
+		color: red;
+		font-size: 14px;
+	}
+</style>
+
+
+<%= simple_form_for [:admin, @user], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= f.error_notification %>
+
+		<div class="mb-4 main-content-label tx-success"><%= t(:USER_INFO, scope: "Title") %></div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Account, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+
+					<%= f.input :account, label: false, :placeholder => t(:Account, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Name, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :name, label: false, :placeholder => t(:Name, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Email, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :email, label: false, :placeholder => t(:Email, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+
+		<div class="mb-4 main-content-label tx-success"><%= t(:CONTACT_INFO, scope: "Title") %></div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Address, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<input type="text" class="form-control"  placeholder="Address" value="">
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Phone, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<input type="text" class="form-control"  placeholder="phone number" value="">
+				</div>
+			</div>
+		</div>
+		
+		<!-- ############# button ########### -->
+		<% if @user.new_record? %>
+			</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:CREATE, scope: "Button") %></button>
+				</div>
+			</div>
+		<% else %>
+			</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></button>
+					<a class="btn ripple btn-danger mg-l-10" data-target="#modal_del" data-toggle="modal" href=<%= "/admins/#{@user.id}" %> ><%= t(:DELETE, scope: "Button") %></a>
+				</div>
+			</div>
+		<% end %>
+
+<% end %>
+
+<div class="modal" id="modal_del">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content tx-size-sm">
+			<div class="modal-body tx-center pd-y-20 pd-x-20">
+				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+				<h4 class="tx-danger mg-b-20"><%= t(:DEL_ADMIN, scope: "Title") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p><a aria-label="Close" class="btn btn-danger pd-x-25" type="button" href=<%= "/admins/#{@user.id}" %> data-method="DELETE" ><%= t(:CONTINUE, scope: "Button") %></a>
+			</div>
+		</div>
+	</div>
+</div>
