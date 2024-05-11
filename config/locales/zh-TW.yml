@@ -47,6 +47,7 @@ zh-TW:
     NON_SELECTED: 未選擇
     PREVIOUS: 上一頁
     NEXT: 下一頁
+    NEXT_STEP: 下一步
     PAGINATION: 分頁
     CANCEL: 取消
     Current_Step: 目前階段
@@ -64,7 +65,7 @@ zh-TW:
     Select_city: 選擇縣市
     Select_postal: 選擇區域
     Detail_Address: 詳細地址
-    Contact_Info: 連絡電話
+    Contact_Info: 連絡方式
     Phone: 聯絡電話
     Phone2: 聯絡電話2
     Phone3: 聯絡電話3
@@ -90,11 +91,21 @@ zh-TW:
     Minute: 分
     Second: 秒
     Non: 沒有
+    Title: 主旨
+    Category: 需求類別
+    Location: 地點
+    Date: 日期
+    Request_Time: 需求時間
+    Hours: 小時
+    Over_Day: 超過一天
+    Descrition: 描述
 
   Website:
     Member_Centre: 會員中心
     Member: 會員
     Note:
+      Hi_you_have_a_category_request: "Hi %{name} , 你想要有一個 <font id=\"category_font\" class=\"tx-danger\">%{category}</font> 類別的需求派工"
+      Hi_you_have_a_request: "Hi %{name} , 你想要有一個需求派工"
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
 
@@ -112,7 +123,9 @@ zh-TW:
       DELETE_NOTIFY: 刪除 LINE 通知服務
       ATTENTION: 注意
       PLEASE_PROVIDE_PERSONAL_INFORMATION: 請提供正確資料以便日後活動聯絡使用
+      PLEASE_PROVIDE_ERQUEST_INFORMATION: 請提供詳細資料以便聯絡使用
     Note:
+      Fill_Simple_Title: 請簡單描述工作內容
       Login_super_admin: 登出並登入超級管理員
       Only_Super_Admin_Can_del: "注意: 只有超級管理者可以刪除"
       Account_Created: "帳號 <strong>%{name}</strong> 成功創建."

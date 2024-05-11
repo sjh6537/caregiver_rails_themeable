@@ -1,4 +1,16 @@
 
+REQUEST_CATEGORY = [
+    "non define",
+    "工作",
+    "訪視",
+    "食物",
+    "休息",
+    "小孩照顧",
+    "寵物照顧",
+    "交通",
+    "其他",
+]
+
 CITY_CODE = [
     {city: "台北市" , code: 1 },
     {city: "基隆市" , code: 2 },

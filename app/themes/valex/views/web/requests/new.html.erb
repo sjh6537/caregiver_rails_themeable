@@ -1,0 +1,65 @@
+<!-- Internal Select2 css -->
+<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+<!--Internal  Datetimepicker-slider css -->
+<link href="/assets/valex/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css" rel="stylesheet">
+<link href="/assets/valex/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
+<link href="/assets/valex/plugins/pickerjs/picker.min.css" rel="stylesheet">
+
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card">
+<div class="card-body">
+
+	<div class="pl-0">
+		<div class="main-profile-overview d-flex">
+			<div class="main-img-user profile-user mg-r-20">
+				<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+				<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+			</div>
+            <% if @category != 0 %>
+			    <div class="tx-success mr-auto pd-t-50" id="request_title_text"><strong><%= raw t("Website.Note.Hi_you_have_a_category_request", name: @user.name, category: REQUEST_CATEGORY[@category]) %></strong></div>
+            <% else %>
+                <div class="tx-success mr-auto pd-t-50" id="request_title_text"><strong><%= raw t("Website.Note.Hi_you_have_a_request", name: @user.name ) %></strong></div>
+            <% end %>
+		</div>
+	</div>
+
+	<%= render :partial => 'form' %>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+	<!--Internal  Datepicker js -->
+	<script src="/assets/valex/plugins/jquery-ui/ui/widgets/datepicker.js"></script>
+
+	<!--Internal  jquery.maskedinput js -->
+	<script src="/assets/valex/plugins/jquery.maskedinput/jquery.maskedinput.js"></script>
+
+	<!--Internal  spectrum-colorpicker js -->
+	<script src="/assets/valex/plugins/spectrum-colorpicker/spectrum.js"></script>
+
+	<!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!--Internal  jquery-simple-datetimepicker js -->
+	<script src="/assets/valex/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+
+	<!-- Ionicons js -->
+	<script src="/assets/valex/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+	<!-- Internal form-elements js -->
+	<script src="/assets/valex/js/form-elements.js"></script>
+
+<% end %>

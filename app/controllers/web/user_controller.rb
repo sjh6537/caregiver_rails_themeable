@@ -26,4 +26,23 @@ class Web::UserController < ApplicationWebController
         end
     end
 
+
+    private
+
+    def set_user
+        @user = current_user
+        @profile = current_user.profile
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def user_params
+        params.require(:user).permit!
+    end
+
+
+    def set_breadcrumb
+        @title = I18n.t(:PERSONAL, scope: "User.Title")
+        @title_sub = nil
+    end
+
 end

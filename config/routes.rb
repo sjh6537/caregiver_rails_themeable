@@ -22,7 +22,6 @@ Rails.application.routes.draw do
       namespace :admin, path: '/' do
           root to: 'dashboard#index', as: :root
           resources :admins
-          # get     'users'    , to: 'user#index'             , as: :users
           resources :users
           get       'users/:id/push'    , to: 'users#push'     , as: :push_admin_user
       end
@@ -41,11 +40,19 @@ Rails.application.routes.draw do
       delete   '/logout'           , to: 'user/sessions#destroy'            , as: :destroy_user_session
     end
 
-    get      ''                  , to: 'web/dashboard#index'                , as: :root
-    get      '/error'            , to: 'web/notice#error'                   , as: :error_notice
-    get      '/user'             , to: 'web/user#show'                      , as: :web_user_show
-    get      '/user/edit'        , to: 'web/user#edit'                      , as: :web_user_edit
-    patch    '/user'             , to: 'web/user#update'                    , as: :web_user_update
+    get      ''                       , to: 'web/dashboard#index'                , as: :root
+    get      '/error'                 , to: 'web/notice#error'                   , as: :error_notice
+
+    get      '/user'                  , to: 'web/user#show'                      , as: :web_user_show
+    get      '/user/edit'             , to: 'web/user#edit'                      , as: :web_user_edit
+    patch    '/user'                  , to: 'web/user#update'                    , as: :web_user_update
+
+    get      '/requests'                  , to: 'web/requests#index'             , as: :web_requests
+    get      '/requests/new/:category'    , to: 'web/requests#new'               , as: :web_request_new
+    post     '/requests'                  , to: 'web/requests#create'            , as: :web_request
+    get      '/requests/friends'          , to: 'web/requests#friends'           , as: :web_request_friends
+    get      '/requests/:id'              , to: 'web/requests#show'              , as: :web_request_show
+    delete   '/requests/:id'              , to: 'web/requests#delete'            , as: :web_request_delete
 
     post     '/line_notify'         , to: 'linemsg#notify'                  , as: :line_notify
     post     '/line_push'           , to: 'linemsg#push'                    , as: :line_push

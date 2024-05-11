@@ -8,7 +8,13 @@ class User < ActiveRecord::Base
 
     has_one :profile, :dependent => :destroy, class_name: 'User::Profile'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
-    ##has_many :equipments, :dependent => :destroy, class_name: 'User::Equipment'
+
+    def address_text
+      address_text = CITY_CODE.select {|c| c[:code] == self.addr_city}.first[:city]
+      address_text += POSTAL_CODE.select {|c| c[:code] == self.addr_postal}.first[:name]
+      address_text += self.address
+      address_text
+    end
 
     def line_token
       self.profile.line_token
