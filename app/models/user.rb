@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
     validates_presence_of :account, :case_sensitive => true, length: {maximun: 50}
 
     has_one :profile, :dependent => :destroy, class_name: 'User::Profile'
-    
+
     has_many :users_related_friends, :dependent => :destroy, class_name: 'User::UsersReleatedFriends'
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
@@ -24,7 +24,11 @@ class User < ActiveRecord::Base
     end
 
     def line_image
-      self.profile.line_image
+      if self.profile.line_image.nil? or self.profile.line_image == ""
+        "/assets/valex/img/faces/alien.png"
+      else
+        self.profile.line_image
+      end
     end
 
     def line_name
