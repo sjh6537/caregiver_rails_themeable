@@ -1,0 +1,22 @@
+    .alert-orange {
+        color: #fff;
+        text-align: center;
+        height: 30px;
+        padding-top: 5px;
+    }
+
+    .ckbox-orange {
+        span {
+            &:after {
+            background-color: #fbbc0b;
+            }
+        }
+    }
+
+    .card-footer {
+        border-color: #fbbc0b;
+    }
+
+    #back-to-top {
+        background: #fbbc0b;
+    }

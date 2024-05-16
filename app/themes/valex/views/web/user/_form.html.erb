@@ -1,57 +1,58 @@
 <style>
+
 	span.error {
 		color: red;
 		font-size: 14px;
 	}
+
 </style>
 
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-3 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.Please_provide_Detail_information") %></strong>
+        </div>
+    </div>
+    </div>
 
 <%= simple_form_for @user, :url => web_user_update_path, :defaults => { :id=>"edit_user" , :input_html => { :class => "form-control" } } do |f| %>
 <%= f.error_notification %>
 
-        <div class="form-group ">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-                <div class="mb-2 main-content-label tx-warning"><%= t(:PLEASE_PROVIDE_PERSONAL_INFORMATION, scope: "Notify.Title") %></div>
-            </div>
-        </div>
-        </div>
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
-					<label class="form-label"><%= t(:Name, scope: "Table") %></label>
+					<label class="form-label"><%= raw t("Table.Name") %></label>
 				</div>
 				<div class="col-md-9">
-					<%= f.input :name, label: false, :placeholder => t(:Name, scope: "Table"), :required => true %>
-					<spin id="alert_name" class="alert_text text-danger tx-12"><%= t(:Please_Input_Text, scope: "Notify.Note") %></spin>
+					<%= f.input :name, label: false, :placeholder => t("Table.Name"), :required => true %>
+					<spin id="alert_name" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
 				</div>
 			</div>
 		</div>
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
-					<label class="form-label"><%= t(:Contact_Info, scope: "Table") %></label>
+					<label class="form-label"><%= raw t("Table.Contact_Info") %></label>
 				</div>
 				<div class="col-md-9">
-					<%= f.input :phone, label: false, :placeholder => t(:Phone, scope: "Table"), :required => true %>
-					<spin id="alert_phone" class="alert_text text-danger tx-12"><%= t(:Please_Input_Text, scope: "Notify.Note") %></spin>
+					<%= f.input :phone, label: false, :placeholder => t("Table.Phone"), :required => true %>
+					<spin id="alert_phone" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
 				</div>
 			</div>
 		</div>
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
-					<label class="form-label"><%= t(:Sex, scope: "Table") %></label>
+					<label class="form-label"><%= raw t("Table.Sex") %></label>
 				</div>
                 <div class="col-md-9">
                 <select name="user[sex]" id="user_sex" class="form-control nice-select custom-select" required>
                     <% if @user.sex == true %>
-                        <option value=1 selected><%= t(:Man, scope: "Table") %></option>
-                        <option value=0><%= t(:Woman, scope: "Table") %></option>
+                        <option value=1 selected><%= raw t("Table.Man") %></option>
+                        <option value=0><%= raw t("Table.Woman") %></option>
                     <% else %>
-                        <option value=1><%= t(:Man, scope: "Table") %></option>
-                        <option value=0 selected><%= t(:Woman, scope: "Table") %></option>
+                        <option value=1><%= raw t("Table.Man") %></option>
+                        <option value=0 selected><%= raw t("Table.Woman") %></option>
                     <% end %>
                 </select>
                 </div>
@@ -60,7 +61,7 @@
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
-					<label class="form-label"><%= t("Table.Birthday") %></label>
+					<label class="form-label"><%= raw t("Table.Birthday") %></label>
 				</div>
                 <div class="input-group col-md-4">
                     <div class="input-group-prepend">
@@ -75,11 +76,11 @@
 		<div class="form-group ">
 			<div class="row">
                 <div class="col-md-3">
-                    <label class="form-label"><%= t(:Address, scope: "Table") %></label>
+                    <label class="form-label"><%= raw t("Table.Address") %></label>
                 </div>
                 <div class="col-md-9">
 					<select name="user[addr_city]" id="user_addr_city" class="form-control nice-select custom-select">
-						<option value="0"><%= t(:Select_city, scope: "Table") %></option>
+						<option value="0"><%= raw t("Table.Select_city") %></option>
 						<% CITY_CODE.map do |c| %>
                                 <% if @user.addr_city == c[:code] %>
                                 <option value=<%= c[:code] %> descrition='<%= c[:city] %>' selected><%= c[:city] %></option>
@@ -88,7 +89,7 @@
                                 <% end %>
 						<% end %>
 					</select>
-					<spin id="alert_city" class="alert_select_city text-danger tx-12"><%= t(:Please_Select_One_City, scope: "Notify.Note") %></spin>
+					<spin id="alert_city" class="alert_select_city text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_City") %></spin>
                 </div>
             </div>
         </div>
@@ -99,25 +100,27 @@
                 <select name="user[addr_postal]" id="user_addr_postal" class="form-control nice-select custom-select">
                     <option value="0"><%= t(:Select_postal, scope: "Table") %></option>
                 </select>
-				<spin id="alert_postal" class="alert_select_postal text-danger tx-12"><%= t(:Please_Select_One_Postal, scope: "Notify.Note") %></spin>
+				<spin id="alert_postal" class="alert_select_postal text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_Postal") %></spin>
                 </div>
 			</div>
 		</div>
-		<div class="form-group ">
+		<div class="form-group">
 			<div class="row">
                 <div class="col-md-3"></div>
 				<div class="col-md-9">
-                    <%= f.input :address, label: false, :placeholder => t(:Detail_Address, scope: "Table"), :required => true %>
-					<spin id="alert_address" class="alert_text text-danger tx-12"><%= t(:Please_Input_Text, scope: "Notify.Note") %></spin>
+                    <%= f.input :address, label: false, :placeholder => t("Table.Detail_Address"), :required => true %>
+					<spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
 				</div>
 			</div>
 		</div>
 
-		</div>
-			<div class="card-footer">
-				<button type="submit" class="btn btn-primary waves-effect waves-light" onClick="return checkform();" ><%= t(:UPDATE, scope: "Button") %></button>
-			</div>
-		</div>
+        <div class="card-footer d-flex flex-row-reverse  mg-t-40">
+            <div class="form-group">
+            <div class="row">
+                <button type="submit" class="btn btn-warning waves-effect waves-light" onClick="return checkform();" ><%= t("Button.CONFIRM") %></button>
+            </div>
+            </div>
+        </div>
 
 <% end %>
 

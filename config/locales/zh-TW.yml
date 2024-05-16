@@ -35,6 +35,7 @@ zh-TW:
     SIGN_OUT: 登出
     CREATE: 新建
     UPDATE: 更新
+    CONFIRM: 確定
     DELETE: 刪除
     CONTINUE: 繼續
     CLOSE: 關閉
@@ -63,6 +64,7 @@ zh-TW:
     Select_Sex: 選擇性別
     Man: 男
     Woman: 女
+    Birthday: 生日
     Descrition: 備註
     Address: 聯絡地址
     Select_city: 選擇縣市
@@ -107,6 +109,7 @@ zh-TW:
     Member_Centre: 會員中心
     Member: 會員
     Note:
+      Please_provide_Detail_information: 請提供正確資料以便日後活動聯絡使用
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
       You_can_chiose_friends: '你可以選擇<font class="tx-warning">「友伴內的好友派工」</font>幫忙'
       or_You_can_chiose_line_friends: '或是<font class="tx-warning">「邀請Line好友」</font>加入友伴好友協助幫忙'
@@ -130,9 +133,10 @@ zh-TW:
       DISABLE_NOTIFY: 關閉 LINE 通知服務
       DELETE_NOTIFY: 刪除 LINE 通知服務
       ATTENTION: 注意
-      PLEASE_PROVIDE_PERSONAL_INFORMATION: 請提供正確資料以便日後活動聯絡使用
       PLEASE_PROVIDE_ERQUEST_INFORMATION: 請提供詳細資料以便聯絡使用
     Note:
+      Please_Select_One_City: '請選擇一個城市'
+      Please Select One Postal: '請選擇一個區域'
       Fill_Simple_Title: 請簡單描述工作內容
       Login_super_admin: 登出並登入超級管理員
       Only_Super_Admin_Can_del: "注意: 只有超級管理者可以刪除"
