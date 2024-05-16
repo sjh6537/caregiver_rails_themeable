@@ -1,11 +1,11 @@
 # -*- encoding : utf-8 -*-
 class Web::RequestsController < ApplicationWebController
     before_action :set_user
-    before_action :set_request, only: [:show, :destroy]
+    before_action :set_request, only: [:friends, :show, :destroy]
 
     def index
       @title_sub = I18n.t(:Table, scope: "Title")
-      @Requests = current_user.requests
+      @Requests = @user.requests
     end
 
     def new
@@ -19,7 +19,7 @@ class Web::RequestsController < ApplicationWebController
       contact_info="請用電話聯絡"
       @descrition = "Hi, 需要你的幫忙\r\n"
       @descrition+= "內容為 :\r\n"
-      @request = current_user.requests.new(category: params[:category], title: title, location: current_user.address_text, contact_info: contact_info)
+      @request = @user.requests.new(category: params[:category], title: title, location: @user.address_text, contact_info: contact_info)
       respond_to do |format|
         format.html
       end
@@ -27,19 +27,19 @@ class Web::RequestsController < ApplicationWebController
 
     def create
       @title_sub = I18n.t(:Friends, scope: "Title")
-      @request = current_user.requests.new(request_params)
+      @request = @user.requests.new(request_params)
       respond_to do |format|
         if @request.save
-          format.html { redirect_to Request_Requests_path, notice: I18n.t(:Created, scope: "Notice", name: "#{current_user.name}") }
+          format.html { redirect_to web_request_friends_path(@request.id), notice: I18n.t(:Created, scope: "Notice", name: "#{@user.name}") }
         else
-          format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{current_user.name}") }
+          format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{@user.name}") }
         end
       end
     end
 
     def friends
-
-
+      @friends = @user.friends
+      @send = User::RequestSend.new
     end
 
     def show
@@ -71,7 +71,7 @@ class Web::RequestsController < ApplicationWebController
     end
 
     def set_request
-      @request = UserRequest.find_by_id(params[:id])
+      @request = User::Request.find_by_id(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

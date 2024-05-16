@@ -52,6 +52,9 @@ zh-TW:
     CANCEL: 取消
     Current_Step: 目前階段
     loading: 載入中...
+    LINE: "邀請 Line 好友幫忙"
+    SEND_FRIENDS: 傳送友伴好友
+    INVITE_FRIENDS: 邀請友伴好友
   Table:
     Account: 帳號
     Name: 姓名
@@ -104,8 +107,13 @@ zh-TW:
     Member_Centre: 會員中心
     Member: 會員
     Note:
+      Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
+      You_can_chiose_friends: '你可以選擇<font class="tx-warning">「友伴內的好友派工」</font>幫忙'
+      or_You_can_chiose_line_friends: '或是<font class="tx-warning">「邀請Line好友」</font>加入友伴好友協助幫忙'
+      You_have_n_friens: 友伴好友 %{num} 位
       Hi_you_have_a_category_request: "Hi %{name} , 你想要有一個 <font id=\"category_font\" class=\"tx-danger\">%{category}</font> 類別的需求派工"
       Hi_you_have_a_request: "Hi %{name} , 你想要有一個需求派工"
+      You_donot_have_friend: "你沒有任何友伴好友，用 Line 邀請好友幫忙"
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
 
