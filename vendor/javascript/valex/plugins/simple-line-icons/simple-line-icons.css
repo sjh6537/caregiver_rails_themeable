@@ -1,7 +1,11 @@
 @font-face {
   font-family: 'simple-line-icons';
-  src: url('fonts/Simple-Line-Icons.eot?v=2.4.0');
-  src: url('fonts/Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'), url('fonts/Simple-Line-Icons.woff?v=2.4.0') format('woff'), url('fonts/Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg');
+  src: url('simple-line-icons/Simple-Line-Icons.eot?v=2.4.0');
+  src: url('simple-line-icons/Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'),
+       url('simple-line-icons/Simple-Line-Icons.woff?v=2.4.0') format('woff'),
+       url('simple-line-icons/Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg'),
+       url('simple-line-icons/Simple-Line-Icons.woff2') format('woff2'), /* Super Modern Browsers */
+       url('simple-line-icons/Simple-Line-Icons.ttf?v=2.4.0')  format('truetype'); /* Safari, Android, iOS */
   font-weight: normal;
   font-style: normal;
 }
@@ -778,8 +782,12 @@
 }
 @font-face {
   font-family: 'simple-line-icons';
-  src: url("fonts/simple-line-icons/Simple-Line-Icons.eot?v=2.4.0");
-  src: url("fonts/simple-line-icons/Simple-Line-Icons.eot?v=2.4.0#iefix") format("embedded-opentype"),url("fonts/simple-line-icons/Simple-Line-Icons.svg?v=2.4.0#simple-line-icons") format("svg");
+  src: url('simple-line-icons/Simple-Line-Icons.eot?v=2.4.0');
+  src: url('simple-line-icons/Simple-Line-Icons.eot?v=2.4.0#iefix') format('embedded-opentype'),
+      url('simple-line-icons/Simple-Line-Icons.woff?v=2.4.0') format('woff'),
+      url('simple-line-icons/Simple-Line-Icons.svg?v=2.4.0#simple-line-icons') format('svg'),
+      url('simple-line-icons/Simple-Line-Icons.woff2') format('woff2'), /* Super Modern Browsers */
+      url('simple-line-icons/Simple-Line-Icons.ttf?v=2.4.0')  format('truetype'); /* Safari, Android, iOS */
   font-weight: normal;
   font-style: normal;
 }
