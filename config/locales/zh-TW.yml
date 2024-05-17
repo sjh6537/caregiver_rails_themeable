@@ -109,13 +109,14 @@ zh-TW:
     Member_Centre: 會員中心
     Member: 會員
     Note:
-      Please_provide_Detail_information: 請提供正確資料以便日後活動聯絡使用
+      Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'
+      Please_provide_Detail_information: '請提供正確資料以便日後活動聯絡使用'
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
       You_can_chiose_friends: '你可以選擇<font class="tx-warning">「友伴內的好友派工」</font>幫忙'
       or_You_can_chiose_line_friends: '或是<font class="tx-warning">「邀請Line好友」</font>加入友伴好友協助幫忙'
       You_have_n_friens: 友伴好友 %{num} 位
-      Hi_you_have_a_category_request: "Hi %{name} , 你想要有一個 <font id=\"category_font\" class=\"tx-danger\">%{category}</font> 類別的需求派工"
-      Hi_you_have_a_request: "Hi %{name} , 你想要有一個需求派工"
+      You_have_a_category_request: '你想要有一個 <font id="category_font" class="tx-danger">「%{category}」</font> 類別的需求派工'
+      You_have_a_request: "你想要有一個需求派工"
       You_donot_have_friend: "你沒有任何友伴好友，用 Line 邀請好友幫忙"
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
@@ -133,7 +134,6 @@ zh-TW:
       DISABLE_NOTIFY: 關閉 LINE 通知服務
       DELETE_NOTIFY: 刪除 LINE 通知服務
       ATTENTION: 注意
-      PLEASE_PROVIDE_ERQUEST_INFORMATION: 請提供詳細資料以便聯絡使用
     Note:
       Please_Select_One_City: '請選擇一個城市'
       Please Select One Postal: '請選擇一個區域'

@@ -19,11 +19,16 @@
 				<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
 				<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
 			</div>
-            <% if @category != 0 %>
-			    <div class="tx-success mr-auto pd-t-50" id="request_title_text"><strong><%= raw t("Website.Note.Hi_you_have_a_category_request", name: @user.name, category: REQUEST_CATEGORY[@category]) %></strong></div>
-            <% else %>
-                <div class="tx-success mr-auto pd-t-50" id="request_title_text"><strong><%= raw t("Website.Note.Hi_you_have_a_request", name: @user.name ) %></strong></div>
-            <% end %>
+
+			<div class="ml-3 tx-orange pd-t-40">
+				<h6 class="mb-1 font-weight-medium tx-16">Hi , <%= @user.name %></h6>
+				<% if @category != 0 %>
+					<strong><div class="mb-0 tx-orange request_title_text"><%= raw t("Website.Note.You_have_a_category_request", category: REQUEST_CATEGORY[@category]) %></div></strong>
+				<% else %>
+					<strong><div class="mb-0 tx-orange request_title_text"><%= raw t("Website.Note.You_have_a_request") %></div></strong>
+				<% end %>
+			</div>
+
 		</div>
 	</div>
 

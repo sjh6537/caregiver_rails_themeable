@@ -13,10 +13,19 @@
         }
     }
 
+    .rdiobox input[type='radio']:checked + span:before {
+        border-color: transparent;
+        background-color: #fbbc0b;
+    }
+
     .card-footer {
         border-color: #fbbc0b;
     }
 
     #back-to-top {
         background: #fbbc0b;
+    }
+
+    .tx-orange {
+        color: #fbbc0b;
     }
