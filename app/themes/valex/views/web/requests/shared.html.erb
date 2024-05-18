@@ -1,0 +1,62 @@
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card order-list">
+<div class="card-body">
+
+    <div class="pl-0">
+    <div class="main-profile-overview d-flex">
+        <div class="main-img-user profile-user mg-r-20">
+            <img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+            <!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+        </div>
+        <div class="tx-warning mr-auto pd-t-50"><strong><%= @user.line_name %></strong></div>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.Request_already_send") %></strong>
+        </div>
+    </div>
+    </div>
+
+    <div class="d-flex justify-content-between pd-t-20">
+        <h4 class="card-title mg-b-10"><%= raw t("Website.Note.Your_request",title: @request.title) %></h4>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h4 class="card-title mg-b-10"><%= raw t("Website.Note.Already_shared_line") %></h4>
+    </div>
+
+    <div class="d-flex justify-content-between pd-t-20">
+        <h4 class="card-title mg-b-10"><%= raw t("Website.Note.System_will_send_notify_after_request_accepted") %></h4>
+    </div>
+    <div class="d-flex justify-content-between">
+        <h4 class="card-title mg-b-10 tx-orange"><%= raw t("Website.Note.And_you_can_get_reward") %></h4>
+    </div>
+
+    <div class="d-flex flex-row-reverse pd-t-80">
+        <h4 class="card-title mg-b-10 tx-orange"><%= raw t("Website.Note.Donot_notify_after_request_finish") %></h4>
+    </div>
+
+    <div class="card-footer d-flex flex-row-reverse">
+        <div class="form-group">
+        <div class="row">
+            <%= button_to t("Button.GOTO_ROOT"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+        </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+
+<% end %>

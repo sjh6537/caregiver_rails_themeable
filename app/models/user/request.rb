@@ -1,6 +1,9 @@
 class User::Request < ActiveRecord::Base
     belongs_to :user
 
+    has_many :request_receivers, :dependent => :destroy
+    has_many :receivers, :through => :request_receivers
+
     def owner
         self.user
     end

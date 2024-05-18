@@ -51,7 +51,8 @@ Rails.application.routes.draw do
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request
     get      '/requests/:id/friends'        , to: 'web/requests#friends'           , as: :web_request_friends
-    post     '/requests/:id/friends'        , to: 'web/requests#send'              , as: :web_request_send
+    post     '/requests/:id/pushed'         , to: 'web/requests#pushed'            , as: :web_request_pushed
+    get      '/requests/:id/shared'         , to: 'web/requests#shared'            , as: :web_request_shared
     get      '/requests/:id'                , to: 'web/requests#show'              , as: :web_request_show
     delete   '/requests/:id'                , to: 'web/requests#delete'            , as: :web_request_delete
 

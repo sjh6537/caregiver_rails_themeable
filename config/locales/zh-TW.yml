@@ -56,6 +56,7 @@ zh-TW:
     LINE: "邀請 Line 好友幫忙"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
+    GOTO_ROOT: 回首頁
   Table:
     Account: 帳號
     Name: 姓名
@@ -112,12 +113,21 @@ zh-TW:
       Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'
       Please_provide_Detail_information: '請提供正確資料以便日後活動聯絡使用'
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
-      You_can_chiose_friends: '你可以選擇<font class="tx-warning">「友伴內的好友派工」</font>幫忙'
-      or_You_can_chiose_line_friends: '或是<font class="tx-warning">「邀請Line好友」</font>加入友伴好友協助幫忙'
+      You_can_chiose_friends: '你可以選擇<font class="tx-orange">「友伴內的好友派工」</font>幫忙'
+      or_You_can_chiose_line_friends: '或是<font class="tx-orange">「邀請Line好友」</font>加入友伴好友協助幫忙'
       You_have_n_friens: 友伴好友 %{num} 位
       You_have_a_category_request: '你想要有一個 <font id="category_font" class="tx-danger">「%{category}」</font> 類別的需求派工'
       You_have_a_request: "你想要有一個需求派工"
       You_donot_have_friend: "你沒有任何友伴好友，用 Line 邀請好友幫忙"
+      Request_already_send: '派工已發送'
+      Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
+      Already_shared_line: '已發送到你的 Line 好友'
+      Already_pushed_friends: '已發送到你的 友伴 好友'
+      System_will_send_notify_after_request_accepted: '若派工已被接受系統將通知雙方連絡訊息'
+      And_you_can_get_reward: '並將獲得「柑幣」優惠獎勵'
+      Donot_notify_after_request_finish: '**派工屆期將自動失效不另行通知**'
+      Already_push_n_times: '相同派工已發送%{num}次'
+
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
 

@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Web::RequestsController < ApplicationWebController
     before_action :set_user
-    before_action :set_request, only: [:friends, :show, :destroy]
+    before_action :set_request, only: [:friends, :pushed, :shared, :show, :destroy]
 
     def index
       @title_sub = I18n.t(:Table, scope: "Title")
@@ -39,7 +39,35 @@ class Web::RequestsController < ApplicationWebController
 
     def friends
       @friends = @user.friends
-      @send = User::RequestSend.new
+      @receiver = User::RequestReceiver.new
+    end
+
+    def pushed
+      fails_ids = []
+      ids = params.require(:user_request_receiver).permit!
+      ids[:user_id].each do |id|
+
+        receiver = User::RequestReceiver.where(request_id: @request.id, receiver_id: id).first
+        if receiver.nil?
+          receiver = User::RequestReceiver.new
+          receiver.receiver_id = id
+          receiver.request_id = @request.id
+          receiver.count = 1
+          if !receiver.save
+            fails_ids << id
+          end
+        else
+          if !receiver.update(count: receiver.count+1)
+            fails_ids << id
+          end
+        end
+      end
+
+      @request_receivers = @request.request_receivers
+    end
+
+    def shared
+
     end
 
     def show
