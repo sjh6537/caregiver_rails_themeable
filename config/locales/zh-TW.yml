@@ -56,7 +56,12 @@ zh-TW:
     LINE: "邀請 Line 好友幫忙"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
-    GOTO_ROOT: 回首頁
+    GOTO_ROOT: 回到會員專區
+    AGREE: 同意
+    REJECT: 拒絕
+    CONSIDER: 再考慮一下
+    SEND_ANOTHER_FRIENDS: 發送訊息給其他好友
+    PUSH_CONTACT: 透過「友伴」推撥個人聯絡方式給該好友
   Table:
     Account: 帳號
     Name: 姓名
@@ -100,6 +105,7 @@ zh-TW:
     Title: 主旨
     Category: 需求類別
     Location: 地點
+    Detail_location: 詳細位置
     Date: 日期
     Request_Time: 需求時間
     Hours: 小時
@@ -110,6 +116,7 @@ zh-TW:
     Member_Centre: 會員中心
     Member: 會員
     Note:
+      Please_fill_location: 請填入詳細位置
       Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'
       Please_provide_Detail_information: '請提供正確資料以便日後活動聯絡使用'
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
@@ -118,15 +125,25 @@ zh-TW:
       You_have_n_friens: 友伴好友 %{num} 位
       You_have_a_category_request: '你想要有一個 <font id="category_font" class="tx-danger">「%{category}」</font> 類別的需求派工'
       You_have_a_request: "你想要有一個需求派工"
-      You_donot_have_friend: "你沒有任何友伴好友，用 Line 邀請好友幫忙"
+      You_donot_have_friend: "你沒有任何「友伴」好友，用 Line 邀請好友幫忙"
       Request_already_send: '派工已發送'
       Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
       Already_shared_line: '已發送到你的 Line 好友'
-      Already_pushed_friends: '已發送到你的 友伴 好友'
+      Already_pushed_friends: '已發送到你的「友伴」好友'
       System_will_send_notify_after_request_accepted: '若派工已被接受系統將通知雙方連絡訊息'
       And_you_can_get_reward: '並將獲得「柑幣」優惠獎勵'
       Donot_notify_after_request_finish: '**派工屆期將自動失效不另行通知**'
       Already_push_n_times: '相同派工已發送%{num}次'
+      Not_saw_the_request: '好友未點選過派工訊息'
+      Receiver_consider: '考慮中'
+      Request_no_receiver: '您所發送的派工尚未有好友接受'
+      Request_has_receiver: '派工已有接受者'
+      Already_push_receivers: '已發送「友伴」訊息好友'
+      No_push_receivers: '你未發送給任何「友伴」好友訊息'
+      Does_agree_to_accept: '是否同意接受?'
+      Request_has_helper: '此份派工已有其他人接受'
+      You_accept_this_request: '你已接受該派工'
+      Accepted_this_request: '已接受該派工'
 
       Update_Success: "網站 <strong>%{name}</strong> 成功更新"
       Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
@@ -146,7 +163,7 @@ zh-TW:
       ATTENTION: 注意
     Note:
       Please_Select_One_City: '請選擇一個城市'
-      Please Select One Postal: '請選擇一個區域'
+      Please_Select_One_Postal: '請選擇一個區域'
       Fill_Simple_Title: 請簡單描述工作內容
       Login_super_admin: 登出並登入超級管理員
       Only_Super_Admin_Can_del: "注意: 只有超級管理者可以刪除"

@@ -1,0 +1,52 @@
+
+    <div class="pl-0">
+    <div class="main-profile-overview d-flex">
+        <div class="main-img-user profile-user mg-r-20">
+            <img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+            <!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+        </div>
+        <div class="tx-warning mr-auto pd-t-50"><strong><%= @user.line_name %></strong></div>
+    </div>
+    </div>
+
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.Request_has_helper") %></strong>
+        </div>
+    </div>
+    </div>
+
+    <div class="row pd-t-10">
+        <div class="col-md-12">
+        <ul class="list list-noborders pb-0 mb-0">
+        <li class="list-item">
+            <img class="img-sm rounded-circle bg-warning d-flex align-items-center justify-content-center text-white" src="<%= @request.owner.line_image %>" alt="Profile Image">
+            <div class=" ml-3">
+                <h6 class="mb-1 font-weight-medium"><%= @request.owner.name %></h6>
+                <p class="mb-0 text-muted tx-13"><%= @request.owner.line_name %></p>
+            </div>
+        </li>
+        </ul>
+        </div>
+    </div>
+
+    <div class="pd-20 bg-light">
+    <div class="modal d-block pos-static basic-modal">
+        <div class="d-flex justify-content-between ">
+            <h4 class="card-title mg-b-10 mg-l-10"><%= raw @request.content_non_accept %></h4>
+        </div>
+    </div>
+    </div>
+
+    <div class="card-footer d-flex flex-row-reverse mg-t-20">
+        <div class="form-group">
+        <div class="row">
+            <%= button_to t("Button.GOTO_ROOT"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+        </div>
+        </div>
+    </div>
+
+
+

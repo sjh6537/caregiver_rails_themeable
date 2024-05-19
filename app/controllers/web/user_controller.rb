@@ -31,7 +31,7 @@ class Web::UserController < ApplicationWebController
 
     def set_user
         @user = current_user
-        @profile = current_user.profile
+        @profile = @user.profile
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

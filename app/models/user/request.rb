@@ -1,24 +1,35 @@
 class User::Request < ActiveRecord::Base
-    belongs_to :user
+    include ApplicationHelper
+
+    belongs_to :helper , class_name: 'User' , :foreign_key => "helper_id"
+    belongs_to :owner  , class_name: 'User' , :foreign_key => "user_id"
 
     has_many :request_receivers, :dependent => :destroy
     has_many :receivers, :through => :request_receivers
 
-    def owner
-        self.user
+    def contact_info_non_accept
+        self.contact_info[0...4] + "-xxxxxx"
     end
 
-    def owner_address_text
-        address_text = CITY_CODE.select {|c| c[:code] == self.user.addr_city}.first[:city]
-        address_text += POSTAL_CODE.select {|c| c[:code] == self.user.addr_postal}.first[:name]
-        address_text += self.user.address
-        address_text
+    def content_non_accept
+        text = "<p class='tx-orange'><strong>#{self.title}</strong>"
+        text += "<p>時間 : #{self.request_date.strftime('%Y/%m/%d - %R')}, 約 #{self.request_time} 小時"
+        text += "<p>地點 : #{get_city(self.location_city)}  #{get_postal(self.location_postal)}"
+        text += "<p>聯絡方式 : #{contact_info_non_accept}"
+        text += "<p>描述 : #{self.descrition}"
+        text
     end
 
-    def helper
-        User.find(self.helper_id)
+    def content_accept
+        text = "<p class='tx-orange'><strong>#{self.title}</strong>"
+        text += "<p>時間 : #{self.request_date.strftime('%Y/%m/%d - %R')}, 約 #{self.request_time} 小時"
+        text += "<p>地點 : #{get_city(self.location_city)}  #{get_postal(self.location_postal)} #{self.location}"
+        text += "<p>聯絡方式 : #{self.contact_info}"
+        text += "<p>描述 : #{self.descrition}"
+        text
     end
 
+    ##Time.now.localtime.strftime('%Y-%m-%d %R')
     def count_reward
         self.reward = self.time
     end

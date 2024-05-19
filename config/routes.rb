@@ -51,10 +51,14 @@ Rails.application.routes.draw do
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request
     get      '/requests/:id/friends'        , to: 'web/requests#friends'           , as: :web_request_friends
+    get      '/requests/:id'                , to: 'web/requests#show'              , as: :web_request_show
     post     '/requests/:id/pushed'         , to: 'web/requests#pushed'            , as: :web_request_pushed
     get      '/requests/:id/shared'         , to: 'web/requests#shared'            , as: :web_request_shared
-    get      '/requests/:id'                , to: 'web/requests#show'              , as: :web_request_show
     delete   '/requests/:id'                , to: 'web/requests#delete'            , as: :web_request_delete
+    get      '/requests/:id/agree'          , to: 'web/requests#agree'             , as: :web_request_agree
+    delete   '/requests/:id/agree'          , to: 'web/requests#agree_delete'      , as: :web_request_agree_delete
+
+    get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
 
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
     post     '/line_push'                   , to: 'linemsg#push'                   , as: :line_push
