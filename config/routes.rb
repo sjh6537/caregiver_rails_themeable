@@ -16,14 +16,15 @@ Rails.application.routes.draw do
       as :admin do
         get       'login'   , to: 'admin/sessions#new'     , as: :new_admin_session
         post      'login'   , to: 'admin/sessions#create'  , as: :admin_session
-        delete    'logout'  , to: 'admin/sessions#destroy' , as: :destroy_admin_session
+        get       'logout'  , to: 'admin/sessions#destroy' , as: :destroy_admin_session
       end
 
       namespace :admin, path: '/' do
           root to: 'dashboard#index', as: :root
           resources :admins
           resources :users
-          get       'users/:id/push'    , to: 'users#push'     , as: :push_admin_user
+          post      'users/send_message'    , to: 'users#send_message'    , as: :line_msg_admin_user
+          get       'users/:id/push'        , to: 'users#push'            , as: :push_page_admin_user
       end
 
     end
@@ -37,7 +38,7 @@ Rails.application.routes.draw do
       get      '/login'            , to: 'user/sessions#new'                , as: :new_user_session
       get      '/authorize'        , to: 'user/sessions#line_authorize'     , as: :line_authorize
       get      '/callback'         , to: 'user/sessions#line_callback'      , as: :line_callback
-      delete   '/logout'           , to: 'user/sessions#destroy'            , as: :destroy_user_session
+      get      '/logout'           , to: 'user/sessions#destroy'            , as: :destroy_user_session
     end
 
     get      ''                             , to: 'web/dashboard#index'            , as: :root
@@ -61,7 +62,5 @@ Rails.application.routes.draw do
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
 
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
-    post     '/line_push'                   , to: 'linemsg#push'                   , as: :line_push
-    post     '/line_push_all'               , to: 'linemsg#broadcast'              , as: :line_broadcast
 
 end

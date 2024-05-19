@@ -36,21 +36,20 @@
 				<!-- <li class="side-item side-item-category">Main</li> -->
 				<li class="slide">
 					<a class="side-menu__item" href="<%= admin_root_path %>">
-						<i class="side-menu__icon fas fa-tachometer-alt"></i><span class="side-menu__label"><%= t(:DashBoard , scope: "Sidebar.Item") %></span><span class="badge badge-danger side-badge">20</span>
+						<i class="side-menu__icon fas fa-tachometer-alt"></i><span class="side-menu__label"><%= t("Sidebar.Item.DashBoard") %></span><span class="badge badge-danger side-badge">20</span>
 					</a>
 				</li>
 
 
 				<li class="slide">
 					<a class="side-menu__item" href="<%= admin_admins_path %>">
-						<i class="side-menu__icon far fa-address-card"></i><span class="side-menu__label"><%= t(:Administrator , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
+						<i class="side-menu__icon far fa-address-card"></i><span class="side-menu__label"><%= t("Sidebar.Item.Administrator") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
 					</a>
 				</li>
 
-				<!-- <li class="side-item side-item-category">User</li> -->
 				<li class="slide">
 					<a class="side-menu__item" href="<%= admin_users_path %>">
-						<i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t(:User , scope: "Sidebar.Item") %></span><span class="badge badge-success side-badge"><%= User.count %></span>
+						<i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t("Sidebar.Item.Users") %></span><span class="badge badge-success side-badge"><%= User.count %></span>
 					</a>
 				</li>
 

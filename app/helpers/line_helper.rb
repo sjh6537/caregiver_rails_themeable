@@ -33,6 +33,87 @@ module LineHelper
         response = access_token.post(APP_CONFIG[:line_api_verify_url], {body: {:id_token => uid_token, :client_id => client_id}})
         response.response.env.response_body
     end
-    
+
+    def message_push(client_id, message)
+        if(message == nil)
+            return
+        end
+
+        if(client_id == nil)
+            client = LinemsgController.new.client
+            client.broadcast(message)
+        else
+            client = LinemsgController.new.client
+            client.push_message(client_id, message)
+        end
+    end
+
+    def message_package_text(text)
+        {
+            type: 'text',
+            text: text
+        }
+    end
+
+    def message_package_sticker(package_id, sticker_id)
+        {
+            type: 'text',
+            packageId: package_id,
+            stickerId: sticker_id
+        }
+    end
+
+    def message_package_image(target_image, preview_image)
+        {
+            type: 'image',
+            originalContentUrl: target_image,
+            previewImageUrl: preview_image
+        }
+    end
+
+    def message_package_video(target_video, preview_image, track_id)
+        {
+            type: 'video',
+            originalContentUrl: target_video,
+            previewImageUrl: preview_image,
+            trackingId: track_id
+        }
+    end
+
+    def message_package_audio(target_audio, preview_image, millisec)
+        {
+            type: 'audio',
+            originalContentUrl: target_audio,
+            duration: millisec
+        }
+    end
+
+    def message_package_location(title, map_address, latitude, longitude)
+        {
+            type: 'location',
+            title: title,
+            address: map_address,
+            latitude: latitude,
+            longitude: longitude
+        }
+    end
+
+    def message_package_imagemap()
+        {
+            #TODO
+        }
+    end
+
+    def message_package_template()
+        {
+            #TODO
+        }
+    end
+
+    def message_package_flex()
+        {
+            #TODO
+        }
+    end
 end
     

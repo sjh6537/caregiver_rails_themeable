@@ -1,14 +1,15 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < ApplicationAdminController
+    include LineHelper
     before_action :set_admin, only: [:show, :edit, :update, :destroy, :push]
   
     def index
-      @title_sub = I18n.t(:Table, scope: "Title")
+      @title_sub = I18n.t("Title.Table")
       @users = User.all
     end
   
     def new
-      @title_sub = I18n.t(:New, scope: "Title")
+      @title_sub = I18n.t("Title.New")
       @user = User.new()
       respond_to do |format|
         format.html
@@ -16,30 +17,30 @@ class Admin::UsersController < ApplicationAdminController
     end
 
     def create
-      @title_sub = I18n.t(:New, scope: "Title")
+      @title_sub = I18n.t("Title.New")
       @user = User.new(admin_params)
       respond_to do |format|
         if @user.save
-          format.html { redirect_to admin_users_path, notice: I18n.t(:Created, scope: "Notice", name: "#{@user.account}") }
+          format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Created", name: "#{@user.account}") }
         else
-          format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{@user.account}") }
+          format.html { render action: "new", alert: I18n.t("Notice.Created_Fail", name: "#{@user.account}") }
         end
       end
     end
   
     def show
-      @title_sub = I18n.t(:Information, scope: "Title")
+      @title_sub = I18n.t("Title.Information")
       respond_to do |format|
         format.html
       end
     end
   
     def edit
-      @title_sub = I18n.t(:Edit, scope: "Title")
+      @title_sub = I18n.t("Title.Edit")
     end
   
     def update
-      @title_sub = I18n.t(:Edit, scope: "Title")
+      @title_sub = I18n.t("Title.Edit")
       # if current_admin.super_user == false
       #   result = @user.update_without_password(admin_params)
       # else
@@ -52,9 +53,9 @@ class Admin::UsersController < ApplicationAdminController
   
       respond_to do |format|
         if result
-          format.html { redirect_to admin_users_path, notice: I18n.t(:Updated, scope: "Notice", name: "#{@user.account}") }
+          format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Updated", name: "#{@user.account}") }
         else
-          format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@user.account}") }
+          format.html { render action: "edit", alert: I18n.t("Notice.Updated_Fail", name: "#{@user.account}") }
         end
       end
   
@@ -63,14 +64,14 @@ class Admin::UsersController < ApplicationAdminController
     def destroy
       respond_to do |format|
         # if @user.super_user == true
-        #   format.html { redirect_back fallback_location: "/", alert: I18n.t(:Cannot_Del_Super, scope: "Notice") }
+        #   format.html { redirect_back fallback_location: "/", alert: I18n.t("Notice.Cannot_Del_Super") }
         # elsif current_admin.super_user != true
-        #   format.html { redirect_back fallback_location: "/" , alert: I18n.t(:Non_Super_Del_Admin, scope: "Notice") }
+        #   format.html { redirect_back fallback_location: "/" , alert: I18n.t("Notice.Non_Super_Del_Admin") }
         # else
           if @user.destroy
-            format.html { redirect_to admin_users_path, notice: I18n.t(:Deleted, scope: "Notice", name: "#{@user.account}") }
+            format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Deleted", name: "#{@user.account}") }
           else
-            format.html { redirect_back fallback_location: "/", alert: I18n.t(:Deleted_Fail, scope: "Notice", name: "#{@user.account}") }
+            format.html { redirect_back fallback_location: "/", alert: I18n.t("Notice.Deleted_Fail", name: "#{@user.account}") }
           end
         # end
       end
@@ -78,6 +79,45 @@ class Admin::UsersController < ApplicationAdminController
 
     def push
 
+    end
+
+    def send_message
+      # type
+      # 0: Text message
+      # 1: Sticker message
+      # 2: Image message
+      # 3: Video message
+      # 4: Audio message
+      # 5: Location message
+      # 6: Imagemap message
+      # 7: Template message
+      # 8: Flex Message
+      if params[:text].present? && params[:msgtype].present?
+        text = params[:text]
+        type = params[:msgtype]
+
+        if params[:id].present? || (params[:id] == "null")
+          broadcastEn = 0
+        else
+          broadcastEn = 1
+        end
+
+        lineuser = User.find_by_id(params[:id])
+        case type
+        when "0"
+          message = message_package_text(text)
+          if(broadcastEn)
+            message_push(nil, message)
+          else
+            message_push(lineuser.account, message)
+          end
+        end
+        render json: { status: 'success', message: 'Message sent successfully' }, status: :ok
+        return
+      end
+      
+      render json: { status: 'error', message: 'Parameter unknown' }, status: :ok
+      return
     end
 
     private
@@ -92,7 +132,7 @@ class Admin::UsersController < ApplicationAdminController
     end
   
     def set_breadcrumb
-      @title = I18n.t(:ADMINISTRATORS, scope: "Title")
+      @title = I18n.t("Title.ADMINISTRATORS")
       @title_sub = nil
     end
 end

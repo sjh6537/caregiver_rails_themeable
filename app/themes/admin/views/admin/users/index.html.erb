@@ -20,28 +20,30 @@
 
 	<div class="card-header pb-0">
 		<div class="d-flex justify-content-between">
-			<h4 class="card-title mg-b-0"><%= t(:USER_TABLE, scope: "Title") %></h4>
+			<h4 class="card-title mg-b-0"><%= t("Title.USER_TABLE") %></h4>
 			<i class="mdi mdi-dots-horizontal text-gray"></i>
 		</div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive border-top userlist-table">
-			<table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+			<table id="example" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
 				<thead>
 					<tr>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Account, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Name, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Email, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Last_Sign_in, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Status, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><%= t(:Action, scope: "Table") %></th>
+						<th class="wd-lg-8p"><span><%= t("Table.Account") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Email") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Last_Sign_in") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Status") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Action") %></span></th>
 					</tr>
 				</thead>
 				<tbody>
 					<% @users.map do |c| %>
 					<tr>
-						<td><%= c.name %></td>
-						<td><%= c.name %></td>
+						<td>
+							<img alt="avatar" class="rounded-circle avatar-md mr-2" src="<%= c.line_image %>">
+						</td>
+						<td><%= c.line_name %></td>
 						<td><%= c.email %></td>
 						<td><%= c.updated_at.strftime('%Y/%m/%d %T') %></td>
 						<td class="text-center">
@@ -60,7 +62,7 @@
 							<% else %>
 								<a class="btn ripple btn-sm btn-danger mg-l-10 delete_button" data-val=<%= c.id %> data-target="#modal_del" data-toggle="modal" href=""><i class="las la-trash"></i></a>
 							<% end %>
-							<a href="<%= admin_push_admin_user_path(c.id) %>" class="btn btn-sm btn-info">
+							<a href="<%= admin_push_page_admin_user_path(c.id) %>" class="btn btn-sm btn-info">
 								<i class="las la-comment"></i>
 							</a>
 						</td>
@@ -70,7 +72,7 @@
 			</table>
 			<div class="col-sm-4 col-md-6 col-lg-4">
 				<div class="card custom-card">
-						<a class="btn ripple btn-success" data-target="#broadcast_msg" data-toggle="modal" href=""><%= t(:BROADCAST, scope: "Button") %></a>
+						<a class="btn ripple btn-success" data-target="#broadcast_msg" data-toggle="modal" href=""><%= t("Button.BROADCAST") %></a>
 				</div>
 			</div>
 		</div>
@@ -87,8 +89,8 @@
 		<div class="modal-content tx-size-sm">
 			<div class="modal-body tx-center pd-y-20 pd-x-20">
 				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-				<h4 class="tx-danger mg-b-20"><%= t(:DEL_CANNOT, scope: "Title") %></h4>
-				<p class="mg-b-20 mg-x-20"><%= t(:Only_Super_Admin, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t(:CLOSE, scope: "Button") %></a>
+				<h4 class="tx-danger mg-b-20"><%= t("Title.DEL_CANNOT") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t("Note.Only_Super_Admin") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t("Button.CLOSE") %></a>
 			</div>
 		</div>
 	</div>
@@ -99,8 +101,8 @@
 		<div class="modal-content tx-size-sm">
 			<div class="modal-body tx-center pd-y-20 pd-x-20">
 				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-				<h4 class="tx-danger mg-b-20"><%= t(:DEL_CANNOT, scope: "Title") %></h4>
-				<p class="mg-b-20 mg-x-20"><%= t(:Cannot_Del_Self, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t(:CLOSE, scope: "Button") %></a>
+				<h4 class="tx-danger mg-b-20"><%= t("Title.DEL_CANNOT") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t("Note.Cannot_Del_Self") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25" data-dismiss="modal" type="button" href="#"><%= t("Button.CLOSE") %></a>
 			</div>
 		</div>
 	</div>
@@ -111,8 +113,8 @@
 		<div class="modal-content tx-size-sm">
 			<div class="modal-body tx-center pd-y-20 pd-x-20">
 				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-				<h4 class="tx-danger mg-b-20"><%= t(:DEL_ADMIN, scope: "Title") %></h4>
-				<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE" ><%= t(:CONTINUE, scope: "Button") %></a>
+				<h4 class="tx-danger mg-b-20"><%= t("Title.DEL_ADMIN") %></h4>
+				<p class="mg-b-20 mg-x-20"><%= t("Note.Del_Admin") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE" ><%= t("Button.CONTINUE") %></a>
 			</div>
 		</div>
 	</div>

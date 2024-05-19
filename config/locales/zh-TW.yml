@@ -30,6 +30,25 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 zh-TW:
+  Login:
+    Account: 帳號
+    Email: 信箱
+    Password: 密碼
+    Sign_in: 登入
+  Sidebar:
+    Super_Admin: 最高管理者
+    Admin: 管理者
+    Item:
+      DashBoard: 儀錶板
+      Customer: 客戶
+      Administrator: 管理者
+      WebSite: 網頁
+      WebSetting: 網頁設定
+      Line_Notify: Line 發送
+      Message: 訊息
+      Register: 註冊
+      Users: 用戶
+      Group: 群組
   Button:
     SIGN_IN: 登入
     SIGN_OUT: 登出
@@ -62,10 +81,11 @@ zh-TW:
     CONSIDER: 再考慮一下
     SEND_ANOTHER_FRIENDS: 發送訊息給其他好友
     PUSH_CONTACT: 透過「友伴」推撥個人聯絡方式給該好友
+
   Table:
     Account: 帳號
     Name: 姓名
-    Email: EMAIL
+    Email: 信箱
     Sex: 性別
     Select_Sex: 選擇性別
     Man: 男
@@ -111,7 +131,54 @@ zh-TW:
     Hours: 小時
     Over_Day: 超過一天
     Descrition: 描述
+    Message: 訊息
+    Biography: 個人訊息
+    FriendList: 好友列表
 
+  Title:
+      ADMINISTRATORS_TABLE: 管理者表格
+      ADMINISTRATORS: 管理者
+      ADMINISTRATOR_INFO: 管理者資訊
+      NEW_ADMINISTRATOR: 新增管理者
+      DEL_ADMIN: 刪除管理者
+      USER_INFO: 使用者資訊
+      CONTACT_INFO: 聯絡方式
+      LINE_NOTIFY: LINE NOTIFY 訊息
+      MESSAGE_GROUP: 群組訊息
+      MESSAGE_PERSONAL: 個人訊息
+      LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
+      DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
+      DEL_CANNOT: 無法刪除
+      GROUP: 群組
+      Table: / 表格
+      New: / 新增
+      Edit: / 編輯
+      Information: / 資訊
+      SURE_SEND: 傳送訊息
+      USER_TABLE: 使用者表格
+      LINE_MESSAGE: LINE 訊息
+
+  Title:
+      ADMINISTRATORS_TABLE: 管理者表格
+      ADMINISTRATORS: 管理者
+      ADMINISTRATOR_INFO: 管理者資訊
+      NEW_ADMINISTRATOR: 新增管理者
+      DEL_ADMIN: 刪除管理者
+      USER_INFO: 使用者資訊
+      CONTACT_INFO: 聯絡方式
+      LINE_NOTIFY: LINE NOTIFY 訊息
+      MESSAGE_GROUP: 群組訊息
+      MESSAGE_PERSONAL: 個人訊息
+      LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
+      DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
+      DEL_CANNOT: 無法刪除
+      GROUP: 群組
+      Table: / 表格
+      New: / 新增
+      Edit: / 編輯
+      Information: / 資訊
+      SURE_SEND: 傳送訊息
+      USER_TABLE: 使用者表格
   Website:
     Member_Centre: 會員中心
     Member: 會員
@@ -150,10 +217,19 @@ zh-TW:
 
   Notify:
     Title:
+      ADMINISTRATORS_TABLE: 管理者表格
+      ADMINISTRATORS: 管理者
+      ADMINISTRATOR_INFO: 管理者資訊
+      NEW_ADMINISTRATOR: 新增管理者
+      DEL_ADMIN: 刪除管理者
+      USER_INFO: 使用者資訊
+      CONTACT_INFO: 聯絡方式
       LINE_NOTIFY: LINE NOTIFY 訊息
       MESSAGE_GROUP: 群組訊息
       MESSAGE_PERSONAL: 個人訊息
       LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
+      DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
+      DEL_CANNOT: 無法刪除
       LINE_NOTIFY_SERVICE_REGISTER: LINE NOTIFY 發送訊息服務登錄
       LINE_NOTIFY_GROUP_SERVICE: LINE NOTIFY 群組發送訊息服務
       LINE_NOTIFY_PERSONAL_SERVICE: LINE NOTIFY 個人發送訊息服務
@@ -195,6 +271,9 @@ zh-TW:
       Add_Message_Success: " 將在 <strong>%{time}</strong> 對 <strong>%{who}</strong>... 發送訊息: <strong>%{content}</strong>..."
       Delete_Message_Fail:  刪除訊息失敗 , 請聯絡管理員
       Delete_Message_Success:  刪除訊息成功
-
+  Tab:
+    TEXT: 文字
+    TEXT_AND_GRAPH: 文字與圖片
+    RICH_MENU: 複合頁面
 
 
