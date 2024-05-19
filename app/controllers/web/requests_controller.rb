@@ -16,10 +16,8 @@ class Web::RequestsController < ApplicationWebController
       else
         title="有#{REQUEST_CATEGORY[@category]}方面的事需要幫忙"
       end
-      contact_info="請用電話聯絡"
       @descrition = "Hi, 需要你的幫忙\r\n"
-      @descrition+= "內容為 :\r\n"
-      @request = @user.requests.new(category: params[:category], title: title, location: @user.address_text, contact_info: contact_info)
+      @request = @user.requests.new(category: params[:category], title: title, location: @user.address, location_city: @user.addr_city, location_postal: @user.addr_postal, contact_info: @user.phone)
       respond_to do |format|
         format.html
       end
@@ -71,10 +69,7 @@ class Web::RequestsController < ApplicationWebController
     end
 
     def show
-      @title_sub = I18n.t(:Information, scope: "Title")
-      respond_to do |format|
-        format.html
-      end
+      @request_receivers = @request.request_receivers
     end
 
     def destroy
