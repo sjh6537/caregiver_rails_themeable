@@ -1,37 +1,69 @@
 
-<!-- row -->
-<div class="row row-sm">
-<!-- Col -->
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-<div class="card bg-teal">
-<div class="card-body">
+		<!-- row -->
+		<div class="row row-sm">
+			<!-- Col -->
 
-	<div class="pl-0">
+			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+			<div class="card bg-teal">
+			<div class="card-body">
 
-        <div class="d-flex flex-row justify-content-center mg-b-0">
-            <div class="pd-10">
-                <%= t(:Member_Centre, scope: "Website") %>
-            </div>
-        </div>
+				<div class="pl-0">
 
-        <div class="main-profile-overview d-flex">
+					<div class="d-flex flex-row justify-content-center mg-b-0">
+						<div class="pd-10">
+							<%= t("Website.Member_Centre") %>
+						</div>
+					</div>
 
-			<div class="main-img-user profile-user mg-r-20">
-				<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
-				<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+					<div class="main-profile-overview d-flex">
+
+						<div class="main-img-user profile-user mg-r-20">
+							<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+							<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
+						</div>
+						<div class="mr-auto ml-3 pd-t-20 tx-white">
+							<h5 class="mb-1 font-weight-medium"><%= t("Website.Member") %> : <%= @user.name %> , <%= @user.line_name %></h5>
+							<p class="mb-0 text-muted tx-13"><%= t("Website.Coin") %> : 0 </h5>
+							<p class="mb-0 text-muted tx-13"><%= t("Website.Coupons") %> : 0 </h5>
+						</div>
+
+					</div>
+				</div>
+
 			</div>
-			<div class="h5 mr-auto pd-t-20 tx-white"><%= t(:Member, scope: "Website") %> : <%= @user.name %>  <%= @user.line_name %></div>
+			</div>
+			</div>
 
+			<!-- /Col -->
 		</div>
-	</div>
+		<!-- row closed -->
+
+		<div class="row row-sm">
+			<!-- Col -->
+			<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+				<div class="pl-0">
+
+					<div class="d-flex flex-row justify-content-center mg-b-0 pd-10">
+					<div class="main-profile-overview d-flex">
+
+							<div class="mg-r-50 ml-3 pd-t-20">
+								<a class="fas fa-solid fa-user-group tx-40 tx-orange" href="<%= web_user_friends_path %>"></a>
+								<p class="mb-1 text-muted tx-center"><%= @user.friends.count %></p>
+							</div>
+
+							<div class="mr-auto ml-3 pd-t-20">
+								<a class="fas fa-solid fa-screwdriver-wrench tx-40 tx-orange" href="<%= web_user_requests_path %>"></a>
+								<p class="mb-1 text-muted tx-center"><%= @user.requests.count %></p>
+							</div>
+
+					</div>
+					</div>
 
 
-</div>
-</div>
-</div>
-<!-- /Col -->
-</div>
-<!-- row closed -->
+				</div>
+			</div>
+			<!-- /Col -->
+		</div>
 
 <%= content_for :script_js do %>
 

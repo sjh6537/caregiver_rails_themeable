@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     get      '/error'                       , to: 'web/notice#error'               , as: :error_notice
 
     get      '/user'                        , to: 'web/user#show'                  , as: :web_user_show
+    get      '/user/friends'                , to: 'web/user#friends'               , as: :web_user_friends
+    get      '/user/requests'               , to: 'web/user#requests'              , as: :web_user_requests
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
 
