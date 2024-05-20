@@ -85,6 +85,7 @@ zh-TW:
   Table:
     Account: 帳號
     Name: 姓名
+    LineName: Line名稱
     Email: 信箱
     Sex: 性別
     Select_Sex: 選擇性別
@@ -133,7 +134,9 @@ zh-TW:
     Descrition: 描述
     Message: 訊息
     Biography: 個人訊息
+    Friends: 好友
     FriendList: 好友列表
+    Requests: 派工
 
   Title:
       ADMINISTRATORS_TABLE: 管理者表格
@@ -141,6 +144,7 @@ zh-TW:
       ADMINISTRATOR_INFO: 管理者資訊
       NEW_ADMINISTRATOR: 新增管理者
       DEL_ADMIN: 刪除管理者
+      USERS: 使用者
       USER_INFO: 使用者資訊
       CONTACT_INFO: 聯絡方式
       LINE_NOTIFY: LINE NOTIFY 訊息
@@ -158,27 +162,6 @@ zh-TW:
       USER_TABLE: 使用者表格
       LINE_MESSAGE: LINE 訊息
 
-  Title:
-      ADMINISTRATORS_TABLE: 管理者表格
-      ADMINISTRATORS: 管理者
-      ADMINISTRATOR_INFO: 管理者資訊
-      NEW_ADMINISTRATOR: 新增管理者
-      DEL_ADMIN: 刪除管理者
-      USER_INFO: 使用者資訊
-      CONTACT_INFO: 聯絡方式
-      LINE_NOTIFY: LINE NOTIFY 訊息
-      MESSAGE_GROUP: 群組訊息
-      MESSAGE_PERSONAL: 個人訊息
-      LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
-      DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
-      DEL_CANNOT: 無法刪除
-      GROUP: 群組
-      Table: / 表格
-      New: / 新增
-      Edit: / 編輯
-      Information: / 資訊
-      SURE_SEND: 傳送訊息
-      USER_TABLE: 使用者表格
   Website:
     Member_Centre: 會員中心
     Member: 會員
@@ -237,6 +220,7 @@ zh-TW:
       DISABLE_NOTIFY: 關閉 LINE 通知服務
       DELETE_NOTIFY: 刪除 LINE 通知服務
       ATTENTION: 注意
+      BLOCK_USER: 使用者停用
     Note:
       Please_Select_One_City: '請選擇一個城市'
       Please_Select_One_Postal: '請選擇一個區域'
@@ -271,6 +255,7 @@ zh-TW:
       Add_Message_Success: " 將在 <strong>%{time}</strong> 對 <strong>%{who}</strong>... 發送訊息: <strong>%{content}</strong>..."
       Delete_Message_Fail:  刪除訊息失敗 , 請聯絡管理員
       Delete_Message_Success:  刪除訊息成功
+      Block_User: 將該使用者停權使用友伴系統
   Tab:
     TEXT: 文字
     TEXT_AND_GRAPH: 文字與圖片

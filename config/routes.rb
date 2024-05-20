@@ -22,7 +22,9 @@ Rails.application.routes.draw do
       namespace :admin, path: '/' do
           root to: 'dashboard#index', as: :root
           resources :admins
-          resources :users
+
+          resources :users, except: [:destroy]
+          delete    'users/:id'             , to: 'users#block'           , as: :user_block
           post      'users/send_message'    , to: 'users#send_message'    , as: :line_msg_admin_user
           get       'users/:id/push'        , to: 'users#push'            , as: :push_page_admin_user
       end

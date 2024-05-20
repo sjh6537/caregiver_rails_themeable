@@ -1,13 +1,13 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < ApplicationAdminController
     include LineHelper
-    before_action :set_admin, only: [:show, :edit, :update, :destroy, :push]
-  
+    before_action :set_user, only: [:show, :edit, :update, :block, :push]
+
     def index
       @title_sub = I18n.t("Title.Table")
       @users = User.all
     end
-  
+
     def new
       @title_sub = I18n.t("Title.New")
       @user = User.new()
@@ -27,18 +27,18 @@ class Admin::UsersController < ApplicationAdminController
         end
       end
     end
-  
+
     def show
       @title_sub = I18n.t("Title.Information")
       respond_to do |format|
         format.html
       end
     end
-  
+
     def edit
       @title_sub = I18n.t("Title.Edit")
     end
-  
+
     def update
       @title_sub = I18n.t("Title.Edit")
       # if current_admin.super_user == false
@@ -47,10 +47,10 @@ class Admin::UsersController < ApplicationAdminController
         if params[:user][:account].present?
           result = @user.update(admin_params)
         else
-          result = @user.update_without_password(admin_params)     
+          result = @user.update_without_password(admin_params)
         end
       # end
-  
+
       respond_to do |format|
         if result
           format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Updated", name: "#{@user.account}") }
@@ -58,22 +58,16 @@ class Admin::UsersController < ApplicationAdminController
           format.html { render action: "edit", alert: I18n.t("Notice.Updated_Fail", name: "#{@user.account}") }
         end
       end
-  
+
     end
-  
-    def destroy
+
+    def block
       respond_to do |format|
-        # if @user.super_user == true
-        #   format.html { redirect_back fallback_location: "/", alert: I18n.t("Notice.Cannot_Del_Super") }
-        # elsif current_admin.super_user != true
-        #   format.html { redirect_back fallback_location: "/" , alert: I18n.t("Notice.Non_Super_Del_Admin") }
-        # else
-          if @user.destroy
-            format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Deleted", name: "#{@user.account}") }
+          if @user.update(enable: false)
+            format.html { redirect_to admin_users_path, notice: I18n.t("Notice.Blocked", name: "#{@user.account}") }
           else
-            format.html { redirect_back fallback_location: "/", alert: I18n.t("Notice.Deleted_Fail", name: "#{@user.account}") }
+            format.html { redirect_back fallback_location: "/", alert: I18n.t("Notice.Blocked_Fail", name: "#{@user.account}") }
           end
-        # end
       end
     end
 
@@ -115,25 +109,24 @@ class Admin::UsersController < ApplicationAdminController
         render json: { status: 'success', message: 'Message sent successfully' }, status: :ok
         return
       end
-      
+
       render json: { status: 'error', message: 'Parameter unknown' }, status: :ok
       return
     end
 
     private
-  
-    def set_admin
+
+    def set_user
       @user = User.find_by_id(params[:id])
     end
-  
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def admin_params
       params.require(:user).permit!
     end
-  
+
     def set_breadcrumb
-      @title = I18n.t("Title.ADMINISTRATORS")
+      @title = I18n.t("Title.USERS")
       @title_sub = nil
     end
 end
-  
