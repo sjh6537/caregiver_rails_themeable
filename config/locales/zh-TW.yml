@@ -157,6 +157,7 @@ zh-TW:
       Table: / 表格
       New: / 新增
       Edit: / 編輯
+      Update: / 更新
       Information: / 資訊
       SURE_SEND: 傳送訊息
       USER_TABLE: 使用者表格
@@ -267,6 +268,8 @@ zh-TW:
       Delete_Message_Fail:  刪除訊息失敗 , 請聯絡管理員
       Delete_Message_Success:  刪除訊息成功
       Block_User: 將該使用者停權使用友伴系統
+      Account_Blocked: "帳號 <strong>%{name}</strong> 成功黑名單."
+      Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
   Tab:
     TEXT: 文字
     TEXT_AND_GRAPH: 文字與圖片

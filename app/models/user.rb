@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
     end
 
     def address_text
+      if !self.addr_city? || !self.addr_postal? || !self.address?
+        return
+      end
+      print "address:#{self.address}"
       address_text = CITY_CODE.select {|c| c[:code] == self.addr_city}.first[:city]
       address_text += POSTAL_CODE.select {|c| c[:code] == self.addr_postal}.first[:name]
       address_text += self.address
@@ -57,6 +61,10 @@ class User < ActiveRecord::Base
 
     def line_email
       self.profile.line_email
+    end
+
+    def birthday_date
+      self.birthday.strftime('%Y/%m/%d')
     end
 
     def self.find_for_authentication(warden_conditions)

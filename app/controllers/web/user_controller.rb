@@ -19,9 +19,9 @@ class Web::UserController < ApplicationWebController
 
         respond_to do |format|
             if result
-                format.html { redirect_to web_user_show_path, notice: I18n.t(:Updated, scope: "Notice", name: "#{@user.line_name}") }
+                format.html { redirect_to web_user_show_path, notice: I18n.t("Website.Note.Update_Success", name: "#{@user.line_name}") }
             else
-                format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@user.line_name}") }
+                format.html { render action: "edit", alert: I18n.t("Website.Note.Update_Fail", name: "#{@user.line_name}") }
             end
         end
     end

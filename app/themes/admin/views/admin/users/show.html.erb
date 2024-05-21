@@ -1,57 +1,102 @@
 <div class="row row-sm">
-	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-		<div class="card">
-			<div class="card-body">
-				<div class="pl-0">
-					<div class="main-profile-overview">
-						<div class="main-img-user profile-user">
-							<img alt="" src="/assets/valex/img/7.jpg"><a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a>
-						</div>
-						<div class="d-flex justify-content-between mg-b-20">
-							<div>
-								<h5 class="main-profile-name"><%= @user.name %></h5>
-								<p class="main-profile-name-text"><%= @user.account %></p>
+	<div class="col-sm-12 col-lg-5 col-xl-4">
+		<div class="card custom-card">
+			<div class="">
+				<div class="main-content-app main-content-contacts pt-0">
+					<div class="main-content-left main-content-left-contacts">
+						<nav class="nav main-nav-line main-nav-line-chat  pl-3">
+							<a class="nav-link active" data-toggle="tab" href=""><%= t("Table.FriendList") %></a>
+							<%# <a class="nav-link" data-toggle="tab" href="">Favorites</a> %>
+						</nav>
+
+							<div class="main-contacts-list" id="mainContactList">
+								<%# <div class="main-contact-label">
+									A
+								</div> %>
+                        		<% @user.friends.each_with_index do |friend , index| %>
+									<div class="main-contact-item selected">
+										<div class="main-img-user online"><img alt="avatar" src="<%= friend.line_image %>"></div>
+										<div class="main-contact-body">
+											<h6><%= friend.line_name %></h6><span class="phone"><%= friend.line_phone %></span>
+										</div>
+										<a class="main-contact-star" href="">
+											<i class="fe fe-star mr-1 text-warning"></i>
+											<i class="fe fe-edit-2 mr-1"></i>
+											<i class="fe fe-more-vertical"></i>
+										</a>
+									</div>
+								<% end %>
 							</div>
-						</div>
-						<hr class="mg-y-30">
-						<label class="main-content-label tx-13 mg-b-20"><%= t(:CONTACT_INFO, scope: "Title") %></label>
-						<div class="form-group ">
-							<div class="row">
-								<div class="col-md-3">
-									<label class="form-label"><%= t(:Email, scope: "Table") %></label>
-								</div>
-								<div class="col-md-9">
-									<label class="form-label"><%= @user.email %></label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group ">
-							<div class="row">
-								<div class="col-md-3">
-									<label class="form-label"><%= t(:Created, scope: "Table") %></label>
-								</div>
-								<div class="col-md-9">
-									<label class="form-label"><%= @user.created_at.strftime('%Y/%m/%d %T') %></label>
-								</div>
-							</div>
-						</div>
-						<div class="form-group ">
-							<div class="row">
-								<div class="col-md-3">
-									<label class="form-label"><%= t(:Last_Sign_in, scope: "Table") %></label>
-								</div>
-								<div class="col-md-9">
-									<label class="form-label"><%= @user.updated_at.strftime('%Y/%m/%d %T') %></label>
-								</div>
-							</div>
-						</div>
-					</div><!-- main-profile-overview -->
+					</div>
 				</div>
 			</div>
-			<div class="card-footer">
-				<a href="<%= edit_admin_user_path(@user.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></a>
+		</div>
+	</div>
+	<div class="col-sm-12 col-lg-7 col-xl-8">
+		<div class="">
+			<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+			<div class="main-content-body main-content-body-contacts card custom-card">
+				<div class="main-contact-info-header pt-3">
+					<div class="media">
+						<div class="main-img-user">
+							<img alt="avatar" src="<%= @user.line_image %>"> <a href=""><i class="fe fe-camera"></i></a>
+						</div>
+						<div class="media-body">
+							<h5><%= @user.line_name %></h5>
+						</div>
+					</div>
+				</div>
+				<div class="main-contact-info-body p-4">
+					<div class="media-list pb-0">
+						<div class="media">
+							<div class="media-body">
+								<div>
+									<label><%= t("Table.Phone") %></label>
+									<span class="tx-medium"><%= @user.phone %></span>
+								</div>
+								<div>
+									<label><%= t("Table.Email") %></label>
+									<span class="tx-medium"><%= @user.email %></span>
+								</div>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-body">
+								<div>
+									<label><%= t("Table.Sex") %></label>
+									<span class="tx-medium">
+										<% if @user.sex == true %>
+											<%= raw t("Table.Man") %>
+                    					<% else %>
+                    						<%= raw t("Table.Woman") %>
+                    					<% end %>
+									</span>
+								</div>
+								<div>
+									<label><%= t("Table.Birthday") %></label>
+									<span class="tx-medium"><%= @user.birthday_date %></span>
+								</div>
+							</div>
+						</div>
+						<div class="media mb-0">
+							<div class="media-body">
+								<div>
+									<label><%= t("Table.Address") %></label>
+									<span class="tx-medium"><%= @user.address_text %></span>
+								</div>
+							</div>
+						</div>
+						<div class="media mb-0">
+							<div class="media-body">
+								<div>
+									<label><%= t("Table.Last_Sign_in") %></label>
+									<span class="tx-medium"><%= @user.updated_at.strftime('%Y/%m/%d %T') %></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-
 		</div>
 	</div>
 </div>
