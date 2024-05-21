@@ -72,7 +72,7 @@ zh-TW:
     CANCEL: 取消
     Current_Step: 目前階段
     loading: 載入中...
-    LINE: "邀請 Line 好友幫忙"
+    LINE: "邀請 Line 好友"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
     GOTO_ROOT: 回到會員專區
@@ -169,16 +169,21 @@ zh-TW:
     Coupons: 優惠卷
 
     Note:
+      Invite_line_friends_join: "邀請Line好友加入友伴"
       Please_fill_location: 請填入詳細位置
       Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'
       Please_provide_Detail_information: '請提供正確資料以便日後活動聯絡使用'
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
+      Requests_you_create: "目前發起過的派工需求"
       You_can_chiose_friends: '你可以選擇<font class="tx-orange">「友伴內的好友派工」</font>幫忙'
       or_You_can_chiose_line_friends: '或是<font class="tx-orange">「邀請Line好友」</font>加入友伴好友協助幫忙'
       You_have_n_friens: 友伴好友 %{num} 位
+      You_have_n_new_requests: 未完成派工 %{num} 件
+      You_have_n_finish_requests: 已完成派工 %{num} 件
+      You_have_n_expired_requests: 已過期派工 %{num} 件
       You_have_a_category_request: '你想要有一個 <font id="category_font" class="tx-danger">「%{category}」</font> 類別的需求派工'
       You_have_a_request: "你想要有一個需求派工"
-      You_donot_have_friend: "你沒有任何「友伴」好友，用 Line 邀請好友幫忙"
+      You_donot_have_friend: "你沒有任何「友伴」好友，用 Line 邀請好友加入「友伴」"
       Request_already_send: '派工已發送'
       Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
       Already_shared_line: '已發送到你的 Line 好友'
@@ -187,6 +192,9 @@ zh-TW:
       And_you_can_get_reward: '並將獲得「柑幣」優惠獎勵'
       Donot_notify_after_request_finish: '**派工屆期將自動失效不另行通知**'
       Already_push_n_times: '相同派工已發送%{num}次'
+      Already_agree_n_times: '接受派工%{num}次'
+      Who_agree_this_request: '%{name}接受此派工'
+      nobody_agree_this_request: '尚未有人接受此派工'
       Not_saw_the_request: '好友未點選過派工訊息'
       Receiver_consider: '考慮中'
       Request_no_receiver: '您所發送的派工尚未有好友接受'

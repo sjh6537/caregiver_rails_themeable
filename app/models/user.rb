@@ -12,6 +12,22 @@ class User < ActiveRecord::Base
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
 
+    def request_accept_count(friend_id)
+      self.requests.where(helper_id: friend_id).count
+    end
+
+    def requests_new
+      self.requests.where("status < ?", REQUEST_FINISH )
+    end
+
+    def requests_finish
+      self.requests.where("status = ?", REQUEST_FINISH )
+    end
+
+    def requests_expired
+      self.requests.where("status = ?", REQUEST_EXPIRED )
+    end
+
     def address_text
       address_text = CITY_CODE.select {|c| c[:code] == self.addr_city}.first[:city]
       address_text += POSTAL_CODE.select {|c| c[:code] == self.addr_postal}.first[:name]

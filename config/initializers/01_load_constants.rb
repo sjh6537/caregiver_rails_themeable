@@ -1,4 +1,9 @@
 
+REQUEST_NEW               = 0.freeze
+REQUEST_ACCEPTED          = 1.freeze
+REQUEST_FINISH            = 2.freeze
+REQUEST_EXPIRED           = 3.freeze
+
 REQUEST_CATEGORY = [
     "non define",
     "工作",

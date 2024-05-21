@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Web::UserController < ApplicationWebController
-    before_action :set_user, only: [:show, :edit, :update]
+    before_action :set_user, only: [:show, :edit, :update, :friends, :requests]
 
     def show
         @title_sub = I18n.t(:Information, scope: "Title")
@@ -26,6 +26,13 @@ class Web::UserController < ApplicationWebController
         end
     end
 
+    def friends
+
+    end
+
+    def requests
+
+    end
 
     private
 
