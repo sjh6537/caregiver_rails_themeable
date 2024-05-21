@@ -1,12 +1,12 @@
 default: &default_settings
 
-  site_name: "Learning Life"
-  #site_host: "www.learninglife.com"
+  site_name: "友伴做伙 樂齡生態"
+  #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "learninglife.com"
   #site_email: "service@learninglife.com"
 
-  admin_subdomain: "admin"
-  app_path: "app"
+  admin_subdomain: "caregiver.admin"
+  app_path: "caregiver.line"
 
   line_authorize_url: 'https://access.line.me/oauth2/v2.1/authorize'
   line_api_token_url: 'https://api.line.me/oauth2/v2.1/token'
@@ -14,12 +14,12 @@ default: &default_settings
 
   line_login_channel_id: "2004751931"
   line_login_Channel_secret: "5a4926d24141786c580dfce1120b5bb0"
-  line_login_callback_url: "https://aab0-61-220-204-210.ngrok-free.app/callback"
+  line_login_callback_url: "https://0d26-61-220-204-210.ngrok-free.app/callback"
 
   line_message_api_channel_id: "2004751931"
   line_message_api_channel_secret: "5a4926d24141786c580dfce1120b5bb0"
   line_message_api_channel_token: "rJt8P861M/mrTjyXvB+JJeCnFAQovEq03VXE+M2cpP+PLt857iW4Pkj0p27xF6pds4w2GHMRLCG/EFNPAqX28B1QwVJE8kAfLbklYnn/N43HsD6npAczVtfONi2BxPi21Ys7oAEoDOuxcIOnxlDWPgdB04t89/1O/w1cDnyilFU="
-  line_message_api_callback_url: "https://aab0-61-220-204-210.ngrok-free.app/line_notify"
+  line_message_api_callback_url: "https://0d26-61-220-204-210.ngrok-free.app/line_notify"
 
   line_liff_id: "2004751931-1jrD53LP"
   line_liff_url: "https://liff.line.me/2004751931-1jrD53LP"

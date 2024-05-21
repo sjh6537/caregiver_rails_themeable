@@ -20,10 +20,8 @@ class ApplicationController < ActionController::Base
     end
 
     def theme_select
-      if request.subdomains.first.eql? APP_CONFIG[:admin_subdomain]
+      if request.subdomain.eql? APP_CONFIG[:admin_subdomain]
         :admin
-      # elsif request.path.split('/')[1] == APP_CONFIG[:vip_path]
-      #  :admin
       else
         :valex
       end
