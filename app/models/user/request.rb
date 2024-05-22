@@ -1,7 +1,7 @@
 class User::Request < ActiveRecord::Base
     include ApplicationHelper
 
-    belongs_to :helper , class_name: 'User' , :foreign_key => "helper_id"
+    belongs_to :helper , class_name: 'User' , :foreign_key => "helper_id" , optional: true
     belongs_to :owner  , class_name: 'User' , :foreign_key => "user_id"
 
     has_many :request_receivers, :dependent => :destroy

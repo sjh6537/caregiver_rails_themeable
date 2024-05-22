@@ -234,6 +234,7 @@ zh-TW:
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
     Note:
+      Your_request_already_create: '你的需求已經建立'
       Please_Select_One_City: '請選擇一個城市'
       Please_Select_One_Postal: '請選擇一個區域'
       Fill_Simple_Title: 請簡單描述工作內容

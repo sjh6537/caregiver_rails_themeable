@@ -12,6 +12,12 @@ class User < ActiveRecord::Base
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
 
+    def add_friend(friend_id)
+      if (self.friends.where(id: friend_id).empty?)
+        User::UsersReleatedFriends.create(user_id: self.id, friend_id: friend_id)
+      end
+    end
+
     def request_accept_count(friend_id)
       self.requests.where(helper_id: friend_id).count
     end

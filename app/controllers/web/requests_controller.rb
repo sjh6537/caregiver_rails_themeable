@@ -11,10 +11,12 @@ class Web::RequestsController < ApplicationWebController
     def new
       @title_sub = I18n.t(:New, scope: "Title")
       @category = params[:category].to_i
-      if @category == 0 || @category == 8
+      puts "AAAAaaaaaAA"
+      puts @category
+      if @category == 0 || @category == 9
         title="請幫忙"
       else
-        title="有#{REQUEST_CATEGORY[@category]}方面的事需要幫忙"
+        title="請幫忙#{REQUEST_CATEGORY[@category]}"
       end
       @descrition = "Hi, 需要你的幫忙\r\n"
       @request = @user.requests.new(category: params[:category], title: title, location: @user.address, location_city: @user.addr_city, location_postal: @user.addr_postal, contact_info: @user.phone)
@@ -26,11 +28,12 @@ class Web::RequestsController < ApplicationWebController
     def create
       @title_sub = I18n.t(:Friends, scope: "Title")
       @request = @user.requests.new(request_params)
+      @category = @request.category
       respond_to do |format|
         if @request.save
-          format.html { redirect_to web_request_friends_path(@request.id), notice: I18n.t(:Created, scope: "Notice", name: "#{@user.name}") }
+          format.html { redirect_to web_request_friends_path(@request.id), notice: I18n.t("Notify.Note.Your_request_already_create") }
         else
-          format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{@user.name}") }
+          format.html { render action: "new", notice: I18n.t(:Created, scope: "Notice", name: "#{@user.name}")}
         end
       end
     end
