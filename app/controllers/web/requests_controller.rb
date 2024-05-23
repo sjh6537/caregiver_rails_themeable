@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Web::RequestsController < ApplicationWebController
+    include LineHelper
+
     before_action :set_user
     before_action :set_request, only: [:friends, :pushed, :shared, :show, :destroy]
 
@@ -11,8 +13,6 @@ class Web::RequestsController < ApplicationWebController
     def new
       @title_sub = I18n.t(:New, scope: "Title")
       @category = params[:category].to_i
-      puts "AAAAaaaaaAA"
-      puts @category
       if @category == 0 || @category == 9
         title="請幫忙"
       else
@@ -47,7 +47,6 @@ class Web::RequestsController < ApplicationWebController
       fails_ids = []
       ids = params.require(:user_request_receiver).permit!
       ids[:user_id].each do |id|
-
         receiver = User::RequestReceiver.where(request_id: @request.id, receiver_id: id).first
         if receiver.nil?
           receiver = User::RequestReceiver.new
@@ -62,6 +61,7 @@ class Web::RequestsController < ApplicationWebController
             fails_ids << id
           end
         end
+        push_request_message(@request , User.find(id))
       end
 
       @request_receivers = @request.request_receivers
@@ -92,6 +92,16 @@ class Web::RequestsController < ApplicationWebController
     end
 
     private
+
+    def push_request_message(request , friend)
+      if friend.nil? or request.nil?
+        return
+      end
+      text = "Hi , #{friend.name} , 你的朋友 #{current_user.name} 需要你的幫忙\"#{request.title}\" , 點選下列網址查看細節幫助朋友\r\n"
+      text += " #{APP_CONFIG[:line_liff_url]}/requests/#{request.id}"
+      message_push(friend.account, message_package_text(text))
+    end
+
     def set_user
       @user = current_user
     end
