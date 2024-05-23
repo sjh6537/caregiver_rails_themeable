@@ -8,7 +8,7 @@ class User::Request < ActiveRecord::Base
     has_many :receivers, :through => :request_receivers
 
     def date
-        "#{self.request_date.strftime('%Y/%m/%d - %R')}, 約 #{self.request_time} 小時"
+        "#{self.request_date.strftime('%Y/%m/%d - %R')}"
     end
 
     def contact_info_non_accept

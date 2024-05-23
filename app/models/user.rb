@@ -18,6 +18,14 @@ class User < ActiveRecord::Base
       end
     end
 
+    def accept_requests
+      User::Request.where("helper_id == #{self.id}")
+    end
+
+    def accept_requests
+      User::Request.where("helper_id == #{self.id}")
+    end
+
     def request_accept_count(friend_id)
       self.requests.where(helper_id: friend_id).count
     end
