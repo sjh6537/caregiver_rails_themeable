@@ -3,7 +3,7 @@ class Web::RequestsController < ApplicationWebController
     include LineHelper
 
     before_action :set_user
-    before_action :set_request, only: [:friends, :pushed, :shared, :show, :destroy]
+    before_action :set_request, only: [:friends, :pushed, :shared, :agree, :show, :destroy]
 
     def index
       @title_sub = I18n.t(:Table, scope: "Title")
@@ -69,6 +69,16 @@ class Web::RequestsController < ApplicationWebController
 
     def shared
 
+    end
+
+    def agree
+      respond_to do |format|
+        if @request.update(helper_id: @user.id, status: REQUEST_ACCEPTED)
+          format.html { redirect_to web_user_show_path, notice: I18n.t("Notify.Note.You_accept_this_request", name: "#{@request.owner.name}") }
+        else
+          format.html { redirect_to web_request_show(@request.id), notice: I18n.t("Notify.Note.Something_Wrong") }
+        end
+      end
     end
 
     def show

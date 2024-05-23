@@ -234,6 +234,8 @@ zh-TW:
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
     Note:
+      Something_Wrong: '發生問題 , 請再點選一次 , 或將問題回報官方人員'
+      You_accept_this_request: '你接受了%{name}的派工'
       Your_request_already_create: '你的需求已經建立'
       Please_Select_One_City: '請選擇一個城市'
       Please_Select_One_Postal: '請選擇一個區域'
