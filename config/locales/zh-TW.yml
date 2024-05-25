@@ -28,8 +28,10 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 zh-TW:
+  devise:
+    failure:
+      unauthenticated: "你需要加入會員才能完成此項目"
   Login:
     Account: 帳號
     Email: 信箱
@@ -82,6 +84,8 @@ zh-TW:
     SEND_ANOTHER_FRIENDS: 發送訊息給其他好友
     SEND_REQUEST_INVITE: 發送派工訊息
     PUSH_CONTACT: 透過「友伴」推撥個人聯絡方式給該好友
+    REQUEST: 發起派工
+    JOIN_CAREGIVER: 加入友伴
 
   Table:
     Account: 帳號
@@ -190,6 +194,7 @@ zh-TW:
       You_have_a_request: "你想要有一個需求派工"
       You_donot_have_friend: "你沒有任何「友伴」好友，用 Line 邀請好友加入「友伴」"
       You_donot_have_request: "你沒有發起派工"
+      You_donot_have_accept_request: "你沒有接受派工"
       Request_already_send: '派工已發送'
       Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
       Already_shared_line: '已發送到你的 Line 好友'
@@ -213,9 +218,8 @@ zh-TW:
       Request_has_helper: '此份派工已有其他人接受'
       You_accept_this_request: '你已接受該派工'
       Accepted_this_request: '已接受該派工'
-
-      Update_Success: "網站 <strong>%{name}</strong> 成功更新"
-      Update_Fail: "網站 <strong>%{name}</strong> 更新失敗"
+      Update_Success: "會員 <strong>%{name}</strong> 成功更新"
+      Update_Fail: "會員 <strong>%{name}</strong> 更新失敗"
 
   Notify:
     Title:

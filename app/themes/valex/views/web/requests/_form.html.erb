@@ -166,20 +166,9 @@
             category = "「" + $('input[name="user_request[category]"]:checked').next('span').text() + "」";
             text = '你想要有一個 <font id="category_font" class="tx-danger">' + category +'</font> 類別的需求派工';
             $(".request_title_text").html(text);
-        });
-
-        $(document).ready(function() {
+            $("#user_request_title").val("請幫忙"+category+"的工作");
 
         });
-
-    </script>
-
-<% end %>
-
-
-<%= content_for :script_js do %>
-
-    <script type="text/javascript">
 
         function hide_alert(){
             $('#alert_phone').hide();

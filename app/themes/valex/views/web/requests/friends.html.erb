@@ -128,7 +128,7 @@
         var encoded = encodeURIComponent(msg);
         if(encoded){
             //window.location.replace("https://line.me/R/share?text="+encoded );
-            setTimeout("location.href='<%= web_request_shared_path(@request.id) %>'",500);
+            setTimeout("location.href='<%= web_accept_agree_path(@request.id) %>'",500);
         }else{
             alert('傳送錯誤 , 請再分享一次訊息');
         }
