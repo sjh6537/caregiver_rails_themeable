@@ -1,6 +1,7 @@
 default: &default_settings
 
   site_name: "友伴做伙 樂齡生態"
+  site_name_eng: "caregiver+"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "learninglife.com"
   #site_email: "service@learninglife.com"
@@ -22,8 +23,7 @@ default: &default_settings
   line_message_api_callback_url: "https://0d26-61-220-204-210.ngrok-free.app/line_notify"
 
   line_liff_id: "2004751931-1jrD53LP"
-  line_liff_url: "https://liff.line.me/2004751931-1jrD53LP"
-
+  line_liff_url: "https://liff.line.me/2004751931-POn4oBxp"
 
 development:
   <<: *default_settings

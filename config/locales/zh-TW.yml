@@ -80,6 +80,7 @@ zh-TW:
     REJECT: 拒絕
     CONSIDER: 再考慮一下
     SEND_ANOTHER_FRIENDS: 發送訊息給其他好友
+    SEND_REQUEST_INVITE: 發送派工訊息
     PUSH_CONTACT: 透過「友伴」推撥個人聯絡方式給該好友
 
   Table:
