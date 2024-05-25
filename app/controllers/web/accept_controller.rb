@@ -10,6 +10,7 @@ class Web::AcceptController < ApplicationWebController
     def agree
         respond_to do |format|
             if @request.update(helper_id: @user.id, status: REQUEST_ACCEPTED)
+                @request.owner.add_friend(@user.id)
                 format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.You_accept_this_request", name: "#{@request.owner.name}") }
             else
                 format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.Something_Wrong") }
@@ -19,17 +20,21 @@ class Web::AcceptController < ApplicationWebController
 
     def edit
         if !(@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
-            redirect_to APP_CONFIG[:line_at_url], allow_other_host: true
+            redirect_to web_accept_join_path
         end
     end
 
     def update
         result = @user.update(user_params)
         if result
-            redirect_to APP_CONFIG[:line_at_url], allow_other_host: true
+            redirect_to web_accept_join_path
         else
             render action: "edit", alert: I18n.t("Website.Note.Update_Fail", name: "#{@user.line_name}")
         end
+    end
+
+    def join
+        redirect_to APP_CONFIG[:line_at_url], allow_other_host: true
     end
 
     private

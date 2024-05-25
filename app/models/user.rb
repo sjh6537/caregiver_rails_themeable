@@ -18,6 +18,12 @@ class User < ActiveRecord::Base
       end
     end
 
+    def del_friend(friend_id)
+      if (!self.friends.where(id: friend_id).empty?)
+        User::UsersReleatedFriends.where(user_id: self.id, friend_id: friend_id).destroy_all
+      end
+    end
+
     def accept_requests
       User::Request.where("helper_id == #{self.id}")
     end

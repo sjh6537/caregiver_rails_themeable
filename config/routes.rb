@@ -67,6 +67,7 @@ Rails.application.routes.draw do
     get      '/accept/:id/agree'            , to: 'web/accept#agree'               , as: :web_accept_agree
     get      '/accept/edit'                 , to: 'web/accept#edit'                , as: :web_accept_edit
     patch    '/accept/update'               , to: 'web/accept#update'              , as: :web_accept_update
+    get      '/accept/join'                 , to: 'web/accept#join'                , as: :web_accept_join
 
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
 
