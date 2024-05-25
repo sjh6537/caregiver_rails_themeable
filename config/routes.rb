@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
 
-    get      '/requests'                    , to: 'web/requests#index'             , as: :web_requests
+    #get      '/requests'                    , to: 'web/requests#index'             , as: :web_requests
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request
     get      '/requests/:id/friends'        , to: 'web/requests#friends'           , as: :web_request_friends
@@ -62,6 +62,11 @@ Rails.application.routes.draw do
     delete   '/requests/:id'                , to: 'web/requests#delete'            , as: :web_request_delete
     get      '/requests/:id/agree'          , to: 'web/requests#agree'             , as: :web_request_agree
     delete   '/requests/:id/agree'          , to: 'web/requests#agree_delete'      , as: :web_request_agree_delete
+
+    get      '/accept/:id/show'             , to: 'web/accept#show'                , as: :web_accept_show
+    get      '/accept/:id/agree'            , to: 'web/accept#agree'               , as: :web_accept_agree
+    get      '/accept/edit'                 , to: 'web/accept#edit'                , as: :web_accept_edit
+    patch    '/accept/update'               , to: 'web/accept#update'              , as: :web_accept_update
 
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
 

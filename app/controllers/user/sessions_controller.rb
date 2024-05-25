@@ -4,6 +4,13 @@ class User::SessionsController < Devise::SessionsController
     include LineHelper
     #include Devise::Controllers::Rememberable
 
+    def destroy
+        session[:need_return_to] = false
+        session[:return_to] = ""
+        cookies[:return_to] = ""
+        super
+    end
+
     def new
         session[:state] = form_authenticity_token
         auth_url = login_authorize(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret] , session[:state])
@@ -42,11 +49,20 @@ class User::SessionsController < Devise::SessionsController
             end
             sign_in(@user)
 
-            if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
-                redirect_to web_user_edit_path
+            if (session[:need_return_to] == true)
+                url = session[:return_to]
+                session[:need_return_to] = false
+                session[:return_to] = ""
+                cookies[:return_to] = ""
+                redirect_to url
             else
-                redirect_to web_user_show_path
+                if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
+                    redirect_to web_user_edit_path
+                else
+                    redirect_to web_user_show_path
+                end
             end
+
         else
             redirect_to error_notice_path, notice: 'invalid varification'
         end

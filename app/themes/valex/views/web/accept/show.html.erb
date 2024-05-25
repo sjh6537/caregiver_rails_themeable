@@ -1,0 +1,23 @@
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card order-list">
+<div class="card-body">
+
+    <% if @request.user_id == @user.id  %>
+        <%= render :partial => 'show_request_owner' %>
+    <% elsif @request.helper.nil?  %>
+        <%= render :partial => 'show_request_nobody' %>
+    <% elsif @request.helper_id == @user.id %>
+        <%= render :partial => 'show_request_helper' %>
+    <% else %>
+        <%= render :partial => 'show_request_somebody' %>
+    <% end %>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->

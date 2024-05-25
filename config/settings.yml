@@ -9,6 +9,8 @@ default: &default_settings
   admin_subdomain: "caregiver.admin"
   app_path: "caregiver.line"
 
+  line_at_url: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=233owasl'
+
   line_authorize_url: 'https://access.line.me/oauth2/v2.1/authorize'
   line_api_token_url: 'https://api.line.me/oauth2/v2.1/token'
   line_api_verify_url: 'https://api.line.me/oauth2/v2.1/verify'
