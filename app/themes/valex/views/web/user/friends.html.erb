@@ -104,7 +104,7 @@
         var msg = 'Hi,你的好友<%= @user.name %>邀請你加入友伴 , 點選下方連結加入Line友伴官方網站 <%= "#{APP_CONFIG[:line_liff_url]}#{web_invite_edit_path(@user.id)}" %>';
         var encoded = encodeURIComponent(msg);
         if(encoded){
-            //window.location.replace("https://line.me/R/share?text="+encoded );
+            window.location.replace("https://line.me/R/share?text="+encoded );
             setTimeout("location.href='<%= web_user_show_path %>?notice=已分享訊息'",500);
         }else{
             alert('傳送錯誤 , 請再分享一次訊息');
