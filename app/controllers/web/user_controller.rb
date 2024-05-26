@@ -3,9 +3,8 @@ class Web::UserController < ApplicationWebController
     before_action :set_user, only: [:show, :edit, :update, :friends, :requests]
 
     def show
-        @title_sub = I18n.t(:Information, scope: "Title")
-        respond_to do |format|
-            format.html
+        if params[:notice] != nil
+            redirect_to web_user_show_path, notice: params[:notice]
         end
     end
 

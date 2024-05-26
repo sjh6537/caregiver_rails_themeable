@@ -69,6 +69,8 @@ Rails.application.routes.draw do
     patch    '/accept/update'               , to: 'web/accept#update'              , as: :web_accept_update
     get      '/accept/join'                 , to: 'web/accept#join'                , as: :web_accept_join
 
+    get      '/invite/:friend_id'           , to: 'web/invite#edit'                , as: :web_invite_edit
+
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
 
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
