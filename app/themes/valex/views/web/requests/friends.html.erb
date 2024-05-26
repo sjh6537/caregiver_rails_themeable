@@ -41,7 +41,7 @@
     </div>
 
     <div class="d-flex justify-content-between wd-200">
-        <button class="btn btn-success btn-block btn-with-icon ht-50" onClick="sendLine();"><i class="fab fa-brands fa-line"></i><%= raw t("Button.LINE") %></button>
+        <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine"><i class="fab fa-brands fa-line"></i><%= raw t("Button.LINE") %></button>
     </div>
 
     <% if @user.friends.count != 0 %>
@@ -117,22 +117,23 @@
 
     });
 
+    $(document).on('click', '#sendLine', function(event) {
+
+        var msg = 'Hi,你的好友<%= @user.name %>在友伴有一個需求需要你的幫忙 , 點選下方連結加入會員查看需求 <%= "#{APP_CONFIG[:line_liff_url]}#{web_accept_show_path(@request.id)}" %>';
+        var encoded = encodeURIComponent(msg);
+        if(encoded){
+            window.location.replace("https://line.me/R/share?text="+encoded );
+            setTimeout("location.href='<%= web_request_show_path(@request.id) %>?notice=已分享訊息'",500);
+        }else{
+            alert('傳送錯誤 , 請再分享一次訊息');
+        }
+
+    });
+
     $(document).ready(function() {
 
         $("#submit_friends").attr("disabled", true);
     });
-
-    // https://developers.line.biz/en/docs/line-login/using-line-url-scheme/#sending-text-messages
-    function sendLine(){
-        var msg = 'Hi,你的好友<%= @user.name %>在友伴有一個需求需要你的幫忙 , 點選下方連結加入會員查看需求 https://liff.line.me/2004751931-POn4oBxp/<%= @request.id %>';
-        var encoded = encodeURIComponent(msg);
-        if(encoded){
-            //window.location.replace("https://line.me/R/share?text="+encoded );
-            setTimeout("location.href='<%= web_accept_agree_path(@request.id) %>'",500);
-        }else{
-            alert('傳送錯誤 , 請再分享一次訊息');
-        }
-    }
 
     </script>
 

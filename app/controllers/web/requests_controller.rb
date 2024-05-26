@@ -74,15 +74,19 @@ class Web::RequestsController < ApplicationWebController
     def agree
       respond_to do |format|
         if @request.update(helper_id: @user.id, status: REQUEST_ACCEPTED)
+          @request.owner.Add_each_friends(@user.id)
           format.html { redirect_to web_user_show_path, notice: I18n.t("Notify.Note.You_accept_this_request", name: "#{@request.owner.name}") }
         else
-          format.html { redirect_to web_request_show(@request.id), notice: I18n.t("Notify.Note.Something_Wrong") }
+          format.html { redirect_to web_request_show_path(@request.id), notice: I18n.t("Notify.Note.Something_Wrong") }
         end
       end
     end
 
     def show
       @request_receivers = @request.request_receivers
+      if params[:notice] != nil
+        redirect_to web_request_show_path(@request.id), notice: params[:notice]
+      end
     end
 
     def destroy
