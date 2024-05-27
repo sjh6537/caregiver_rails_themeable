@@ -34,6 +34,21 @@
 							</div>
 						</div>
 					</div>
+					<div class="form-group mg-t-30">
+						<label class="tx-13 mg-b-5 tx-gray-600">Start Date</label>
+						<div class="row row-xs">
+							<div class="col-7">
+								<input class="form-control" id="mainEventStartDate" placeholder="Select date" type="text" value="">
+							</div><!-- col-7 -->
+							<div class="col-5">
+								<select class="select2-modal main-event-time" data-placeholder="Select time" id="mainEventStartTime">
+									<option label="Select time">
+										Select time
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div class="card-footer d-sm-flex">
 						<div class="mt-2 mb-2">
 							<a href="javascript:void(0)" class="mr-3" data-toggle="tooltip" title="" data-original-title="Photos"><i class="bx bx-image text-muted tx-22"></i></a>
@@ -61,7 +76,7 @@
 						</div>
 						<div class="btn-list ml-auto">
 							<button type="button" class="btn btn-danger btn-space clear_button" data-btn_src="text_send_message"><%= t("Button.CLEAR") %></button>
-							<button type="button" class="btn btn-primary btn-space send_button" data-msgtype="0" data-btn_src="text_send_message"><%= t("Button.SEND") %></button>
+							<button type="button" class="btn btn-primary btn-space send_button" data-msgtype="2" data-btn_src="text_send_message"><%= t("Button.SEND") %></button>
 						</div>
 					</div>
 				</form>

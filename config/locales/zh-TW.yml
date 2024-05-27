@@ -277,6 +277,10 @@ zh-TW:
       N_Coins_Redeem: '%{number} 柑幣兌換'
       Use_Coupon: '使用優惠卷'
       Use_Coupon_info: '確定優惠卷，該優惠卷會在30分鐘後自動消失，請在消失之前提供優惠店家確認，逾時不受理。'
+      Line_send_person_success: "訊息 <strong>%{name}</strong> 發送成功"
+      Line_send_person_fail: "訊息 <strong>%{name}</strong> 發送失敗"
+      Line_send_group_success: "訊息群發成功"
+      Line_send_group_fail: "訊息群發失敗"
 
   Notify:
     Title:

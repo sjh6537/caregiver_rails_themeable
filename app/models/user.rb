@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+    after_destroy :check_sidekiq_jobs
     validates :account, presence: true, uniqueness: true
 
     devise :database_authenticatable,
@@ -143,6 +144,24 @@ class User < ActiveRecord::Base
     # From Devise module Validatable
     def password_required?
       !persisted? || !password.nil? || !password_confirmation.nil?
+    end
+
+    def check_sidekiq_jobs
+      Sidekiq::ScheduledSet.new.each do | job |
+        if job.klass == "NotifySender" && job.args[2].to_i == NOTIFY_SEND_TYPE_GROUP
+          find = false
+          job.args[0].each do | g_id |
+            if !Group.find_by_id(g_id.to_i).nil?
+              find = true
+              break
+            end
+          end
+          if find == false
+            # can not find job group
+            job.delete
+          end
+        end
+      end
     end
 
 end

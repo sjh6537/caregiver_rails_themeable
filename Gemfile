@@ -94,3 +94,8 @@ gem 'oauth2' # use for line notify token
 gem 'devise' # use for 多方登入
 
 gem 'line-bot-api'
+
+gem 'sidekiq' , '>= 6.0.7' # for 多工執行
+gem "sidekiq-status" , '>=1.1.4'
+gem 'sinatra', require: false  # for 看 sidekiq 狀況
+gem 'slim'                     # for 看 sidekiq 狀況
