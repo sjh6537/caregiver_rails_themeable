@@ -1,0 +1,28 @@
+
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card">
+<div class="card-body">
+
+		<div class="mb-4 main-content-label tx-primary"><h5><%= raw t("Title.NEW_COUPON", name: @shop.name) %></h5></div>
+
+		<%= render :partial => 'form' %>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+    <!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+<% end %>

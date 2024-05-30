@@ -44,17 +44,17 @@ zh-TW:
       DashBoard: 儀錶板
       Customer: 客戶
       Administrator: 管理者
-      WebSite: 網頁
-      WebSetting: 網頁設定
+      Shops: 商家
       Line_Notify: Line 發送
       Message: 訊息
-      Register: 註冊
       Users: 用戶
-      Group: 群組
   Button:
     SIGN_IN: 登入
     SIGN_OUT: 登出
     CREATE: 新建
+    CREATE_NEW_ADMIN: 新增管理者
+    CREATE_NEW_SHOP: 新增商家
+    CREATE_NEW_COUPON: 新增優惠卷
     UPDATE: 更新
     CONFIRM: 確定
     DELETE: 刪除
@@ -88,6 +88,7 @@ zh-TW:
     JOIN_CAREGIVER: 加入友伴
 
   Table:
+    ShopName: 商家名稱
     Account: 帳號
     Name: 姓名
     LineName: Line名稱
@@ -111,6 +112,7 @@ zh-TW:
     IG: IG
     Created: 建立時間
     Last_Sign_in: 最後登入時間
+    Last_Updated: 最後更新時間
     Password: 密碼
     Password_Confirm: 密碼確認
     Status: 狀態
@@ -142,8 +144,28 @@ zh-TW:
     Friends: 好友
     FriendList: 好友列表
     Requests: 派工
+    is_Show: 是否顯示
+    City: 城市
+    Postal: 區域
+    Address: 詳細地址
+    Coupons: 優惠卷設定
+    Coupon_Name: 優惠卷名稱
+    Discount: 折價
+    Comment: 折價註解
+    is_Vaild: 是否有效
+    Total: 總共數量
+    Stock: 庫存數量
+    Period_Start: 開始日期
+    Period_End: 結束日期
 
   Title:
+      SHOP_INFO: 商家資訊
+      SHOPS_TABLE: 商家表格
+      COUPONS: 優惠卷
+      NEW_SHOP: 新增商家
+      DEL_SHOP: 刪除商家
+      DEL_COUPON: 刪除優惠卷
+      NEW_COUPON: '新增商家<font class="tx-orange">「%{name}」</font>優惠卷'
       ADMINISTRATORS_TABLE: 管理者表格
       ADMINISTRATORS: 管理者
       ADMINISTRATOR_INFO: 管理者資訊
@@ -167,6 +189,17 @@ zh-TW:
       SURE_SEND: 傳送訊息
       USER_TABLE: 使用者表格
       LINE_MESSAGE: LINE 訊息
+
+  Note:
+    Del_Shop: 是否確定要刪除商家?
+    Del_Coupon: 是否確定要刪除優惠卷?
+  Notice:
+    Created: 建立「%{name}」成功
+    Created_Fail: 建立「%{name}」失敗
+    Updated: 更新「%{name}」成功
+    Updated_Fail: 更新「%{name}」失敗
+    Deleted: 刪除「%{name}」成功
+    Deleted_Fail: 刪除「%{name}」失敗
 
   Website:
     Member_Centre: 會員中心

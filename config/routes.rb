@@ -27,6 +27,16 @@ Rails.application.routes.draw do
           delete    'users/:id'             , to: 'users#block'           , as: :user_block
           post      'users/send_message'    , to: 'users#send_message'    , as: :line_msg_admin_user
           get       'users/:id/push'        , to: 'users#push'            , as: :push_page_admin_user
+
+          resources :shops
+
+          namespace :shop, path: '/' do
+            get      'shop/:shop_id/coupons/new'      , to: 'coupons#new'               , as: :new_coupon
+            post     'shop/:shop_id/coupons/'         , to: 'coupons#create'            , as: :coupons
+            get      'shop/:shop_id/coupon/:id/edit'  , to: 'coupons#edit'              , as: :edit_coupons
+            patch    'shop/:shop_id/coupon/:id'       , to: 'coupons#update'            , as: :update_coupons
+            delete   'shop/:shop_id/coupon/:id'       , to: 'coupons#destroy'           , as: :destroy_coupons
+          end
       end
 
     end

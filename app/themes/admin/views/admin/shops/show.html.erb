@@ -1,0 +1,135 @@
+<div class="row row-sm">
+	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+	<div class="row row-sm">
+
+		<div class="col-sm-12 col-lg-7 col-xl-8">
+			<div class="main-content-body main-content-body-contacts card custom-card">
+				<div class="main-contact-info-header pt-3">
+
+					<div class="d-flex justify-content-between mg-t-20">
+						<div>
+							<h5 class="main-profile-name"><%= @shop.name %></h5>
+						</div>
+					</div>
+
+					<hr class="mg-y-30">
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label"><%= t(:Phone, scope: "Table") %></label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.phone %></label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label"><%= t(:Address, scope: "Table") %></label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.all_address %></label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label"><%= t(:Created, scope: "Table") %></label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.created_at.strftime('%Y/%m/%d %T') %></label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label"><%= t(:Last_Updated, scope: "Table") %></label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.updated_at.strftime('%Y/%m/%d %T') %></label>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="card-footer">
+					<a href="<%= edit_admin_shop_path(@shop.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-12 col-lg-5 col-xl-4">
+			<div class="card custom-card">
+
+					<div class="main-content-app main-content-contacts pt-0">
+						<div class="main-contact-info-header pt-3">
+
+						</div>
+					</div>
+
+			</div>
+		</div>
+
+	</div>
+	</div>
+</div>
+
+<div class="row row-sm">
+	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+		<div class="card">
+			<div class="card-body">
+					<div class="main-profile-overview">
+
+						<div class="d-flex justify-content-between mg-t-20">
+								<div class="main-profile-name"><%= t("Table.Coupons") %></div>
+								<a href="<%= admin_shop_new_coupon_path(@shop.id) %>" class="btn btn-success waves-effect waves-light"><%= t("Button.CREATE_NEW_COUPON") %></a>
+						</div>
+
+
+						<table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+							<thead>
+								<tr>
+									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Coupon_Name") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.is_Vaild") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Discount") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Total") %></span></th>
+									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Stock") %></span></th>
+									<th class="border-bottom-0 wd-lg-10p"><span><%= t(:Action, scope: "Table") %></span></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% @shop.coupons.map do |c| %>
+								<tr>
+									<td><%= c.name %></td>
+									<td class="text-center">
+										<% if c.is_vaild == true %>
+											<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>Y</span>
+										<% else %>
+											<span class="label text-danger d-flex"><div class="dot-label bg-danger  mr-1"></div>N</span>
+										<% end %>
+									</td>
+									<td><%= c.discount %></td>
+									<td><%= c.number_total %></td>
+									<td><%= c.number_stock %></td>
+									<td>
+										<a href="<%= admin_shop_path(c.id) %>" class="btn btn-sm btn-primary"><i class="las la-search"></i></a>
+										<a href="<%= admin_shop_edit_coupons_path(@shop.id,c.id) %>" class="btn btn-sm btn-info"><i class="las la-pen"></i></a>
+										<!-- <a class="btn ripple btn-sm btn-danger mg-l-10 delete_button" data-val=<%= c.id %> data-target="#modal_del" data-toggle="modal" href=""><i class="las la-trash"></i></a> -->
+									</td>
+								</tr>
+								<% end %>
+							</tbody>
+						</table>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- row closed -->

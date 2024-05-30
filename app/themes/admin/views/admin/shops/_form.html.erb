@@ -1,0 +1,295 @@
+<style>
+	span.error {
+		color: red;
+		font-size: 14px;
+	}
+</style>
+
+
+<%= simple_form_for [:admin, @shop], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= f.error_notification %>
+
+		<div class="mb-4 main-content-label tx-success"><%= t(:SHOP_INFO, scope: "Title") %></div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:ShopName, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :name, label: false, :placeholder => t(:ShopName, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:Phone, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :phone, label: false, :placeholder => t(:Phone, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<div class="row">
+                <div class="col-md-3">
+                    <label class="form-label"><%= raw t("Table.Address") %></label>
+                </div>
+                <div class="col-md-9">
+					<select name="shop[addr_city]" id="shop_addr_city" class="form-control nice-select custom-select">
+						<option value="0"><%= raw t("Table.Select_city") %></option>
+						<% CITY_CODE.map do |c| %>
+                                <% if @shop.addr_city == c[:code] %>
+                                <option value=<%= c[:code] %> descrition='<%= c[:city] %>' selected><%= c[:city] %></option>
+                                <% else %>
+								    <option value=<%= c[:code] %> descrition='<%= c[:city] %>'><%= c[:city] %></option>
+                                <% end %>
+						<% end %>
+					</select>
+					<spin id="alert_city" class="alert_select_city text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_City") %></spin>
+                </div>
+            </div>
+        </div>
+		<div class="form-group ">
+			<div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-9">
+                <select name="shop[addr_postal]" id="shop_addr_postal" class="form-control nice-select custom-select">
+                    <option value="0"><%= t(:Select_postal, scope: "Table") %></option>
+                </select>
+				<spin id="alert_postal" class="alert_select_postal text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_Postal") %></spin>
+                </div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="row">
+                <div class="col-md-3"></div>
+				<div class="col-md-9">
+                    <%= f.input :address, label: false, :placeholder => t("Table.Detail_Address"), :required => true %>
+					<spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:is_Show, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :is_show, label: false, :placeholder => t(:is_Show, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+
+		<!-- ############# button ########### -->
+		<% if @shop.new_record? %>
+			</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:CREATE, scope: "Button") %></button>
+				</div>
+			</div>
+		<% else %>
+			</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></button>
+					<a class="btn ripple btn-danger mg-l-10" data-target="#modal_del" data-toggle="modal" href=<%= "/shops/#{@shop.id}" %> ><%= t(:DELETE, scope: "Button") %></a>
+				</div>
+			</div>
+		<% end %>
+
+<% end %>
+
+	<div class="modal" id="modal_del">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content tx-size-sm">
+				<div class="modal-body tx-center pd-y-20 pd-x-20">
+					<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+					<h4 class="tx-danger mg-b-20"><%= t(:DEL_SHOP, scope: "Title") %></h4>
+					<p class="mg-b-20 mg-x-20"><%= t(:Del_Shop, scope: "Note") %></p>
+					<form class="button_to" method="post" action=<%= "/shops/#{@shop.id}" %> >
+						<input type="hidden" name="_method" value="delete" autocomplete="off">
+						<%= token_tag(nil) %>
+						<button type="submit" aria-label="Close" class="btn btn-danger pd-x-25" data-method="DELETE"><%= t(:CONTINUE, scope: "Button") %></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<%= content_for :script_js do %>
+
+		<script type="text/javascript">
+
+			function hide_alert(){
+				$('#alert_name').hide();
+				$('#alert_phone').hide();
+				$('#alert_address').hide();
+				$('#alert_city').hide();
+				$('#alert_postal').hide();
+			}
+
+			function checkform() {
+				hide_alert();
+				ret = true;
+
+				if ($('#shop_name').val() == ""){
+					$('#alert_name').show();
+					ret = false;
+				}
+				if ($('#shop_phone').val() == ""){
+					$('#alert_phone').show();
+					ret = false;
+				}
+				if ($('#shop_address').val() == ""){
+					$('#alert_address').show();
+					ret = false;
+				}
+				if ($('#shop_addr_city').val() == "0"){
+					$('#alert_city').show();
+					ret = false;
+				}
+				if ($('#shop_addr_postal').val() == "0"){
+					$('#alert_postal').show();
+					ret = false;
+				}
+
+				if (ret == false)
+					return false;
+				else
+					return true;
+			}
+
+			function refresh_select(data) {
+				$('#shop_addr_postal').empty();
+				$('#shop_addr_postal').append('<option value="0"><%= t(:Select_postal, scope: "Table") %></option>');
+				$('#shop_addr_postal').append(data);
+			}
+
+			$(document).on('change', '#shop_addr_city', function(event) {
+				city_code = $('#shop_addr_city').val();
+				$('#alert_city').hide();
+				$('#alert_postal').hide();
+
+				if ($('#shop_addr_city').val() == "0"){
+					$('#alert_city').show();
+					$('#shop_addr_city').focus();
+				}
+
+				if ($('#shop_addr_postal').val() == "0"){
+					$('#alert_postal').show();
+					$('#shop_addr_postal').focus();
+				}
+
+				refresh_select(get_postal_selection(city_code));
+			});
+
+			$(document).on('change', '#shop_addr_postal', function(event) {
+				$('#alert_postal').hide();
+
+				if ($('#shop_addr_postal').val() == "0"){
+					$('#alert_postal').show();
+					$('#shop_addr_postal').focus();
+				}
+			});
+
+			function get_postal_selection(city)
+			{
+				switch (city){
+					default:
+					case "1":
+						html_text = '<%= get_postal_selection(1) %>'
+						break;
+					case "2":
+						html_text = '<%= get_postal_selection(2) %>'
+						break;
+					case "3":
+						html_text = '<%= get_postal_selection(3) %>'
+						break;
+					case "4":
+						html_text = '<%= get_postal_selection(4) %>'
+						break;
+					case "5":
+						html_text = '<%= get_postal_selection(5) %>'
+						break;
+					case "6":
+						html_text = '<%= get_postal_selection(6) %>'
+						break;
+					case "7":
+						html_text = '<%= get_postal_selection(7) %>'
+						break;
+					case "8":
+						html_text = '<%= get_postal_selection(8) %>'
+						break;
+					case "9":
+						html_text = '<%= get_postal_selection(9) %>'
+						break;
+					case "10":
+						html_text = '<%= get_postal_selection(10) %>'
+						break;
+					case "11":
+						html_text = '<%= get_postal_selection(11) %>'
+						break;
+					case "12":
+						html_text = '<%= get_postal_selection(12) %>'
+						break;
+					case "13":
+						html_text = '<%= get_postal_selection(13) %>'
+						break;
+					case "14":
+						html_text = '<%= get_postal_selection(14) %>'
+						break;
+					case "15":
+						html_text = '<%= get_postal_selection(15) %>'
+						break;
+					case "16":
+						html_text = '<%= get_postal_selection(16) %>'
+						break;
+					case "17":
+						html_text = '<%= get_postal_selection(17) %>'
+						break;
+					case "18":
+						html_text = '<%= get_postal_selection(18) %>'
+						break;
+					case "19":
+						html_text = '<%= get_postal_selection(19) %>'
+						break;
+					case "20":
+						html_text = '<%= get_postal_selection(20) %>'
+						break;
+					case "21":
+						html_text = '<%= get_postal_selection(21) %>'
+						break;
+					case "22":
+						html_text = '<%= get_postal_selection(22) %>'
+						break;
+					case "23":
+						html_text = '<%= get_postal_selection(23) %>'
+						break;
+					case "24":
+						html_text = '<%= get_postal_selection(24) %>'
+						break;
+				}
+				return html_text
+			}
+
+			$(document).ready(function() {
+				hide_alert();
+
+				if (<%= @shop.addr_city %> != 0){
+					refresh_select(get_postal_selection('<%= @shop.addr_city %>'));
+					if (<%= @shop.addr_postal %> != 0){
+						$('#shop_addr_postal').val('<%= @shop.addr_postal %>').attr('selected','selected');
+					}
+				}
+
+			});
+
+		</script>
+
+	<% end %>
+
+
