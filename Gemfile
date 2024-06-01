@@ -75,7 +75,19 @@ gem 'turbolinks'
 
 gem 'simple_form'
 
-gem 'themes_on_rails' # 多 themes
+
+# fix lib
+#controller_additions.rb
+#    #module ClassMethods
+#    class_methods do
+#version.rb
+#    0.4.2
+#engine.rb
+#    initializer 'themes_on_rails.precompile' do |app|
+#action_controller.rb
+#    case Rails::VERSION::MAJOR
+gem 'themes_on_rails' # multi themes
+
 
 gem 'oauth2' # use for line notify token
 gem 'devise' # use for 多方登入

@@ -3,8 +3,8 @@ default: &default_settings
   site_name: "友伴做伙 樂齡生態"
   site_name_eng: "caregiver+"
   #site_host: "caregiver.admin.miaoligo.com"
-  #site_email_host: "learninglife.com"
-  #site_email: "service@learninglife.com"
+  #site_email_host: "caregiver.com"
+  #site_email: "service@caregiver.com"
 
   admin_subdomain: "caregiver.admin"
   app_path: "caregiver.line"
@@ -32,5 +32,35 @@ development:
 
 
 production:
-  <<: *default_settings
+
+  site_name: "友伴做伙 樂齡生態"
+  site_name_eng: "caregiver+"
+  #site_host: "caregiver.admin.miaoligo.com"
+  #site_email_host: "caregiver.com"
+  #site_email: "service@caregiver.com"
+
+  admin_subdomain: "caregiver.admin"
+  app_path: "caregiver.line"
+
+  line_at_url: 'https://lin.ee/qhyr95b'
+
+  line_authorize_url: 'https://access.line.me/oauth2/v2.1/authorize'
+  line_api_token_url: 'https://api.line.me/oauth2/v2.1/token'
+  line_api_verify_url: 'https://api.line.me/oauth2/v2.1/verify'
+
+  line_login_channel_id: "2005495451"
+  line_login_Channel_secret: "37aaf1f2eacd10f2733e09c92b29ef48"
+  line_login_callback_url: "https://caregiver.line.miaoligo.com/callback"
+
+  line_message_api_channel_id: "2005098674"
+  line_message_api_channel_secret: "31fb12fd1f8bcb4a0d2d4c9d520258db"
+  line_message_api_channel_token: "xr3tnLxe/y7VMD05LIsBrSPR3TjuTPYB5cxepihGh7qQpZeIDIGtREf4Bz3Bp1PKHKardPjXQYKi+uGGg9NLy6PVhEfU/sK2B8+uabNUe1pbbzyjuWyd4tywRYioZxAKgg2Wxp5pMe9/X7GOXJC87QdB04t89/1O/w1cDnyilFU="
+  line_message_api_callback_url: "https://ddbf-34-81-217-13.ngrok-free.app/callback"
+
+  line_liff_id:  "2005495451-9LQ3bkab"
+  line_liff_url: "https://liff.line.me/2005495451-9LQ3bkab"
+
+
+
+
 
