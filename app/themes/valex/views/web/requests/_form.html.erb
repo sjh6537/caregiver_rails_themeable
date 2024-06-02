@@ -113,7 +113,7 @@
                         <div class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                         </div>
-                    </div><input class="form-control" name="user_request[request_date]" id="datetimepicker2" type="text" value=<%= Time.now %>>
+                    </div><input class="form-control" name="user_request[request_date]" type="datetime-local" value=<%= Time.now %>>
                 </div>
 
 			</div>
@@ -320,13 +320,6 @@
 
         $(document).ready(function() {
             hide_alert();
-
-            $('.fc-datepicker').datepicker({
-                dateFormat: 'yy-mm-dd',
-                showOtherMonths: true,
-                selectOtherMonths: true
-            });
-
 
             if (<%= @request.location_city %> != 0){
                 refresh_select(get_postal_selection('<%= @request.location_city %>'));
