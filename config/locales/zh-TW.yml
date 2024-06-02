@@ -157,6 +157,8 @@ zh-TW:
     Stock: 庫存數量
     Period_Start: 開始日期
     Period_End: 結束日期
+    Coupon_Image: 優惠卷圖案
+    Coupon_Image_Full: 優惠卷滿版圖案
 
   Title:
       SHOP_INFO: 商家資訊
@@ -303,6 +305,8 @@ zh-TW:
       No_Line_Notify_Service: 目前無任何 Line Notify 服務 ...
       Please_Select_One_Group: "*請至少選擇一個群組"
       Please_Input_Text: "*請輸入文字內容"
+      1200x600: "建議大小 1200x600"
+      1200x2400: "建議大小 1200x2000"
       Notify_Created: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功創建."
       Notify_Updated: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功更新."
       Notify_Deleted: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功刪除."

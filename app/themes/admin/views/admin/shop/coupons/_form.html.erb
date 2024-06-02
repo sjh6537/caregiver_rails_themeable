@@ -8,6 +8,9 @@
 <!-- Internal Select2 css -->
 <link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
 
+<!---Internal Fileupload css-->
+<link href="/assets/valex/plugins/fileuploads/css/fileupload.css" rel="stylesheet" type="text/css"/>
+
 <!--Internal  Datetimepicker-slider css -->
 <link href="/assets/valex/plugins/amazeui-datetimepicker/css/amazeui.datetimepicker.css" rel="stylesheet">
 <link href="/assets/valex/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
@@ -19,7 +22,7 @@
 	<% url = admin_shop_update_coupons_path(@shop.id,@coupon.id) %>
 <% end %>
 
-<%= simple_form_for @coupon, :url => url, :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= simple_form_for @coupon, :html => { :multipart => true }, :url => url, :defaults => { :input_html => { :class => "form-control" } } do |f| %>
 <%= f.error_notification %>
 
 		<div class="form-group ">
@@ -38,7 +41,7 @@
                 <div class="col-md-3"><label class="form-label"><%= t("Table.Discount") %></label></div>
 				<div class="col-md-9">
                     <%= f.input :discount, label: false, :placeholder => t("Table.Discount"), :required => true %>
-					<spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
+					<!-- <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin> -->
 				</div>
 			</div>
 		</div>
@@ -48,11 +51,32 @@
 				<div class="col-md-3"><label class="form-label"><%= t("Table.Comment") %></label></div>
 				<div class="col-md-9">
 					<%= f.input :comment, label: false, :placeholder => t("Table.Comment"), :required => true %>
-					<spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
+					<!-- <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin> -->
 				</div>
 			</div>
 		</div>
 
+		<div class="form-group ">
+			<div class="row">
+			<div class="col-md-3"><label class="form-label"><%= t("Table.Coupon_Image") %></label></div>
+				<div class="col-md-5">
+					<spin class="text-info"><%= raw t("Notify.Note.1200x600") %></spin>
+					<input class="remove" id="remove_image" name="remove_image" type="hidden" value="0">
+					<input type="file" class="dropify" data-height="120" name="coupon[image]" data-default-file="<%= @coupon.try(:image).try(:url) %>" id="image" />
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+		<div class="row">
+		<div class="col-md-3"><label class="form-label"><%= t("Table.Coupon_Image_Full") %></label></div>
+			<div class="col-md-5 ">
+				<spin class="text-info"><%= raw t("Notify.Note.1200x2000") %></spin>
+				<input class="remove" id="remove_full_image" name="remove_full_image" type="hidden" value="0">
+				<input type="file" class="dropify" data-height="380" name="coupon[full_image]" data-default-file="<%= @coupon.try(:full_image).try(:url) %>" id="full_image" />
+			</div>
+		</div>
+	</div>
 
 		<div class="form-group ">
 			<div class="row">
@@ -117,6 +141,7 @@
 
 <% end %>
 
+<% if !@coupon.new_record? %>
 	<div class="modal" id="modal_del">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content tx-size-sm">
@@ -133,12 +158,16 @@
 			</div>
 		</div>
 	</div>
-
+<% end %>
 
 
 	<%= content_for :script_js do %>
 
 		<script type="text/javascript">
+
+			$(document).on('click', '.dropify-clear', function() {
+				$(this).parents('div').children("input.remove").val("true");
+			});
 
 			$(document).ready(function() {
 				$('.fc-datepicker').datepicker({
@@ -163,6 +192,17 @@
 
 	<!-- Internal Select2.min js -->
 	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!--Internal Fileuploads js-->
+	<script src="/assets/valex/plugins/fileuploads/js/fileupload.js"></script>
+	<script src="/assets/valex/plugins/fileuploads/js/file-upload.js"></script>
+
+	<!--Internal Fancy uploader js-->
+	<script src="/assets/valex/plugins/fancyuploder/jquery.ui.widget.js"></script>
+	<script src="/assets/valex/plugins/fancyuploder/jquery.fileupload.js"></script>
+	<script src="/assets/valex/plugins/fancyuploder/jquery.iframe-transport.js"></script>
+	<script src="/assets/valex/plugins/fancyuploder/jquery.fancy-fileupload.js"></script>
+	<script src="/assets/valex/plugins/fancyuploder/fancy-uploader.js"></script>
 
 	<!--Internal  jquery-simple-datetimepicker js -->
 	<script src="/assets/valex/plugins/amazeui-datetimepicker/js/amazeui.datetimepicker.min.js"></script>

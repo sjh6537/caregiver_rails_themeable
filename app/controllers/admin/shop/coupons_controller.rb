@@ -41,6 +41,12 @@ class Admin::Shop::CouponsController < ApplicationAdminController
 
     def update
       @title_sub = I18n.t(:Edit, scope: "Title")
+      if params[:remove_image] == "true"
+        @coupon.image.destroy
+      end
+      if params[:remove_full_image] == "true"
+        @coupon.full_image.destroy
+      end
       respond_to do |format|
         if @coupon.update(coupon_params)
           format.html { redirect_to admin_shop_path(@shop.id), notice: I18n.t(:Updated, scope: "Notice", name: "#{@coupon.name}") }
@@ -75,6 +81,13 @@ class Admin::Shop::CouponsController < ApplicationAdminController
       params.require(:coupon).permit!
     end
 
+    def image_params
+      params.require(:coupon).permit(:image)
+    end
+
+    def full_image_params
+      params.require(:coupon).permit(:full_image)
+    end
 
     def set_breadcrumb
       @title = I18n.t(:COUPONS, scope: "Title")

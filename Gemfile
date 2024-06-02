@@ -88,6 +88,7 @@ gem 'simple_form'
 #    case Rails::VERSION::MAJOR
 gem 'themes_on_rails' # multi themes
 
+gem "kt-paperclip", "~> 6.4", ">= 6.4.1"
 
 gem 'oauth2' # use for line notify token
 gem 'devise' # use for 多方登入

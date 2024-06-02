@@ -85,4 +85,9 @@ Rails.application.routes.draw do
 
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
 
+
+    #================= asset =============================
+    get       '/coupons/:id/image/:filename'              , to:   'asset#coupons'          , as: :coupon_image
+    get       '/coupons/:id/full_image/:filename'         , to:   'asset#coupons_full'     , as: :coupon_image_full
+
 end
