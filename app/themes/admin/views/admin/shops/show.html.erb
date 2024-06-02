@@ -93,30 +93,36 @@
 						<table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
 							<thead>
 								<tr>
-									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Coupon_Name") %></span></th>
+									<th class="border-bottom-0 wd-lg-10p"><span></span></th>
+									<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Coupon_Name") %></span></th>
+									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Discount") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.is_Vaild") %></span></th>
-									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Discount") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Total") %></span></th>
-									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Stock") %></span></th>
-									<th class="border-bottom-0 wd-lg-10p"><span><%= t(:Action, scope: "Table") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Stock") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span></span></th>
 								</tr>
 							</thead>
 							<tbody>
 								<% @shop.coupons.map do |c| %>
 								<tr>
+									<% if c.image_file_name.nil? %>
+										<td></td>
+									<% else %>
+										<td><img alt="image" class="img-thumbnail wd-sm-100" src="<%= c.try(:image).try(:url) %>"></td>
+									<% end %>
 									<td><%= c.name %></td>
+									<td><%= c.discount %></td>
 									<td class="text-center">
 										<% if c.is_vaild == true %>
-											<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>Y</span>
+											<span class="label text-success d-flex"><div class="dot-label bg-success mr-1 mg-b-25"></div></span>
 										<% else %>
-											<span class="label text-danger d-flex"><div class="dot-label bg-danger  mr-1"></div>N</span>
+											<span class="label text-danger d-flex"><div class="dot-label bg-danger mr-1 mg-b-25"></div></span>
 										<% end %>
 									</td>
-									<td><%= c.discount %></td>
 									<td><%= c.number_total %></td>
 									<td><%= c.number_stock %></td>
 									<td>
-										<a href="<%= admin_shop_path(c.id) %>" class="btn btn-sm btn-primary"><i class="las la-search"></i></a>
+										<!-- <a href="<%= admin_shop_path(c.id) %>" class="btn btn-sm btn-primary"><i class="las la-search"></i></a> -->
 										<a href="<%= admin_shop_edit_coupons_path(@shop.id,c.id) %>" class="btn btn-sm btn-info"><i class="las la-pen"></i></a>
 										<!-- <a class="btn ripple btn-sm btn-danger mg-l-10 delete_button" data-val=<%= c.id %> data-target="#modal_del" data-toggle="modal" href=""><i class="las la-trash"></i></a> -->
 									</td>
