@@ -1,3 +1,14 @@
+<style>
+
+.main-contact-info-header {
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #e3e8f7;
+    position: relative;
+}
+
+</style>
 
 		<!-- row -->
 		<div class="row row-sm">
@@ -10,15 +21,13 @@
 				<div class="pl-0">
 
 					<div class="d-flex flex-row justify-content-center mg-b-0">
-						<div class="pd-10">
 							<%= t("Website.Member_Centre") %>
-						</div>
 					</div>
 
-					<div class="main-profile-overview d-flex">
+					<div class="main-profile-overview d-flex main-contact-info-header">
 
-						<div class="main-img-user profile-user mg-r-20">
-							<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> >
+						<div class="main-img-user profile-user mg-r-2">
+							<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> ><a href=<%= web_user_edit_path %> ><i class="fe fe-edit"></i></a>
 							<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
 						</div>
 						<div class="mr-auto ml-3 pd-t-20 tx-white">
