@@ -30,10 +30,11 @@
 							<img alt="avatar" class="rounded-circle" src=<%= @user.line_image %> ><a href=<%= web_user_edit_path %> ><i class="fe fe-edit"></i></a>
 							<!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
 						</div>
-						<div class="mr-auto ml-3 pd-t-20 tx-white">
-							<h5 class="mb-1 font-weight-medium"><%= t("Website.Member") %> : <%= @user.name %> , <%= @user.line_name %></h5>
-							<p class="mb-0 text-muted tx-13"><%= t("Website.Coin") %> : 0 </h5>
-							<p class="mb-0 text-muted tx-13"><%= t("Website.Coupons") %> : 0 </h5>
+						<div class="mr-auto ml-3 pd-t-15 tx-white">
+							<h5 class="mb-1 font-weight-medium"><%= t("Website.Member") %> : <%= @user.name %></h5>
+							<h6 class="mb-1 text-muted"><%= @user.line_name %></h6>
+							<p class="mb-0 tx-13"><%= t("Website.Coin") %> : 0 </p>
+							<p class="mb-0 tx-13"><%= t("Website.Coupons") %> : 0 </p>
 						</div>
 
 					</div>

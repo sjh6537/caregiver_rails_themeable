@@ -80,8 +80,9 @@ class User < ActiveRecord::Base
       end
     end
 
-    def line_name
-      self.profile.line_name
+    def line_name(length = 15)
+      name = self.profile.line_name
+      name.size > length ? [name[0,length],".."].join(".") : name
     end
 
     def line_phone
