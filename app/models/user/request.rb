@@ -8,7 +8,11 @@ class User::Request < ActiveRecord::Base
     has_many :receivers, :through => :request_receivers
 
     def date
-        "#{self.request_date.strftime('%Y/%m/%d - %R')}"
+        if self.request_date.nil?
+            ""
+        else
+            "#{self.request_date.strftime('%Y/%m/%d - %R')}"
+        end    
     end
 
     def contact_info_non_accept
