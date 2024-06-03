@@ -19,7 +19,7 @@ class Web::RequestsController < ApplicationWebController
         title="請幫忙#{REQUEST_CATEGORY[@category]}"
       end
       @descrition = "Hi, 需要你的幫忙\r\n"
-      @request = @user.requests.new(category: params[:category], title: title, location: @user.address, location_city: @user.addr_city, location_postal: @user.addr_postal, contact_info: @user.phone)
+      @request = @user.requests.new(descrition: @descrition, category: params[:category], title: title, location: @user.address, location_city: @user.addr_city, location_postal: @user.addr_postal, contact_info: @user.phone)
       respond_to do |format|
         format.html
       end
