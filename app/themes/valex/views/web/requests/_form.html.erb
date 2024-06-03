@@ -113,7 +113,7 @@
                         <div class="input-group-text">
                             <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
                         </div>
-                    </div><input class="form-control" name="user_request[request_date]" type="datetime-local" value=<%= Time.now %>>
+                    </div><input class="form-control" name="user_request[request_date]" type="datetime-local" value=<%= (Time.now+2.hours).strftime('%Y-%m-%dT%R') %>>
                 </div>
 
 			</div>

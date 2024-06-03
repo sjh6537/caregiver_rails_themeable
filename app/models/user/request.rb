@@ -1,6 +1,8 @@
 class User::Request < ActiveRecord::Base
     include ApplicationHelper
 
+    validates_presence_of :request_date
+
     belongs_to :helper , class_name: 'User' , :foreign_key => "helper_id" , optional: true
     belongs_to :owner  , class_name: 'User' , :foreign_key => "user_id"
 
@@ -12,7 +14,7 @@ class User::Request < ActiveRecord::Base
             ""
         else
             "#{self.request_date.strftime('%Y/%m/%d - %R')}"
-        end    
+        end
     end
 
     def contact_info_non_accept
