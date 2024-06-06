@@ -81,6 +81,10 @@ Rails.application.routes.draw do
     patch    '/accept/update'               , to: 'web/accept#update'              , as: :web_accept_update
     get      '/accept/join'                 , to: 'web/accept#join'                , as: :web_accept_join
 
+    get      '/health/edit'                 , to: 'web/health#edit'                , as: :web_health_edit
+    patch    '/health/update'               , to: 'web/health#update'              , as: :web_health_update
+    get      '/health/go'                   , to: 'web/health#go'                  , as: :web_health_go
+
     get      '/invite/:friend_id'           , to: 'web/invite#edit'                , as: :web_invite_edit
 
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
