@@ -1,0 +1,54 @@
+
+<div class="form-group">
+<div class="row">
+    <div class="col-md-12 alert-warning alert-orange">
+        <strong><%= raw t("Website.Note.You_have_N_Coins",number: 0) %></strong>
+    </div>
+</div>
+</div>
+
+<% if @shops.count == 0 %>
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.No_Coupons_can_Redeem") %></strong>
+        </div>
+    </div>
+    </div>
+
+<% else %>
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-9">
+            <ul class="list list-noborders pb-0 mb-0">
+                <% @shops.map do | shop | %>
+                    <% shop.coupons.map do | coupon | %>
+
+                            <div class="bottom">
+                                <li class="list-item">
+                                    <% if coupon.image_file_name.nil? %>
+                                        <td><img alt="image" class="img-thumbnail wd-sm-40" src="/assets/valex/img/coupon/default_coupon.png"></td>
+                                    <% else %>
+                                        <td><img alt="image" class="img-thumbnail wd-sm-40" src="<%= coupon.image %>"></td>
+                                    <% end %>
+
+                                    <div class="ml-3">
+                                        <h6 class="tx-dark d-flex tx-orange"><%= shop.name %></h6>
+                                        <h6 class="mb-1 font-weight-medium "><%= coupon.name %></h6>
+                                        <p class="mb-0 text-muted tx-13"><%= coupon.comment %></p>
+                                    </div>
+                                </li>
+
+                                <div class="ml-auto mg-t-10 mg-b-5"><%= button_to t("Website.Note.N_Coins_Redeem",number: 6), "", method: :get, class: "btn btn-warning waves-effect waves-light" %></div>
+                            </div>
+
+                    <% end %>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+    <% end %>

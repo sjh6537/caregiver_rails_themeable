@@ -86,6 +86,7 @@ zh-TW:
     PUSH_CONTACT: 透過「友伴」推撥個人聯絡方式給該好友
     REQUEST: 發起派工
     JOIN_CAREGIVER: 加入友伴
+    REDEEM: 兌換
 
   Table:
     ShopName: 商家名稱
@@ -208,6 +209,8 @@ zh-TW:
     Member: 會員
     Coin: 柑幣
     Coupons: 優惠卷
+    My_Coupons: 我的優惠卷
+    Redeem_Coupons: 兌換優惠卷
 
     Note:
       Invite_line_friends_join: "邀請Line好友加入友伴"
@@ -255,6 +258,11 @@ zh-TW:
       Accepted_this_request: '已接受該派工'
       Update_Success: "會員 <strong>%{name}</strong> 成功更新"
       Update_Fail: "會員 <strong>%{name}</strong> 更新失敗"
+      No_Coupons: '您沒有任何優惠卷'
+      You_have_N_Coins: '你有 <strong>%{number}</strong> 個柑幣'
+      No_Coupons_can_Redeem: "目前沒有優卷可以兌換"
+      Redeem_need_N_Coins: '需要<strong>%{number}</strong> 個柑幣兌換'
+      N_Coins_Redeem: '%{number} 柑幣兌換'
 
   Notify:
     Title:
@@ -305,8 +313,8 @@ zh-TW:
       No_Line_Notify_Service: 目前無任何 Line Notify 服務 ...
       Please_Select_One_Group: "*請至少選擇一個群組"
       Please_Input_Text: "*請輸入文字內容"
-      1200x600: "建議大小 1200x600"
-      1200x2400: "建議大小 1200x2000"
+      300x300: "建議大小 300x300"
+      600x300: "建議大小 600x300"
       Notify_Created: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功創建."
       Notify_Updated: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功更新."
       Notify_Deleted: "LINE NOTIFY SERVICE <strong>%{name}</strong> 成功刪除."

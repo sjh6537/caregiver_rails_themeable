@@ -60,9 +60,9 @@
 			<div class="row">
 			<div class="col-md-3"><label class="form-label"><%= t("Table.Coupon_Image") %></label></div>
 				<div class="col-md-5">
-					<spin class="text-info"><%= raw t("Notify.Note.1200x600") %></spin>
+					<spin class="text-info"><%= raw t("Notify.Note.300x300") %></spin>
 					<input class="remove" id="remove_image" name="remove_image" type="hidden" value="0">
-					<input type="file" class="dropify" data-height="120" name="coupon[image]" data-default-file="<%= @coupon.try(:image).try(:url) %>" id="image" />
+					<input type="file" class="dropify wd-120" data-height="120" name="coupon[image]" data-default-file="<%= @coupon.try(:image).try(:url) %>" id="image" />
 				</div>
 			</div>
 		</div>
@@ -71,9 +71,9 @@
 		<div class="row">
 		<div class="col-md-3"><label class="form-label"><%= t("Table.Coupon_Image_Full") %></label></div>
 			<div class="col-md-5 ">
-				<spin class="text-info"><%= raw t("Notify.Note.1200x2000") %></spin>
+				<spin class="text-info"><%= raw t("Notify.Note.600x300") %></spin>
 				<input class="remove" id="remove_full_image" name="remove_full_image" type="hidden" value="0">
-				<input type="file" class="dropify" data-height="380" name="coupon[full_image]" data-default-file="<%= @coupon.try(:full_image).try(:url) %>" id="full_image" />
+				<input type="file" class="dropify" data-height="120" name="coupon[full_image]" data-default-file="<%= @coupon.try(:full_image).try(:url) %>" id="full_image" />
 			</div>
 		</div>
 	</div>

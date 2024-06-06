@@ -34,7 +34,6 @@
 							<h5 class="mb-1 font-weight-medium"><%= t("Website.Member") %> : <%= @user.name %></h5>
 							<h6 class="mb-1 text-muted"><%= @user.line_name %></h6>
 							<p class="mb-0 tx-13"><%= t("Website.Coin") %> : 0 </p>
-							<p class="mb-0 tx-13"><%= t("Website.Coupons") %> : 0 </p>
 						</div>
 
 					</div>
@@ -61,9 +60,14 @@
 								<p class="mb-1 text-muted tx-center"><%= @user.friends.count %></p>
 							</div>
 
-							<div class="mr-auto ml-3 pd-t-20">
+							<div class="mg-r-50 ml-3 pd-t-20">
 								<a class="fas fa-solid fa-screwdriver-wrench tx-40 tx-teal" href="<%= web_user_requests_path %>"></a>
 								<p class="mb-1 text-muted tx-center"><%= @user.requests.count %></p>
+							</div>
+
+							<div class="mr-auto ml-3 pd-t-20">
+								<a class="fas fa-solid fa-money-check-dollar tx-40 tx-teal" href="<%= web_user_coupons_path %>"></a>
+								<p class="mb-1 text-muted tx-center">0</p>
 							</div>
 
 					</div>

@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
     has_many :users_related_friends, :dependent => :destroy, class_name: 'User::UsersReleatedFriends'
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
+    has_many :coupons, :dependent => :destroy, class_name: 'User::Coupon'
 
     def add_friend(friend_id)
       if (self.friends.where(id: friend_id).empty?)

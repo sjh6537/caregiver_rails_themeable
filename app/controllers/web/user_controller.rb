@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Web::UserController < ApplicationWebController
-    before_action :set_user, only: [:show, :edit, :update, :friends, :requests]
+    before_action :set_user, only: [:show, :edit, :update, :friends, :requests, :coupons]
 
     def show
         if params[:notice] != nil
@@ -31,6 +31,11 @@ class Web::UserController < ApplicationWebController
 
     def requests
         @accept_requests = @user.accept_requests
+    end
+
+    def coupons
+        @coupons = @user.coupons
+        @shops = Shop.all
     end
 
     private

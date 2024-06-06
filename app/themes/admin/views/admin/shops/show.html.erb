@@ -108,7 +108,7 @@
 									<% if c.image_file_name.nil? %>
 										<td></td>
 									<% else %>
-										<td><img alt="image" class="img-thumbnail wd-sm-100" src="<%= c.try(:image).try(:url) %>"></td>
+										<td><img alt="image" class="img-thumbnail wd-sm-100" src="<%= c.try(:full_image).try(:url) %>"></td>
 									<% end %>
 									<td><%= c.name %></td>
 									<td><%= c.discount %></td>

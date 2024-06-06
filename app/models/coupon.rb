@@ -5,7 +5,7 @@ class Coupon < ActiveRecord::Base
     belongs_to :shop
 
     has_attached_file :image,
-        styles: { default: "1200x600!"},
+        styles: { default: "300x300!"},
         default_style: :default,
         default_url: "",
         path: ":rails_root/images/coupons/:id/image/:filename",
@@ -13,7 +13,7 @@ class Coupon < ActiveRecord::Base
         use_timestamp: false
 
     has_attached_file :full_image,
-        styles: { default: "1200x2000!"},
+        styles: { default: "600x300!"},
         default_style: :default,
         default_url: "",
         path: ":rails_root/images/coupons/:id/full_image/:filename",
