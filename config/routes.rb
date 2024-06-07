@@ -85,7 +85,8 @@ Rails.application.routes.draw do
     patch    '/health/update'               , to: 'web/health#update'              , as: :web_health_update
     get      '/health/go'                   , to: 'web/health#go'                  , as: :web_health_go
 
-    get      '/invite/:friend_id'           , to: 'web/invite#edit'                , as: :web_invite_edit
+    get      '/invite/friend/:friend_id'    , to: 'web/invite#edit'                , as: :web_invite_edit
+    get      '/invite/join'                 , to: 'web/invite#join'                , as: :web_invite_join
 
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
