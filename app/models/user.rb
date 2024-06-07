@@ -26,11 +26,13 @@ class User < ActiveRecord::Base
     end
 
     def add_each_friends(friend_id)
-      if (self.friends.where(id: friend_id).empty?)
-        User::UsersReleatedFriends.create(user_id: self.id, friend_id: friend_id)
-      end
-      if (User.find(friend_id).friends.where(id: self.id).empty?)
-        User::UsersReleatedFriends.create(user_id: friend_id, friend_id: self.id)
+      if (friend_id != self.id)
+        if (self.friends.where(id: friend_id).empty?)
+          User::UsersReleatedFriends.create(user_id: self.id, friend_id: friend_id)
+        end
+        if (User.find(friend_id).friends.where(id: self.id).empty?)
+          User::UsersReleatedFriends.create(user_id: friend_id, friend_id: self.id)
+        end
       end
     end
 
