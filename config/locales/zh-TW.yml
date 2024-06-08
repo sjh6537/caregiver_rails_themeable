@@ -150,9 +150,11 @@ zh-TW:
     Postal: 區域
     Address: 詳細地址
     Coupons: 優惠卷設定
+    Redeem: 柑幣需要數量
     Coupon_Name: 優惠卷名稱
-    Discount: 折價
-    Comment: 折價註解
+    Discount: 優惠內容
+    Rule: 使用規則
+    Comment: 使用詳情
     is_Vaild: 是否有效
     Total: 總共數量
     Stock: 庫存數量

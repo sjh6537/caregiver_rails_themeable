@@ -60,11 +60,9 @@ Rails.application.routes.draw do
     get      '/user/friends'                , to: 'web/user#friends'               , as: :web_user_friends
     get      '/user/requests'               , to: 'web/user#requests'              , as: :web_user_requests
     get      '/user/coupons'                , to: 'web/user#coupons'               , as: :web_user_coupons
-    post     '/user/coupons/redeem/:id'     , to: 'web/user#coupons_redeem'        , as: :web_user_coupons_redeem
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
 
-    #get      '/requests'                    , to: 'web/requests#index'             , as: :web_requests
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request
     get      '/requests/:id/friends'        , to: 'web/requests#friends'           , as: :web_request_friends
@@ -80,6 +78,10 @@ Rails.application.routes.draw do
     get      '/accept/edit'                 , to: 'web/accept#edit'                , as: :web_accept_edit
     patch    '/accept/update'               , to: 'web/accept#update'              , as: :web_accept_update
     get      '/accept/join'                 , to: 'web/accept#join'                , as: :web_accept_join
+
+    get      '/coupons/show/:id/shop'       , to: 'web/coupons#show_shop'          , as: :web_coupons_show_shop
+    get      '/coupons/show/:id/user'       , to: 'web/coupons#show_user'          , as: :web_coupons_show_user
+    post     '/coupons/redeem/:id'          , to: 'web/coupons#redeem'             , as: :web_coupons_redeem
 
     get      '/health/edit'                 , to: 'web/health#edit'                , as: :web_health_edit
     patch    '/health/update'               , to: 'web/health#update'              , as: :web_health_update

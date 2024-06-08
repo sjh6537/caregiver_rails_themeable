@@ -28,10 +28,21 @@
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
+					<label class="form-label"><%= t("Table.Redeem") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :redeem, label: false, :placeholder => t("Table.Redeem"), :required => true %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
 					<label class="form-label"><%= t(:Coupon_Name, scope: "Table") %></label>
 				</div>
 				<div class="col-md-9">
-					<%= f.input :name, label: false, :placeholder => t(:Coupon_Name, scope: "Table") %>
+					<%= f.input :name, label: false, :placeholder => t(:Coupon_Name, scope: "Table"), :required => true %>
 				</div>
 			</div>
 		</div>
@@ -47,11 +58,20 @@
 		</div>
 
 		<div class="form-group">
+		<div class="row">
+			<div class="col-md-3"><label class="form-label"><%= t("Table.Rule") %></label></div>
+			<div class="col-md-9">
+				<%= f.input :rule, label: false, :placeholder => t("Table.Rule") %>
+				<!-- <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin> -->
+			</div>
+		</div>
+	</div>
+
+		<div class="form-group">
 			<div class="row">
 				<div class="col-md-3"><label class="form-label"><%= t("Table.Comment") %></label></div>
 				<div class="col-md-9">
-					<%= f.input :comment, label: false, :placeholder => t("Table.Comment"), :required => true %>
-					<!-- <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin> -->
+					<%= f.input :comment, label: false, :placeholder => t("Table.Comment"), :required => true , :input_html => {:rows => 10} %>
 				</div>
 			</div>
 		</div>
@@ -164,6 +184,11 @@
 	<%= content_for :script_js do %>
 
 		<script type="text/javascript">
+
+			$(document).ready(function() {
+					$('textarea[name="coupon[comment]"]').val('商品優惠券使用方式及注意事項:1. 本券實體網路門市均可使用，且不限商品使用(特價品或福利品皆可抵用)。2. 本券限會員兌換，一張限換一次，使用完畢後即消失。3. 本券不得轉售、兌換現金、找零或折換其他贈品，也不可抵用維修費及運費。4. 非新品瑕疵欲退換貨，本抵用券即失效，需補足商品價差。5. 僅適用於該活動期間，逾期無效。6. 不得與其他折扣、優惠、行銷活動合併使用。7. 使用本券為非發票交易，該訂單應以「購買時實際支付的金額」開立發票金額。8.本公司保留活動調整及變更商品優惠卷使用及折抵方式的權利，如有變動請以商家公告為主。');
+			});
+
 
 			$(document).on('click', '.dropify-clear', function() {
 				$(this).parents('div').children("input.remove").val("true");

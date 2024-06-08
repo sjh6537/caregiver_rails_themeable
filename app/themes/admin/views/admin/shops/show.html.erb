@@ -94,8 +94,9 @@
 							<thead>
 								<tr>
 									<th class="border-bottom-0 wd-lg-10p"><span></span></th>
-									<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Coupon_Name") %></span></th>
-									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Discount") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Redeem") %></span></th>
+									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Coupon_Name") %></span></th>
+									<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Discount") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.is_Vaild") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Total") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Stock") %></span></th>
@@ -110,6 +111,7 @@
 									<% else %>
 										<td><img alt="image" class="img-thumbnail wd-sm-100" src="<%= c.try(:full_image).try(:url) %>"></td>
 									<% end %>
+									<td><%= c.redeem %></td>
 									<td><%= c.name %></td>
 									<td><%= c.discount %></td>
 									<td class="text-center">
