@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Web::CouponsController < ApplicationWebController
-    before_action :set_user, only: [:show_user, :redeem]
+    before_action :set_user, only: [:show_shop, :show_user, :redeem, :use]
 
     def show_shop
       @coupon = Coupon.find_by_id(params[:id])
@@ -8,7 +8,10 @@ class Web::CouponsController < ApplicationWebController
     end
 
     def show_user
-      @coupon = @user.coupons.find_by_id(params[:id])
+      @usercoupon = @user.coupons.find_by_id(params[:id])
+      @coupon = @usercoupon.coupon
+      @shop = @coupon.shop
+      @time_left = 30
     end
 
     def redeem
@@ -22,6 +25,12 @@ class Web::CouponsController < ApplicationWebController
       else
         redirect_back fallback_location: "/", alert: I18n.t("Notify.Note.Redeem_fail_coupon_not_enough", name: "#{@coupon.name}")
       end
+    end
+
+    def use
+      @usercoupon = User::Coupon.find_by_id(params[:id])
+      @usercoupon.use
+      redirect_to web_coupons_show_user_path(@usercoupon.id)
     end
 
     private

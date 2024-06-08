@@ -269,6 +269,7 @@ zh-TW:
       Redeem_need_N_Coins: '需要<strong>%{number}</strong> 個柑幣兌換'
       N_Coins_Redeem: '%{number} 柑幣兌換'
       Use_Coupon: '使用優惠卷'
+      Use_Coupon_info: '確定優惠卷，該優惠卷會在30分鐘後自動消失，請在消失之前提供優惠店家確認，逾時不受理。'
 
   Notify:
     Title:

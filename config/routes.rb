@@ -82,7 +82,8 @@ Rails.application.routes.draw do
     get      '/coupons/show/:id/shop'       , to: 'web/coupons#show_shop'          , as: :web_coupons_show_shop
     get      '/coupons/show/:id/user'       , to: 'web/coupons#show_user'          , as: :web_coupons_show_user
     post     '/coupons/redeem/:id'          , to: 'web/coupons#redeem'             , as: :web_coupons_redeem
-    get      '/coupons/use/:id/show'        , to: 'web/coupons#use_show'           , as: :web_coupons_use_show
+    post     '/coupons/use/:id'             , to: 'web/coupons#use'                , as: :web_coupons_use
+
     get      '/coupons/use/:id/used'        , to: 'web/coupons#use_used'           , as: :web_coupons_use_used
 
     get      '/health/edit'                 , to: 'web/health#edit'                , as: :web_health_edit

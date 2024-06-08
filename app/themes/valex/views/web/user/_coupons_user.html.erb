@@ -26,7 +26,7 @@
     <div class="row">
         <div class="col-md-9">
             <ul class="list list-noborders pb-0 mb-0">
-                <% @user_coupons.map do | c | coupon = c.coupon; shop=coupon.shop %>
+                <% @user_coupons.where(is_vaild: true).map do | c | coupon = c.coupon; shop=coupon.shop %>
                             <div class="bottom mg-b-20">
                                 <li class="list-item">
                                     <% if coupon.image_file_name.nil? %>
@@ -38,7 +38,7 @@
                                     <div class="ml-3">
                                         <h6 class="tx-dark d-flex">
                                             <%= shop.name %>&nbsp;&nbsp;&nbsp;
-                                            <a href="<%= web_coupons_use_show_path(c.id) %>" class="x-dark d-flex" >
+                                            <a href="<%= web_coupons_show_user_path(c.id) %>" class="x-dark d-flex" >
                                             <b class="tx-primary mb-1 d-flex flex-row-reverse"><%= t("Website.Note.Use_Coupon") %></b>
                                             <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></a>
                                         </h6>
