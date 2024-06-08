@@ -98,8 +98,8 @@
 									<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Coupon_Name") %></span></th>
 									<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Discount") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.is_Vaild") %></span></th>
-									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Total") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Stock") %></span></th>
+									<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Used") %></span></th>
 									<th class="border-bottom-0 wd-lg-5p"><span></span></th>
 								</tr>
 							</thead>
@@ -121,8 +121,8 @@
 											<span class="label text-danger d-flex"><div class="dot-label bg-danger mr-1 mg-b-25"></div></span>
 										<% end %>
 									</td>
-									<td><%= c.number_total %></td>
 									<td><%= c.number_stock %></td>
+									<td><%= c.number_used %></td>
 									<td>
 										<!-- <a href="<%= admin_shop_path(c.id) %>" class="btn btn-sm btn-primary"><i class="las la-search"></i></a> -->
 										<a href="<%= admin_shop_edit_coupons_path(@shop.id,c.id) %>" class="btn btn-sm btn-info"><i class="las la-pen"></i></a>

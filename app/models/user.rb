@@ -12,6 +12,37 @@ class User < ActiveRecord::Base
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
     has_many :coupons, :dependent => :destroy, class_name: 'User::Coupon'
+    has_many :history_coins, :dependent => :destroy, class_name: 'User::HistoryCoin'
+
+    def redeem_coupon(shop_coupon)
+      user_coins = self.coins
+      redeem_coins = shop_coupon.redeem
+      if user_coins >= redeem_coins
+        shop_coupon.update(number_used: shop_coupon.number_used+1, number_stock: shop_coupon.number_stock-1)
+        user_coupon = self.coupons.create(coupon_id: shop_coupon.id)
+        self.history_coins.create(category: COINS_GET_REQUEST, category_id: user_coupon.id, number: redeem_coins, description: I18n.t("Notify.Note.Redeem_success", name: "#{shop_coupon.name}") )
+        self.profile.update(coins_this_y: user_coins-redeem_coins)
+        true
+      else
+        false
+      end
+    end
+
+    def coins
+      self.profile.coins_this_y
+    end
+
+    def count_coins
+      coins = 0
+      self.history_coin.map do | history |
+        if history.category < COINS_PAY_CATEGORY
+          coins += history.number
+        else
+          coins -= history.number
+        end
+      end
+      coins
+    end
 
     def add_friend(friend_id)
       if (self.friends.where(id: friend_id).empty?)

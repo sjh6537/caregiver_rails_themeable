@@ -77,7 +77,7 @@ class Web::RequestsController < ApplicationWebController
           @request.owner.add_each_friends(@user.id)
           format.html { redirect_to web_user_show_path, notice: I18n.t("Notify.Note.You_accept_this_request", name: "#{@request.owner.name}") }
         else
-          format.html { redirect_to web_request_show_path(@request.id), notice: I18n.t("Notify.Note.Something_Wrong") }
+          format.html { redirect_to web_request_show_path(@request.id), alert: I18n.t("Notify.Note.Something_Wrong") }
         end
       end
     end
@@ -97,9 +97,9 @@ class Web::RequestsController < ApplicationWebController
           format.html { redirect_back fallback_location: "/" , alert: I18n.t(:Non_Super_Del_Request, scope: "Notice") }
         else
           if @request.destroy
-            format.html { redirect_to Request_Requests_path, notice: I18n.t(:Deleted, scope: "Notice", name: "#{@Request.account}") }
+            format.html { redirect_to Request_Requests_path, notice: I18n.t(:Deleted, scope: "Notice", name: "#{@request.account}") }
           else
-            format.html { redirect_back fallback_location: "/", alert: I18n.t(:Deleted_Fail, scope: "Notice", name: "#{@Request.account}") }
+            format.html { redirect_back fallback_location: "/", alert: I18n.t(:Deleted_Fail, scope: "Notice", name: "#{@request.account}") }
           end
         end
       end

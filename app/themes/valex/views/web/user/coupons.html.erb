@@ -41,17 +41,17 @@
             <div class="tabs-menu1">
                 <!-- Tabs -->
                 <ul class="nav panel-tabs main-nav-line">
-                    <li><a href="#coupons_user" class="nav-link active" data-toggle="tab"><%= t("Website.My_Coupons") %></a></li>
-                    <li><a href="#coupons_redeem" class="nav-link" data-toggle="tab"><%= t("Website.Redeem_Coupons") %></a></li>
+                    <li><a href="#coupons_user" class="nav-link" data-toggle="tab"><%= t("Website.My_Coupons") %></a></li>
+                    <li><a href="#coupons_redeem" class="nav-link active" data-toggle="tab"><%= t("Website.Redeem_Coupons") %></a></li>
                 </ul>
             </div>
         </div>
         <div class="panel-body tabs-menu-body main-content-body-right border">
             <div class="tab-content">
-                <div class="tab-pane active" id="coupons_user">
+                <div class="tab-pane" id="coupons_user">
                     <%= render :partial => 'coupons_user' %>
                 </div>
-                <div class="tab-pane" id="coupons_redeem">
+                <div class="tab-pane active" id="coupons_redeem">
                     <%= render :partial => 'coupons_redeem' %>
                 </div>
             </div>

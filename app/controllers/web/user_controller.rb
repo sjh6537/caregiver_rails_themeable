@@ -34,7 +34,7 @@ class Web::UserController < ApplicationWebController
     end
 
     def coupons
-        @coupons = @user.coupons
+        @user_coupons = @user.coupons
         @shops = Shop.all
     end
 

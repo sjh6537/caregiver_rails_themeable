@@ -73,10 +73,18 @@
         <h6 class="tx-dark d-flex"><%= @coupon.comment %></h6>
     </div>
 
+
     <div class="card-footer d-flex flex-row-reverse mg-t-20">
         <div class="form-group">
         <div class="row">
-            <input type="button" onclick="history.back()" value=<%= t("Button.GOTO_BACK") %> class="btn btn-warning waves-effect waves-light"></input>
+            <%= button_to t("Website.Note.N_Coins_Redeem",number: @coupon.redeem ), web_coupons_redeem_path, method: :post, class: "btn btn-warning waves-effect waves-light" %>
+            <% if flash[:notice]!= nil %>
+                <a href="<%= web_user_coupons_path %>" class="btn btn-warning waves-effect waves-light mg-l-20"><%= t("Button.GOTO_BACK") %></a>
+            <% elsif flash[:alert]!= nil %>
+                <a href="<%= web_user_coupons_path %>" class="btn btn-warning waves-effect waves-light mg-l-20"><%= t("Button.GOTO_BACK") %></a>
+            <% else %>
+                <input type="button" onclick="history.back()" value=<%= t("Button.GOTO_BACK") %> class="btn btn-warning waves-effect waves-light mg-l-20"></input>
+            <% end %>
         </div>
         </div>
     </div>

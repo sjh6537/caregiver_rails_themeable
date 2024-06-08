@@ -1,3 +1,9 @@
+COINS_GET_SYSTEM          = 0.freeze
+COINS_GET_REQUEST         = 1.freeze
+COINS_GET_FRIEND          = 2.freeze
+COINS_GET_BONUS           = 3.freeze
+COINS_PAY_CATEGORY        = 50.freeze
+COINS_PAY_COUPON          = 50.freeze
 
 REQUEST_NEW               = 0.freeze
 REQUEST_ACCEPTED          = 1.freeze

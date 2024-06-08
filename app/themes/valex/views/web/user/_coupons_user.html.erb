@@ -1,6 +1,6 @@
 
 
-<% if @coupons.count == 0 %>
+<% if @user_coupons.count == 0 %>
 
     <div class="form-group">
     <div class="row">
@@ -12,6 +12,46 @@
 
 <% else %>
 
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.You_have_N_Coupons",number: @user_coupons.count) %></strong>
+        </div>
+    </div>
+    </div>
+
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-9">
+            <ul class="list list-noborders pb-0 mb-0">
+                <% @user_coupons.map do | c | coupon = c.coupon; shop=coupon.shop %>
+                            <div class="bottom mg-b-20">
+                                <li class="list-item">
+                                    <% if coupon.image_file_name.nil? %>
+                                        <td><img alt="image" class="img-thumbnail wd-sm-40" src="/assets/valex/img/coupon/default_coupon.png"></td>
+                                    <% else %>
+                                        <td><img alt="image" class="img-thumbnail wd-sm-40" src="<%= coupon.image %>"></td>
+                                    <% end %>
+
+                                    <div class="ml-3">
+                                        <h6 class="tx-dark d-flex">
+                                            <%= shop.name %>&nbsp;&nbsp;&nbsp;
+                                            <a href="<%= web_coupons_use_show_path(c.id) %>" class="x-dark d-flex" >
+                                            <b class="tx-primary mb-1 d-flex flex-row-reverse"><%= t("Website.Note.Use_Coupon") %></b>
+                                            <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></a>
+                                        </h6>
+                                        <h6 class="mb-1 font-weight-medium "><%= coupon.name %></h6>
+                                        <p class="mb-0 text-muted tx-13"><%= coupon.discount %></p>
+                                    </div>
+                                </li>
+                            </div>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+    </div>
 
 <% end %>
 

@@ -1,14 +1,8 @@
 class User::Coupon < ActiveRecord::Base
 
     belongs_to :user
-    belongs_to :coupon
 
-    def image
-        self.coupon.image
+    def coupon
+        Coupon.find_by_id(self.coupon_id)
     end
-
-    def full_image
-        self.coupon.full_image
-    end
-
 end

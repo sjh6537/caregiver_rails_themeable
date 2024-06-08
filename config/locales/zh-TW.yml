@@ -157,7 +157,7 @@ zh-TW:
     Rule: 使用規則
     Comment: 使用詳情
     is_Vaild: 是否有效
-    Total: 總共數量
+    Used: 使用數量
     Stock: 庫存數量
     Period_Start: 開始日期
     Period_End: 結束日期
@@ -264,9 +264,11 @@ zh-TW:
       Update_Fail: "會員 <strong>%{name}</strong> 更新失敗"
       No_Coupons: '您沒有任何優惠卷'
       You_have_N_Coins: '你有 <strong>%{number}</strong> 個柑幣'
+      You_have_N_Coupons: '你有 <strong>%{number}</strong> 張優惠卷'
       No_Coupons_can_Redeem: "目前沒有優卷可以兌換"
       Redeem_need_N_Coins: '需要<strong>%{number}</strong> 個柑幣兌換'
       N_Coins_Redeem: '%{number} 柑幣兌換'
+      Use_Coupon: '使用優惠卷'
 
   Notify:
     Title:
@@ -292,6 +294,10 @@ zh-TW:
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
     Note:
+      Redeem_success: '<strong>「%{name}」</strong>優惠卷兌換成功'
+      Redeem_fail: '<strong>%{name}</strong>優惠卷兌換失敗'
+      Redeem_fail_coin_not_enough: '<strong>%{name}</strong>優惠卷兌換失敗，柑幣不足'
+      Redeem_fail_coupon_not_enough: '<strong>%{name}</strong>優惠卷兌換失敗，優惠卷已被兌換完畢'
       Something_Wrong: '發生問題 , 請再點選一次 , 或將問題回報官方人員'
       You_accept_this_request: '你接受了%{name}的派工'
       Your_request_already_create: '你的需求已經建立'
