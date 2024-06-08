@@ -35,5 +35,17 @@ class Coupon < ActiveRecord::Base
         end
     end
 
+    def use_date
+        text = nil
+        if self.period_start != nil
+            text = self.period_start.strftime('%Y年 %m月 %d日 00:00')
+            if self.period_end != nil
+                text += " - "
+                text += self.period_end.strftime('%Y年 %m月 %d日 00:00')
+            end
+        end
+        text
+    end
+
 
 end

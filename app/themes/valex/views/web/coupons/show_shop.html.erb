@@ -1,0 +1,98 @@
+
+<style>
+
+.card-body {
+    padding: 0.5rem;
+}
+
+
+.bottom {
+    background-color: white;
+    border-top: 1px solid rgba(0, 0, 0, 1);
+    border-color: #efebdf;
+}
+
+.order-list .list .list-item {
+    background: #efebdf;
+    padding: 0 0 0 0;
+}
+
+.border {
+    border: 0px solid #e3e8f7 !important;
+}
+.panel-body {
+    padding: 0px;
+}
+
+</style>
+
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card order-list">
+<div class="card-body">
+
+    <!-- row -->
+    <div class="row row-sm">
+        <% if @coupon.image_file_name.nil? %>
+            <td><img alt="image" class="img-thumbnail wd-sm-40" src="/assets/valex/img/coupon/default_coupon.png"></td>
+        <% else %>
+            <td><img alt="image" class="img-thumbnail wd-sm-40" src="<%= @coupon.full_image %>"></td>
+        <% end %>
+    </div>
+
+        <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><%= @coupon.name %></h6>
+    </div>
+
+    <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><b><%= raw t("Table.ShopName") %></b></h6>
+        <h6 class="tx-dark d-flex"><%= @shop.name %></h6>
+    </div>
+
+    <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><b><%= raw t("Table.Discount") %></b></h6>
+        <h6 class="tx-dark d-flex"><%= @coupon.discount %></h6>
+    </div>
+
+    <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><b><%= raw t("Table.Rule") %></b></h6>
+        <h6 class="tx-dark d-flex"><%= @coupon.rule %></h6>
+    </div>
+
+    <% if @coupon.use_date != nil %>
+    <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><b><%= raw t("Table.Vaild_Date") %></b></h6>
+        <h6 class="tx-dark d-flex"><%= @coupon.use_date %></h6>
+    </div>
+    <% end %>
+
+    <div class="ml-3 mg-t-20">
+        <h6 class="tx-dark d-flex"><b><%= raw t("Table.Comment") %></b></h6>
+        <h6 class="tx-dark d-flex"><%= @coupon.comment %></h6>
+    </div>
+
+    <div class="card-footer d-flex flex-row-reverse mg-t-20">
+        <div class="form-group">
+        <div class="row">
+            <input type="button" onclick="history.back()" value=<%= t("Button.GOTO_BACK") %> class="btn btn-warning waves-effect waves-light"></input>
+        </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+
+
+<% end %>
+
+

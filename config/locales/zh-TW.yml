@@ -87,6 +87,7 @@ zh-TW:
     REQUEST: 發起派工
     JOIN_CAREGIVER: 加入友伴
     REDEEM: 兌換
+    GOTO_BACK: 回到上一頁
 
   Table:
     ShopName: 商家名稱
@@ -162,6 +163,7 @@ zh-TW:
     Period_End: 結束日期
     Coupon_Image: 優惠卷圖案
     Coupon_Image_Full: 優惠卷滿版圖案
+    Vaild_Date: 有效期限
 
   Title:
       SHOP_INFO: 商家資訊
