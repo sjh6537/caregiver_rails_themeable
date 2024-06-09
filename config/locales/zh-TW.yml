@@ -301,7 +301,9 @@ zh-TW:
       DELETE_NOTIFY: 刪除 LINE 通知服務
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
+      LOGS: 操作紀錄
     Note:
+      More_Logs: 查看更多操作紀錄
       Deliver_Coins: '將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回'
       Deliver_Coins_Success: '系統贈送柑幣成功'
       Redeem_success: '「%{name}」優惠卷兌換成功'

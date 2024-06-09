@@ -31,8 +31,36 @@
 	</div>
 	<!-- /breadcrumb -->
 	<!-- row opened -->
-	<div class="row row-sm">
 
+	<div class="row row-sm">
+	<div class="card" id="basic-alert">
+	<div class="card-body">
+
+			<div>
+				<h6 class="card-title mb-1"><%= t("Notify.Title.LOGS") %></h6>
+				<p class="text-muted card-sub-title"><%= t("Notify.Note.More_Logs") %></p>
+			</div>
+
+			<% @history_logs.map do |h| %>
+
+				<% if h.target == LOG_USERCOIN %>
+					<div class="alert alert-warning" role="alert">
+				<% elsif h.action == ACTION_DEL %>
+					<div class="alert alert-danger" role="alert">
+				<% else %>
+					<div class="alert alert-success" role="alert">
+				<% end %>
+					<button aria-label="Close" class="close" data-dismiss="alert" type="button">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<strong><%= h.happen_date %></strong> <%= h.description %>
+				</div>
+
+			<% end %>
+
+
+	</div>
+	</div>
 	</div>
 	<!-- row close -->
 
@@ -41,5 +69,6 @@
 
 	</div>
 	<!-- /row -->
+
 </div>
 <!-- /Container -->

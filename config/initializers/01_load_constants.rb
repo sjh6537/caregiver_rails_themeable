@@ -1,3 +1,35 @@
+LOG_ADMIN                 = 0.freeze
+LOG_USER                  = 10.freeze
+LOG_USERCOIN              = 11.freeze
+LOG_USERCOUPON            = 12.freeze
+LOG_USERFRIEND            = 13.freeze
+LOG_SHOP                  = 30.freeze
+LOG_SHOPCOUPON            = 31.freeze
+
+LOG_TYPE_TEXT = {
+    LOG_ADMIN             => "管理者",
+    LOG_USER              => "使用者",
+    LOG_USERCOIN          => "柑幣",
+    LOG_USERCOUPON        => "使用者優惠卷",
+    LOG_USERFRIEND        => "使用者朋友",
+    LOG_SHOP              => "商家",
+    LOG_SHOPCOUPON        => "商家優惠卷"
+}
+
+ACTION_NEW                = 0.freeze
+ACTION_ADD                = 1.freeze
+ACTION_DEL                = 2.freeze
+ACTION_EDIT               = 3.freeze
+ACTION_BLOCK              = 4.freeze
+
+LOG_ACTION_TEXT = {
+    ACTION_NEW            => "新增",
+    ACTION_ADD            => "增加",
+    ACTION_DEL            => "刪除",
+    ACTION_EDIT           => "編輯",
+    ACTION_BLOCK          => "封鎖"
+}
+
 COINS_GET_SYSTEM          = 0.freeze
 COINS_GET_REQUEST         = 1.freeze
 COINS_GET_FRIEND          = 2.freeze

@@ -64,4 +64,37 @@ class ApplicationController < ActionController::Base
     def current_time
       Time.now.localtime.strftime('%Y-%m-%d %R')
     end
+
+    def add_log(action,source,source_id,target,target_id,data=nil)
+
+      description  = log_type_name(source,source_id)
+      description += LOG_TYPE_TEXT[source]
+      description += " #{LOG_ACTION_TEXT[action]} "
+      description += log_type_name(target,target_id)
+      description += LOG_TYPE_TEXT[target]
+      if !data.nil?
+        description += "，#{data}"
+      end
+      HistoryLog.create(action: action, source: source, source_id: source_id, target: target, target_id: target_id, data: data, description: description)
+    end
+
+    def log_type_name(category,id)
+      case category
+        when LOG_ADMIN
+          Admin.find(id).try(:account)
+        when LOG_USER
+          User.find(id).try(:name)
+        when LOG_USERCOIN
+          User.find(id).try(:name)
+        when LOG_USERCOUPON
+          User.find(id).try(:name)
+        when LOG_USERFRIEND
+          User.find(id).try(:name)
+        when LOG_SHOP
+          Shop.find(id).try(:name)
+        when LOG_SHOPCOUPON
+          Coupon.find(id).try(:name)
+      end
+    end
+
   end

@@ -21,6 +21,7 @@ class Admin::Shop::CouponsController < ApplicationAdminController
       @coupon = @shop.coupons.new(coupon_params)
       respond_to do |format|
         if @coupon.save
+          add_log(ACTION_NEW,LOG_ADMIN,current_admin.id,LOG_SHOPCOUPON,@coupon.id)
           format.html { redirect_to admin_shop_path(@shop.id), notice: I18n.t(:Created, scope: "Notice", name: "#{@coupon.name}") }
         else
           format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{@coupon.name}") }
@@ -49,6 +50,7 @@ class Admin::Shop::CouponsController < ApplicationAdminController
       end
       respond_to do |format|
         if @coupon.update(coupon_params)
+          add_log(ACTION_EDID,LOG_ADMIN,current_admin.id,LOG_SHOPCOUPON,@coupon.id)
           format.html { redirect_to admin_shop_path(@shop.id), notice: I18n.t(:Updated, scope: "Notice", name: "#{@coupon.name}") }
         else
           format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@coupon.name}") }
@@ -59,6 +61,7 @@ class Admin::Shop::CouponsController < ApplicationAdminController
 
     def destroy
       respond_to do |format|
+        add_log(ACTION_DEL,LOG_ADMIN,current_admin.id,LOG_SHOPCOUPON,@coupon.id)
         if @coupon.destroy
           format.html { redirect_to admin_shop_path(@shop.id), notice: I18n.t(:Deleted, scope: "Notice", name: "#{@coupon.name}") }
         else

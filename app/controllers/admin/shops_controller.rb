@@ -20,6 +20,7 @@ class Admin::ShopsController < ApplicationAdminController
       @shop = Shop.new(shop_params)
       respond_to do |format|
         if @shop.save
+          add_log(ACTION_NEW,LOG_ADMIN,current_admin.id,LOG_SHOP,@shop.id)
           format.html { redirect_to admin_shops_path, notice: I18n.t(:Created, scope: "Notice", name: "#{@shop.name}") }
         else
           format.html { render action: "new", alert: I18n.t(:Created_Fail, scope: "Notice", name: "#{@shop.name}") }
@@ -42,6 +43,7 @@ class Admin::ShopsController < ApplicationAdminController
       @title_sub = I18n.t(:Edit, scope: "Title")
       respond_to do |format|
         if @shop.update(shop_params)
+          add_log(ACTION_EDIT,LOG_ADMIN,current_admin.id,LOG_SHOP,@shop.id)
           format.html { redirect_to admin_shops_path, notice: I18n.t(:Updated, scope: "Notice", name: "#{@shop.name}") }
         else
           format.html { render action: "edit", alert: I18n.t(:Updated_Fail, scope: "Notice", name: "#{@shop.name}") }
@@ -52,6 +54,7 @@ class Admin::ShopsController < ApplicationAdminController
 
     def destroy
       respond_to do |format|
+        add_log(ACTION_DEL,LOG_ADMIN,current_admin.id,LOG_SHOP,@shop.id)
         if @shop.destroy
           format.html { redirect_to admin_shops_path, notice: I18n.t(:Deleted, scope: "Notice", name: "#{@shop.name}") }
         else
