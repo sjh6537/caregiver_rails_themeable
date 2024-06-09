@@ -60,6 +60,7 @@ Rails.application.routes.draw do
     get      '/user/friends'                , to: 'web/user#friends'               , as: :web_user_friends
     get      '/user/requests'               , to: 'web/user#requests'              , as: :web_user_requests
     get      '/user/coupons'                , to: 'web/user#coupons'               , as: :web_user_coupons
+    get      '/user/coins'                  , to: 'web/user#coins'                 , as: :web_user_coins
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
 
@@ -83,8 +84,6 @@ Rails.application.routes.draw do
     get      '/coupons/show/:id/user'       , to: 'web/coupons#show_user'          , as: :web_coupons_show_user
     post     '/coupons/redeem/:id'          , to: 'web/coupons#redeem'             , as: :web_coupons_redeem
     post     '/coupons/use/:id'             , to: 'web/coupons#use'                , as: :web_coupons_use
-
-    get      '/coupons/use/:id/used'        , to: 'web/coupons#use_used'           , as: :web_coupons_use_used
 
     get      '/health/edit'                 , to: 'web/health#edit'                , as: :web_health_edit
     patch    '/health/update'               , to: 'web/health#update'              , as: :web_health_update

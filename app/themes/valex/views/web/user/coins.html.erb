@@ -1,0 +1,100 @@
+
+<style>
+
+.card-body {
+    padding: 0.5rem;
+}
+
+.tab-content img {
+    height: 100px;
+    width: 100px;
+}
+.bottom {
+    background-color: white;
+    border-top: 1px solid rgba(0, 0, 0, 1);
+    border-color: #efebdf;
+}
+
+
+.border {
+    border: 0px solid #e3e8f7 !important;
+}
+.panel-body {
+    padding: 0px;
+}
+
+</style>
+
+<!-- row -->
+<div class="row row-sm">
+<!-- Col -->
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card order-list">
+<div class="card-body">
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="h2 mb-0 mt-2 text-center tx-50 font-weight-bold "> <%= @user.coins %>
+            <span class="text-orange font-weight-normal tx-13 ml-1 "><%= t("Website.Coin") %></span></div>
+        </div>
+    </div>
+    </div>
+
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="list-group">
+                <% @history_coins.order('updated_at DESC').map do | c | %>
+
+                        <div class="list-group-item pd-y-20">
+                            <div class="media">
+                                    <div class="d-flex mg-r-10 wd-80">
+                                        <div class="h4 mb-0 mt-2 text-center font-weight-bold "><%= c.number %>
+                                        <% if c.category >= COINS_USE_CATEGORY %>
+                                            <span class="tx-orange font-weight-normal tx-13"><%= t("Website.Coin_use") %></span></div>
+                                        <% else %>
+                                            <span class="tx-orange font-weight-normal tx-13"><%= t("Website.Coin_get") %></span></div>
+                                        <% end %>
+                                    </div>
+
+                                    <div class="media-body mg-l-10">
+                                        <div class="media-body d-flex">
+                                            <h6 class="tx-15 mb-2"><%= c.happen_date %></h6>
+                                            <!-- <span class="tx-12 float-right ml-auto text-muted">4 hours ago</span> -->
+                                        </div>
+                                        <p class="tx-13 mg-b-10 mb-0 text-muted "><%= raw c.description %></p>
+                                    </div>
+
+
+                            </div>
+                        </div>
+
+                <% end %>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="card-footer d-flex flex-row-reverse mg-t-20">
+        <div class="form-group">
+        <div class="row">
+            <%= button_to t("Button.GOTO_ROOT"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+        </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+<!-- /Col -->
+</div>
+<!-- row closed -->
+
+<%= content_for :script_js do %>
+
+
+
+<% end %>
+
+

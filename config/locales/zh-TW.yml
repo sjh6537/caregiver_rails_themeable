@@ -212,6 +212,8 @@ zh-TW:
     Member_Centre: 會員中心
     Member: 會員
     Coin: 柑幣
+    Coin_use: 柑幣使用
+    Coin_get: 柑幣獲得
     Coupons: 優惠卷
     My_Coupons: 我的優惠卷
     Redeem_Coupons: 兌換優惠卷
@@ -295,10 +297,10 @@ zh-TW:
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
     Note:
-      Redeem_success: '<strong>「%{name}」</strong>優惠卷兌換成功'
-      Redeem_fail: '<strong>%{name}</strong>優惠卷兌換失敗'
-      Redeem_fail_coin_not_enough: '<strong>%{name}</strong>優惠卷兌換失敗，柑幣不足'
-      Redeem_fail_coupon_not_enough: '<strong>%{name}</strong>優惠卷兌換失敗，優惠卷已被兌換完畢'
+      Redeem_success: '「%{name}」優惠卷兌換成功'
+      Redeem_fail: '「%{name}」優惠卷兌換失敗'
+      Redeem_fail_coin_not_enough: '「%{name}」優惠卷兌換失敗，柑幣不足'
+      Redeem_fail_coupon_not_enough: '「%{name}」優惠卷兌換失敗，優惠卷已被兌換完畢'
       Something_Wrong: '發生問題 , 請再點選一次 , 或將問題回報官方人員'
       You_accept_this_request: '你接受了%{name}的派工'
       Your_request_already_create: '你的需求已經建立'

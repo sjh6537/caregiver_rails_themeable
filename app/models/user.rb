@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
       if user_coins >= redeem_coins
         shop_coupon.update(number_used: shop_coupon.number_used+1, number_stock: shop_coupon.number_stock-1)
         user_coupon = self.coupons.create(coupon_id: shop_coupon.id)
-        self.history_coins.create(category: COINS_GET_REQUEST, category_id: user_coupon.id, number: redeem_coins, description: I18n.t("Notify.Note.Redeem_success", name: "#{shop_coupon.name}") )
+        self.history_coins.create(category: COINS_USE_COUPON, category_id: user_coupon.id, number: redeem_coins, description: I18n.t("Notify.Note.Redeem_success", name: "#{shop_coupon.name}") )
         self.profile.update(coins_this_y: user_coins-redeem_coins)
         true
       else
@@ -35,7 +35,7 @@ class User < ActiveRecord::Base
     def count_coins
       coins = 0
       self.history_coin.map do | history |
-        if history.category < COINS_PAY_CATEGORY
+        if history.category < COINS_USE_CATEGORY
           coins += history.number
         else
           coins -= history.number
