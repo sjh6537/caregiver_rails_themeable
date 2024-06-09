@@ -24,10 +24,12 @@
 			<i class="mdi mdi-dots-horizontal text-gray"></i>
 		</div>
 
+		<% if current_admin.super_admin != true %>
 		<p class="tx-12 tx-gray-500 mb-2 mg-t-10">
-			<%= t(:Cannot_del_Admin, scope: "Note") %>
-			<a href=""><%= t(:Login_super_admin, scope: "Note") %></a>
+			<%= t("Notify.Note.Cannot_del_Admin") %>
+			<a data-method="delete" href="<%= destroy_admin_session_path %>" ><%= t("Notify.Note.Login_super_admin") %></a>
 		</p>
+		<% end %>
 
 		<div class="row row-xs wd-xl-80p mg-t-10">
 				<div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
@@ -36,6 +38,7 @@
                       :class => 'btn btn-success btn-block') %>
 				</div>
 		</div>
+
 
 	</div>
 
@@ -76,6 +79,7 @@
 							<a href="<%= edit_admin_admin_path(c.id) %>" class="btn btn-sm btn-info">
 								<i class="las la-pen"></i>
 							</a>
+							<!--
 							<% if current_admin.super_admin == true %>
 								<% if current_admin.id == c.id %>
 									<a data-target="#modal_cannot_del_self" data-toggle="modal" href="#" class="btn btn-sm btn-danger">
@@ -88,6 +92,7 @@
 								<a data-target="#modal_cannot_del_admin" data-toggle="modal" href="#" class="btn btn-sm btn-danger">
 								<i class="las la-trash"></i></a>
 							<% end %>
+							-->
 
 						</td>
 					</tr>
@@ -133,7 +138,8 @@
 			<div class="modal-body tx-center pd-y-20 pd-x-20">
 				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
 				<h4 class="tx-danger mg-b-20"><%= t(:DEL_ADMIN, scope: "Title") %></h4>
-				<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE" ><%= t(:CONTINUE, scope: "Button") %></a>
+				<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p>
+				<%= button_to t("Button.CONTINUE"), "", method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
 			</div>
 		</div>
 	</div>
@@ -172,7 +178,8 @@
 
 	    $(document).on('click', '.delete_button', function(event) {
 			var id = $(this).data("val");
-			$('.delete_alerm').attr("href", "/admins/" + id);
+			$('.delete_alerm').attr("href", "/admins/" + id );
+			$('form.button_to').attr("action", "/admins/" + id );
 	    });
 
 	</script>

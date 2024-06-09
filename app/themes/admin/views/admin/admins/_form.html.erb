@@ -16,8 +16,11 @@
 					<label class="form-label"><%= t(:Account, scope: "Table") %></label>
 				</div>
 				<div class="col-md-9">
-
-					<%= f.input :account, label: false, :placeholder => t(:Account, scope: "Table") %>
+					<% if @admin.new_record? %>
+						<%= f.input :account, label: false, :placeholder => t(:Account, scope: "Table") %>
+					<% else %>
+						<label class="form-label"><%= @admin.account %></label>
+					<% end %>
 				</div>
 			</div>
 		</div>
@@ -42,7 +45,7 @@
 			</div>
 		</div>
 
-		<% if current_admin.super_admin == true %>
+		<% if current_admin.super_admin == true || @admin.new_record? %>
 		<!-- ############# password ############# -->
 		<div class="form-group ">
 			<div class="row">
@@ -88,7 +91,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- ############# button ########### -->
 		<% if @admin.new_record? %>
 			</div>
@@ -116,7 +119,8 @@
 				<div class="modal-body tx-center pd-y-20 pd-x-20">
 					<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
 					<h4 class="tx-danger mg-b-20"><%= t(:DEL_ADMIN, scope: "Title") %></h4>
-					<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p><a aria-label="Close" class="btn btn-danger pd-x-25" type="button" href=<%= "/admins/#{@admin.id}" %> data-method="DELETE" ><%= t(:CONTINUE, scope: "Button") %></a>
+					<p class="mg-b-20 mg-x-20"><%= t(:Del_Admin, scope: "Note") %></p>
+					<%= button_to t("Button.CONTINUE"), "/admins/#{@admin.id}", method: :delete, class: "btn btn-danger pd-x-25" %>
 				</div>
 			</div>
 		</div>

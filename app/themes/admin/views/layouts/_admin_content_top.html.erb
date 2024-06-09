@@ -81,19 +81,19 @@
                                 <a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
                             </div>
                             <div class="dropdown main-profile-menu nav nav-item nav-link">
-                                <a class="profile-user d-flex" href=""><img alt="" src="/assets/valex/img/faces/hunter.png"></a>
+                                <a class="profile-user d-flex" href=""><img alt="" src="/assets/valex/img/logo/logo.png"></a>
                                 <div class="dropdown-menu">
                                     <div class="main-header-profile bg-primary p-3">
                                         <div class="d-flex wd-100p">
-                                            <div class="main-img-user"><img alt="" src="/assets/valex/img/faces/hunter.png" class=""></div>
+                                            <div class="main-img-user"><img alt="" src="/assets/valex/img/logo/logo.png" class=""></div>
                                             <div class="ml-3 my-auto">
                                                 <h6><%= current_admin.name %></h6>
                                                 <span><%= current_admin.type %></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <a class="dropdown-item" href=<%= "123" %> ><i class="bx bx-user-circle"></i>Profile</a>
-                                    <a class="dropdown-item" href=<%=  "123" %>><i class="bx bx-cog"></i>Edit Profile</a>
+                                    <a class="dropdown-item" href=<%= admin_admin_path(current_admin.id) %> ><i class="bx bx-user-circle"></i>Profile</a>
+                                    <a class="dropdown-item" href=<%= edit_admin_admin_path(current_admin.id) %> ><i class="bx bx-cog"></i>Edit Profile</a>
                                     <% if current_admin.class.name == :admin %>
                                     <a class="dropdown-item" data-method="delete" href="<%= destroy_admin_session_path %>" ><i class="bx bx-log-out"></i> Sign Out</a>
                                     <% else %>

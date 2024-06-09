@@ -204,6 +204,7 @@ zh-TW:
   Note:
     Del_Shop: 是否確定要刪除商家?
     Del_Coupon: 是否確定要刪除優惠卷?
+    Del_Admin: 是否確定要刪除管理者?
   Notice:
     Created: 建立「%{name}」成功
     Created_Fail: 建立「%{name}」失敗
@@ -313,6 +314,7 @@ zh-TW:
       Please_Select_One_City: '請選擇一個城市'
       Please_Select_One_Postal: '請選擇一個區域'
       Fill_Simple_Title: 請簡單描述工作內容
+      Cannot_del_Admin: 除了超級管理員，其他管理者無法做管理員刪除和管理員密碼變更的動作。
       Login_super_admin: 登出並登入超級管理員
       Only_Super_Admin_Can_del: "注意: 只有超級管理者可以刪除"
       Account_Created: "帳號 <strong>%{name}</strong> 成功創建."

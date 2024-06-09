@@ -5,12 +5,13 @@
 				<div class="pl-0">
 					<div class="main-profile-overview">
 						<div class="main-img-user profile-user">
-							<img alt="" src="/assets/valex/img/7.jpg"><a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a>
+							<img alt="" src="/assets/valex/img/faces/hunter.png"><!-- <a class="fas fa-camera profile-edit" href="JavaScript:void(0);"></a> -->
 						</div>
 						<div class="d-flex justify-content-between mg-b-20">
 							<div>
-								<h5 class="main-profile-name"><%= @admin.name %></h5>
-								<p class="main-profile-name-text"><%= @admin.account %></p>
+								<h2 class="tx-20"><%= @admin.account %></h2>
+								<h3 class="main-profile-name tx-15 text-muted "><%= @admin.name %></h3>
+
 							</div>
 						</div>
 						<hr class="mg-y-30">
@@ -49,7 +50,7 @@
 				</div>
 			</div>
 			<div class="card-footer">
-				<a href="<%= edit_admin_admin_path(@admin.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></a>
+				<a href="<%= edit_admin_admin_path(@admin.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:EDIT, scope: "Button") %></a>
 			</div>
 
 		</div>
