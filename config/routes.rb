@@ -24,9 +24,10 @@ Rails.application.routes.draw do
           resources :admins
 
           resources :users, except: [:destroy]
-          delete    'users/:id'             , to: 'users#block'           , as: :user_block
-          post      'users/send_message'    , to: 'users#send_message'    , as: :line_msg_admin_user
-          get       'users/:id/push'        , to: 'users#push'            , as: :push_page_admin_user
+          delete    'users/:id'                    , to: 'users#block'                  , as: :user_block
+          post      'users/send_message'           , to: 'users#send_message'           , as: :line_msg_admin_user
+          get       'users/:id/push'               , to: 'users#push'                   , as: :push_page_admin_user
+          post      'users/:id/coins'              , to: 'users#coins_deliver'          , as: :coins_deliver
 
           resources :shops
 

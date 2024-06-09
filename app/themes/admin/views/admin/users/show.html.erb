@@ -1,48 +1,54 @@
+
+
+<style>
+
+.main-contact-info-body .media-list {
+    padding: 0 0;
+}
+
+</style>
+
 <div class="row row-sm">
+
 	<div class="col-sm-12 col-lg-5 col-xl-4">
 		<div class="card custom-card">
 			<div class="">
-				<div class="main-content-app main-content-contacts pt-0">
-					<div class="main-content-left main-content-left-contacts">
-						<nav class="nav main-nav-line main-nav-line-chat  pl-3">
-							<a class="nav-link active" data-toggle="tab" href=""><%= t("Table.FriendList") %></a>
-							<%# <a class="nav-link" data-toggle="tab" href="">Favorites</a> %>
-						</nav>
+			<div class="main-content-app main-content-contacts pt-0">
+			<div class="main-content-left main-content-left-contacts">
+					<nav class="nav main-nav-line main-nav-line-chat  pl-3">
+						<a class="nav-link active" data-toggle="tab" href=""><%= t("Table.FriendList") %></a>
+					</nav>
 
-							<div class="main-contacts-list" id="mainContactList">
-								<%# <div class="main-contact-label">
-									A
-								</div> %>
-                        		<% @user.friends.each_with_index do |friend , index| %>
-									<div class="main-contact-item selected">
-										<div class="main-img-user online"><img alt="avatar" src="<%= friend.line_image %>"></div>
-										<div class="main-contact-body">
-											<h6><%= friend.line_name %></h6><span class="phone"><%= friend.line_phone %></span>
-										</div>
-										<a class="main-contact-star" href="">
-											<i class="fe fe-star mr-1 text-warning"></i>
-											<i class="fe fe-edit-2 mr-1"></i>
-											<i class="fe fe-more-vertical"></i>
-										</a>
-									</div>
-								<% end %>
+					<div class="main-contacts-list" id="mainContactList">
+						<% @user.friends.each_with_index do |friend , index| %>
+							<div class="main-contact-item">
+								<div class="main-img-user online"><img alt="avatar" src="<%= friend.line_image %>"></div>
+								<div class="main-contact-body">
+									<h6><%= friend.name %></h6><span class="phone"><%= friend.line_name %></span>
+								</div>
+								<a class="main-contact-star" href=<%= edit_admin_user_path(friend.id) %> ><i class="fa-solid fa-pen-to-square mr-2"></i></a>
+								<a class="main-contact-star" href=<%= admin_user_path(friend.id) %> ><i class="fa-solid fa-magnifying-glass mr-2"></i></a>
 							</div>
+						<% end %>
 					</div>
-				</div>
+			</div>
+			</div>
 			</div>
 		</div>
 	</div>
+
 	<div class="col-sm-12 col-lg-7 col-xl-8">
-		<div class="">
-			<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
+	<div class="">
+	<a class="main-header-arrow" href="" id="ChatBodyHide"><i class="icon ion-md-arrow-back"></i></a>
 			<div class="main-content-body main-content-body-contacts card custom-card">
 				<div class="main-contact-info-header pt-3">
 					<div class="media">
 						<div class="main-img-user">
-							<img alt="avatar" src="<%= @user.line_image %>"> <a href=""><i class="fe fe-camera"></i></a>
+							<img alt="avatar" src="<%= @user.line_image %>"><!-- <a href=""><i class="fe fe-camera"></i></a> -->
 						</div>
 						<div class="media-body">
-							<h5><%= @user.line_name %></h5>
+							<h5><%= @user.name %></h5>
+							<h6><%= @user.profile.line_name %></h6>
 						</div>
 					</div>
 				</div>
@@ -96,8 +102,133 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- ############# button ########### -->
+				<div class="card-footer">
+					<a href="<%= edit_admin_user_path(@user.id) %>" class="btn btn-primary waves-effect waves-light mg-r-10"><%= t("Button.EDIT") %></a>
+					<a class="btn ripple btn-teal" data-target="#select2modal" data-toggle="modal" href=""><%= t("Button.DELIVER_COINS") %></a>
+				</div>
+			</div>
+
+			<div class="main-content-body main-content-body-contacts card custom-card">
+				<div class="main-contact-info-header pt-3">
+				<div class="media text-center ">
+						<div class="text-center ">
+							<div class="h2 mb-0 mt-2 tx-50 font-weight-bold "> <%= @user.coins %>
+							<span class="text-orange font-weight-normal tx-13 ml-1 mg-r-50"><%= t("Website.Coin") %></span>
+							<%= @user.coupons.count %>
+							<span class="text-orange font-weight-normal tx-13 ml-1 "><%= t("Title.COUPONS") %></span></div>
+						</div>
+				</div>
+				</div>
+
+				<div class="p-4">
+				<div class="list-group">
+					<% @history_coins.order('updated_at DESC').map do | c | %>
+							<div class="list-group-item pd-y-20">
+								<div class="media">
+										<div class="d-flex mg-r-10 wd-90">
+											<div class="h4 mb-0 mt-2 text-center font-weight-bold "><%= c.number %>
+											<% if c.category >= COINS_USE_CATEGORY %>
+												<span class="tx-orange font-weight-normal tx-13"><%= t("Website.Coin_use") %></span></div>
+											<% else %>
+												<span class="tx-orange font-weight-normal tx-13"><%= t("Website.Coin_get") %></span></div>
+											<% end %>
+										</div>
+
+										<div class="media-body mg-l-10">
+											<div class="media-body d-flex">
+												<h6 class="tx-15 mb-2"><%= c.happen_date %></h6>
+												<!-- <span class="tx-12 float-right ml-auto text-muted">4 hours ago</span> -->
+											</div>
+											<% if c.category == COINS_GET_SYSTEM %>
+												<p class="tx-13 mg-b-10 mb-0 text-muted ">「<%= c.deliver_name %>」<%= raw c.description %></p>
+											<% else %>
+												<p class="tx-13 mg-b-10 mb-0 text-muted "><%= raw c.description %></p>
+											<% end %>
+										</div>
+								</div>
+							</div>
+					<% end %>
+				</div>
+				</div>
+
+			</div>
+	</div>
+	</div>
+
+</div>
+<!-- row closed -->
+
+
+<!-- Basic modal -->
+<div class="modal" id="select2modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content modal-content-demo">
+			<div class="modal-header">
+				<h6 class="modal-title"><%= t("Title.DELIVER_COINS") %></h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<h6><%= t("Table.Coins") %></h6>
+				<!-- Select2 -->
+				<select name="user[coins]" id="coins_select" class="form-control select2-dropdown">
+					<option label=<%= t("Table.Select_Number") %> >
+					</option>
+					<option value="1">
+					1
+					</option>
+					<option value="2">
+					2
+					</option>
+					<option value="3">
+					3
+					</option>
+					<option value="4">
+					4
+					</option>
+					<option value="5">
+					5
+					</option>
+					<option value="10">
+					10
+					</option>
+					<option value="15">
+					15
+					</option>
+					<option value="20">
+					20
+					</option>
+				</select>
+				<!-- Select2 -->
+				<p class="mt-3 tx-danger"><%= t("Notify.Note.Deliver_Coins") %></p>
+			</div>
+			<div class="modal-footer">
+				<%= button_to t("Button.CONTINUE"), admin_coins_deliver_path(@user.id), params: {:number => 0}, method: :post, class: "btn ripple btn-primary" %>
+				<button class="btn ripple btn-secondary" data-dismiss="modal" type="button"><%= t("Button.CLOSE") %></button>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- row closed -->
+<!-- End Basic modal -->
+
+
+<%= content_for :script_js do %>
+
+	<!--Internal  Contact js -->
+	<script src="/assets/valex/js/contact.js"></script>
+
+	<!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+
+    <script type="text/javascript">
+
+		$(document).on('change', '#coins_select', function(event) {
+			$("input[name='number']").val(this.value);
+		});
+
+    </script>
+<% end %>

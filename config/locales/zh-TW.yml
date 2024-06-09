@@ -88,6 +88,7 @@ zh-TW:
     JOIN_CAREGIVER: 加入友伴
     REDEEM: 兌換
     GOTO_BACK: 回到上一頁
+    DELIVER_COINS: 贈送柑幣
 
   Table:
     ShopName: 商家名稱
@@ -164,6 +165,8 @@ zh-TW:
     Coupon_Image: 優惠卷圖案
     Coupon_Image_Full: 優惠卷滿版圖案
     Vaild_Date: 有效期限
+    Coins: 柑幣
+    Select_Number: 選擇數量
 
   Title:
       SHOP_INFO: 商家資訊
@@ -196,6 +199,7 @@ zh-TW:
       SURE_SEND: 傳送訊息
       USER_TABLE: 使用者表格
       LINE_MESSAGE: LINE 訊息
+      DELIVER_COINS: 贈送柑幣
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -297,6 +301,8 @@ zh-TW:
       ATTENTION: 注意
       BLOCK_USER: 使用者停用
     Note:
+      Deliver_Coins: '將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回'
+      Deliver_Coins_Success: '系統贈送柑幣成功'
       Redeem_success: '「%{name}」優惠卷兌換成功'
       Redeem_fail: '「%{name}」優惠卷兌換失敗'
       Redeem_fail_coin_not_enough: '「%{name}」優惠卷兌換失敗，柑幣不足'

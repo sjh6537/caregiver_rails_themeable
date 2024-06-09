@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < ApplicationAdminController
     include LineHelper
-    before_action :set_user, only: [:show, :edit, :update, :block, :push]
+    before_action :set_user
 
     def index
         @title_sub = I18n.t("Title.Table")
@@ -30,6 +30,7 @@ class Admin::UsersController < ApplicationAdminController
 
     def show
         @title_sub = I18n.t("Title.Information")
+        @history_coins = @user.history_coins
         respond_to do |format|
             format.html
         end
@@ -112,6 +113,14 @@ class Admin::UsersController < ApplicationAdminController
 
         render json: { status: 'error', message: 'Parameter unknown' }, status: :ok
         return
+    end
+
+    def coins_deliver
+        coins = params[:number].to_i
+        @user.profile.update(coins_this_y: @user.profile.coins_this_y + coins)
+        @user.history_coins.create(category: COINS_GET_SYSTEM, category_id: current_admin.id, number: coins, description: I18n.t("Notify.Note.Deliver_Coins_Success") )
+
+        redirect_to admin_user_path(@user.id)
     end
 
     private
