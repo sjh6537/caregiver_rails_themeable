@@ -24,7 +24,7 @@
         <div class="col-md-9">
             <ul class="list list-noborders pb-0 mb-0">
                 <% @shops.map do | shop | %>
-                    <% shop.coupons.map do | coupon | %>
+                    <% shop.coupons.where("is_vaild == ?", true).map do | coupon | %>
 
                             <div class="bottom mg-b-20">
                                 <li class="list-item">
