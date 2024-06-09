@@ -128,7 +128,9 @@ class User < ActiveRecord::Base
     end
 
     def birthday_date
-      self.birthday.strftime('%Y/%m/%d')
+      if !self.birthday.nil?
+        self.birthday.strftime('%Y/%m/%d')
+      end      
     end
 
     def self.find_for_authentication(warden_conditions)
