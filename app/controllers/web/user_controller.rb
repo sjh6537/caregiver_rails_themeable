@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Web::UserController < ApplicationWebController
+    include ApplicationHelper
     before_action :set_user
 
     def show
@@ -18,6 +19,7 @@ class Web::UserController < ApplicationWebController
 
         respond_to do |format|
             if result
+                append_user(@user.account,@user.phone)
                 format.html { redirect_to web_user_show_path, notice: I18n.t("Website.Note.Update_Success", name: "#{@user.line_name}") }
             else
                 format.html { render action: "edit", alert: I18n.t("Website.Note.Update_Fail", name: "#{@user.line_name}") }

@@ -1,6 +1,7 @@
 # -*- encoding : utf-8 -*-
 class Admin::UsersController < ApplicationAdminController
     include LineHelper
+    include ApplicationHelper
     before_action :set_user
 
     def index
@@ -55,6 +56,7 @@ class Admin::UsersController < ApplicationAdminController
         respond_to do |format|
             if result
                 add_log(ACTION_EDIT,LOG_ADMIN,current_admin.id,LOG_USER,@user.id)
+                append_user(@user.account,@user.phone)
                 format.html { redirect_to admin_users_path, notice: I18n.t("Notify.Note.Account_Updated", name: "#{@user.line_name}") }
             else
                 format.html { render action: "edit", alert: I18n.t("Notify.Note.Account_Updated_Fail", name: "#{@user.line_name}") }

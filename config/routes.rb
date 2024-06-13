@@ -38,6 +38,9 @@ Rails.application.routes.draw do
             patch    'shop/:shop_id/coupon/:id'       , to: 'coupons#update'            , as: :update_coupons
             delete   'shop/:shop_id/coupon/:id'       , to: 'coupons#destroy'           , as: :destroy_coupons
           end
+
+          post       'health/send_message'    , to: 'health#send_message'    , as: :send_message
+
       end
 
     end

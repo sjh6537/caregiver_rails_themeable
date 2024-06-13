@@ -19,4 +19,24 @@ module ApplicationHelper
         POSTAL_CODE.select {|c| c[:code] == code}.first[:name]
     end
 
+    def create_current_list
+        User.all.map do |user|
+            if !user.phone.nil?
+                file = Rails.root.join('health/',"#{user.account}.#{user.phone}")
+                File.open( file, "w") do |f|
+                    f.write("#{user.account}.#{user.phone}\r\n")
+                end
+            end
+        end
+    end
+
+    def append_user(account,phone)
+        if !phone.nil?
+            file = Rails.root.join('health/',"#{account}.#{phone}")
+            File.open( file, "w") do |f|
+                f.write("#{account}.#{phone}\r\n")
+            end
+        end
+    end
+
 end
