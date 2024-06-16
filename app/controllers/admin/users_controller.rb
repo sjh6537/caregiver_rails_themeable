@@ -92,48 +92,15 @@ class Admin::UsersController < ApplicationAdminController
             
             lineuser = User.find_by_id(params[:id])
             username = lineuser.line_name
-            if params[:id].present? || (params[:id] == "null")
+            if !params[:id].present? || (params[:id] == "null")
                 message_push(nil, message)
-                render json: { status: 'success', message: I18n.t("Website.Note.Line_send_group_success" }, status: :ok
+                render json: { status: 'success', message: I18n.t("Website.Note.Line_send_group_success") }, status: :ok
                 return
             else
                 message_push(lineuser.account, message)
-                render json: { status: 'success', message: I18n.t("Notify.Note.Line_send_person_success", name: "#{username}"), status: :ok
+                render json: { status: 'success', message: I18n.t("Notify.Note.Line_send_person_success", name: "#{username}")}, status: :ok
                 return
             end
-        end
-
-        render json: { status: 'error', message: 'Parameter unknown' }, status: :ok
-        return
-    end
-
-    def setup_event
-        if params[:text].present? && params[:msgtype].present?
-            text = params[:text]
-            type = params[:msgtype].to_i
-
-            case type
-            when LINE_MSG_TYPE_TEXT
-                message = message_package_text(text)
-            end
-
-            if params[:ids].present? || (params[:ids] == "null")
-                message_push(nil, message)
-                render json: { status: 'success', message: I18n.t("Website.Note.Line_send_group_success" }, status: :ok
-                return
-            else
-                username = ""
-                ids.each do |id|
-                    lineuser = User.find_by_id(id)
-                    if lineuser
-                        lineids << lineuser.account
-                        username = lineuser.line_name + "/" + username
-                    end
-                end
-                message_push(lineids, message)
-                render json: { status: 'success', message: I18n.t("Notify.Note.Line_send_person_success", name: "#{username}"), status: :ok
-                return
-            end            
         end
 
         render json: { status: 'error', message: 'Parameter unknown' }, status: :ok
@@ -146,22 +113,6 @@ class Admin::UsersController < ApplicationAdminController
         @user.history_coins.create(category: COINS_GET_SYSTEM, category_id: current_admin.id, number: coins, description: I18n.t("Notify.Note.Deliver_Coins_Success") )
         add_log(ACTION_ADD,LOG_ADMIN,current_admin.id,LOG_USERCOIN,@user.id,"#{coins}枚")
         redirect_to admin_user_path(@user.id)
-    end
-
-    def clear_event
-        jid = params[:jid]
-        result = {result: false, content: I18n.t(:Delete_Message_Fail, scope: "Notify.Note")}
-        Sidekiq::ScheduledSet.new.each do | job |
-            if job.klass == "NotifySender" && job.jid == jid
-                job.delete
-                result = {result: true, content: I18n.t(:Delete_Message_Success, scope: "Notify.Note")}
-                break
-            end
-        end
-        respond_to do |format|
-            format.html { render :message }
-            format.json { render json: result }
-        end
     end
 
     private

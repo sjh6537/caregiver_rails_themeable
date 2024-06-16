@@ -1,0 +1,403 @@
+<style>
+    span.error {
+        color: red;
+        font-size: 14px;
+    }
+</style>
+
+
+<%= simple_form_for [:admin, @schedule], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= f.error_notification %>
+<div class="card-body ht-850 wd-1000">
+    <div class="main-content-label mg-b-5">
+        <%= t("Title.LINE_MESSAGE") %>
+    </div>
+    <div class="tabs-style-2">
+        <div class="panel panel-primary tabs-style-2">
+            <div class=" tab-menu-heading">
+                <div class="tabs-menu1">
+                    <!-- Tabs -->
+                    <ul class="nav panel-tabs main-nav-line">
+                        <li><a href="#tab1" class="nav-link active" data-toggle="tab"><%= t("Tab.MESSAGE") %></a>
+                        <li><a href="#tab2" class="nav-link" data-toggle="tab"><%= t("Tab.TARGET") %></a>
+                        <!-- <li><a href="#tab3" class="nav-link" data-toggle="tab"><%= t("Tab.RICH_MENU") %></a>-->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body tabs-menu-body main-content-body-right border">
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <form class="ht-850">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2"><%= t("Table.Schedule_name") %></label>
+                                <div class="col-sm-10">
+                                    <%= f.input :schedule_name, label: false, :placeholder => "Schedule", :required => true %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row ">
+                                <label class="col-sm-2"><%= t("Table.Text") %></label>
+                                <div class="col-sm-10">
+                                    <%= f.text_area :message_text, rows: 10, class: "form-control", placeholder: t("Website.Note.Please_Input_Text"), id: "text_send_message" %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2"><%= t("Table.Execution_time") %></label>
+                                <div class="col-sm-10">
+                                    <form class="col-sm-10" id="datetimeForm">
+                                        <input type="datetime-local" id="executimer" name="executimer" value=<%= @schedule.scheduled_time %>>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-sm-flex">
+                            <div class="btn-list ml-auto">
+                                <button type="button" class="btn btn-danger btn-space clear_button" data-btn_src="text_send_message"><%= t("Button.RESET") %></button>
+                                <button type="button" class="btn btn-primary btn-space send_button" data-msgtype="0" data-btn_src="text_send_message"><%= t("Button.UPDATE_SCHEDULE") %></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <form class="ht-850">
+                        <div class="form-group">
+                            <div class="row ">
+                                <ul class="list-group wd-lg-100p users-list-group" id="friend-list">
+                                    <% @user.friends.each_with_index do |friend, index| %>
+                                    <li class="list-group-item d-flex align-items-center" id="friend-<%= friend.id %>">
+                                        <img alt="" class="mr-3 rounded-circle avatar-md" src="<%= friend.line_image %>">
+                                        <div>
+                                            <h6 class="tx-15 mb-1 tx-inverse tx-semibold mg-b-0"><%= friend.line_name %></h6>
+                                            <span class="d-block tx-13 text-muted"><%= friend.updated_at.strftime('%Y/%m/%d %T') %></span>
+                                        </div>
+                                        <div class="d-flex float-left ml-auto">
+                                            <a href="#" class="btn btn-outline-light btn-icon remove-target" data-id="<%= friend.id %>">
+                                            <div class=""><i class="bx bx-minus"></i></div>
+                                            </a>
+                                        </div>
+                                    </li>
+                                    <% end %>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+
+<div class="modal" id="modal_del">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20"><%= t("Title.DEL_ADMIN") %></h4>
+                <p class="mg-b-20 mg-x-20"><%= t("Note.Del_Admin") %></p><a aria-label="Close" class="btn btn-danger pd-x-25" type="button" href=<%= "/admins/#{@user.id}" %> data-method="DELETE" ><%= t("Button.CONTINUE") %></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<%= content_for :script_js do %>
+    <script type="text/javascript">
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = (now.getMonth() + 1).toString().padStart(2, '0');
+        var day = now.getDate().toString().padStart(2, '0');
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        var initialFriendListHtml = $('#friend-list').html();
+        var displayedFriends = <%= @user.friends.map(&:id).to_json.html_safe %>;
+
+        $(document).on('click', '.send_button', function(obj) {
+            var src_text = $(this).data('btn_src');
+            var msgtype = $(this).data('msgtype');
+            var text = $('#' + src_text).val();
+            var image = $(this).data('image');
+            var id = "null";
+            var userId = "<%= @user.id %>";
+            var scheduleId = "<%= @schedule.id %>";
+            var link = "/users/" + userId + "/schedules/" + scheduleId + "/setup_schedule";
+            var selectedDatetime = $('#executimer').val();
+            var schedule_name = $("#user_schedule_schedule_name").val();
+
+            if(($('#' + src_text).val() == "") || (displayedFriends == ""))
+            {
+                notif({
+                    msg: "<%= t("Website.Note.Schedule_setup_fail") %>",
+                    type: "error",
+                    position: "center"
+                });
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url:  link,
+                data: { "text": text, "user_id": userId, "image": image, "msgtype": msgtype, "recipient" : displayedFriends, "datetime": selectedDatetime, "schedule_name": schedule_name},
+                dataType: "JSON",
+                beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+                headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+                error: function(jqXHR, textStatus, errorThrown)
+                {
+                    notif({
+                        msg: "<%= t("Website.Note.Schedule_setup_fail") %>",
+                        type: "error",
+                        position: "center"
+                    });
+                },
+                success: function(data)
+                {
+                    if(data.redirect_url)
+                    {
+                        window.location.href = data.redirect_url;
+                    }
+                }
+            });
+        });
+        $(document).on('click', '.clear_button', function(obj)
+        {
+            var src_text = $(this).data('btn_src');
+            $('#' + src_text).val("");
+
+            // Recovery friend list
+            obj.preventDefault();
+            $('#friend-list').html(initialFriendListHtml);
+            $('.remove-target').on('click', function(e)
+            {
+                e.preventDefault();
+                var friendId = $(this).data('id');
+                $('#friend-' + friendId).remove();
+                displayedFriends = displayedFriends.filter(function(id)
+                {
+                    return id !== friendId;
+                });
+            });
+            displayedFriends = <%= @user.friends.map(&:id).to_json.html_safe %>;
+        });
+
+        // Trigger remove target
+        $(document).ready(function() {
+            $('.remove-target').on('click', function(obj)
+            {
+                obj.preventDefault();
+                var friendId = $(this).data('id');
+                $('#friend-' + friendId).remove();
+                displayedFriends = displayedFriends.filter(function(id)
+                {
+                    return id !== friendId;
+                });
+            });
+        });
+
+        // Timer
+        $(document).ready(function()
+        {
+            var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            $('#executimer').val(currentDatetime);
+
+            $('#submitDatetime').click(function() {
+            });
+        });
+
+        function hide_alert()
+        {
+            $('#alert_name').hide();
+            $('#alert_phone').hide();
+            $('#alert_address').hide();
+            $('#alert_city').hide();
+            $('#alert_postal').hide();
+        }
+
+        function checkform() {
+            hide_alert();
+            ret = true;
+
+            if ($('#user_name').val() == ""){
+                $('#alert_name').show();
+                ret = false;
+            }
+            if ($('#user_phone').val() == ""){
+                $('#alert_phone').show();
+                ret = false;
+            }
+            if ($('#user_address').val() == ""){
+                $('#alert_address').show();
+                ret = false;
+            }
+            if ($('#user_addr_city').val() == "0"){
+                $('#alert_city').show();
+                ret = false;
+            }
+            if ($('#user_addr_postal').val() == "0"){
+                $('#alert_postal').show();
+                ret = false;
+            }
+
+            if (ret == false)
+                return false;
+            else
+                return true;
+        }
+
+        function refresh_select(data) {
+            $('#user_addr_postal').empty();
+            $('#user_addr_postal').append('<option value="0"><%= t(:Select_postal, scope: "Table") %></option>');
+            $('#user_addr_postal').append(data);
+        }
+
+        $(document).on('change', '#user_addr_city', function(event) {
+            city_code = $('#user_addr_city').val();
+            $('#alert_city').hide();
+            $('#alert_postal').hide();
+
+            if ($('#user_addr_city').val() == "0"){
+                $('#alert_city').show();
+                $('#user_addr_city').focus();
+            }
+
+            if ($('#user_addr_postal').val() == "0"){
+                $('#alert_postal').show();
+                $('#user_addr_postal').focus();
+            }
+
+            refresh_select(get_postal_selection(city_code));
+        });
+
+        $(document).on('change', '#user_addr_postal', function(event) {
+            $('#alert_postal').hide();
+
+            if ($('#user_addr_postal').val() == "0"){
+                $('#alert_postal').show();
+                $('#user_addr_postal').focus();
+            }
+        });
+
+        function get_postal_selection(city)
+        {
+            switch (city){
+                default:
+                case "1":
+                    html_text = '<%= get_postal_selection(1) %>'
+                    break;
+                case "2":
+                    html_text = '<%= get_postal_selection(2) %>'
+                    break;
+                case "3":
+                    html_text = '<%= get_postal_selection(3) %>'
+                    break;
+                case "4":
+                    html_text = '<%= get_postal_selection(4) %>'
+                    break;
+                case "5":
+                    html_text = '<%= get_postal_selection(5) %>'
+                    break;
+                case "6":
+                    html_text = '<%= get_postal_selection(6) %>'
+                    break;
+                case "7":
+                    html_text = '<%= get_postal_selection(7) %>'
+                    break;
+                case "8":
+                    html_text = '<%= get_postal_selection(8) %>'
+                    break;
+                case "9":
+                    html_text = '<%= get_postal_selection(9) %>'
+                    break;
+                case "10":
+                    html_text = '<%= get_postal_selection(10) %>'
+                    break;
+                case "11":
+                    html_text = '<%= get_postal_selection(11) %>'
+                    break;
+                case "12":
+                    html_text = '<%= get_postal_selection(12) %>'
+                    break;
+                case "13":
+                    html_text = '<%= get_postal_selection(13) %>'
+                    break;
+                case "14":
+                    html_text = '<%= get_postal_selection(14) %>'
+                    break;
+                case "15":
+                    html_text = '<%= get_postal_selection(15) %>'
+                    break;
+                case "16":
+                    html_text = '<%= get_postal_selection(16) %>'
+                    break;
+                case "17":
+                    html_text = '<%= get_postal_selection(17) %>'
+                    break;
+                case "18":
+                    html_text = '<%= get_postal_selection(18) %>'
+                    break;
+                case "19":
+                    html_text = '<%= get_postal_selection(19) %>'
+                    break;
+                case "20":
+                    html_text = '<%= get_postal_selection(20) %>'
+                    break;
+                case "21":
+                    html_text = '<%= get_postal_selection(21) %>'
+                    break;
+                case "22":
+                    html_text = '<%= get_postal_selection(22) %>'
+                    break;
+                case "23":
+                    html_text = '<%= get_postal_selection(23) %>'
+                    break;
+                case "24":
+                    html_text = '<%= get_postal_selection(24) %>'
+                    break;
+            }
+            return html_text
+        }
+
+        function alert_warning(text)
+        {
+            swal(
+                {
+                    title: 'WARNING!',
+                    text: text,
+                    type: 'warning',
+                    confirmButtonColor: '#57a94f'
+                });
+        };
+
+        function alert_success(text)
+        {
+            swal(
+                {
+                    title: 'SUCCESS!',
+                    text: text,
+                    type: 'success',
+                    confirmButtonColor: '#57a94f'
+                });
+        };
+
+        $(document).ready(function() {
+            hide_alert();
+
+            if (<%= @user.addr_city %> != 0){
+                refresh_select(get_postal_selection('<%= @user.addr_city %>'));
+                if (<%= @user.addr_postal %> != 0){
+                    $('#user_addr_postal').val('<%= @user.addr_postal %>').attr('selected','selected');
+                }
+            }
+
+        });
+
+    </script>
+
+<% end %>

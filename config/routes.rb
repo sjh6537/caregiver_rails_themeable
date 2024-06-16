@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+require 'sidekiq-status'
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -5,6 +7,8 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+  # mount Sidekiq::Web, at: '/sidekiq'
+  
   # Defines the root path route ("/")
   # root "posts#index"
 
@@ -41,6 +45,11 @@ Rails.application.routes.draw do
 
           post       'health/send_message'    , to: 'health#send_message'    , as: :send_message
 
+          resources :users do
+            resources :schedules
+          end
+          post      'users/:id/schedules/:schedule_id/setup_schedule'     , to: 'schedules#setup_schedule'  , as: :setup_schedule_update_admin_user
+          post      'users/:id/schedules/setup_schedule'                  , to: 'schedules#setup_schedule'  , as: :setup_schedule_new_admin_user
       end
 
     end

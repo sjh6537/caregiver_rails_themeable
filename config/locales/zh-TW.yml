@@ -89,6 +89,9 @@ zh-TW:
     REDEEM: 兌換
     GOTO_BACK: 回到上一頁
     DELIVER_COINS: 贈送柑幣
+    CREATE_SCHEDULE: 新增事件
+    UPDATE_SCHEDULE: 更新事件
+    RESET: 重置
 
   Table:
     ShopName: 商家名稱
@@ -167,6 +170,12 @@ zh-TW:
     Vaild_Date: 有效期限
     Coins: 柑幣
     Select_Number: 選擇數量
+    Execution_time: 執行時間
+    Selected: 選擇
+    Text: 文字
+    Schedule_ID: 事件ID
+    Schedule_name: 事件名稱
+    Recipient: 對象
 
   Title:
       SHOP_INFO: 商家資訊
@@ -200,6 +209,10 @@ zh-TW:
       USER_TABLE: 使用者表格
       LINE_MESSAGE: LINE 訊息
       DELIVER_COINS: 贈送柑幣
+      SCHEDULE_LIST: 事件列表
+      NEW_SCHEDULE: 新增事件
+      DEL_SCHEDULE: 刪除事件
+      SCHEDULE_TABLE: 事件表格
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -281,6 +294,9 @@ zh-TW:
       Line_send_person_fail: "訊息 <strong>%{name}</strong> 發送失敗"
       Line_send_group_success: "訊息群發成功"
       Line_send_group_fail: "訊息群發失敗"
+      Please_Input_Text: "請輸入文字內容"
+      Schedule_setup_fail: "事件設定失敗"
+      Schedule_Confirm_Delete: "請確認是否要刪除事件?"
 
   Notify:
     Title:
@@ -357,7 +373,8 @@ zh-TW:
       Account_Blocked: "帳號 <strong>%{name}</strong> 成功黑名單."
       Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
   Tab:
-    TEXT: 文字
+    MESSAGE: 訊息
+    TARGET: 對象
     TEXT_AND_GRAPH: 文字與圖片
     RICH_MENU: 複合頁面
 

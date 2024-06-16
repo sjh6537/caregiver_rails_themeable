@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
     has_many :coupons, :dependent => :destroy, class_name: 'User::Coupon'
     has_many :history_coins, :dependent => :destroy, class_name: 'User::HistoryCoin'
+    has_many :schedules, class_name: 'User::Schedule', foreign_key: 'schedule_id', dependent: :destroy
 
     def redeem_coupon(shop_coupon)
       user_coins = self.coins
@@ -96,7 +97,6 @@ class User < ActiveRecord::Base
       if !self.addr_city? || !self.addr_postal? || !self.address?
         return
       end
-      print "address:#{self.address}"
       address_text = CITY_CODE.select {|c| c[:code] == self.addr_city}.first[:city]
       address_text += POSTAL_CODE.select {|c| c[:code] == self.addr_postal}.first[:name]
       address_text += self.address

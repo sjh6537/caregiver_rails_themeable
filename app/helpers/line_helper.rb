@@ -40,11 +40,9 @@ module LineHelper
         end
 
         if(client_id == nil)
-            client = LinemsgController.new.client
-            client.broadcast(message)
+            LinemsgController.new.client.broadcast(message)
         else
-            client = LinemsgController.new.client
-            client.push_message(client_id, message)
+            LinemsgController.new.client.push_message(client_id, message)
         end
     end
 
