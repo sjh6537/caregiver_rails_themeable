@@ -29,13 +29,12 @@ class Admin::HealthController < ApplicationController
                 text += "血糖: #{blood_sugar}\n"
                 text += "體溫: #{temperature}\n"
                 text += "血氧: #{blood_oxygen}"
-                puts "AAAAAAAAAAAA"
-                puts text
+
                 message = message_package_text(text)
                 message_push(user.account, message)
                 render json: { status: 'success', message: 'Message sent successfully' }, status: :ok
             end
-        end 
+        end
 
     end
 

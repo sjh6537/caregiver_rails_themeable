@@ -124,7 +124,7 @@
         $(document).ready(function() {
             $( '#timer-outputpattern' ).countdown( {
                 outputPattern: '$minute 分 $second 秒後使用完畢',
-                from: 60 * <%= @time_left %>
+                from: <%= @time_left %>
             } );
         });
     </script>
