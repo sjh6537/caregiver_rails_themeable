@@ -79,22 +79,30 @@ class ApplicationController < ActionController::Base
     end
 
     def log_type_name(category,id)
-      case category
+      text =  case category
         when LOG_ADMIN
-          Admin.find(id).try(:account)
+          Admin.find_by_id(id).try(:account)
         when LOG_USER
-          User.find(id).try(:name)
+          User.find_by_id(id).try(:name)
         when LOG_USERCOIN
-          User.find(id).try(:name)
+          User.find_by_id(id).try(:name)
         when LOG_USERCOUPON
-          User.find(id).try(:name)
+          User.find_by_id(id).try(:name)
         when LOG_USERFRIEND
-          User.find(id).try(:name)
+          User.find_by_id(id).try(:name)
         when LOG_SHOP
-          Shop.find(id).try(:name)
+          Shop.find_by_id(id).try(:name)
         when LOG_SHOPCOUPON
-          Coupon.find(id).try(:name)
+          Coupon.find_by_id(id).try(:name)
+        when LOG_REQUEST
+          User::Request.find_by_id(id).try(:text)
+        when LOG_REQUEST_CATEGORY
+          RequestCategory.find_by_id(id).try(:text)
       end
+      if text.nil?
+        text = ""
+      end
+      text
     end
 
   end

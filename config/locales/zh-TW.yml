@@ -45,6 +45,7 @@ zh-TW:
       Customer: 客戶
       Administrator: 管理者
       Shops: 商家
+      Request_Category: 派工類別
       Line_Notify: Line 發送
       Message: 訊息
       Users: 用戶
@@ -55,6 +56,7 @@ zh-TW:
     CREATE_NEW_ADMIN: 新增管理者
     CREATE_NEW_SHOP: 新增商家
     CREATE_NEW_COUPON: 新增優惠卷
+    CREATE_NEW_CATEGORY: 新增派工類別
     UPDATE: 更新
     CONFIRM: 確定
     DELETE: 刪除
@@ -95,6 +97,7 @@ zh-TW:
     RESET: 重置
 
   Table:
+    Text: 文字
     ShopName: 商家名稱
     Account: 帳號
     Name: 姓名
@@ -179,6 +182,8 @@ zh-TW:
     Recipient: 對象
 
   Title:
+      REQUEST_CATEGORY_TABLE: 派工類別表格
+      NEW_REQUEST_CATEGORY_TABLE: 新增派工類別
       SHOP_INFO: 商家資訊
       SHOPS_TABLE: 商家表格
       COUPONS: 優惠卷
@@ -380,6 +385,7 @@ zh-TW:
       Block_User: 將該使用者停權使用友伴系統
       Account_Blocked: "帳號 <strong>%{name}</strong> 成功黑名單."
       Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
+      Category_cannot_delete: 派工類別新增後無法刪除只能隱藏
   Tab:
     MESSAGE: 訊息
     TARGET: 對象

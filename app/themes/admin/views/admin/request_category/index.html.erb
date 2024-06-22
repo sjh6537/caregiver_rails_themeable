@@ -1,0 +1,128 @@
+
+<%= content_for :head_css do %>
+
+	<!-- Internal Data table css -->
+	<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+	<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+
+<% end %>
+
+
+<!--Row-->
+<div class="row row-sm">
+<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+<div class="card">
+
+
+	<div class="card-header pb-0">
+		<div class="d-flex justify-content-between">
+			<h4 class="card-title mg-b-0"><%= @title %></h4>
+			<i class="mdi mdi-dots-horizontal text-gray"></i>
+		</div>
+
+		<div class="row row-xs wd-xl-80p mg-t-10">
+				<div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
+					<%= link_to( t(:CREATE_NEW_CATEGORY, scope: "Button"), new_admin_request_category_path,
+                      :method => :GET,
+                      :class => 'btn btn-success btn-block') %>
+				</div>
+		</div>
+
+
+	</div>
+
+
+	<div class="card-body">
+		<div class="table-responsive border-top userlist-table">
+			<table id="example1" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+				<thead>
+					<tr>
+						<th class="border-bottom-0 wd-lg-10p"><span>Num</span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Text, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:is_Show, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><%= t(:Action, scope: "Table") %></th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @categories.map do |c| %>
+					<tr>
+						<td class="text-center">
+							<span class="label text-muted d-flex"><div class="mr-1"></div><%= c.id %></span>
+						</td>
+						<td><%= c.text %></td>
+						<% if c.is_show %>
+							<td class="text-center">
+								<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div><%= c.is_show %></span>
+							</td>
+							<td>
+								<a class="btn ripple btn-sm btn-success mg-l-10 off_button" data-val=<%= c.id %> href=<%= admin_request_category_switch_path(c.id) %>>
+									<i class="fa-solid fa-toggle-on"></i>
+								</a>
+							</td>
+						<% else %>
+							<td class="text-center">
+								<span class="label text-danger d-flex"><div class="dot-label bg-danger mr-1"></div><%= c.is_show %></span>
+							</td>
+							<td>
+								<a class="btn ripple btn-sm btn-danger mg-l-10 on_button" data-val=<%= c.id %> href=<%= admin_request_category_switch_path(c.id) %>>
+									<i class="fa-solid fa-toggle-off"></i>
+								</a>
+							</td>
+						<% end %>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</div>
+</div><!-- COL END -->
+</div>
+<!-- row closed  -->
+
+<%= content_for :script_js do %>
+
+	<!-- Internal Data tables -->
+	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+	<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+
+	<!--Internal  Datatable js -->
+	<script src="/assets/valex/js/table-data.js"></script>
+
+    <!-- Internal Select2.min js -->
+	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+	<!-- Internal Modal js-->
+	<script src="/assets/valex/js/modal.js"></script>
+
+	<script type="text/javascript">
+
+	    $(document).on('click', '.delete_button', function(event) {
+			var id = $(this).data("val");
+			$('.delete_alerm').attr("href", "/admins/" + id );
+			$('form.button_to').attr("action", "/admins/" + id );
+	    });
+
+	</script>
+
+<% end %>

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # mount Sidekiq::Web, at: '/sidekiq'
-  
+
   # Defines the root path route ("/")
   # root "posts#index"
 
@@ -50,6 +50,10 @@ Rails.application.routes.draw do
           end
           post      'users/:id/schedules/:schedule_id/setup_schedule'     , to: 'schedules#setup_schedule'  , as: :setup_schedule_update_admin_user
           post      'users/:id/schedules/setup_schedule'                  , to: 'schedules#setup_schedule'  , as: :setup_schedule_new_admin_user
+
+          resources :request_category, except: [:destroy, :edit, :update, :show]
+          get      '/request_category/:id/switch'      , to: 'request_category#switch'                      , as: :request_category_switch
+
       end
 
     end
