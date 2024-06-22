@@ -77,6 +77,7 @@ zh-TW:
     LINE: "邀請 Line 好友"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
+    INVITE_OTHER_FRIENDS: 邀請其他好友
     GOTO_ROOT: 回到會員專區
     AGREE: 同意
     REJECT: 拒絕
@@ -244,7 +245,7 @@ zh-TW:
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
       Requests_you_accept: "目前接受過的派工需求"
       Requests_you_create: "目前發起過的派工需求"
-      You_can_chiose_friends: '你可以選擇<font class="tx-orange">「友伴內的好友派工」</font>幫忙'
+      You_can_chiose_friends: '選擇<font class="tx-orange">「友伴內的好友派工」</font>幫忙'
       or_You_can_chiose_line_friends: '或是<font class="tx-orange">「邀請Line好友」</font>加入友伴好友協助幫忙'
       You_have_n_friens: 友伴好友 %{num} 位
       You_have_n_accept_requests: 已接受派工 %{num} 件
@@ -261,6 +262,7 @@ zh-TW:
       Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
       Already_shared_line: '已發送到你的 Line 好友'
       Already_pushed_friends: '已發送到你的「友伴」好友'
+      Not_pushed_friends: '未發送到你任何「友伴」好友'
       System_will_send_notify_after_request_accepted: '若派工已被接受系統將通知雙方連絡訊息'
       And_you_can_get_reward: '並將獲得「柑幣」優惠獎勵'
       Donot_notify_after_request_finish: '**派工屆期將自動失效不另行通知**'

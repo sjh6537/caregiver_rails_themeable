@@ -82,15 +82,18 @@ class User < ActiveRecord::Base
     end
 
     def requests_new
-      self.requests.where("status < ?", REQUEST_FINISH )
+      #self.requests.where("status < ?", REQUEST_FINISH )
+      self.requests.where("request_date > ?", Time.now )
     end
 
     def requests_finish
-      self.requests.where("status = ?", REQUEST_FINISH )
+      #self.requests.where("status = ?", REQUEST_FINISH )
+      self.requests.where("request_date < ? AND helper_id IS NOT NULL ", Time.now )
     end
 
     def requests_expired
-      self.requests.where("status = ?", REQUEST_EXPIRED )
+      #self.requests.where("status = ?", REQUEST_EXPIRED )
+      self.requests.where("request_date < ? AND helper_id IS NULL ", Time.now )
     end
 
     def address_text
@@ -131,7 +134,7 @@ class User < ActiveRecord::Base
     def birthday_date
       if !self.birthday.nil?
         self.birthday.strftime('%Y/%m/%d')
-      end      
+      end
     end
 
     def self.find_for_authentication(warden_conditions)

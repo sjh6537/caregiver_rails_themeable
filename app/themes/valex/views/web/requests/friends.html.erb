@@ -36,6 +36,7 @@
     <div class="d-flex justify-content-between pd-t-20">
         <h4 class="card-title mg-b-10"><%= raw t("Website.Note.You_can_chiose_friends") %></h4>
     </div>
+<!--
     <div class="d-flex justify-content-between">
         <h4 class="card-title mg-b-10"><%= raw t("Website.Note.or_You_can_chiose_line_friends") %></h4>
     </div>
@@ -43,7 +44,7 @@
     <div class="d-flex justify-content-between wd-200">
         <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine"><i class="fab fa-brands fa-line"></i><%= raw t("Button.LINE") %></button>
     </div>
-
+-->
     <% if @user.friends.count != 0 %>
 
         <div class="d-flex justify-content-between pd-t-10">
@@ -77,7 +78,7 @@
             <div class="card-footer d-flex flex-row-reverse">
                 <div class="form-group">
                 <div class="row">
-                    <button type="submit" id="submit_friends" class="btn btn-warning waves-effect waves-light" ><%= t("Button.SEND_FRIENDS") %></button>
+                    <button type="submit" id="submit_friends" class="btn btn-warning waves-effect waves-light mg-r-20" ><%= t("Button.SEND_FRIENDS") %></button>
                 </div>
                 </div>
             </div>
@@ -108,31 +109,18 @@
 
         if ($("#new_user_request_receiver input:checkbox:checked").length > 0)
         {
-            $("#submit_friends").attr("disabled", false);
+            //$("#submit_friends").attr("disabled", false);
+            $("#submit_friends").text("<%= t("Button.SEND_FRIENDS") %>");
         }
         else
         {
-            $("#submit_friends").attr("disabled", true);
-        }
-
-    });
-
-    $(document).on('click', '#sendLine', function(event) {
-
-        var msg = 'Hi,你的好友<%= @user.name %>在友伴有一個需求需要你的幫忙 , 點選下方連結加入會員查看需求 <%= "#{APP_CONFIG[:line_liff_url]}#{web_accept_show_path(@request.id)}" %>';
-        var encoded = encodeURIComponent(msg);
-        if(encoded){
-            window.location.replace("https://line.me/R/share?text="+encoded );
-            setTimeout("location.href='<%= web_request_show_path(@request.id) %>?notice=已分享訊息'",500);
-        }else{
-            alert('傳送錯誤 , 請再分享一次訊息');
+            $("#submit_friends").text("<%= t("Button.INVITE_OTHER_FRIENDS") %>");
         }
 
     });
 
     $(document).ready(function() {
-
-        $("#submit_friends").attr("disabled", true);
+        $("#submit_friends").text("<%= t("Button.INVITE_OTHER_FRIENDS") %>");
     });
 
     </script>

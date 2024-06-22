@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-md-9">
                     <ul class="list list-noborders pb-0 mb-0">
-                        <% @user.requests.where("status < ?", REQUEST_FINISH ).each_with_index do |r , index|  %>
+                        <% @user.requests_new.each_with_index do |r , index|  %>
                         <li class="list-item">
                             <a class="fas fa-solid fa-screwdriver-wrench tx-30 tx-teal" href="<%= web_request_show_path(r.id) %>"></a>
                             <div class=" ml-3">
