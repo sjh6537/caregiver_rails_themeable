@@ -1,11 +1,12 @@
 class Admin::SchedulesController < ApplicationController
     include LineHelper
     before_action :set_user
-    before_action :clean_up_schedules
+    # before_action :clean_up_schedules
     before_action :set_schedule, only: [:show, :edit, :update, :destroy, :clear_event]
 
     def index
         @user = User.find(params[:user_id])
+        @users = User.all
         @schedules = @user.schedules if @user.present? && @user.schedules.any?
         render 'admin/users/schedules/index'
     end
@@ -20,6 +21,7 @@ class Admin::SchedulesController < ApplicationController
 
     def new
         @schedule = @user.schedules.new
+        @users = User.all
         render 'admin/users/schedules/new'
     end
 
@@ -51,6 +53,7 @@ class Admin::SchedulesController < ApplicationController
     def destroy
         @schedule = User::Schedule.find(params[:id])
         @schedule.destroy
+        Sidekiq::ScheduledSet.new.find { |job| job.jid == @schedule.job_id }&.delete
         render json: { redirect_url: admin_user_schedules_path(@user.id) }, status: :ok
     end
 
@@ -60,16 +63,22 @@ class Admin::SchedulesController < ApplicationController
             type = params[:msgtype].to_i
             user_id = params[:user_id]
             schedule_id = params[:schedule_id]
-            send_time = DateTime.parse(params[:datetime])
-            raw_send_time = send_time.utc.to_formatted_s(:db)
-            current_time = DateTime.now
-            remaining_seconds = (send_time - current_time).to_i
+            input_time = params[:datetime]
+            send_time = Time.parse("#{input_time} +0800").getutc
+            current_time = DateTime.now.utc
             case type
             when LINE_MSG_TYPE_TEXT
                 message = message_package_text(text)
             end
 
-            recipient = params[:recipient]
+            input_ids = params[:recipient]
+            recipients = []
+            input_ids.each do |input_id|
+                userdb = User.find_by_id(input_id)
+                if userdb
+                    recipients << userdb.account
+                end
+            end
 
             if schedule_id.present?
                 @schedule = @user.schedules.find(schedule_id)
@@ -78,15 +87,13 @@ class Admin::SchedulesController < ApplicationController
                     render json: { status: 'error', message: @schedule.errors.full_messages.join(", ") }, status: :unprocessable_entity
                 end
             else
-                @schedule = @user.schedules.new(recipient: recipient, scheduled_time: raw_send_time)
+                @schedule = @user.schedules.new(recipient: recipients, scheduled_time: send_time)
             end
 
             if @schedule.save
                 schedule_name = params[:schedule_name].present? ? params[:schedule_name] : "Schedule"
-                if remaining_seconds <= 0
-                    NotifySender.perform_async(recipient, message, type)
-                else
-                    job_id = NotifySender.perform_in(remaining_seconds.seconds, recipient, message, type)
+                job_id = message_schedule(send_time, recipients, message)
+                if send_time > current_time
                     @schedule.update(job_id: job_id, schedule_name: schedule_name)
                 end
                 render json: { redirect_url: admin_user_schedules_path(user_id) }, status: :ok

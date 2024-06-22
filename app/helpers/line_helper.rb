@@ -34,15 +34,35 @@ module LineHelper
         response.response.env.response_body
     end
 
-    def message_push(client_id, message)
+    def message_schedule(time , client_ids, message)
+        current_time = DateTime.now.utc
+        
         if(message == nil)
             return
         end
 
-        if(client_id == nil)
+        if(time == nil)
+            job_id = NotifySender.perform_async(client_ids, message)
+        else
+            if time <= current_time
+                job_id = NotifySender.perform_async(client_ids, message)
+            else
+                job_id = NotifySender.perform_at(time, client_ids, message)
+            end
+        end
+    end
+
+    def message_push(client_ids, message)
+        if(message == nil)
+            return
+        end
+
+        if(client_ids == nil || client_ids.count == 0)
             LinemsgController.new.client.broadcast(message)
         else
-            LinemsgController.new.client.push_message(client_id, message)
+            client_ids.each do | uid |
+                LinemsgController.new.client.push_message(uid, message)
+            end
         end
     end
 
