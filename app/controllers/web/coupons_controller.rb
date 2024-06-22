@@ -11,7 +11,7 @@ class Web::CouponsController < ApplicationWebController
       @usercoupon = @user.coupons.find_by_id(params[:id])
       @coupon = @usercoupon.coupon
       @shop = @coupon.shop
-      @time_left = 30
+      @time_left = (@usercoupon.used_datetime + 30*60 - Time.now).to_i
     end
 
     def redeem

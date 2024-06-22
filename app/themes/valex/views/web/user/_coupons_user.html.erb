@@ -38,9 +38,21 @@
                                     <div class="ml-3">
                                         <h6 class="tx-dark d-flex">
                                             <%= shop.name %>&nbsp;&nbsp;&nbsp;
-                                            <a href="<%= web_coupons_show_user_path(c.id) %>" class="x-dark d-flex" >
-                                            <b class="tx-primary mb-1 d-flex flex-row-reverse"><%= t("Website.Note.Use_Coupon") %></b>
-                                            <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></a>
+                                            <% if (c.is_used == true) %>
+                                                <% if (Time.now > (c.used_datetime + 30*60)) %>
+                                                    <b class="text-muted mb-1 d-flex flex-row-reverse"> &nbsp;<%= t("Website.Note.Today_used") %>
+                                                    <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></b>
+                                                <% else %>
+                                                    <a href="<%= web_coupons_show_user_path(c.id) %>" class="x-dark d-flex" >
+                                                    <b class="tx-success mb-1 d-flex flex-row-reverse"> &nbsp;<%= t("Website.Note.Using_Coupon") %>
+                                                    <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></b></a>
+                                                <% end %>
+                                            <% else %>
+                                                <a href="<%= web_coupons_show_user_path(c.id) %>" class="x-dark d-flex" >
+                                                <b class="tx-primary mb-1 d-flex flex-row-reverse"><%= t("Website.Note.Use_Coupon") %></b>
+                                                <i class="fas fa-solid fa-money-bill-wave waves-effect waves-light mg-l-5 t"></i></a>
+                                            <% end %>
+
                                         </h6>
                                         <h6 class="mb-1 font-weight-medium "><%= coupon.name %></h6>
                                         <p class="mb-0 text-muted tx-13"><%= coupon.discount %></p>
