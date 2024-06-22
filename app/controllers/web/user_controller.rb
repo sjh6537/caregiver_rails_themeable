@@ -32,7 +32,7 @@ class Web::UserController < ApplicationWebController
     end
 
     def requests
-        @accept_requests = @user.accept_requests
+
     end
 
     def coupons

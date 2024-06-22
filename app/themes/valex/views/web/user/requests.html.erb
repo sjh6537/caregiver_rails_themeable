@@ -34,18 +34,18 @@
     </div>
 
 
-    <% if @accept_requests.count != 0 %>
+    <% if @user.accept_requests.count != 0 %>
 
         <div class="tx-12 tx-gray-500 mb-3">
-            <div class="mg-t-5"><%= raw t("Website.Note.You_have_n_accept_requests", num: @accept_requests.count) %></div>
-            <div class="mg-t-5"><%= raw t("Website.Note.You_have_n_finish_accept_requests", num: @accept_requests.where("status >= #{REQUEST_FINISH}").count) %></div>
+            <div class="mg-t-5"><%= raw t("Website.Note.You_have_n_accept_requests", num: @user.accept_requests.count) %></div>
+            <div class="mg-t-5"><%= raw t("Website.Note.You_have_n_finish_accept_requests", num: @user.accept_requests_finish.count) %></div>
         </div>
 
         <div class="form-group">
         <div class="row">
             <div class="col-md-9">
                     <ul class="list list-noborders pb-0 mb-0">
-                        <% @accept_requests.where("status < ?", REQUEST_FINISH ).each_with_index do |r , index|  %>
+                        <% @user.accept_requests_new_and_today.each_with_index do |r , index|  %>
                         <li class="list-item">
                             <a class="fas fa-solid fa-screwdriver-wrench tx-30 tx-teal" href="<%= web_request_show_path(r.id) %>"></a>
                             <div class=" ml-3">
@@ -54,8 +54,8 @@
                             </div>
 
                             <div class="ml-auto tx-13">
-                                <% if r.status == REQUEST_FINISH  %>
-                                    <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Accept_request_finish") %></p>
+                                <% if r.is_finish %>
+                                    <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Today_finish") %></p>
                                 <% else %>
                                     <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Accept_request_new") %></p>
                                 <% end %>
@@ -99,7 +99,7 @@
         <div class="row">
             <div class="col-md-9">
                     <ul class="list list-noborders pb-0 mb-0">
-                        <% @user.requests_new.each_with_index do |r , index|  %>
+                        <% @user.requests_new_and_today.each_with_index do |r , index|  %>
                         <li class="list-item">
                             <a class="fas fa-solid fa-screwdriver-wrench tx-30 tx-teal" href="<%= web_request_show_path(r.id) %>"></a>
                             <div class=" ml-3">
@@ -108,10 +108,18 @@
                             </div>
 
                             <div class="ml-auto tx-13">
-                                <% if !r.helper.nil?  %>
-                                    <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Who_agree_this_request", name: r.helper.name) %></p>
+                                <% if r.is_expired  %>
+                                    <% if r.is_finish  %>
+                                        <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Today_finish") %></p>
+                                    <% else %>
+                                        <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Today_expired") %></p>
+                                    <% end %>
                                 <% else %>
-                                    <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.nobody_agree_this_request") %></p>
+                                    <% if !r.helper.nil?  %>
+                                        <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Who_agree_this_request", name: r.helper.name) %></p>
+                                    <% else %>
+                                        <p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.nobody_agree_this_request") %></p>
+                                    <% end %>
                                 <% end %>
                             </div>
                         </li>

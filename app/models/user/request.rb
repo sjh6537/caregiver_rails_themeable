@@ -9,6 +9,14 @@ class User::Request < ActiveRecord::Base
     has_many :request_receivers, :dependent => :destroy
     has_many :receivers, :through => :request_receivers
 
+    def is_finish
+        self.request_date < Time.now && !self.helper.nil?
+    end
+
+    def is_expired
+        self.request_date < Time.now
+    end
+
     def date
         if self.request_date.nil?
             ""

@@ -9,7 +9,15 @@
     </div>
     </div>
 
-
+<% if @request.is_expired  %>
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.Request_had_finish") %></strong>
+        </div>
+    </div>
+    </div>
+<% else %>
     <div class="form-group">
     <div class="row">
         <div class="col-md-12 alert-warning alert-orange">
@@ -17,6 +25,7 @@
         </div>
     </div>
     </div>
+<% end %>
 
     <div class="row pd-t-10">
         <div class="col-md-12">
@@ -40,9 +49,6 @@
         </div>
     </div>
 
-    <div class="d-flex flex-row-reverse pd-t-80">
-        <h4 class="card-title mg-b-10 tx-orange"><%= raw t("Website.Note.Donot_notify_after_request_finish") %></h4>
-    </div>
 
     <div class="card-footer d-flex flex-row-reverse">
         <div class="form-group">
