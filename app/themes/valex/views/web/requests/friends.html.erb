@@ -92,6 +92,16 @@
             <div class="col-md-9"></div>
         </div>
         </div>
+        <%= simple_form_for @receiver, :url => web_request_pushed_path, :defaults => { :id=>"request_receiver" , :input_html => { :class => "form-control" } } do |f| %>
+
+        <div class="card-footer d-flex flex-row-reverse">
+            <div class="form-group">
+            <div class="row">
+                <button type="submit" id="submit_friends" class="btn btn-warning waves-effect waves-light mg-r-20" ><%= t("Button.INVITE_OTHER_FRIENDS") %></button>
+            </div>
+            </div>
+        </div>
+        <% end %>
 
     <% end %>
 </div>
