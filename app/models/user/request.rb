@@ -1,5 +1,9 @@
 class User::Request < ActiveRecord::Base
+    after_create :send_message_new
+    after_update :check_agree
+
     include ApplicationHelper
+    include LineHelper
 
     validates_presence_of :request_date
 
@@ -45,6 +49,20 @@ class User::Request < ActiveRecord::Base
         text += "<p>聯絡方式 : #{self.contact_info}"
         text += "<p>描述 : #{self.descrition}"
         text
+    end
+
+    def check_agree
+        if !self.helper.nil? && self.status == REQUEST_ACCEPTED
+            message_push(self.owner.account , "Hi , 你的派工「#{self.title}」已被#{self.helper.name}接受")
+            #message_push(self.helper.account , "Hi , 你已接受#{self.owner.name}的派工「#{self.title}」")
+        end
+    end
+
+    def send_message_new
+        if !self.owner.nil?
+            message_push(self.owner.account , "Hi , 你新增一個派工「#{self.title}」")
+            job_id = RequestNotify.perform_at(self.request_date-60*60, self.id)
+        end
     end
 
     ##Time.now.localtime.strftime('%Y-%m-%d %R')

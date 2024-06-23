@@ -92,7 +92,7 @@ class Admin::SchedulesController < ApplicationController
 
             if @schedule.save
                 schedule_name = params[:schedule_name].present? ? params[:schedule_name] : "Schedule"
-                job_id = message_schedule(send_time, recipients, message)
+                job_id = message_schedule(send_time, recipients, text)
                 if send_time > current_time
                     @schedule.update(job_id: job_id, schedule_name: schedule_name)
                 end

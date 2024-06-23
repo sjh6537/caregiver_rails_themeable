@@ -118,7 +118,7 @@ class Web::RequestsController < ApplicationWebController
       end
       text = "Hi , #{friend.name} , 你的朋友 #{current_user.name} 需要你的幫忙\"#{request.title}\" , 點選下列網址查看細節幫助朋友\r\n"
       text += " #{APP_CONFIG[:line_liff_url]}/requests/#{request.id}"
-      message_push(friend.account, message_package_text(text))
+      message_push(friend.account, text)
     end
 
     def set_user

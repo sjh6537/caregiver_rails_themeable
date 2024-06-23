@@ -89,15 +89,15 @@ class Admin::UsersController < ApplicationAdminController
             when LINE_MSG_TYPE_TEXT
                 message = message_package_text(text)
             end
-            
+
             lineuser = User.find_by_id(params[:id])
             username = lineuser.line_name
             if !params[:id].present? || (params[:id] == "null")
-                message_push(nil, message)
+                message_push(nil, text)
                 render json: { status: 'success', message: I18n.t("Website.Note.Line_send_group_success") }, status: :ok
                 return
             else
-                message_push(lineuser.account, message)
+                message_push(lineuser.account, text)
                 render json: { status: 'success', message: I18n.t("Notify.Note.Line_send_person_success", name: "#{username}")}, status: :ok
                 return
             end

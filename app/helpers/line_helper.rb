@@ -12,7 +12,7 @@ module LineHelper
         )
         auth_url
     end
-    
+
     def login_token(callback, client_id, client_secret, code)
         # 參考 https://developers.line.biz/en/reference/line-login/#issue-access-token
         client = OAuth2::Client.new(client_id, client_secret, :site => APP_CONFIG[:line_api_token_url], :authorize_url => "", :token_url => "", :token_method => :post)
@@ -27,41 +27,51 @@ module LineHelper
         }
         client.get_token(body_options)
     end
-    
+
     def login_get_profile(client_id, client_secret, uid_token , access_token)
         # 參考 https://developers.line.biz/ja/docs/line-login/verify-id-token/
         response = access_token.post(APP_CONFIG[:line_api_verify_url], {body: {:id_token => uid_token, :client_id => client_id}})
         response.response.env.response_body
     end
 
-    def message_schedule(time , client_ids, message)
+    def message_schedule(time , client_ids, text)
         current_time = DateTime.now.utc
-        
-        if(message == nil)
+
+        if(text == nil)
             return
         end
 
         if(time == nil)
-            job_id = NotifySender.perform_async(client_ids, message)
+            job_id = NotifySender.perform_async(client_ids, text)
         else
             if time <= current_time
-                job_id = NotifySender.perform_async(client_ids, message)
+                job_id = NotifySender.perform_async(client_ids, text)
             else
-                job_id = NotifySender.perform_at(time, client_ids, message)
+                job_id = NotifySender.perform_at(time, client_ids, text)
             end
         end
     end
 
-    def message_push(client_ids, message)
-        if(message == nil)
+    def message_push(client_ids, text)
+        if(text == nil)
             return
         end
 
-        if(client_ids == nil || client_ids.count == 0)
+        message = message_package_text(text)
+
+        if(client_ids == nil)
             LinemsgController.new.client.broadcast(message)
         else
-            client_ids.each do | uid |
-                LinemsgController.new.client.push_message(uid, message)
+            if client_ids.kind_of?(Array)
+                if client_ids.count == 0
+                    LinemsgController.new.client.broadcast(message)
+                else
+                    client_ids.each do | uid |
+                        LinemsgController.new.client.push_message(uid, message)
+                    end
+                end
+            else
+                LinemsgController.new.client.push_message(client_ids, message)
             end
         end
     end
@@ -134,4 +144,3 @@ module LineHelper
         }
     end
 end
-    
