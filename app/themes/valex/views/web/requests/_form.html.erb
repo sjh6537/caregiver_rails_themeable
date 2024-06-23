@@ -22,14 +22,14 @@
         <div class="row">
             <div class="col-md-3"><label class="form-label"><%= t("Table.Category") %></label></div>
             <div class="col-md-9 row">
-                <% REQUEST_CATEGORY[1..].each_with_index do |c , index| %>
+                <% request_category_all.each_with_index do |c , index| %>
                     <% if @category == index+1  %>
                         <div class="col-lg-3">
-                            <label class="rdiobox"><input class="category" checked name="user_request[category]" value=<%= index+1 %> type="radio"> <span><%= c %></span></label>
+                            <label class="rdiobox"><input class="category" checked name="user_request[category]" value=<%= c.id %> type="radio"> <span><%= c.text %></span></label>
                         </div>
                     <% else %>
                         <div class="col-lg-3">
-                            <label class="rdiobox"><input class="category" name="user_request[category]" value=<%= index+1 %> type="radio"> <span><%= c %></span></label>
+                            <label class="rdiobox"><input class="category" name="user_request[category]" value=<%= c.id %> type="radio"> <span><%= c.text %></span></label>
                         </div>
                     <% end %>
                 <% end %>

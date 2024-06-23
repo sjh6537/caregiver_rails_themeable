@@ -39,4 +39,16 @@ module ApplicationHelper
         end
     end
 
+    def request_category_all
+        RequestCategory.where(is_show: true)
+    end
+
+    def request_category_text(id)
+        if RequestCategory.find_by_id(id).nil?
+            "其他"
+        else
+            RequestCategory.find_by_id(id).text
+        end
+    end
+
 end

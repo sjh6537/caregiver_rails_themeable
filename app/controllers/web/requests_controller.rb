@@ -13,10 +13,10 @@ class Web::RequestsController < ApplicationWebController
     def new
       @title_sub = I18n.t(:New, scope: "Title")
       @category = params[:category].to_i
-      if @category == 0 || @category == 9
+      if @category == 0
         title="請幫忙"
       else
-        title="請幫忙#{REQUEST_CATEGORY[@category]}"
+        title="請幫忙#{request_category_text(@category)}"
       end
       @descrition = "Hi, 需要你的幫忙\r\n"
       @request = @user.requests.new(descrition: @descrition, category: params[:category], title: title, location: @user.address, location_city: @user.addr_city, location_postal: @user.addr_postal, contact_info: @user.phone)

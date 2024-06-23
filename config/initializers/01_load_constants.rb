@@ -46,19 +46,6 @@ REQUEST_ACCEPTED          = 1.freeze
 REQUEST_FINISH            = 2.freeze
 REQUEST_EXPIRED           = 3.freeze
 
-REQUEST_CATEGORY = [
-    "non define",
-    "煮飯",
-    "購物",
-    "洗衣",
-    "水電修理",
-    "看醫生",
-    "醫囑提醒",
-    "寵物陪伴",
-    "外出協助",
-    "其他",
-]
-
 CITY_CODE = [
     {city: "台北市" , code: 1 },
     {city: "基隆市" , code: 2 },
