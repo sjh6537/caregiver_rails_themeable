@@ -16,20 +16,6 @@ class User < ActiveRecord::Base
     has_many :history_coins, :dependent => :destroy, class_name: 'User::HistoryCoin'
     has_many :schedules, class_name: 'User::Schedule', foreign_key: 'schedule_id', dependent: :destroy
 
-    def redeem_coupon(shop_coupon)
-      user_coins = self.coins
-      redeem_coins = shop_coupon.redeem
-      if user_coins >= redeem_coins
-        shop_coupon.update(number_used: shop_coupon.number_used+1, number_stock: shop_coupon.number_stock-1)
-        user_coupon = self.coupons.create(coupon_id: shop_coupon.id)
-        self.history_coins.create(category: COINS_USE_COUPON, category_id: user_coupon.id, number: redeem_coins, description: I18n.t("Notify.Note.Redeem_success", name: "#{shop_coupon.name}") )
-        self.profile.update(coins_this_y: user_coins-redeem_coins)
-        true
-      else
-        false
-      end
-    end
-
     def coins
       self.profile.coins_this_y
     end
@@ -149,6 +135,31 @@ class User < ActiveRecord::Base
     def self.find_for_authentication(warden_conditions)
         warden_conditions[:account].upcase!
         where(customer_id: warden_conditions[:customer_id], account: warden_conditions[:account]).first
+    end
+
+    def coins_get(coins , coins_source_type , coins_source_id , description)
+      current_coins = self.coins
+      self.profile.update(coins_this_y: current_coins + coins)
+      self.history_coins.create(category: coins_source_type, category_id: coins_source_id, number: coins, description: description)
+    end
+
+    def coins_use(coins , coins_source_type , coins_source_id , description)
+      current_coins = self.coins
+      self.profile.update(coins_this_y: current_coins - coins)
+      self.history_coins.create(category: coins_source_type, category_id: coins_source_id, number: coins, description: description)
+    end
+
+    def redeem_coupon(shop_coupon)
+      user_coins = self.coins
+      redeem_coins = shop_coupon.redeem
+      if user_coins >= redeem_coins
+        shop_coupon.update(number_used: shop_coupon.number_used+1, number_stock: shop_coupon.number_stock-1)
+        user_coupon = self.coupons.create(coupon_id: shop_coupon.id)
+        coins_use(redeem_coins , COINS_USE_COUPON , user_coupon.id , I18n.t("Notify.Note.Redeem_success", name: "#{shop_coupon.name}"))
+        true
+      else
+        false
+      end
     end
 
     protected

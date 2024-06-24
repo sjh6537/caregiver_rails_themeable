@@ -109,8 +109,7 @@ class Admin::UsersController < ApplicationAdminController
 
     def coins_deliver
         coins = params[:number].to_i
-        @user.profile.update(coins_this_y: @user.profile.coins_this_y + coins)
-        @user.history_coins.create(category: COINS_GET_SYSTEM, category_id: current_admin.id, number: coins, description: I18n.t("Notify.Note.Deliver_Coins_Success") )
+        @user.coins_get(coins , COINS_GET_SYSTEM , current_admin.id , I18n.t("Notify.Note.Deliver_Coins_Success"))
         add_log(ACTION_ADD,LOG_ADMIN,current_admin.id,LOG_USERCOIN,@user.id,"#{coins}枚")
         redirect_to admin_user_path(@user.id)
     end
