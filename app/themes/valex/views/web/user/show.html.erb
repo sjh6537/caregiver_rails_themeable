@@ -56,17 +56,17 @@
 					<div class="main-profile-overview d-flex">
 
 							<div class="mg-r-50 ml-3 pd-t-20">
-								<a class="fas fa-solid fa-user-group tx-40 tx-teal" href="<%= web_user_friends_path %>"></a>
+								<a class="fas fa-solid fa-user tx-40 tx-orange" href="<%= web_user_friends_path %>"></a>
 								<p class="mb-1 text-muted tx-center"><%= @user.friends.count %></p>
 							</div>
 
 							<div class="mg-r-50 ml-3 pd-t-20">
-								<a class="fas fa-solid fa-screwdriver-wrench tx-40 tx-teal" href="<%= web_user_requests_path %>"></a>
+								<a class="fas fa-solid fa-gear tx-40 tx-orange" href="<%= web_user_requests_path %>"></a>
 								<p class="mb-1 text-muted tx-center"><%= @user.requests.count %></p>
 							</div>
 
 							<div class="mr-auto ml-3 pd-t-20">
-								<a class="fas fa-solid fa-money-check-dollar tx-40 tx-teal" href="<%= web_user_coupons_path %>"></a>
+								<a class="fas fa-solid fa-circle-dollar-to-slot tx-40 tx-orange" href="<%= web_user_coupons_path %>"></a>
 								<p class="mb-1 text-muted tx-center"><%= @user.coupons.count %></p>
 							</div>
 
