@@ -9,6 +9,11 @@ class User < ActiveRecord::Base
 
     has_one :profile, :dependent => :destroy, class_name: 'User::Profile'
 
+    has_many :careds_related, :dependent => :destroy, class_name: 'User::UsersReleatedCaregivers', foreign_key: 'caregiver_id'
+    has_many :careds, :through => :careds_related, :source => :cared, foreign_key: 'cared_id', primary_key: 'caregiver_id'
+    has_many :caregivers_related, :dependent => :destroy, class_name: 'User::UsersReleatedCaregivers', foreign_key: 'cared_id'
+    has_many :caregivers, :through => :caregivers_related, :source => :caregiver, foreign_key: 'caregiver_id' , primary_key: 'cared_id'
+
     has_many :users_related_friends, :dependent => :destroy, class_name: 'User::UsersReleatedFriends'
     has_many :friends, :through => :users_related_friends, :source => :user, foreign_key: 'friend_id', primary_key: 'user_id'
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
