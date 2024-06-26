@@ -101,3 +101,4 @@ gem 'sinatra', require: false  # for 看 sidekiq 狀況
 gem 'slim'                     # for 看 sidekiq 狀況
 gem 'redis'
 gem 'redis-client'
+gem 'sidekiq-scheduler'

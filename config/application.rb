@@ -28,6 +28,9 @@ module LearningLife
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.after_initialize do
+      Sidekiq::Scheduler.dynamic = true
+    end
 
     config.hosts << "caregiver.admin.miaoligo.com"
     config.hosts << "caregiver.line.miaoligo.com"

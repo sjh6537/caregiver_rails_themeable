@@ -1,0 +1,7 @@
+:scheduler:
+  :schedule:
+    daily_check:
+      cron: "0 1 * * *"
+      class: DailyCheck
+      queue: default
+
