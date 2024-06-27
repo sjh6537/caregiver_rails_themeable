@@ -95,6 +95,8 @@ class Admin::SchedulesController < ApplicationController
                 job_id = message_schedule(send_time, recipients, text)
                 if send_time > current_time
                     @schedule.update(job_id: job_id, schedule_name: schedule_name)
+                else
+                    @schedule.destroy
                 end
                 render json: { redirect_url: admin_user_schedules_path(user_id) }, status: :ok
             else
@@ -128,7 +130,7 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def clean_up_schedules
-        current_time = DateTime.current - 1.minute
+        current_time = DateTime.current
         @user.schedules.where("scheduled_time < ?", current_time).find_each do |schedule|
             delete_sidekiq_job(schedule.job_id)
             schedule.destroy

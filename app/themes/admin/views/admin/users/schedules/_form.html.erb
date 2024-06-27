@@ -117,7 +117,7 @@
         var currentDatetime = `${year}-${month}-${day}T${hours}:${minutes}`;
 
         var initialFriendListHtml = $('#friend-list').html();
-        var displayedFriends = <%= @user.friends.map(&:id).to_json.html_safe %>;
+        var displayedFriends = <%= @users.map(&:id).to_json.html_safe %>;
 
         $(document).on('click', '.send_button', function(obj) {
             var src_text = $(this).data('btn_src');
