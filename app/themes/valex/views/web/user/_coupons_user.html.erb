@@ -26,7 +26,8 @@
     <div class="row">
         <div class="col-md-9">
             <ul class="list list-noborders pb-0 mb-0">
-                <% @user_coupons.where(is_vaild: true).map do | c | coupon = c.coupon; shop=coupon.shop %>
+                <% @user_coupons.where(is_expired: false).map do | c | coupon = c.coupon; shop=coupon.shop %>
+                            <% if (c.is_used != true) || c.used_datetime.today?  %>
                             <div class="bottom mg-b-20">
                                 <li class="list-item">
                                     <% if coupon.image_file_name.nil? %>
@@ -59,6 +60,8 @@
                                     </div>
                                 </li>
                             </div>
+                            <% end %>
+
                 <% end %>
             </ul>
         </div>

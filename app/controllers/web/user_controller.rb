@@ -36,6 +36,7 @@ class Web::UserController < ApplicationWebController
     end
 
     def coupons
+        @page = params[:page]
         @user_coupons = @user.coupons
         @shops = Shop.all
     end

@@ -11,14 +11,18 @@ class Web::CouponsController < ApplicationWebController
       @usercoupon = @user.coupons.find_by_id(params[:id])
       @coupon = @usercoupon.coupon
       @shop = @coupon.shop
-      @time_left = (@usercoupon.used_datetime + 30*60 - Time.now).to_i
+      if @usercoupon.is_used
+        @time_left = (@usercoupon.used_datetime + 30*60 - Time.now).to_i
+      else
+        @time_left = 0
+      end
     end
 
     def redeem
       @coupon = Coupon.find_by_id(params[:id])
       if @coupon.number_stock > 1
         if @user.redeem_coupon(@coupon)
-          redirect_to web_user_coupons_path, notice: I18n.t("Notify.Note.Redeem_success", name: "#{@coupon.name}")
+          redirect_to web_user_coupons_path(0), notice: I18n.t("Notify.Note.Redeem_success", name: "#{@coupon.name}")
         else
           redirect_back fallback_location: "/", alert: I18n.t("Notify.Note.Redeem_fail_coin_not_enough", name: "#{@coupon.name}")
         end

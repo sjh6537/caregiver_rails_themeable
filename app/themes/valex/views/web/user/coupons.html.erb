@@ -41,8 +41,8 @@
             <div class="tabs-menu1">
                 <!-- Tabs -->
                 <ul class="nav panel-tabs main-nav-line">
-                    <li><a href="#coupons_user" class="nav-link" data-toggle="tab"><%= t("Website.My_Coupons") %></a></li>
-                    <li><a href="#coupons_redeem" class="nav-link active" data-toggle="tab"><%= t("Website.Redeem_Coupons") %></a></li>
+                    <li><a id="a_coupons_user" href="#coupons_user" class="nav-link" data-toggle="tab"><%= t("Website.My_Coupons") %></a></li>
+                    <li><a id="a_coupons_redeem" href="#coupons_redeem" class="nav-link" data-toggle="tab"><%= t("Website.Redeem_Coupons") %></a></li>
                 </ul>
             </div>
         </div>
@@ -51,7 +51,7 @@
                 <div class="tab-pane" id="coupons_user">
                     <%= render :partial => 'coupons_user' %>
                 </div>
-                <div class="tab-pane active" id="coupons_redeem">
+                <div class="tab-pane" id="coupons_redeem">
                     <%= render :partial => 'coupons_redeem' %>
                 </div>
             </div>
@@ -76,6 +76,23 @@
 
 <%= content_for :script_js do %>
 
+    <script type="text/javascript">
+        $(document).ready(function() {
+            if (<%= @page %> == 0){
+                $('#a_coupons_user').addClass("active")
+                $('#coupons_user').addClass("active")
+                $('#a_coupons_redeem').removeClass("active")
+                $('#coupons_redeem').removeClass("active")
+            }
+            if (<%= @page %> == 1){
+                $('#a_coupons_user').removeClass("active")
+                $('#coupons_user').removeClass("active")
+                $('#a_coupons_redeem').addClass("active")
+                $('#coupons_redeem').addClass("active")
+            }
+        });
+
+    </script>
 
 
 <% end %>
