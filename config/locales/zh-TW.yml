@@ -77,6 +77,7 @@ zh-TW:
     Current_Step: 目前階段
     loading: 載入中...
     LINE: "邀請 Line 好友"
+    CAREGIVER: "邀請好友當照護者"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
     INVITE_OTHER_FRIENDS: 邀請其他好友
@@ -117,6 +118,8 @@ zh-TW:
     Phone: 聯絡電話
     Phone2: 聯絡電話2
     Phone3: 聯絡電話3
+    Caregiver: 照護者
+    Careds: 正在照護
     Line: LINE
     Facebook: Facebook
     IG: IG
@@ -224,6 +227,7 @@ zh-TW:
     Del_Shop: 是否確定要刪除商家?
     Del_Coupon: 是否確定要刪除優惠卷?
     Del_Admin: 是否確定要刪除管理者?
+    Caregiver: 照護者可以自動得知你派工及健康訊息
   Notice:
     Created: 建立「%{name}」成功
     Created_Fail: 建立「%{name}」失敗
@@ -283,14 +287,17 @@ zh-TW:
       Receiver_consider: '考慮中'
       Request_no_receiver: '您所發送的派工尚未有好友接受'
       Request_has_receiver: '派工已有接受者'
-      Request_had_finish: '派工已完成'
+      Request_had_finish: '派工已結束'
       Request_had_expired: '派工已過期'
       Already_push_receivers: '已發送「友伴」訊息好友'
       No_push_receivers: '你未發送給任何「友伴」好友訊息'
+      Nobody: '此使用者已退出友伴會員'
       Does_agree_to_accept: '是否同意接受?'
+      Does_agree_to_be_caregiver: '是否同意成為照護者?'
       Request_has_helper: '此份派工已有其他人接受'
       You_accept_this_request: '你已接受該派工'
       Accepted_this_request: '已接受該派工'
+      You_accept_this_caregiver: '你已接受該照護者'
       Update_Success: "會員 <strong>%{name}</strong> 成功更新"
       Update_Fail: "會員 <strong>%{name}</strong> 更新失敗"
       No_Coupons: '您沒有任何優惠卷'
@@ -345,6 +352,7 @@ zh-TW:
       Redeem_fail_coupon_not_enough: '「%{name}」優惠卷兌換失敗，優惠卷已被兌換完畢'
       Something_Wrong: '發生問題 , 請再點選一次 , 或將問題回報官方人員'
       You_accept_this_request: '你接受了%{name}的派工'
+      You_accept_this_caregiver: '你成為%{name}的照護者'
       Your_request_already_create: '你的需求已經建立'
       Please_Select_One_City: '請選擇一個城市'
       Please_Select_One_Postal: '請選擇一個區域'

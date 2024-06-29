@@ -11,6 +11,8 @@ class Web::UserController < ApplicationWebController
 
     def edit
         @title_sub = I18n.t(:Edit, scope: "Title")
+        @caregiver = @user.caregivers.first
+        @cared = @user.careds.first
     end
 
     def update
