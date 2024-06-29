@@ -9,7 +9,15 @@
     </div>
     </div>
 
-
+<% if @request.is_expired  %>
+    <div class="form-group">
+    <div class="row">
+        <div class="col-md-12 alert-warning alert-orange">
+            <strong><%= raw t("Website.Note.Request_had_finish") %></strong>
+        </div>
+    </div>
+    </div>
+<% else %>
     <div class="form-group">
     <div class="row">
         <div class="col-md-12 alert-warning alert-orange">
@@ -17,6 +25,7 @@
         </div>
     </div>
     </div>
+<% end %>
 
     <div class="row pd-t-10">
         <div class="col-md-12">
@@ -47,7 +56,7 @@
     <div class="card-footer d-flex flex-row-reverse">
         <div class="form-group">
         <div class="row">
-            <%= button_to t("Button.JOIN_CAREGIVER"), web_accept_edit_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+            <%= button_to t("Button.GOTO_ROOT"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
         </div>
         </div>
     </div>
