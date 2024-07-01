@@ -21,7 +21,7 @@ class Web::UserController < ApplicationWebController
 
         respond_to do |format|
             if result
-                append_user(@user.account,@user.phone)
+                append_user("%010d" % @user.id , @user.phone)
                 format.html { redirect_to web_user_show_path, notice: I18n.t("Website.Note.Update_Success", name: "#{@user.line_name}") }
             else
                 format.html { render action: "edit", alert: I18n.t("Website.Note.Update_Fail", name: "#{@user.line_name}") }
