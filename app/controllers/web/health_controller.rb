@@ -18,7 +18,7 @@ class Web::HealthController < ApplicationWebController
     end
 
     def go
-        url = "#{APP_CONFIG[:health_view_url]}?MemberId=#{@user.account}&Phone=#{@user.phone}"
+        url = "#{APP_CONFIG[:health_view_url]}?MemberId=#{@user.account[0..9]}&Phone=#{@user.phone}"
         redirect_to url, allow_other_host: true
     end
 
