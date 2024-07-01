@@ -17,7 +17,7 @@ class Admin::HealthController < ApplicationController
             render json: { status: 'error', message: 'error parameter' }, status: :ok
         else
             #user = User.where("account == ? AND phone == ?", uid , phone)
-            user = User.where("account == ?", uid).first
+            user = User.find(uid.to_i)
             if user.nil?
                 render json: { status: 'error', message: 'error user' }, status: :ok
             else
