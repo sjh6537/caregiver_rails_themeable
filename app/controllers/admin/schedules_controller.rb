@@ -3,11 +3,11 @@ class Admin::SchedulesController < ApplicationController
     before_action :set_user
     # before_action :clean_up_schedules
     before_action :set_schedule, only: [:show, :edit, :update, :destroy, :clear_event]
+    before_action :set_gon_variables
 
     def index
         @user = User.find(params[:user_id])
-        @users = User.all
-        @schedules = @user.schedules if @user.present? && @user.schedules.any?
+        @schedules = @user.schedules.order(scheduled_time: :desc) if @user.present? && @user.schedules.any?
         render 'admin/users/schedules/index'
     end
 
@@ -20,6 +20,7 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def new
+        @user = User.find(params[:user_id])
         @schedule = @user.schedules.new
         @users = User.all
         render 'admin/users/schedules/new'
@@ -36,7 +37,9 @@ class Admin::SchedulesController < ApplicationController
     end
 
     def edit
-        @schedule = User::Schedule.find(params[:id])
+        @user = User.find(params[:user_id])
+        @schedule = @user.schedules.find(params[:id])
+        @users = User.all
         render 'admin/users/schedules/edit'
     end
 
@@ -66,10 +69,6 @@ class Admin::SchedulesController < ApplicationController
             input_time = params[:datetime]
             send_time = Time.parse("#{input_time} +0800").getutc
             current_time = DateTime.now.utc
-            case type
-            when LINE_MSG_TYPE_TEXT
-                message = message_package_text(text)
-            end
 
             input_ids = params[:recipient]
             recipients = []
@@ -82,12 +81,13 @@ class Admin::SchedulesController < ApplicationController
 
             if schedule_id.present?
                 @schedule = @user.schedules.find(schedule_id)
+                @schedule.update(recipient: recipients, scheduled_time: send_time, message_text: text)
                 Sidekiq::ScheduledSet.new.find { |job| job.jid == @schedule.job_id }&.delete
-                if schedule.blank?
+                if @schedule.blank?
                     render json: { status: 'error', message: @schedule.errors.full_messages.join(", ") }, status: :unprocessable_entity
                 end
             else
-                @schedule = @user.schedules.new(recipient: recipients, scheduled_time: send_time)
+                @schedule = @user.schedules.new(recipient: recipients, scheduled_time: send_time, message_text: text)
             end
 
             if @schedule.save
@@ -153,5 +153,33 @@ class Admin::SchedulesController < ApplicationController
     def delete_sidekiq_job(job_id)
         job = Sidekiq::ScheduledSet.new.find { |j| j.jid == job_id }
         job.delete if job
-      end
+    end
+
+    def set_gon_variables
+        gon.button_next = I18n.t("Button.NEXT")
+        gon.button_previous = I18n.t("Button.PREVIOUS")
+        gon.button_finish = I18n.t("Button.FINISH")
+        gon.button_cancel = I18n.t("Button.CANCEL")
+        gon.tip_error_default_Message = I18n.t("Tip.Error.Default_Message")
+        gon.tip_error_type_Email = I18n.t("Tip.Error.Type_Email")
+        gon.tip_error_type_Url = I18n.t("Tip.Error.Type_Url")
+        gon.tip_error_type_Number = I18n.t("Tip.Error.Type_Number")
+        gon.tip_error_type_Integer = I18n.t("Tip.Error.Type_Integer")
+        gon.tip_error_type_Digits = I18n.t("Tip.Error.Type_Digits")
+        gon.tip_error_type_Alphanum = I18n.t("Tip.Error.Type_Alphanum")
+        gon.tip_error_notblank = I18n.t("Tip.Error.Notblank")
+        gon.tip_error_required = I18n.t("Tip.Error.Required")
+        gon.tip_error_pattern = I18n.t("Tip.Error.Pattern")
+        gon.tip_error_min = I18n.t("Tip.Error.Min")
+        gon.tip_error_max = I18n.t("Tip.Error.Max")
+        gon.tip_error_range = I18n.t("Tip.Error.Range")
+        gon.tip_error_minlength = I18n.t("Tip.Error.Minlength")
+        gon.tip_error_maxlength = I18n.t("Tip.Error.Maxlength")
+        gon.tip_error_length = I18n.t("Tip.Error.Length")
+        gon.tip_error_mincheck = I18n.t("Tip.Error.Mincheck")
+        gon.tip_error_maxcheck = I18n.t("Tip.Error.Maxcheck")
+        gon.tip_error_check = I18n.t("Tip.Error.Check")
+        gon.tip_error_equalto = I18n.t("Tip.Error.Equalto")
+
+    end
 end

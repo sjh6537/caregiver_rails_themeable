@@ -102,3 +102,5 @@ gem 'slim'                     # for 看 sidekiq 狀況
 gem 'redis'
 gem 'redis-client'
 gem 'sidekiq-scheduler'
+
+gem 'gon' # Send data to javascript

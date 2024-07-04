@@ -9,7 +9,21 @@
 <link href="/assets/valex/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.css" rel="stylesheet">
 <link href="/assets/valex/plugins/pickerjs/picker.min.css" rel="stylesheet">
 
- 
+<!--- Style css --->
+<link href="/assets/valex/css/style.css" rel="stylesheet">
+
+<!--- Dark-mode css --->
+<link href="/assets/valex/css/style-dark.css" rel="stylesheet">
+
+<!---Skinmodes css-->
+<link href="/assets/valex/css/skin-modes.css" rel="stylesheet" >
+
+<!--- Animations css-->
+<link href="/assets/valex/css/animate.css" rel="stylesheet">
+
+<!-- Internal Spectrum-colorpicker css -->
+<link href="/assets/valex/plugins/spectrum-colorpicker/spectrum.css" rel="stylesheet">
+
 <!-- row -->
 <div class="row row-sm">
 <!-- Col -->
@@ -18,7 +32,7 @@
 <div class="card-body">
 	
 		<div class="mb-4 main-content-label tx-primary"><h5><%= t("Title.NEW_SCHEDULE") %></h5></div>
-
+		<%= include_gon %>
 		<%= render 'admin/users/schedules/form' %>
 
 </div>
@@ -48,13 +62,89 @@
 	<!-- Ionicons js -->
 	<script src="/assets/valex/plugins/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
 
+	<!-- Ionicons js -->
+	<script src="/assets/valex/plugins/ionicons/ionicons.js"></script>
+
+	<!-- Moment js -->
+	<script src="/assets/valex/plugins/moment/moment.js"></script>
+
 	<!-- Internal Modal js-->
 	<script src="/assets/valex/js/modal.js"></script>
 
 	<!-- Internal form-elements js -->
 	<script src="/assets/valex/js/form-elements.js"></script>
-	<!--Internal  Notify js -->
-	<script src="/assets/valex/plugins/notify/js/notifIt.js"></script>
-	<script src="/assets/valex/plugins/notify/js/notifit-custom.js"></script>
-	H:\rails\testline\LearningLife\vendor\javascript\valex\plugins\notify\css\notifIt.css
+
+	<!-- Internal Jquery.steps js -->
+	<script src="/assets/valex/plugins/jquery-steps/jquery.steps.min.js"></script>
+	<script src="/assets/valex/plugins/parsleyjs/parsley.min.js"></script>
+
+	<script type="text/javascript">
+        Parsley.addMessages('zh-tw', {
+            defaultMessage: gon.tip_error_default_Message,
+            type: {
+                email:      gon.tip_error_type_Email,
+                url:        gon.tip_error_type_Url,
+                number:     gon.tip_error_type_Number,
+                integer:    gon.tip_error_type_Integer,
+                digits:     gon.tip_error_type_Digits,
+                alphanum:   gon.tip_error_type_Alphanum
+            },
+            notblank:       gon.tip_error_notblank,
+            required:       gon.tip_error_required,
+            pattern:        gon.tip_error_pattern,
+            min:            gon.tip_error_min,
+            max:            gon.tip_error_max,
+            range:          gon.tip_error_range,
+            minlength:      gon.tip_error_minlength,
+            maxlength:      gon.tip_error_maxlength,
+            length:         gon.tip_error_length,
+            mincheck:       gon.tip_error_mincheck,
+            maxcheck:       gon.tip_error_maxcheck,
+            check:          gon.tip_error_check,
+            equalto:        gon.tip_error_equalto
+        });
+
+        Parsley.setLocale('zh-tw');
+        $('#schedule_event_setup').steps({
+            headerTag: 'h3',
+            bodyTag: 'section',
+            autoFocus: true,
+            titleTemplate: '<span class="number">#index#<\/span> <span class="title">#title#<\/span>',
+            labels:{
+                current:"current step:",
+                pagination:"Pagination",
+                loading:"Loading ...",
+                next: gon.button_next,
+                previous: gon.button_previous,
+                finish: gon.button_finish,
+                cancel: gon.button_cancel
+            },
+            onFinishing: function(){
+                var sendButton = $('#send_button');
+                sendButton.click();
+            },
+            onStepChanging: function(event, currentIndex, newIndex) {
+                if (currentIndex < newIndex) {
+                    // Step 1 form validation
+                    if (currentIndex === 0) {
+                        var schedule_name = $('#user_schedule_schedule_name').parsley();
+						var schedule_text = $('#text_send_message').parsley();
+						if (schedule_name.isValid() && schedule_text.isValid()) {
+							return true;
+						} else {
+							schedule_name.validate();
+							schedule_text.validate();
+						}
+                    }
+                    // Step 2 form validation
+                    if (currentIndex === 1) {
+                        return true;
+                    }
+                    // Always allow step back to the previous step even if the current step is not valid.
+                } else {
+                    return true;
+                }
+            }
+        });
+	</script>
 <% end %>

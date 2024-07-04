@@ -29,25 +29,34 @@
 			<table id="example" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
 				<thead>
 					<tr>
-						<th class="wd-lg-8p"><span></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Name") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.LineName") %></span></th>
+						<th class="wd-lg-10p"><span><%= t("Table.User") %></span></th>
 						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Friends") %></span></th>
 						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Requests") %></span></th>
 						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Coins") %></span></th>
 						<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Last_Sign_in") %></span></th>
 						<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Status") %></span></th>
-						<th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Action") %></span></th>
+						<th class="border-bottom-0 wd-lg-50p"><span><%= t("Table.Action") %></span></th>
 					</tr>
 				</thead>
 				<tbody>
 					<% @users.map do |c| %>
 					<tr>
 						<td>
-							<img alt="avatar" class="rounded-circle avatar-md mr-2" src="<%= c.line_image %>">
-						</td>
-						<td><%= c.name %></td>
-						<td><%= c.line_name %></td>
+	                        <div class="media d-block d-sm-flex">
+	                            <div class="card-aside-img">
+	                                <img class="main-img-user avatar-md mg-sm-r-20 mg-b-20 mg-sm-b-0" src="<%= c.line_image %>" alt="img" class="h-60 w-60">
+	                            </div>
+	                            <div class="media-body">
+	                                <div class="card-item-desc mt-0">
+	                                    <h6 class="font-weight-semibold mt-0 text-uppercase"><%= c.name %></h6>
+	                                    <dl class="card-item-desc-1">
+	                                      <dt><%= t("Table.LineName") %></dt>
+	                                      <dd><%= c.line_name %></dd>
+	                                    </dl>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </td>
 						<td><%= c.friends.count %></td>
 						<td><%= c.requests.count %></td>
 						<td><%= c.coins %></td>
@@ -65,7 +74,7 @@
 							<!-- <a class="btn ripple btn-sm btn-danger mg-l-10 delete_button" data-val=<%= c.id %> data-target="#modal_block" data-toggle="modal" href="">
 								<i class="las la-trash"></i>
 							</a> -->
-							<a href="<%= admin_user_schedules_path(c.id) %>" class="btn btn-sm btn-info">
+							<a href="<%= admin_user_schedules_path(c.id) %>" class="btn btn-sm btn-teal">
 								<i class="las la-comment"></i>
 							</a>
 						</td>
