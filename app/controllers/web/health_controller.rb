@@ -3,7 +3,7 @@ class Web::HealthController < ApplicationWebController
     before_action :set_user, only: [:edit, :update, :go]
 
     def edit
-        if !(@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
+        if !@user.name.nil? && @user.phone != ""
             redirect_to web_health_go_path
         end
     end
@@ -18,8 +18,13 @@ class Web::HealthController < ApplicationWebController
     end
 
     def go
-        url = "#{APP_CONFIG[:health_view_url]}?MemberId=#{"%010d" % @user.id}&Phone=#{@user.phone}"
-        redirect_to url, allow_other_host: true
+        if @user.name.nil? || @user.phone == ""
+            redirect_to web_health_edit_path
+        else
+            url = "#{APP_CONFIG[:health_view_url]}?MemberId=#{"%010d" % @user.id}&Phone=#{@user.phone}"
+            redirect_to url, allow_other_host: true
+        end
+
     end
 
     private
