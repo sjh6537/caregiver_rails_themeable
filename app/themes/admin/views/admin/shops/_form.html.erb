@@ -10,6 +10,18 @@
 <%= f.error_notification %>
 
 		<div class="mb-4 main-content-label tx-success"><%= t(:SHOP_INFO, scope: "Title") %></div>
+
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label"><%= t(:is_Show, scope: "Table") %></label>
+				</div>
+				<div class="col-md-9">
+					<%= f.input :is_show, label: false, :placeholder => t(:is_Show, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
@@ -20,6 +32,7 @@
 				</div>
 			</div>
 		</div>
+
 		<div class="form-group ">
 			<div class="row">
 				<div class="col-md-3">
@@ -27,6 +40,52 @@
 				</div>
 				<div class="col-md-9">
 					<%= f.input :phone, label: false, :placeholder => t(:Phone, scope: "Table") %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group ">
+			<div class="row">
+				<div class="col-md-3">
+					<label class="form-label">商家類型</label>
+				</div>
+				<div class="col-md-9">
+					<select name="shop[category]" id="shop_category" class="form-control nice-select custom-select">
+						<% SHOP_CATEGORY_CODE.map do |c| %>
+								<% if @shop.category == c[:code] %>
+									<option value=<%= c[:code] %> descrition='<%= c[:category] %>' selected><%= c[:category] %></option>
+								<% else %>
+									<option value=<%= c[:code] %> descrition='<%= c[:category] %>'><%= c[:category] %></option>
+								<% end %>
+						<% end %>
+					</select>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3">服務項目</div>
+				<div class="col-md-9">
+					<%= f.input :service, label: false, :required => true %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3">平均消費</div>
+				<div class="col-md-9">
+					<%= f.input :price, label: false, :placeholder => "例 : 200~300台幣" %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3">簡介</div>
+				<div class="col-md-9">
+					<%= f.input :description, label: false, :placeholder => "", :required => true, :input_html => {:rows => 10} %>
 				</div>
 			</div>
 		</div>
@@ -51,6 +110,7 @@
                 </div>
             </div>
         </div>
+
 		<div class="form-group ">
 			<div class="row">
                 <div class="col-md-3"></div>
@@ -72,13 +132,29 @@
 			</div>
 		</div>
 
-		<div class="form-group ">
+		<div class="form-group">
 			<div class="row">
-				<div class="col-md-3">
-					<label class="form-label"><%= t(:is_Show, scope: "Table") %></label>
+				<div class="col-md-3"></div>
+				<div class="col-md-auto">
+					<button class="btn btn-success btn-block btn-with-icon " id="getposition">取得地圖位置</button>
 				</div>
+				<div class="col-md-3">
+					<%= f.input :latitude, label: false, :placeholder => "緯度", :required => true %>
+				</div>
+				<div class="col-md-3">
+					<%= f.input :longitude, label: false, :placeholder => "經度", :required => true %>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="row">
+				<div class="col-md-3"></div>
 				<div class="col-md-9">
-					<%= f.input :is_show, label: false, :placeholder => t(:is_Show, scope: "Table") %>
+					<div id="map" class="ht-350" ></div>
+					<!-- prettier-ignore -->
+					<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+						({key: "AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU", v: "weekly"});</script>
 				</div>
 			</div>
 		</div>
@@ -123,6 +199,89 @@
 	<%= content_for :script_js do %>
 
 		<script type="text/javascript">
+
+			let map;
+			let marker;
+			let geocoder;
+
+			async function initMap() {
+				const { Map } = await google.maps.importLibrary("maps");
+
+				if ($('#shop_latitude').val() == "" || $('#shop_longitude').val() == ""){
+					lat = 25.040024092656672;
+					lng = 121.51196985813223;
+					zoom = 6;
+				}
+				else{
+
+					lat = parseFloat($('#shop_latitude').val());
+					lng = parseFloat($('#shop_longitude').val());
+					zoom = 16;
+				}
+
+				map = new Map(document.getElementById("map"), {
+					center: { lat: lat, lng: lng },
+					zoom: zoom,
+				});
+				map.addListener("click", (e) => {
+					geocode({ location: e.latLng });
+				});
+
+				geocoder = new google.maps.Geocoder();
+				marker = new google.maps.Marker({
+					map,
+				});
+
+
+				clear();
+			}
+
+			$(document).on('click', '#getposition', function(event) {
+
+				ret = true;
+				if ($('#shop_address').val() == ""){
+					ret = false;
+				}
+				if ($('#shop_addr_city').val() == "0"){
+					ret = false;
+				}
+				if ($('#shop_addr_postal').val() == "0"){
+					ret = false;
+				}
+
+				if (ret == false){
+					alert('請先填入地址');
+					return false;
+				}
+				address= $("#shop_addr_city option:selected").text() + $("#shop_addr_postal option:selected").text() + $('#shop_address').val();
+				geocode({ address: address});
+				return false;
+			});
+
+			function clear() {
+				marker.setMap(null);
+				}
+
+			function geocode(request) {
+				clear();
+				geocoder
+					.geocode(request)
+					.then((result) => {
+					const { results } = result;
+
+					map.setCenter(results[0].geometry.location);
+					map.setZoom(16);
+					marker.setPosition(results[0].geometry.location);
+					marker.setMap(map);
+					$('#shop_latitude').val(results[0].geometry.location.lat);
+					$('#shop_longitude').val(results[0].geometry.location.lng);
+					return results;
+					})
+					.catch((e) => {
+					alert("Geocode was not successful for the following reason: " + e);
+					});
+				}
+
 
 			function hide_alert(){
 				$('#alert_name').hide();
@@ -285,6 +444,8 @@
 						$('#shop_addr_postal').val('<%= @shop.addr_postal %>').attr('selected','selected');
 					}
 				}
+
+				initMap();
 
 			});
 
