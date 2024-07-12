@@ -23,6 +23,13 @@
 			<h4 class="card-title mg-b-0"><%= t("Title.USER_TABLE") %></h4>
 			<i class="mdi mdi-dots-horizontal text-gray"></i>
 		</div>
+		<div class="row row-xs wd-xl-80p mg-t-10">
+			<div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
+				<%= link_to( t(:MANAGE_USERS_SCHEDULE, scope: "Button"), admin_all_schedules_path,
+                  :method => :GET,
+                  :class => 'btn btn-success btn-block') %>
+			</div>
+		</div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive border-top userlist-table">

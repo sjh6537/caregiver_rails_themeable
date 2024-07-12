@@ -95,6 +95,7 @@ zh-TW:
     DELIVER_COINS: 贈送柑幣
     CREATE_SCHEDULE: 新增訊息
     UPDATE_SCHEDULE: 更新訊息
+    MANAGE_USERS_SCHEDULE: 管理用戶訊息
     RESET: 重置
 
   Table:
@@ -183,7 +184,7 @@ zh-TW:
     Schedule_ID: 訊息ID
     Schedule_name: 訊息標題
     Recipient: 對象
-    User: 使用者
+    User: 用戶
 
   Title:
       REQUEST_CATEGORY_TABLE: 派工類別表格
@@ -224,6 +225,7 @@ zh-TW:
       UPDATE_SCHEDULE: 變更訊息
       DEL_SCHEDULE: 刪除訊息
       SCHEDULE_TABLE: 訊息排程
+      MANAGE_USERS_SCHEDULE: 管理用戶訊息
 
   Note:
     Del_Shop: 是否確定要刪除商家?

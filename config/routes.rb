@@ -28,11 +28,13 @@ Rails.application.routes.draw do
           root to: 'dashboard#index', as: :root
           resources :admins
 
+          get       'users/all_schedules'                 , to: 'users#all_schedules'       , as: :all_schedules
+          post      'users/delete_schedules/:schedule_id' , to: 'users#delete_schedules'    , as: :delete_schedules
           resources :users, except: [:destroy]
-          delete    'users/:id'                    , to: 'users#block'                  , as: :user_block
-          post      'users/send_message'           , to: 'users#send_message'           , as: :line_msg_admin_user
-          get       'users/:id/push'               , to: 'users#push'                   , as: :push_page_admin_user
-          post      'users/:id/coins'              , to: 'users#coins_deliver'          , as: :coins_deliver
+          delete    'users/:id'                           , to: 'users#block'               , as: :user_block
+          post      'users/send_message'                  , to: 'users#send_message'        , as: :line_msg_admin_user
+          get       'users/:id/push'                      , to: 'users#push'                , as: :push_page_admin_user
+          post      'users/:id/coins'                     , to: 'users#coins_deliver'       , as: :coins_deliver
 
           resources :shops
 

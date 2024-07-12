@@ -2,7 +2,7 @@
 class Admin::UsersController < ApplicationAdminController
     include LineHelper
     include ApplicationHelper
-    before_action :set_user
+    before_action :set_user, except: [:all_schedules, :delete_schedules]
 
     def index
         @title_sub = I18n.t("Title.Table")
@@ -62,7 +62,6 @@ class Admin::UsersController < ApplicationAdminController
                 format.html { render action: "edit", alert: I18n.t("Notify.Note.Account_Updated_Fail", name: "#{@user.line_name}") }
             end
         end
-
     end
 
     def block
@@ -112,6 +111,34 @@ class Admin::UsersController < ApplicationAdminController
         @user.coins_get(coins , COINS_GET_SYSTEM , current_admin.id , I18n.t("Notify.Note.Deliver_Coins_Success"))
         add_log(ACTION_ADD,LOG_ADMIN,current_admin.id,LOG_USERCOIN,@user.id,"#{coins}枚")
         redirect_to admin_user_path(@user.id)
+    end
+
+    def all_schedules
+        @schedules = User::Schedule.order(scheduled_time: :desc)
+    end
+
+    def delete_schedules
+        if params[:schedule_id].present?
+            schedule_id = params[:schedule_id].to_i
+            schedule = User::Schedule.find_by(id: schedule_id)
+            Rails.logger.info "Attempting to delete schedule with ID: #{schedule_id}"
+            if schedule
+                Rails.logger.info "Schedule found: #{schedule.inspect}"
+                schedule.destroy
+                job = Sidekiq::ScheduledSet.new.find { |j| j.jid == schedule.job_id }
+                if job
+                    Rails.logger.info "Found Sidekiq job: #{job.inspect}"
+                    job.delete
+                else
+                    Rails.logger.warn "Sidekiq job not found for schedule ID: #{schedule.id}"
+                end
+                render json: { redirect_url: admin_all_schedules_path }, status: :ok
+            else
+                format.html { render action: "all_schedules", alert: I18n.t("Notify.Note.Delete_Message_Fail") }
+            end
+        else
+            format.html { render action: "all_schedules", alert: I18n.t("Notify.Note.Delete_Message_Fail") }
+        end
     end
 
     private
