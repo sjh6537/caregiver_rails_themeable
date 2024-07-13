@@ -258,6 +258,7 @@ zh-TW:
       You_have_careds: '你是「%{name}」的照護者'
       Cared_requests: '照護者「%{name}」目前派工'
       Cared_have_no_requests: '照護者「%{name}」目前沒有派工'
+      Caregiver_will_be_selected: '照護者「<font class="tx-orange">「%{name}」</font>會預設勾選'
       Invite_line_friends_join: "邀請Line好友加入友伴"
       Please_fill_location: 請填入詳細位置
       Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'

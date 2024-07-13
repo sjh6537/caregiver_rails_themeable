@@ -40,6 +40,7 @@ class Web::RequestsController < ApplicationWebController
 
     def friends
       @friends = @user.friends
+      @caregiver = @user.caregivers.first
       @receiver = User::RequestReceiver.new
     end
 

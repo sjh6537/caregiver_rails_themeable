@@ -33,8 +33,11 @@
     </div>
     </div>
 
-    <div class="d-flex justify-content-between pd-t-20">
+    <div class="d-flex pd-t-20">
         <h4 class="card-title mg-b-10"><%= raw t("Website.Note.You_can_chiose_friends") %></h4>
+        <% if !@caregiver.nil? %>
+            <div class="mg-b-10 tx-12 tx-gray-500 mg-l-10"><%= raw t("Website.Note.Caregiver_will_be_selected",name: @caregiver.name) %></div>
+        <% end %>
     </div>
 <!--
     <div class="d-flex justify-content-between">
@@ -65,7 +68,11 @@
                                     <p class="mb-0 text-muted tx-13"><%= friend.line_name %></p>
                                 </div>
                                 <div class="ml-auto d-flex">
-                                    <label class="ckbox ckbox-orange"><input class="mr-1" name="user_request_receiver[user_id][]" value="<%= friend.id %>" type="checkbox"><span></span></label>
+                                    <% if (!@caregiver.nil? && friend.id == @caregiver.id) %>
+                                        <label class="ckbox ckbox-orange"><input class="mr-1" name="user_request_receiver[user_id][]" value="<%= friend.id %>" type="checkbox" checked><span></span></label>
+                                    <% else %>
+                                        <label class="ckbox ckbox-orange"><input class="mr-1" name="user_request_receiver[user_id][]" value="<%= friend.id %>" type="checkbox"><span></span></label>
+                                    <% end %>
                                 </div>
                             </li>
                             <% end %>
@@ -130,7 +137,11 @@
     });
 
     $(document).ready(function() {
-        $("#submit_friends").text("<%= t("Button.INVITE_OTHER_FRIENDS") %>");
+        <% if !@caregiver.nil? %>
+            $("#submit_friends").text("<%= t("Button.SEND_FRIENDS") %>");
+        <% else %>
+            $("#submit_friends").text("<%= t("Button.INVITE_OTHER_FRIENDS") %>");
+        <% end %>
     });
 
     </script>
