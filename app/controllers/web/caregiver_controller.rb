@@ -9,11 +9,15 @@ class Web::CaregiverController < ApplicationWebController
     def agree
         @cared = User.find(params[:id])
         respond_to do |format|
-            if User::UsersReleatedCaregivers.create(cared_id: @cared.id, caregiver_id: @user.id)
-                @cared.add_each_friends(@user.id)
-                format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.You_accept_this_caregiver", name: "#{@cared.name}") }
-            else
+            if @cared.id == @user.id
                 format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.Something_Wrong") }
+            else
+                if User::UsersReleatedCaregivers.create(cared_id: @cared.id, caregiver_id: @user.id)
+                    @cared.add_each_friends(@user.id)
+                    format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.You_accept_this_caregiver", name: "#{@cared.name}") }
+                else
+                    format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.Something_Wrong") }
+                end
             end
         end
     end

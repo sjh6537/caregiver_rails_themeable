@@ -28,68 +28,80 @@
 
 <% else %>
 
-    <div class="form-group">
-    <div class="row">
-        <div class="col-md-12 alert-warning alert-orange">
-            <strong><%= raw t("Website.Note.Does_agree_to_be_caregiver") %></strong>
-        </div>
-    </div>
-    </div>
+    <% if @cared.id = @user.id %>
 
-
-    <div class="row pd-t-10">
-        <div class="col-md-12">
-        <ul class="list list-noborders pb-0 mb-0">
-        <li class="list-item">
-            <img class="img-sm rounded-circle bg-warning d-flex align-items-center justify-content-center text-white" src="<%= @cared.line_image %>" alt="Profile Image">
-            <div class=" ml-3">
-                <h6 class="mb-1 font-weight-medium"><%= @cared.name %></h6>
-                <p class="mb-0 text-muted tx-13"><%= @cared.line_name %></p>
-            </div>
-        </li>
-        </ul>
-        </div>
-    </div>
-
-    <div class="pd-5 bg-light mg-t-10">
-    <div class="modal d-block pos-static basic-modal">
-        <div class="d-flex justify-content-between ">
-            <h4 class="card-title mg-b-10 mg-l-10">電話 : <%= raw @cared.phone %></h4>
-        </div>
-    </div>
-    </div>
-
-    <div class="pd-5 bg-light">
-    <div class="modal d-block pos-static basic-modal">
-        <div class="d-flex justify-content-between ">
-            <h4 class="card-title mg-b-10 mg-l-10">生日 : <%= raw @cared.birthday_date %></h4>
-        </div>
-    </div>
-    </div>
-
-
-    <div class="pd-5 bg-light">
-    <div class="modal d-block pos-static basic-modal">
-        <div class="d-flex justify-content-between ">
-            <h4 class="card-title mg-b-10 mg-l-10">地址 : <%= raw @cared.address_text %></h4>
-        </div>
-    </div>
-    </div>
-
-
-    <div class="card-footer d-flex flex-row-reverse">
         <div class="form-group">
         <div class="row">
-                    <%= button_to t("Button.AGREE"), web_caregiver_agree_path, method: :get, class: "btn btn-warning waves-effect waves-light mg-r-20" %>
-                <% if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "") %>
-                    <%= button_to t("Button.CONSIDER"), web_accept_edit_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
-                <% else %>
-                    <%= button_to t("Button.CONSIDER"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
-                <% end %>
+            <div class="col-md-12 alert-warning alert-orange">
+                <strong><%= raw t("Website.Note.Nobody_be_caregiver") %></strong>
+            </div>
         </div>
         </div>
-    </div>
 
+    <% else %>
+
+        <div class="form-group">
+        <div class="row">
+            <div class="col-md-12 alert-warning alert-orange">
+                <strong><%= raw t("Website.Note.Does_agree_to_be_caregiver") %></strong>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="row pd-t-10">
+            <div class="col-md-12">
+            <ul class="list list-noborders pb-0 mb-0">
+            <li class="list-item">
+                <img class="img-sm rounded-circle bg-warning d-flex align-items-center justify-content-center text-white" src="<%= @cared.line_image %>" alt="Profile Image">
+                <div class=" ml-3">
+                    <h6 class="mb-1 font-weight-medium"><%= @cared.name %></h6>
+                    <p class="mb-0 text-muted tx-13"><%= @cared.line_name %></p>
+                </div>
+            </li>
+            </ul>
+            </div>
+        </div>
+
+        <div class="pd-5 bg-light mg-t-10">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">電話 : <%= raw @cared.phone %></h4>
+            </div>
+        </div>
+        </div>
+
+        <div class="pd-5 bg-light">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">生日 : <%= raw @cared.birthday_date %></h4>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="pd-5 bg-light">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">地址 : <%= raw @cared.address_text %></h4>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="card-footer d-flex flex-row-reverse">
+            <div class="form-group">
+            <div class="row">
+                        <%= button_to t("Button.AGREE"), web_caregiver_agree_path, method: :get, class: "btn btn-warning waves-effect waves-light mg-r-20" %>
+                    <% if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "") %>
+                        <%= button_to t("Button.CONSIDER"), web_accept_edit_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+                    <% else %>
+                        <%= button_to t("Button.CONSIDER"), web_user_show_path, method: :get, class: "btn btn-warning waves-effect waves-light" %>
+                    <% end %>
+            </div>
+            </div>
+        </div>
+    <% end %>
 
 <% end %>
 
