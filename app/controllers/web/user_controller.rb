@@ -4,6 +4,8 @@ class Web::UserController < ApplicationWebController
     before_action :set_user
 
     def show
+        @cared = @user.careds.first
+        @caregiver = @user.caregivers.first
         if params[:notice] != nil
             redirect_to web_user_show_path, notice: params[:notice]
         end
