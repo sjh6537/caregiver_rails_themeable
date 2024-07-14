@@ -27,7 +27,6 @@
     </div>
 
 <% else %>
-
     <% if @cared.id == @user.id %>
 
         <div class="form-group">
@@ -51,6 +50,55 @@
                     <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine" onClick="return sendline();"><i class="fab fa-brands fa-line"></i><%= raw t("Button.CAREGIVER") %></button>
                 </div>
             </div>
+        </div>
+    <% elsif !@user_cared.nil? %>
+
+        <div class="form-group">
+        <div class="row">
+            <div class="col-md-12 alert-warning alert-orange">
+                <strong><%= raw t("Website.Note.you_are_already_caregiver", name: @user_cared.name) %></strong>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="row pd-t-10">
+            <div class="col-md-12">
+            <ul class="list list-noborders pb-0 mb-0">
+            <li class="list-item">
+                <img class="img-sm rounded-circle bg-warning d-flex align-items-center justify-content-center text-white" src="<%= @user_cared.line_image %>" alt="Profile Image">
+                <div class=" ml-3">
+                    <h6 class="mb-1 font-weight-medium"><%= @user_cared.name %></h6>
+                    <p class="mb-0 text-muted tx-13"><%= @user_cared.line_name %></p>
+                </div>
+            </li>
+            </ul>
+            </div>
+        </div>
+
+        <div class="pd-5 bg-light mg-t-10">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">電話 : <%= raw @user_cared.phone %></h4>
+            </div>
+        </div>
+        </div>
+
+        <div class="pd-5 bg-light">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">生日 : <%= raw @user_cared.birthday_date %></h4>
+            </div>
+        </div>
+        </div>
+
+
+        <div class="pd-5 bg-light">
+        <div class="modal d-block pos-static basic-modal">
+            <div class="d-flex justify-content-between ">
+                <h4 class="card-title mg-b-10 mg-l-10">地址 : <%= raw @user_cared.address_text %></h4>
+            </div>
+        </div>
         </div>
 
     <% else %>

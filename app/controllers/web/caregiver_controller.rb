@@ -5,6 +5,7 @@ class Web::CaregiverController < ApplicationWebController
 
     def show
         @cared = User.find(params[:id])
+        @user_cared = @user.careds.first
     end
 
     def agree
