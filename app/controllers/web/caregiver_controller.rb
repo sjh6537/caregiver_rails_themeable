@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Web::CaregiverController < ApplicationWebController
+    include LineHelper
     before_action :set_user, only: [:show, :agree]
 
     def show
@@ -13,6 +14,7 @@ class Web::CaregiverController < ApplicationWebController
                 format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.Something_Wrong") }
             else
                 if User::UsersReleatedCaregivers.create(cared_id: @cared.id, caregiver_id: @user.id)
+                    message_push(@cared.account, "Hi , #{@user.name}同意成為你的照護者")
                     @cared.add_each_friends(@user.id)
                     format.html { redirect_to web_accept_edit_path, notice: I18n.t("Notify.Note.You_accept_this_caregiver", name: "#{@cared.name}") }
                 else

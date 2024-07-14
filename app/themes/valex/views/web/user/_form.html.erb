@@ -164,7 +164,7 @@
                         <spin class="text-muted mg-l-10">目前無照護者 </spin><p>
                     </div>
                     <div class="d-flex justify-content-between wd-200 mg-l-20">
-                        <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine"><i class="fab fa-brands fa-line"></i><%= raw t("Button.CAREGIVER") %></button>
+                        <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine" onClick="return sendline();"><i class="fab fa-brands fa-line"></i><%= raw t("Button.CAREGIVER") %></button>
                     </div>
                 <% end %>
             </div>
@@ -382,7 +382,8 @@
 
         });
 
-        $(document).on('click', '#sendLine', function(event) {
+
+        function sendline() {
 
             var msg = 'Hi,你的好友<%= @user.name %>在友伴希望你能當他(她)的照護者 , 點選下方連結加入會員並查看詳情 <%= "#{APP_CONFIG[:line_liff_url]}#{web_caregiver_show_path(@user.id)}" %>';
             var encoded = encodeURIComponent(msg);
@@ -391,8 +392,8 @@
             }else{
                 alert('傳送錯誤 , 請再分享一次訊息');
             }
-
-        });
+            return false;
+        }
 
     </script>
 
