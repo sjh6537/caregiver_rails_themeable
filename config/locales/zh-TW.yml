@@ -116,6 +116,7 @@ zh-TW:
     Select_postal: 選擇區域
     Detail_Address: 詳細地址
     Contact_Info: 連絡方式
+    Is_new_immigrant: 是否為新住民?Are you a new immigrant?Bạn có phải là Tân di dân không?
     Phone: 聯絡電話
     Phone2: 聯絡電話2
     Phone3: 聯絡電話3
@@ -343,6 +344,7 @@ zh-TW:
       DEL_ADMIN: 刪除管理者
       USER_INFO: 使用者資訊
       CONTACT_INFO: 聯絡方式
+      IS_NEW_IMMIGRANT: 是否為新住民
       LINE_NOTIFY: LINE NOTIFY 訊息
       MESSAGE_GROUP: 群組訊息
       MESSAGE_PERSONAL: 個人訊息
