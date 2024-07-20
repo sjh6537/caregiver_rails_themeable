@@ -2,7 +2,7 @@
 	<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
 	<div class="row row-sm">
 
-		<div class="col-sm-12 col-lg-7 col-xl-8">
+		<div class="col-sm-6 col-lg-6 col-xl-6">
 			<div class="main-content-body main-content-body-contacts card custom-card">
 				<div class="main-contact-info-header pt-3">
 
@@ -13,6 +13,27 @@
 					</div>
 
 					<hr class="mg-y-30">
+
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label"><%= t(:is_Show, scope: "Table") %></label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.show_text %></label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label">商家類型</label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.category_text %></label>
+							</div>
+						</div>
+					</div>
 					<div class="form-group ">
 						<div class="row">
 							<div class="col-md-3">
@@ -30,6 +51,39 @@
 							</div>
 							<div class="col-md-9">
 								<label class="form-label"><%= @shop.all_address %></label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label">服務項目</label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.service %></label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label">平均消費</label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.price %></label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group ">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="form-label">簡介</label>
+							</div>
+							<div class="col-md-9">
+								<label class="form-label"><%= @shop.description %></label>
 							</div>
 						</div>
 					</div>
@@ -57,16 +111,22 @@
 
 				</div>
 				<div class="card-footer">
-					<a href="<%= edit_admin_shop_path(@shop.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></a>
+					<a href="<%= edit_admin_shop_path(@shop.id) %>" class="btn btn-primary waves-effect waves-light"><%= t(:EDIT, scope: "Button") %></a>
 				</div>
 			</div>
 		</div>
 
-		<div class="col-sm-12 col-lg-5 col-xl-4">
+		<div class="col-sm-6 col-lg-6 col-xl-6">
 			<div class="card custom-card">
 
 					<div class="main-content-app main-content-contacts pt-0">
 						<div class="main-contact-info-header pt-3">
+						<div id="map" class="ht-350" ></div>
+
+						<!-- prettier-ignore -->
+						<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+							({key: "AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU", v: "weekly"});</script>
+
 
 						</div>
 					</div>
@@ -141,3 +201,57 @@
 	</div>
 </div>
 <!-- row closed -->
+
+<%= content_for :script_js do %>
+
+	<script type="text/javascript">
+
+	let map;
+	let marker;
+
+	async function initMap() {
+	  const { Map } = await google.maps.importLibrary("maps");
+	  const location = new google.maps.LatLng(<%= @shop.latitude %>, <%= @shop.longitude %>);
+
+	  map = new Map(document.getElementById("map"), {
+		center: location,
+		zoom: 16,
+	  });
+
+	  coordInfoWindow = new google.maps.InfoWindow();
+	  coordInfoWindow.setContent("<%= @shop.name %>");
+	  coordInfoWindow.setPosition(location)
+	  coordInfoWindow.open(map);
+
+	  marker = new google.maps.Marker({
+		position: new google.maps.LatLng(location),
+		map: map,
+		label: {
+			fontFamily: "FontAwesome",
+			fontWeight: '100',
+			text: eval("'\\u"+'f2e7'+"'"),
+			color: 'blue',
+			fontSize: "20px"
+		},
+		icon: {
+			path: google.maps.SymbolPath.CIRCLE,
+			scale: 0.5,
+			strokeWeight: 1,
+			strokeColor: 'black',
+			strokeOpacity: 1,
+			fillColor: '#0162e8',
+			fillOpacity: 1
+		},
+	  });
+
+	  marker.setMap(map);
+
+	}
+
+	$(document).ready(function() {
+		initMap();
+	});
+
+	</script>
+
+<% end %>
