@@ -1,3 +1,7 @@
+SCHEDULE_MESSAGE_NEW      = 0.freeze
+SCHEDULE_MESSAGE_SENDED   = 1.freeze
+SCHEDULE_MESSAGE_FAIL     = 2.freeze
+
 LOG_ADMIN                 = 0.freeze
 LOG_USER                  = 10.freeze
 LOG_USERCOIN              = 11.freeze
@@ -7,6 +11,7 @@ LOG_SHOP                  = 30.freeze
 LOG_SHOPCOUPON            = 31.freeze
 LOG_REQUEST               = 40.freeze
 LOG_REQUEST_CATEGORY      = 41.freeze
+LOG_MESSAGE               = 50.freeze
 
 LOG_TYPE_TEXT = {
     LOG_ADMIN             => "管理者",
@@ -18,6 +23,7 @@ LOG_TYPE_TEXT = {
     LOG_SHOPCOUPON        => "商家優惠卷",
     LOG_REQUEST           => "派工",
     LOG_REQUEST_CATEGORY  => "派工類別",
+    LOG_MESSAGE           => "訊息推撥"
 }
 
 ACTION_NEW                = 0.freeze

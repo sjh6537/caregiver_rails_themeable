@@ -1,0 +1,145 @@
+<style>
+    span.error {
+        color: red;
+        font-size: 14px;
+    }
+</style>
+
+
+<%= simple_form_for [:admin, @schedule], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= f.error_notification %>
+<div class="card-body">
+    <div class="main-content-label mg-b-5">
+        <%= t("Title.LINE_MESSAGE") %>
+    </div>
+    <p class="mg-b-20"><%= t("Note.Line_Message_Schedule_Note") %></p>
+
+            <h3><%= t("Tab.Line_Message") %></h3>
+            <p><%= t("Note.Line_Message_Setup_Message") %></p>
+            <div class="form-group" data-parsley-validate="">
+                <div class="row">
+                    <label class="col-sm-2"><%= t("Table.Schedule_name") %></label>
+                    <div class="col-sm-10">
+                        <%= f.input :schedule_name, label: false, :placeholder => t("Website.Note.Please_Input_Title"), :required => true, id: "schedule_name" %>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" data-parsley-validate="">
+                <div class="row ">
+                    <label class="col-sm-2"><%= t("Table.Text") %></label>
+                    <div class="col-sm-10">
+                        <%= f.text_area :message_text, rows: 10, class: "form-control", placeholder: t("Website.Note.Please_Input_Text"), :required => true, id: "text_send_message" %>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" data-parsley-validate="">
+                <div class="row">
+                    <label class="col-sm-2"><%= t("Table.Execution_time") %></label>
+                    <div class="col-sm-10">
+                        <form class="col-sm-10" id="datetimeForm">
+                            <input type="datetime-local" id="executimer" name="schedule_message[scheduled_time]" value="" >
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <h3><%= t("Tab.Line_Recipient") %></h3>
+            <p><%= t("Note.Line_Message_Setup_Recipient") %></p>
+
+            <div class="row mg-t-10">
+                <div class="col-lg-3">
+                    <label class="rdiobox"><input name="rdio" id="rdio_all" type="radio" value="0"> <span>選擇所有使用者</span></label>
+                </div>
+                <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <label class="rdiobox"><input name="rdio" id="rdio_new_immigrant" type="radio" value="1"> <span>新住民使用者</span></label>
+                </div>
+                <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <label class="rdiobox"><input name="rdio" id="rdio_except_new_immigrant" type="radio" value="2"> <span>新住民以外所有使用者</span></label>
+                </div>
+                <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <label class="rdiobox"><input name="rdio" id="rdio_no" type="radio" value="3"> <span>取消所有選擇</span></label>
+                </div>
+            </div>
+
+            <div class="table-responsive border-top userlist-table">
+			<table id="example1" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+				<thead>
+					<tr>
+                        <th class="border-bottom-0 wd-lg-20p"><span></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Name, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span><%= t(:Line, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-20p"><span>傳送</span></th>
+					</tr>
+				</thead>
+				<tbody>
+                    <% @users.each_with_index do |user, index| %>
+                    <tr>
+                        <td>
+                            <div class="media">
+                            <div class="card-aside-img">
+                                <img src="<%= user.line_image %>" alt="img" class="h-60 w-60">
+                            </div>
+                            </div>
+                        </td>
+                        <td><%= user.name %></td>
+                        <td><%= user.line_name %></td>
+                        <td>
+                            <label class="ckbox ckbox-orange">
+                            <% if user.new_immigrant == true %>
+                                <input class="mr-1 user_new_immigrant" name="schedule_message[user_ids][]" value="<%= user.id %>" type="checkbox"><span></span>
+                            <% else %>
+                                <input class="mr-1 user_not_immigrant" name="schedule_message[user_ids][]" value="<%= user.id %>" type="checkbox"><span></span>
+                            <% end %>
+                            </label>
+                        </td>
+                    </tr>
+                    <% end %>
+                </tbody>
+            </table>
+            </div>
+
+
+            <div class="btn-list ml-auto mg-t-10">
+                <button type="submit" class="btn btn-primary btn-space send_button" id="send_button" data-msgtype="0">送出訊息</button>
+            </div>
+
+<% end %>
+</div>
+
+<%= content_for :script_js do %>
+    <script type="text/javascript">
+
+        $(document).ready(function()
+        {
+            value="<%= (Time.current+1.hours).strftime('%Y-%m-%dT%R') %>";
+            $('#executimer').val(value);
+        });
+
+
+        $(document).on('click', 'input[name="rdio"]', function(event) {
+
+            selected = $('input[name="rdio"]:checked')
+            value = selected.val();
+
+            if (value == "0"){
+                $('input[name="schedule_message[user_ids][]"]').prop('checked', true);
+            }
+            else if (value == "1"){
+                $('input[name="schedule_message[user_ids][]"]:checked').prop('checked', false);
+                $('.user_new_immigrant').prop('checked', true);
+            }
+            else if (value == "2"){
+                $('input[name="schedule_message[user_ids][]"]:checked').prop('checked', false);
+                $('.user_not_immigrant').prop('checked', true);
+            }
+            else if (value == "3"){
+                if (confirm("將會取消目前所有選擇的使用者")){
+                    $('input[name="schedule_message[user_ids][]"]:checked').prop('checked', false);
+                }
+            }
+
+        });
+
+    </script>
+
+<% end %>

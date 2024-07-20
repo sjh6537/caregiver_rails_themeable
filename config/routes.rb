@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # mount Sidekiq::Web, at: '/sidekiq'
+  mount Sidekiq::Web, at: '/sidekiq'
 
   # Defines the root path route ("/")
   # root "posts#index"
@@ -48,14 +48,12 @@ Rails.application.routes.draw do
 
           get       'health/send_message'    , to: 'health#send_message'    , as: :send_message
 
-          resources :users do
-            resources :schedules
-          end
-          post      'users/:id/schedules/:schedule_id/setup_schedule'     , to: 'schedules#setup_schedule'  , as: :setup_schedule_update_admin_user
-          post      'users/:id/schedules/setup_schedule'                  , to: 'schedules#setup_schedule'  , as: :setup_schedule_new_admin_user
+          resources :users
 
           resources :request_category, except: [:destroy, :edit, :update, :show]
           get      '/request_category/:id/switch'      , to: 'request_category#switch'                      , as: :request_category_switch
+
+          resources :schedule_messages, except: [:edit, :update, :show]
 
       end
 

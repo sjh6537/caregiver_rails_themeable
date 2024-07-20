@@ -34,27 +34,27 @@ module LineHelper
         response.response.env.response_body
     end
 
-    def message_schedule(time , client_ids, text)
+    def message_schedule(schedule_id)
+
+        schedule = ScheduleMessage.find(schedule_id)
+        if schedule.nil?
+            return nil
+        end
+
+        time = schedule.scheduled_time
         current_time = DateTime.now.utc
-
-        if(text == nil)
-            return
-        end
-
-        if(time == nil)
-            job_id = NotifySender.perform_async(client_ids, text)
+        if (time.nil? || time <= current_time)
+            job_id = NotifySender.perform_async(schedule_id)
         else
-            if time <= current_time
-                job_id = NotifySender.perform_async(client_ids, text)
-            else
-                job_id = NotifySender.perform_at(time, client_ids, text)
-            end
+            job_id = NotifySender.perform_at(schedule.scheduled_time, schedule_id)
         end
+
+        return job_id
     end
 
     def message_push(client_ids, text)
         if(text == nil)
-            return
+            return false
         end
 
         message = message_package_text(text)
@@ -74,6 +74,8 @@ module LineHelper
                 LinemsgController.new.client.push_message(client_ids, message)
             end
         end
+
+        return true
     end
 
     def message_package_text(text)

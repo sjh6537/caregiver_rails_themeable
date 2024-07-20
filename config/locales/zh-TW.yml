@@ -46,7 +46,7 @@ zh-TW:
       Administrator: 管理者
       Shops: 商家
       Request_Category: 派工類別
-      Line_Notify: Line 發送
+      Line_Message: 訊息推撥
       Message: 訊息
       Users: 用戶
   Button:
@@ -179,7 +179,9 @@ zh-TW:
     Vaild_Date: 有效期限
     Coins: 柑幣
     Select_Number: 選擇數量
+    Schedule_time: 排程時間
     Execution_time: 執行時間
+    User_number: 推撥人數
     Selected: 選擇
     Text: 文字
     Schedule_ID: 訊息ID
@@ -385,6 +387,8 @@ zh-TW:
       Account_Created_Fail: "帳號 <strong>%{name}</strong> 創建失敗."
       Account_Updated_Fail: "帳號 <strong>%{name}</strong> 更新失敗."
       Account_Deleted_Fail: "帳號 <strong>%{name}</strong> 刪除失敗."
+      Schedule_Message_Created: "帳號「%{name}」成功創建推撥訊息「%{title}」"
+      Schedule_Message_Created_Fail: "帳號「%{name}」推撥訊息創建失敗"
       Created: "<strong>%{name}</strong> 成功創建."
       Created_Fail: "<strong>%{name}</strong> 創建失敗."
       Just_Register_One_Service: "每位使用者只能選擇其中一個服務連結 , 每個服務都沒有差異 <br>但若使用人數超過500人則不能再連結該服務"

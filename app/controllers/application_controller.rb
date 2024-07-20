@@ -98,6 +98,8 @@ class ApplicationController < ActionController::Base
           User::Request.find_by_id(id).try(:text)
         when LOG_REQUEST_CATEGORY
           RequestCategory.find_by_id(id).try(:text)
+        when LOG_MESSAGE
+          ScheduleMessage.find_by_id(id).try(:message_text)
       end
       if text.nil?
         text = ""

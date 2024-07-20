@@ -1,7 +1,7 @@
 $(function(e) {
 	//file export datatable
 	var table = $('#example').DataTable({
-		lengthChange: false,
+		lengthChange: true,
 		buttons: [ 'copy', 'excel' ],
 		responsive: true,
 		language: {
@@ -14,7 +14,7 @@ $(function(e) {
 	.appendTo( '#example_wrapper .col-md-6:eq(0)' );
 
 	$('#example1').DataTable({
-		lengthChange: false,
+		lengthChange: true,
 		language: {
 			searchPlaceholder: 'Search...',
 			sSearch: '',

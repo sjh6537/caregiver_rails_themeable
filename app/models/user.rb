@@ -19,7 +19,6 @@ class User < ActiveRecord::Base
     has_many :requests, :dependent => :destroy, class_name: 'User::Request'
     has_many :coupons, :dependent => :destroy, class_name: 'User::Coupon'
     has_many :history_coins, :dependent => :destroy, class_name: 'User::HistoryCoin'
-    has_many :schedules, class_name: 'User::Schedule', foreign_key: 'schedule_id', dependent: :destroy
     has_many :health_reports, :dependent => :destroy, class_name: 'User::HealthReport'
 
     def coins

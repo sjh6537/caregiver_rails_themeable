@@ -64,6 +64,12 @@
 						<i class="side-menu__icon far fa-solid fa-icons"></i><span class="side-menu__label"><%= t("Sidebar.Item.Request_Category") %></span>
 					</a>
 				</li>
+				<li class="slide">
+					<a class="side-menu__item" href="<%= admin_schedule_messages_path %>">
+						<i class="side-menu__icon far fa-solid fa-message"></i><span class="side-menu__label"><%= t("Sidebar.Item.Line_Message") %></span>
+						<span class="badge badge-success side-badge"><%= ScheduleMessage.where(status: SCHEDULE_MESSAGE_NEW).count %></span>
+					</a>
+				</li>
 
 			</ul>
 		</div>

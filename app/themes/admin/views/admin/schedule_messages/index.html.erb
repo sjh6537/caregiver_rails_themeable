@@ -8,8 +8,19 @@
 	<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
 	<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+    <link href="/assets/valex/plugins/notify/css/notifIt.css" rel="stylesheet"/>
 
 <% end %>
+<style>
+
+#ui_notifIt p {
+    text-align: left;
+    height: auto;
+}
+
+</style>
+
+
 
 
 <!--Row-->
@@ -25,34 +36,36 @@
 		</div>
         <div class="row row-xs wd-xl-80p mg-t-10">
             <div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
-                <%= link_to( t("Button.CREATE_SCHEDULE"), new_admin_user_schedule_path,
+                <%= link_to( t("Button.CREATE_SCHEDULE"), new_admin_schedule_message_path,
                   :method => :GET,
                   :class => 'btn btn-success btn-block') %>
             </div>
         </div>
 	</div>
+
 	<div class="card-body">
         <div class="table-responsive border-top userlist-table">
-            <table id="example" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
+            <table id="example1" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
                 <thead>
                     <tr>
+                        <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Schedule_time") %></span></th>
                         <th class="border-bottom-0 wd-lg-40p"><span><%= t("Table.Schedule_name") %></span></th>
                         <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Execution_time") %></span></th>
-                        <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Created") %></span></th>
+                        <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Status") %></span></th>
+                        <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.User_number") %></span></th>
                         <th class="border-bottom-0 wd-lg-20p"><span><%= t("Table.Action") %></span></th>
                     </tr>
                 </thead>
                 <% if @schedules.present? %>
                     <tbody>
-                    <% @schedules.each do |schedule| %>
+                    <% @schedules.order("scheduled_time").each do |schedule| %>
                         <tr>
+                            <td><%= schedule.scheduled_time_text %></td>
                             <td><%= schedule.schedule_name %></td>
-                            <td><%= schedule.scheduled_time.strftime('%Y/%m/%d %T') %></td>
-                            <td><%= schedule.created_at.strftime('%Y/%m/%d %T') %></td>
+                            <td><%= schedule.execution_time_text %></td>
+                            <td><%= raw schedule.status_text %></td>
+                            <td><a onclick='not7("<%= schedule.users_text %>")' class="btn ripple btn-sm btn-success" data-val=><%= schedule.user_number %></a></td>
                             <td>
-                                <!--<a href="<%= edit_admin_user_schedule_path(@user.id, schedule.id) %>" class="btn btn-sm btn-info">
-                                    <i class="las la-pen"></i>
-                                </a>-->
                                 <a class="btn ripple btn-sm btn-danger mg-l-10 delete_schedule" data-val=<%= schedule.id %> data-target="#modal_del" data-toggle="modal" href="">
                                     <i class="las la-trash"></i>
                                 </a>
@@ -104,6 +117,8 @@
 	<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
 	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
 	<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+    <script src="/assets/valex/plugins/notify/js/notifIt.js"></script>
+    <script src="/assets/valex/plugins/notify/js/notifit-custom.js"></script>
 
 	<!--Internal  Datatable js -->
 	<script src="/assets/valex/js/table-data.js"></script>
@@ -116,10 +131,17 @@
 
 	<script type="text/javascript">
 
+        function not7(message) {
+            notif({
+                msg: "推撥用戶: " + message,
+                type: "success",
+            });
+        }
+
+
 	    $(document).on('click', '.delete_schedule', function(event) {
 			var schedule_id = $(this).data("val");
-            var current_user = <%= @user.id %>;
-			$('.delete_schedule_alerm').attr("href", "/users/" + current_user + "/schedules/" + schedule_id);
+			$('.delete_schedule_alerm').attr("href", "/schedule_messages/" + schedule_id );
 	    });
 
         $(document).on('click', '.delete_schedule_alerm', function(event) {
