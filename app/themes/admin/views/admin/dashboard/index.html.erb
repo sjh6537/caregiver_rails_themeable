@@ -72,8 +72,8 @@
 			                <thead>
 			                    <tr>
 			                        <th class="border-bottom-0 wd-lg-40p"><span><%= t("Table.Schedule_name") %></span></th>
-			                        <th class="border-bottom-0 wd-lg-30p"><span><%= t("Table.Execution_time") %></span></th>
-			                        <th class="border-bottom-0 wd-lg-30p"><span><%= t("Table.Created") %></span></th>
+			                        <th class="border-bottom-0 wd-lg-30p"><span><%= t("Table.Schedule_time") %></span></th>
+			                        <th class="border-bottom-0 wd-lg-30p"><span><%= t("Table.Status") %></span></th>
 			                    </tr>
 			                </thead>
 			                <% if @schedules.present? %>
@@ -81,8 +81,8 @@
 			                    <% @schedules.each do |schedule| %>
 			                        <tr>
 			                            <td><%= schedule.schedule_name %></td>
-			                            <td><%= schedule.scheduled_time.strftime('%Y/%m/%d %T') %></td>
-			                            <td><%= schedule.created_at.strftime('%Y/%m/%d %T') %></td>
+			                            <td><%= schedule.scheduled_time_text %></td>
+			                            <td><%= raw schedule.status_text %></td>
 			                        </tr>
 			                    <% end %>
 			                    </tbody>
