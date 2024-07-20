@@ -67,7 +67,9 @@
 				<li class="slide">
 					<a class="side-menu__item" href="<%= admin_schedule_messages_path %>">
 						<i class="side-menu__icon far fa-solid fa-message"></i><span class="side-menu__label"><%= t("Sidebar.Item.Line_Message") %></span>
-						<span class="badge badge-success side-badge"><%= ScheduleMessage.where(status: SCHEDULE_MESSAGE_NEW).count %></span>
+						<% if ScheduleMessage.where(status: SCHEDULE_MESSAGE_NEW).count != 0 %>
+							<span class="badge badge-success side-badge"><%= ScheduleMessage.where(status: SCHEDULE_MESSAGE_NEW).count %></span>
+						<% end %>
 					</a>
 				</li>
 
