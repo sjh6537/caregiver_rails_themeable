@@ -1,7 +1,8 @@
 # -*- encoding : utf-8 -*-
 class Web::CaregiverController < ApplicationWebController
     include LineHelper
-    before_action :set_user, only: [:show, :agree]
+    before_action :set_user, only: [:show, :agree, :delete]
+    skip_before_action :verify_authenticity_token, only: [:delete]
 
     def show
         @cared = User.find(params[:id])
@@ -23,6 +24,14 @@ class Web::CaregiverController < ApplicationWebController
                 end
             end
         end
+    end
+
+    def delete
+        @caregiver = User.find(params[:caregiver_id])
+        if !@caregiver.nil?
+            User::UsersReleatedCaregivers.where(cared_id: @user.id, caregiver_id: @caregiver.id).destroy_all
+        end
+        redirect_to web_user_edit_path, notice: I18n.t("Notify.Note.You_remove_this_caregiver")
     end
 
     private

@@ -78,6 +78,7 @@ zh-TW:
     loading: 載入中...
     LINE: "邀請 Line 好友"
     CAREGIVER: "邀請好友當照護者"
+    REMOVE_CAREGIVER: "移除目前照護者"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
     INVITE_OTHER_FRIENDS: 邀請其他好友
@@ -229,6 +230,7 @@ zh-TW:
       DEL_SCHEDULE: 刪除訊息
       SCHEDULE_TABLE: 訊息排程
       MANAGE_USERS_SCHEDULE: 管理用戶訊息
+      DEL_CAREGIVER: 移除目前照護者
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -336,6 +338,7 @@ zh-TW:
       Schedule_setup_fail: "訊息設定失敗"
       Schedule_Confirm_Delete: "請確認是否要刪除訊息?"
       Please_Input_Title: "請輸入訊息標題"
+      Caregiver_Confirm_Delete: "請確認是否要移除你的照護者? 移除後若要再建立照護者，需要重新發送訊息給你的 line 好友並經過你好友同意才能成為你的照護者。"
 
   Notify:
     Title:
@@ -364,6 +367,7 @@ zh-TW:
       LOGS: 操作紀錄
       SCHEDULE_TABLE: 訊息排程
     Note:
+      You_remove_this_caregiver: '已成功移除該照護者'
       More_Logs: 查看更多操作紀錄
       Deliver_Coins: '將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回'
       Deliver_Coins_Success: '系統贈送柑幣成功'
