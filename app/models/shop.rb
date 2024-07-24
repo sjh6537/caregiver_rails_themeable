@@ -32,4 +32,12 @@ class Shop < ActiveRecord::Base
         return "其他"
     end
 
+    def map_icon
+      SHOP_CATEGORY_CODE.map do |c|
+        if self.category == c[:code]
+          return c[:icon]
+        end
+      end
+        return SHOP_CATEGORY_CODE[0][:icon]
+    end
 end

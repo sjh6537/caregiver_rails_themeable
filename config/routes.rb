@@ -114,6 +114,9 @@ Rails.application.routes.draw do
     get      '/invite/friend/:friend_id'    , to: 'web/invite#edit'                , as: :web_invite_edit
     get      '/invite/join'                 , to: 'web/invite#join'                , as: :web_invite_join
 
+    get      '/shops/'                      , to: 'web/shops#index'                , as: :web_shops
+    get      '/shops/:id/show'              , to: 'web/shops#show'                 , as: :web_shops_show
+
     get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
     post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
 
