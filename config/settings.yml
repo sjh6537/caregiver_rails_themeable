@@ -29,6 +29,8 @@ default: &default_settings
   line_liff_id: "2004751931-1jrD53LP"
   line_liff_url: "https://liff.line.me/2004751931-POn4oBxp"
 
+  google_map_key: "AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU"
+
 development:
   <<: *default_settings
 
@@ -64,7 +66,7 @@ production:
   line_liff_id:  "2005495451-9LQ3bkab"
   line_liff_url: "https://liff.line.me/2005495451-9LQ3bkab"
 
-
+  google_map_key: "AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU"
 
 
 
