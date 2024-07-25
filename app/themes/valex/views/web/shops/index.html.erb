@@ -50,18 +50,9 @@
         <div class="row">
             <div class="col-md-9">
                     <ul class="list list-noborders pb-0 mb-0">
-                        <% @shops.each_with_index do |shop , index| %>
-                        <li class="list-item">
-                            <img class="img-sm rounded-circle bg-warning d-flex align-items-center justify-content-center text-white" src="<%#= friend.line_image %>" alt="Profile Image">
-                            <div class=" ml-3">
-                                <h6 class="mb-1 font-weight-medium"><%= shop.name %></h6>
-                                <p class="mb-0 text-muted tx-13"><%= shop.category %></p>
-                            </div>
-                            <div class="ml-auto d-flex">
-                                <label class=""><input class="mr-1" value="<%= shop.category %>" type="checkbox" checked><span></span></label>
-                            </div>
-                        </li>
-                        <% end %>
+                        <%# @shops.each_with_index do |shop , index| %>
+							<%#= raw shop.html_index_list %>
+                        <%# end %>
                     </ul>
             </div>
         </div>
@@ -80,15 +71,21 @@
 	<script type="text/javascript">
 
 	let map;
-	let marker;
+	let my_marker;
 	let latitude = 25.033708;
 	let longitude = 121.564899;
 
+	let marker = [<%= @shops.count %>]
+	let infowindow = [<%= @shops.count %>]
+	let shop_html= [<%= @shops.count %>]
+
 	function addMarker(map){
+
 		const location = new google.maps.LatLng( 25.033708 , 121.564899 );
-		let marker = [<%= @shops.count %>]
-		let infowindow = [<%= @shops.count %>]
+
 		<% @shops.each_with_index do |shop , index| %>
+
+			shop_html[<%= index %>] = '<%= raw shop.html_index_list %>'
 
 			marker[<%= index %>] = new google.maps.Marker({
 				position: new google.maps.LatLng(new google.maps.LatLng( <%= shop.latitude %>, <%= shop.longitude %> )),
@@ -117,15 +114,45 @@
 			});
 
 			marker[<%= index %>].setMap(map);
-
 		<% end %>
 
+
+		google.maps.event.addListener(map, 'zoom_changed', function() {
+
+			$("ul.list-noborders").empty();
+			<% @shops.each_with_index do |shop , index| %>
+				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
+					$("ul.list-noborders").prepend(shop_html[<%= index %>])
+				}
+			<% end %>
+		});
+
+
+		google.maps.event.addListenerOnce(map, 'idle', function() {
+			<% @shops.each_with_index do |shop , index| %>
+				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
+					$("ul.list-noborders").prepend(shop_html[<%= index %>])
+				}
+			<% end %>
+		});
+
+		google.maps.event.addListener(map, 'dragend', function() {
+			$("ul.list-noborders").empty();
+			<% @shops.each_with_index do |shop , index| %>
+				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
+					$("ul.list-noborders").prepend(shop_html[<%= index %>])
+				}
+			<% end %>
+
+		});
 	}
 
 
 	async function initMap() {
 
 		const { Map } = await google.maps.importLibrary("maps");
+		const {LatLngBounds} = await google.maps.importLibrary("core");
+
 		let option = {
 			enableAcuracy:false, // 提高精確度
 			maximumAge:0, // 設定上一次位置資訊的有效期限(毫秒)
@@ -135,12 +162,12 @@
 		navigator.geolocation.getCurrentPosition(
 			function(response) {
 				const location = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
-				map = new Map(document.getElementById("map"), {
+				map = new google.maps.Map(document.getElementById("map"), {
 					center: location,
 					zoom: 16,
 				});
 
-				marker = new google.maps.Marker({
+				my_marker = new google.maps.Marker({
 					position: location,
 					map: map,
 				});
@@ -150,12 +177,13 @@
 				//alert("無法定位你目前位置");
 
 				const location = new google.maps.LatLng( 25.033708 , 121.564899 );
-				map = new Map(document.getElementById("map"), {
+				map = new google.maps.Map(document.getElementById("map"), {
 					center: location,
 					zoom: 16,
 				});
 
 				addMarker(map);
+
 			},
 			option
 		);

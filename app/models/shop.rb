@@ -40,4 +40,24 @@ class Shop < ActiveRecord::Base
       end
         return SHOP_CATEGORY_CODE[0][:icon]
     end
+
+    def html_font
+      SHOP_CATEGORY_CODE.map do |c|
+        if self.category == c[:code]
+          return c[:heml_font]
+        end
+      end
+        return SHOP_CATEGORY_CODE[0][:heml_font]
+    end
+
+    def html_index_list
+      html = ""
+      html += '<li class="list-item">'
+      html += '<div class="avatar avatar-md rounded-circle bg-secondary ">' + self.html_font + '</div>'
+      html += '<div class=" ml-2">'
+      html += '<h6 class="mb-1 font-weight-medium">' + self.name + '<h7 class="mb-0 text-muted tx-13"> ' + self.service + '</h7></h6>'
+      html += '<p class="mb-0 text-primary tx-13">' + self.phone + ' ▪️ ' + self.all_address + '</p>'
+      html += '</div>'
+      html += '</li>'
+    end
 end

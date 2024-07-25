@@ -484,12 +484,12 @@ COUPON_USE_RULE_DEFAULT = [
 ]
 
 SHOP_CATEGORY_CODE = [
-    {category: "其他" , code: 0 , icon: "f54e"},
-    {category: "飲食" , code: 1 , icon: "f2e7"},
-    {category: "服飾" , code: 2 , icon: "f553"},
-    {category: "藥局" , code: 3 , icon: "f7f2"},
-    {category: "賣場" , code: 4 , icon: "f07a"},
-    {category: "生活用品" , code: 5 , icon: "f290"},
-    {category: "停車" , code: 6 , icon: "f540"},
-    {category: "服務" , code: 7 , icon: "f508"},
+    {category: "其他" , code: 0 , icon: "f54e" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "飲食" , code: 1 , icon: "f2e7" , heml_font: '<i class="fas fa-utensils"></i>'},
+    {category: "服飾" , code: 2 , icon: "f553" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "藥局" , code: 3 , icon: "f7f2" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "賣場" , code: 4 , icon: "f07a" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "生活用品" , code: 5 , icon: "f290" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "停車" , code: 6 , icon: "f540" , heml_font: '<i class="fas fa-store"></i>'},
+    {category: "服務" , code: 7 , icon: "f508" , heml_font: '<i class="fas fa-store"></i>'},
 ]
