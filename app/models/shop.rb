@@ -50,6 +50,15 @@ class Shop < ActiveRecord::Base
         return SHOP_CATEGORY_CODE[0][:heml_font]
     end
 
+    def category_name
+      SHOP_CATEGORY_CODE.map do |c|
+        if self.category == c[:code]
+          return c[:name]
+        end
+      end
+        return SHOP_CATEGORY_CODE[0][:name]
+    end
+
     def html_index_list
       html = ""
       html += '<li class="list-item">'

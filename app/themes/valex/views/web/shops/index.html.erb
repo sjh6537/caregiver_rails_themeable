@@ -1,4 +1,6 @@
 
+<link rel="stylesheet" href="/assets/valex/plugins/fontawesome-free/css/fontawesome.min.css">
+
 <style>
 
 .card-body-25 {
@@ -9,7 +11,162 @@
 .gm-style-iw button {
     display:none !important;
 }
+/**
+ * @license
+ * Copyright 2019 Google LLC. All Rights Reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
+/*
+ * Property styles in unhighlighted state.
+ */
+.property {
+  align-items: center;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  color: #263238;
+  display: flex;
+  font-size: 14px;
+  gap: 15px;
+  height: 30px;
+  justify-content: center;
+  padding: 4px;
+  position: relative;
+  position: relative;
+  transition: all 0.3s ease-out;
+  width: 30px;
+}
+
+.property::after {
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 9px solid #FFFFFF;
+  content: "";
+  height: 0;
+  left: 50%;
+  position: absolute;
+  top: 95%;
+  transform: translate(-50%, 0);
+  transition: all 0.3s ease-out;
+  width: 0;
+  z-index: 1;
+}
+
+.property .icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  color: #FFFFFF;
+}
+
+.property .icon svg {
+  height: 20px;
+  width: auto;
+}
+
+.property .details {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+}
+
+.property .address {
+  color: #9E9E9E;
+  font-size: 10px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.property .features {
+  align-items: flex-end;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.property .features>div {
+  align-items: center;
+  background: #F5F5F5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  display: flex;
+  font-size: 10px;
+  gap: 5px;
+  padding: 5px;
+}
+
+/*
+ * Property styles in highlighted state.
+ */
+.property.highlight {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
+  height: 80px;
+  padding: 8px 15px;
+  width: auto;
+}
+
+.property.highlight::after {
+  border-top: 9px solid #FFFFFF;
+}
+
+.property.highlight .details {
+  display: flex;
+}
+
+.property.highlight .icon svg {
+  width: 50px;
+  height: 50px;
+}
+
+.property .bed {
+  color: #FFA000;
+}
+
+.property .bath {
+  color: #03A9F4;
+}
+
+.property .size {
+  color: #388E3C;
+}
+
+:root {
+<% SHOP_CATEGORY_CODE.map do |c| %>
+  --<%= c[:name] %>-color: <%= c[:color] %>;
+<% end %>
+--test-color: #558B2F;
+}
+
+<% SHOP_CATEGORY_CODE.map do |c| %>
+/*
+* <%= c[:name] %> icon colors.
+*/
+.property.highlight:has(.<%= c[:name] %>) .icon {
+  color: var(--<%= c[:name] %>-color);
+}
+.property:not(.highlight):has(.<%= c[:name] %>) {
+  background-color: var(--<%= c[:name] %>-color);
+}
+.property:not(.highlight):has(.<%= c[:name] %>)::after {
+  border-top: 9px solid var(--<%= c[:name] %>-color);
+}
+<% end %>
+/*
+ * Test icon colors.
+ */
+.property.highlight:has(.test-color) .icon {
+  color: var(--test-color);
+}
+
+.property:not(.highlight):has(.test-color) {
+  background-color: var(--test-color);
+}
+
+.property:not(.highlight):has(.test-color)::after {
+  border-top: 9px solid var(--test-color);
+}
 </style>
 
 <!-- row -->
@@ -79,6 +236,47 @@
 	let infowindow = [<%= @shops.count %>]
 	let shop_html= [<%= @shops.count %>]
 
+	const properties = [
+		<% @shops.each_with_index do |shop , index| %>
+		{
+			address: "<%= shop.all_address %>",
+			name: "<%= shop.name %>",
+			map_icon: "<%= raw shop.map_icon %>",
+			service: "<%= shop.service %>",
+			type: "<%= shop.category_text %>",
+			category_name: "<%= shop.category_name %>",
+			position: {
+				lat: <%= shop.latitude %>,
+				lng: <%= shop.longitude %>,
+			},
+		},
+		<% end %>
+	]
+
+	function buildContent(property) {
+		const content = document.createElement("div");
+
+		content.classList.add("property");
+		content.innerHTML = `
+			<div class="icon">
+				<i aria-hidden="true" class="${property.category_name} ${property.map_icon}" title="${property.name}"></i>
+				<span class="fa-sr-only">${property.type}</span>
+			</div>
+			<div class="details">
+				<div class="name">${property.name}</div>
+				<div class="address">${property.address}</div>
+				<div class="features">
+				<div>
+					<i aria-hidden="true" class="fa fa-bed fa-lg bed" title="bedroom"></i>
+					<span class="fa-sr-only">bedroom</span>
+					<span>${property.service}</span>
+				</div>
+				</div>
+			</div>
+			`;
+		return content;
+	}
+
 	function addMarker(map){
 
 		const location = new google.maps.LatLng( 25.033708 , 121.564899 );
@@ -87,30 +285,24 @@
 
 			shop_html[<%= index %>] = '<%= raw shop.html_index_list %>'
 
-			marker[<%= index %>] = new google.maps.Marker({
-				position: new google.maps.LatLng(new google.maps.LatLng( <%= shop.latitude %>, <%= shop.longitude %> )),
+			marker[<%= index %>] = new google.maps.marker.AdvancedMarkerElement({
 				map: map,
-				label: {
-					fontFamily: "FontAwesome",
-					fontWeight: '100',
-					text: eval("'\\u"+"<%= shop.map_icon %>"+"'"),
-					color: 'white',
-					fontSize: "16px"
-				},
+				position: properties[<%= index %>].position,
+				content: buildContent(properties[<%= index %>]),
 			  });
 
-			infowindow[<%= index %>] = new google.maps.InfoWindow({
-				content: "<%= shop.name %>",
-				disableAutoPan: false,
-				hideCloseButton: true,
-			});
-
 			marker[<%= index %>].addListener('click', function() {
-				<% @shops.each_with_index do |shop , index| %>
-					infowindow[<%= index %>].close();
-				<% end %>
-				infowindow[<%= index %>].open(map, marker[<%= index %>]);
-
+				if (marker[<%= index %>].content.classList.contains("highlight")) {
+					marker[<%= index %>].content.classList.remove("highlight");
+					marker[<%= index %>].zIndex = null;
+				}
+				else{
+					for (var i = 0; i < $("div.property").length; i++){
+						$("div.property")[i].classList.remove("highlight");
+					}
+					marker[<%= index %>].content.classList.add("highlight");
+					marker[<%= index %>].zIndex = 1;
+				}
 			});
 
 			marker[<%= index %>].setMap(map);
@@ -118,32 +310,36 @@
 
 
 		google.maps.event.addListener(map, 'zoom_changed', function() {
-
+/*
 			$("ul.list-noborders").empty();
 			<% @shops.each_with_index do |shop , index| %>
 				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
 					$("ul.list-noborders").prepend(shop_html[<%= index %>])
 				}
 			<% end %>
+*/
 		});
 
 
 		google.maps.event.addListenerOnce(map, 'idle', function() {
+			/*
 			<% @shops.each_with_index do |shop , index| %>
 				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
 					$("ul.list-noborders").prepend(shop_html[<%= index %>])
 				}
 			<% end %>
+			*/
 		});
 
 		google.maps.event.addListener(map, 'dragend', function() {
+			/*
 			$("ul.list-noborders").empty();
 			<% @shops.each_with_index do |shop , index| %>
 				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
 					$("ul.list-noborders").prepend(shop_html[<%= index %>])
 				}
 			<% end %>
-
+			*/
 		});
 	}
 
@@ -151,7 +347,7 @@
 	async function initMap() {
 
 		const { Map } = await google.maps.importLibrary("maps");
-		const {LatLngBounds} = await google.maps.importLibrary("core");
+		const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary("marker",);
 
 		let option = {
 			enableAcuracy:false, // 提高精確度
@@ -165,9 +361,10 @@
 				map = new google.maps.Map(document.getElementById("map"), {
 					center: location,
 					zoom: 16,
+					mapId: "CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
 				});
 
-				my_marker = new google.maps.Marker({
+				my_marker = new google.maps.marker.AdvancedMarkerElement({
 					position: location,
 					map: map,
 				});
@@ -179,7 +376,8 @@
 				const location = new google.maps.LatLng( 25.033708 , 121.564899 );
 				map = new google.maps.Map(document.getElementById("map"), {
 					center: location,
-					zoom: 16,
+					zoom: 11,
+					mapId: "CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
 				});
 
 				addMarker(map);

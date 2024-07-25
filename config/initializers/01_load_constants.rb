@@ -484,12 +484,12 @@ COUPON_USE_RULE_DEFAULT = [
 ]
 
 SHOP_CATEGORY_CODE = [
-    {category: "其他" , code: 0 , icon: "f54e" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "飲食" , code: 1 , icon: "f2e7" , heml_font: '<i class="fas fa-utensils"></i>'},
-    {category: "服飾" , code: 2 , icon: "f553" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "藥局" , code: 3 , icon: "f7f2" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "賣場" , code: 4 , icon: "f07a" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "生活用品" , code: 5 , icon: "f290" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "停車" , code: 6 , icon: "f540" , heml_font: '<i class="fas fa-store"></i>'},
-    {category: "服務" , code: 7 , icon: "f508" , heml_font: '<i class="fas fa-store"></i>'},
+    {name: "others",   category: "其他",    code: 0, icon: "fas fa-store",          color: "#82702b", heml_font: '<i class="fas fa-store"></i>'},
+    {name: "dining",   category: "飲食",    code: 1, icon: "fas fa-utensils",       color: "#558B2F", heml_font: '<i class="fas fa-utensils"></i>'},
+    {name: "clothing", category: "服飾",    code: 2, icon: "fas fa-tshirt",         color: "#F44336", heml_font: '<i class="fas fa-tshirt"></i>'},
+    {name: "medical",  category: "藥局",    code: 3, icon: "fas fa-clinic-medical", color: "#FF9800", heml_font: '<i class="fas fa-clinic-medical"></i>'},
+    {name: "shopping", category: "賣場",    code: 4, icon: "fas fa-shopping-cart",  color: "#0288D1", heml_font: '<i class="fas fa-shopping-cart"></i>'},
+    {name: "store",    category: "生活用品", code: 5, icon: "fas fa-shopping-bag",  color: "#7B1FA2", heml_font: '<i class="fas fa-shopping-bag"></i>'},
+    {name: "parking",  category: "停車",    code: 6, icon: "fas fa-parking",        color: "#02d142", heml_font: '<i class="fas fa-parking"></i>'},
+    {name: "service",  category: "服務",    code: 7, icon: "fas fa-user-tie",       color: "#737f9e", heml_font: '<i class="fas fas fa-user-tie"></i>'},
 ]
