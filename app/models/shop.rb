@@ -59,12 +59,12 @@ class Shop < ActiveRecord::Base
         return SHOP_CATEGORY_CODE[0][:name]
     end
 
-    def html_index_list
+    def html_index_list(index)
       html = ""
       html += '<li class="list-item">'
       html += '<div class="avatar avatar-md rounded-circle bg-secondary ">' + self.html_font + '</div>'
       html += '<div class=" ml-2">'
-      html += '<h6 class="mb-1 font-weight-medium">' + self.name + '<h7 class="mb-0 text-muted tx-13"> ' + self.service + '</h7></h6>'
+      html += '<a class="tx-15 mb-1 font-weight-medium shop-click" href="#" data-value="' + index.to_s + '" >' + self.name + '</a><h7 class="mb-0 text-muted tx-13"> ' + self.service + '</h7>'
       html += '<p class="mb-0 text-primary tx-13">' + self.phone + ' ▪️ ' + self.all_address + '</p>'
       html += '</div>'
       html += '</li>'

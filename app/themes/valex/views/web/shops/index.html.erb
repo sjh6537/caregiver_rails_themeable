@@ -100,7 +100,7 @@
  */
 .property.highlight {
   background-color: #FFFFFF;
-  border-radius: 8px;
+  border-radius: 18px;
   box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);
   height: 80px;
   padding: 8px 15px;
@@ -115,21 +115,10 @@
   display: flex;
 }
 
-.property.highlight .icon svg {
+.property.highlight .icon {
   width: 50px;
   height: 50px;
-}
-
-.property .bed {
-  color: #FFA000;
-}
-
-.property .bath {
-  color: #03A9F4;
-}
-
-.property .size {
-  color: #388E3C;
+  font-size: 40px;
 }
 
 :root {
@@ -227,6 +216,10 @@
 
 	<script type="text/javascript">
 
+	$(document).on('click', ".shop-click", function(event) {
+		toggleMarker($(this).data( "value" ));
+	});
+
 	let map;
 	let my_marker;
 	let latitude = 25.033708;
@@ -260,15 +253,13 @@
 		content.innerHTML = `
 			<div class="icon">
 				<i aria-hidden="true" class="${property.category_name} ${property.map_icon}" title="${property.name}"></i>
-				<span class="fa-sr-only">${property.type}</span>
+				<span class="fa-sr-only">${property.category_name}</span>
 			</div>
 			<div class="details">
 				<div class="name">${property.name}</div>
 				<div class="address">${property.address}</div>
 				<div class="features">
 				<div>
-					<i aria-hidden="true" class="fa fa-bed fa-lg bed" title="bedroom"></i>
-					<span class="fa-sr-only">bedroom</span>
 					<span>${property.service}</span>
 				</div>
 				</div>
@@ -277,13 +268,27 @@
 		return content;
 	}
 
+	function toggleMarker(index){
+		if (marker[index].content.classList.contains("highlight")) {
+			marker[index].content.classList.remove("highlight");
+			marker[index].zIndex = null;
+		}
+		else{
+			for (var i = 0; i < $("div.property").length; i++){
+				$("div.property")[i].classList.remove("highlight");
+			}
+			marker[index].content.classList.add("highlight");
+			marker[index].zIndex = 1;
+		}
+	}
+
 	function addMarker(map){
 
 		const location = new google.maps.LatLng( 25.033708 , 121.564899 );
 
 		<% @shops.each_with_index do |shop , index| %>
 
-			shop_html[<%= index %>] = '<%= raw shop.html_index_list %>'
+			shop_html[<%= index %>] = '<%= raw shop.html_index_list(index) %>'
 
 			marker[<%= index %>] = new google.maps.marker.AdvancedMarkerElement({
 				map: map,
@@ -292,54 +297,31 @@
 			  });
 
 			marker[<%= index %>].addListener('click', function() {
-				if (marker[<%= index %>].content.classList.contains("highlight")) {
-					marker[<%= index %>].content.classList.remove("highlight");
-					marker[<%= index %>].zIndex = null;
-				}
-				else{
-					for (var i = 0; i < $("div.property").length; i++){
-						$("div.property")[i].classList.remove("highlight");
-					}
-					marker[<%= index %>].content.classList.add("highlight");
-					marker[<%= index %>].zIndex = 1;
-				}
+				toggleMarker(<%= index %>);
 			});
 
 			marker[<%= index %>].setMap(map);
 		<% end %>
 
+		function setShopList(){
+			$("ul.list-noborders").empty();
+			for (var i = 0; i < $("div.property").length; i++){
+				if (map.getBounds().contains(properties[i].position) == true){
+					$("ul.list-noborders").prepend(shop_html[i]);
+				}
+			}
+		};
 
 		google.maps.event.addListener(map, 'zoom_changed', function() {
-/*
-			$("ul.list-noborders").empty();
-			<% @shops.each_with_index do |shop , index| %>
-				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
-					$("ul.list-noborders").prepend(shop_html[<%= index %>])
-				}
-			<% end %>
-*/
+			setShopList();
 		});
 
-
 		google.maps.event.addListenerOnce(map, 'idle', function() {
-			/*
-			<% @shops.each_with_index do |shop , index| %>
-				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
-					$("ul.list-noborders").prepend(shop_html[<%= index %>])
-				}
-			<% end %>
-			*/
+			setShopList();
 		});
 
 		google.maps.event.addListener(map, 'dragend', function() {
-			/*
-			$("ul.list-noborders").empty();
-			<% @shops.each_with_index do |shop , index| %>
-				if (map.getBounds().contains(marker[<%= index %>].getPosition()) == true){
-					$("ul.list-noborders").prepend(shop_html[<%= index %>])
-				}
-			<% end %>
-			*/
+			setShopList();
 		});
 	}
 
@@ -368,15 +350,21 @@
 					position: location,
 					map: map,
 				});
+
+				my_marker.addListener('click', function() {
+					return;
+				});
+
+				addMarker(map);
 			},
 			function error(err) {
 				console.warn(`ERROR(${err.code}): ${err.message}`);
-				//alert("無法定位你目前位置");
+				alert("無法定位你目前位置");
 
 				const location = new google.maps.LatLng( 25.033708 , 121.564899 );
 				map = new google.maps.Map(document.getElementById("map"), {
 					center: location,
-					zoom: 11,
+					zoom: 16,
 					mapId: "CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
 				});
 
