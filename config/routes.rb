@@ -95,6 +95,7 @@ Rails.application.routes.draw do
     get      '/caregiver/:id/show'                    , to: 'web/caregiver#show'             , as: :web_caregiver_show
     get      '/caregiver/:id/agree'                   , to: 'web/caregiver#agree'            , as: :web_caregiver_agree
     delete   '/caregiver/:caregiver_id/delete'        , to: 'web/caregiver#delete'           , as: :web_caregiver_delete
+    delete   '/caregiver/cared/:cared_id/delete'      , to: 'web/caregiver#cared_delete'     , as: :web_caregiver_cared_delete
 
     get      '/accept/:id/show'             , to: 'web/accept#show'                , as: :web_accept_show
     get      '/accept/:id/agree'            , to: 'web/accept#agree'               , as: :web_accept_agree

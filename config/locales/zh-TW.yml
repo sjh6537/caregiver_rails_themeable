@@ -79,6 +79,7 @@ zh-TW:
     LINE: "邀請 Line 好友"
     CAREGIVER: "邀請好友當照護者"
     REMOVE_CAREGIVER: "移除目前照護者"
+    REMOVE_CARED: "取消目前照護"
     SEND_FRIENDS: 傳送友伴好友
     INVITE_FRIENDS: 邀請友伴好友
     INVITE_OTHER_FRIENDS: 邀請其他好友
@@ -231,6 +232,7 @@ zh-TW:
       SCHEDULE_TABLE: 訊息排程
       MANAGE_USERS_SCHEDULE: 管理用戶訊息
       DEL_CAREGIVER: 移除目前照護者
+      DEL_CARED: 取消目前照護
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -339,6 +341,7 @@ zh-TW:
       Schedule_Confirm_Delete: "請確認是否要刪除訊息?"
       Please_Input_Title: "請輸入訊息標題"
       Caregiver_Confirm_Delete: "請確認是否要移除你的照護者? 移除後若要再建立照護者，需要重新發送訊息給你的 line 好友並經過你好友同意才能成為你的照護者。"
+      Cared_Confirm_Delete: "請確認是否要取消你的照護? 取消後若要再建立照護，需要對方重新發送訊息邀請你照護。"
 
   Notify:
     Title:
