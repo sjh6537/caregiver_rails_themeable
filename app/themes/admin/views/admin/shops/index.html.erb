@@ -32,6 +32,16 @@
 				</div>
 		</div>
 
+		<div class="row row-xs wd-xl-80p mg-t-10">
+				<div class="col-sm-8 col-md-0 mg-t-10 mg-md-t-0">
+					<%= form_tag '/shop/import_file', :multipart => true do %>
+						<div class="custom-file">
+							<input type="file" name="file" id="customerfile" class="custom-file-input" accept=".kml" ><label class="custom-file-label" for="customFile" id="customerfilelabel">選擇檔案</label>
+						</div>
+						<input type="submit" name="commit" value="匯入檔案" data-disable-with="匯入檔案" class='btn btn-danger btn-block' >
+					<% end %>
+				</div>
+		</div>
 	</div>
 
 
@@ -130,6 +140,13 @@
 			var id = $(this).data("val");
 			$('.delete_alerm').attr("href", "/shops/" + id);
 	    });
+
+		let input = document.getElementById("customerfile");
+		input.addEventListener("change", e => {
+			$("#customerfilelabel").text(input.value.split(`C:\\fakepath\\`)[1])
+		});
+
+
 
 	</script>
 

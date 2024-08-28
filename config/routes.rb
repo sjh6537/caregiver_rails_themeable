@@ -37,6 +37,7 @@ Rails.application.routes.draw do
           post      'users/:id/coins'                     , to: 'users#coins_deliver'       , as: :coins_deliver
 
           resources :shops
+          post      'shop/import_file'                , to: 'shops#import_file'         , as: :shops_import_file
 
           namespace :shop, path: '/' do
             get      'shop/:shop_id/coupons/new'      , to: 'coupons#new'               , as: :new_coupon

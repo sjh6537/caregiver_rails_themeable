@@ -1,5 +1,6 @@
 # -*- encoding : utf-8 -*-
 class Admin::ShopsController < ApplicationAdminController
+    include ApplicationHelper
     before_action :set_shop, only: [:show, :edit, :update, :destroy]
 
     def index
@@ -63,6 +64,33 @@ class Admin::ShopsController < ApplicationAdminController
       end
     end
 
+    def import_file
+
+      uploaded_file = params[:file]
+      file_content = uploaded_file.read
+
+      map_hash = Hash.from_xml(file_content)
+      map_hash["kml"]["Document"]["Folder"].each do | folder |
+
+        if folder.try(:[] , "Placemark")!= nil
+          if folder["Placemark"].count {|key, val| key == "name" } >=1
+
+              parser_place_mark(folder["Placemark"])
+          else
+              folder["Placemark"].collect do | place_mark|
+                  parser_place_mark(place_mark)
+              end
+          end
+        end
+
+      end
+
+      respond_to do |format|
+        format.html { redirect_to admin_shops_path, notice: "匯入成功" }
+      end
+
+    end
+
     private
 
     def set_shop
@@ -79,5 +107,77 @@ class Admin::ShopsController < ApplicationAdminController
       @title = I18n.t(:SHOPS_TABLE, scope: "Title")
       @title_sub = nil
     end
+
+    def parser_place_mark(place_hash)
+      map_id = ""
+      name = ""
+      address = ""
+      service = ""
+      phone = ""
+      price = ""
+      opening = ""
+      pictures = []
+      if place_hash.try(:[],"ExtendedData") != nil
+
+          name = place_hash["name"]
+          place_hash["ExtendedData"]["Data"].try(:each) do | data|
+            if (data["name"] == "ID")
+              map_id = data["value"]
+            elsif (data["name"].include? "住址")
+              address = data["value"]
+            elsif (data["name"].include? "服務")
+              service = data["value"]
+            elsif (data["name"].include? "電話")
+              phone = data["value"]
+            elsif (data["name"].include? "價位")
+              price = data["value"]
+            elsif (data["name"].include? "時間")
+              opening = data["value"]
+            elsif (data["name"] == "gx_media_links")
+              pictures = data["value"].split(' ')
+            end
+          end
+
+          #puts "#{map_id} #{name} , #{address} , #{service}, #{phone}, #{price}, #{opening}"
+          #puts pictures.size
+          #pictures.each do |p|
+          #  puts p
+          #end
+
+          addr_postal = map_id[0..2].to_i
+          addr_city = get_postal_city(addr_postal.to_i)
+          category = map_id[3..4].to_i
+
+          latitude = nil
+          longitude = nil
+          if place_hash.try(:[],"Point") != nil
+            point = place_hash["Point"]["coordinates"].split(',')
+            longitude = point[0].to_f
+            latitude = point[1].to_f
+          end
+
+          shops = Shop.where("map_id == ?", map_id)
+          if (shops.count != 0)
+            shop = shops.first
+            shop.update(is_show: true, name: name, phone: phone, address: address, price: price, service: service, opening: opening, addr_city: addr_city, addr_postal: addr_postal, category: category, latitude: latitude, longitude: longitude)
+            shop.pictures.destroy_all
+            pictures.each do |url|
+              shop.pictures.create(url: url)
+            end
+          else
+            shop = Shop.new(is_show: true, map_id: map_id, name: name, phone: phone, address: address, price: price, service: service, opening: opening, addr_city: addr_city, addr_postal: addr_postal, category: category, latitude: latitude, longitude: longitude)
+            shop.save
+            pictures.each do |url|
+              shop.pictures.create(url: url)
+            end
+          end
+
+
+      else
+        puts "no id for #{place_hash['name']}"
+      end
+
+    end
+
 
   end

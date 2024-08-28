@@ -1,7 +1,10 @@
 class Shop < ActiveRecord::Base
     include ApplicationHelper
 
+    validates :map_id, presence: true, uniqueness: true
+
     has_many :coupons, :dependent => :destroy
+    has_many :pictures, :dependent => :destroy, class_name: 'ShopPicture', foreign_key: 'shop_id'
 
     def city
       get_city(self.addr_city)

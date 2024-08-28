@@ -12,11 +12,30 @@ module ApplicationHelper
     end
 
     def get_city(code)
-        CITY_CODE.select {|c| c[:code] == code}.first[:city]
+        city = CITY_CODE.select {|c| c[:code] == code}.first
+        if !city.nil?
+            return city[:city]
+        else
+            nil
+        end
+    end
+
+    def get_postal_city(postal_code)
+        postal = POSTAL_CODE.select {|c| c[:code] == postal_code}.first
+        if !postal.nil?
+            return postal[:city]
+        else
+            nil
+        end
     end
 
     def get_postal(code)
-        POSTAL_CODE.select {|c| c[:code] == code}.first[:name]
+        postal = POSTAL_CODE.select {|c| c[:code] == code}.first
+        if !postal.nil?
+            return postal[:name]
+        else
+            nil
+        end
     end
 
     def create_current_list
