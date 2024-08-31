@@ -123,6 +123,12 @@ class Admin::ShopsController < ApplicationAdminController
           place_hash["ExtendedData"]["Data"].try(:each) do | data|
             if (data["name"] == "ID")
               map_id = data["value"]
+              puts "AAAAA"
+              puts map_id[1..1]
+              if map_id[1..1] == "."
+                map_id = map_id[0..0] + map_id[2..9]
+                puts map_id
+              end
             elsif (data["name"].include? "住址")
               address = data["value"]
             elsif (data["name"].include? "服務")
