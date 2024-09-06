@@ -32,7 +32,6 @@
   justify-content: center;
   padding: 4px;
   position: relative;
-  position: relative;
   transition: all 0.3s ease-out;
   width: 30px;
 }
@@ -232,15 +231,15 @@
 	const properties = [
 		<% @shops.each_with_index do |shop , index| %>
 		{
-			address: "<%= shop.all_address %>",
+			address: "<%= shop.address %>",
 			name: "<%= shop.name %>",
 			map_icon: "<%= raw shop.map_icon %>",
 			service: "<%= shop.service %>",
 			type: "<%= shop.category_text %>",
 			category_name: "<%= shop.category_name %>",
 			position: {
-				lat: <%= shop.latitude %>,
-				lng: <%= shop.longitude %>,
+				lat: <%= shop.latitude.nil? ? 0 : shop.latitude %>,
+				lng: <%= shop.longitude.nil? ? 0 : shop.longitude %>,
 			},
 		},
 		<% end %>
@@ -271,14 +270,15 @@
 	function toggleMarker(index){
 		if (marker[index].content.classList.contains("highlight")) {
 			marker[index].content.classList.remove("highlight");
-			marker[index].zIndex = null;
+			marker[index].zIndex = 1;
 		}
 		else{
-			for (var i = 0; i < $("div.property").length; i++){
-				$("div.property")[i].classList.remove("highlight");
+			for (var i = 0; i < <%= @shops.count %>; i++){
+				marker[i].content.classList.remove("highlight");
+				marker[i].zIndex = 1;
 			}
 			marker[index].content.classList.add("highlight");
-			marker[index].zIndex = 1;
+			marker[index].zIndex = 999;
 		}
 	}
 
@@ -287,6 +287,7 @@
 		const location = new google.maps.LatLng( 25.033708 , 121.564899 );
 
 		<% @shops.each_with_index do |shop , index| %>
+		<% if shop.latitude != nil && shop.latitude != 0 %>
 
 			shop_html[<%= index %>] = '<%= raw shop.html_index_list(index) %>'
 
@@ -301,11 +302,13 @@
 			});
 
 			marker[<%= index %>].setMap(map);
+
+		<% end %>
 		<% end %>
 
 		function setShopList(){
 			$("ul.list-noborders").empty();
-			for (var i = 0; i < $("div.property").length; i++){
+			for (var i = 0; i < properties.length; i++){
 				if (map.getBounds().contains(properties[i].position) == true){
 					$("ul.list-noborders").prepend(shop_html[i]);
 				}

@@ -3,7 +3,7 @@ class Web::ShopsController < ApplicationWebController
 
     def index
       @title_sub = I18n.t(:Table, scope: "Title")
-      @shops = Shop.all
+      @shops = Shop.where("latitude IS NOT NULL")
       @shop = Shop.first
     end
 

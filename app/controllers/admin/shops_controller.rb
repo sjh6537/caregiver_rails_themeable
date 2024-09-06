@@ -110,35 +110,44 @@ class Admin::ShopsController < ApplicationAdminController
 
     def parser_place_mark(place_hash)
       map_id = ""
-      name = ""
-      address = ""
-      service = ""
-      phone = ""
-      price = ""
-      opening = ""
+      name = nil
+      address = nil
+      service = nil
+      phone = nil
+      price = nil
+      opening = nil
       pictures = []
       if place_hash.try(:[],"ExtendedData") != nil
 
-          name = place_hash["name"]
+          if !place_hash["name"].nil?
+            name = place_hash["name"].chomp
+          end
           place_hash["ExtendedData"]["Data"].try(:each) do | data|
             if (data["name"] == "ID")
-              map_id = data["value"]
-              puts "AAAAA"
-              puts map_id[1..1]
+              map_id = data["value"].chomp.gsub(/\n/,"<br>")
               if map_id[1..1] == "."
                 map_id = map_id[0..0] + map_id[2..9]
-                puts map_id
               end
             elsif (data["name"].include? "住址")
-              address = data["value"]
+              if !data["value"].nil?
+                address = data["value"].chomp.gsub(/\n/,"<br>")
+              end
             elsif (data["name"].include? "服務")
-              service = data["value"]
+              if !data["value"].nil?
+                service = data["value"].chomp.gsub(/\n/,"<br>")
+              end
             elsif (data["name"].include? "電話")
-              phone = data["value"]
+              if !data["value"].nil?
+                phone = data["value"].chomp.gsub(/\n/,"<br>")
+              end
             elsif (data["name"].include? "價位")
-              price = data["value"]
+              if !data["value"].nil?
+                price = data["value"].chomp.gsub(/\n/,"<br>")
+              end
             elsif (data["name"].include? "時間")
-              opening = data["value"]
+              if !data["value"].nil?
+                opening = data["value"].chomp.gsub(/\n/,"<br>")
+              end
             elsif (data["name"] == "gx_media_links")
               pictures = data["value"].split(' ')
             end
@@ -160,6 +169,10 @@ class Admin::ShopsController < ApplicationAdminController
             point = place_hash["Point"]["coordinates"].split(',')
             longitude = point[0].to_f
             latitude = point[1].to_f
+          end
+
+          if latitude == nil
+
           end
 
           shops = Shop.where("map_id == ?", map_id)

@@ -51,7 +51,7 @@
 				<thead>
 					<tr>
 						<th class="border-bottom-0 wd-lg-10p"><span><%= t(:Name, scope: "Table") %></span></th>
-						<th class="border-bottom-0 wd-lg-5p"><span><%= t(:is_Show, scope: "Table") %></span></th>
+						<th class="border-bottom-0 wd-lg-5p"><span>顯示</span></th>
 						<th class="border-bottom-0 wd-lg-5p"><span><%= t(:City, scope: "Table") %></span></th>
 						<th class="border-bottom-0 wd-lg-5p"><span><%= t(:Postal, scope: "Table") %></span></th>
 						<th class="border-bottom-0 wd-lg-10p"><span><%= t(:Address, scope: "Table") %></span></th>
@@ -62,12 +62,18 @@
 				<tbody>
 					<% @shops.map do |c| %>
 					<tr>
-						<td><%= c.name %></td>
-						<td class="text-center">
+						<td>
+							<% if c.name.size > 20 %>
+								<%= c.name[0..20] + "..." %>
+							<% elsif %>
+								<%= c.name %>
+							<% end %>
+						</td>
+						<td class="text-center wd-20">
 							<% if c.is_show == true %>
-								<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div>O</span>
+								<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div></span>
 							<% else %>
-								<span class="label text-danger d-flex"><div class="dot-label bg-danger  mr-1"></div>X</span>
+								<span class="label text-danger d-flex"><div class="dot-label bg-danger  mr-1"></div></span>
 							<% end %>
 						</td>
 						<td><%= c.city %></td>
