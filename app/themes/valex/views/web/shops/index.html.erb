@@ -11,6 +11,38 @@
 .gm-style-iw button {
     display:none !important;
 }
+
+.selector-control {
+  font-size: 14px;
+  line-height: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.row-sm {
+	font-size: 14px;
+	line-height: 30px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.location-button {
+  background-color: #fff;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  margin: 10px;
+  padding: 0 0.5em;
+  font: 400 18px Roboto, Arial, sans-serif;
+  overflow: hidden;
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+.location-button:hover {
+  background: rgb(235, 235, 235);
+}
+
 /**
  * @license
  * Copyright 2019 Google LLC. All Rights Reserved.
@@ -157,59 +189,62 @@
 }
 </style>
 
-<!-- row -->
-<div class="row row-sm">
-<!-- Col -->
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
-<div class="card order-list">
-<div class="card-body-25">
+	<button id="location-button" class="location-button" style="position: absolute; top: 161px; right: 0px;"><i class="fas fa-street-view"></i></button>
 
-        <div class="main-content-app main-content-contacts pt-0">
-            <div id="map" class="ht-350" ></div>
-
-            <!-- prettier-ignore -->
-            <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
-                ({key: "<%= APP_CONFIG[:google_map_key] %>", v: "weekly"});</script>
-
-
-        </div>
-
-</div>
-</div>
-</div>
-<!-- /Col -->
-</div>
-<!-- row closed -->
-
+	<div id="type-selector-control" class="map-control">
+	<select id="type-selector" class="selector-control">
+		<option value="0" selected="selected">全部顯示</option>
+		<option value="1">行</option>
+		<option value="2">食</option>
+		<option value="3">育</option>
+		<option value="4">住</option>
+		<option value="5">醫療</option>
+		<option value="6">購物</option>
+		<option value="7">銀行</option>
+		<option value="8">樂齡</option>
+	</select>
+	</div>
 
 <!-- row -->
-<div class="row row-sm">
+<div id="mark_list" class="row row-sm">
 <!-- Col -->
 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
 <div class="card order-list">
 <div class="card-body">
 
-    <% if @shops.count != 0 %>
+	<% if @shops.count != 0 %>
 
-        <div class="form-group">
-        <div class="row">
-            <div class="col-md-9">
-                    <ul class="list list-noborders pb-0 mb-0">
-                        <%# @shops.each_with_index do |shop , index| %>
-							<%#= raw shop.html_index_list %>
-                        <%# end %>
-                    </ul>
-            </div>
-        </div>
-        </div>
+	<div  class="form-group" style="overflow-y: auto;">
+	<div class="row">
+		<div class="col-md-9 ht-250">
+				<ul class="list list-noborders pb-0 mb-0">
+					<%# @shops.each_with_index do |shop , index| %>
+						<%#= raw shop.html_index_list %>
+					<%# end %>
+				</ul>
+		</div>
+	</div>
+	</div>
 
-    <% end %>
+	<% end %>
+
 </div>
 </div>
 </div>
 <!-- /Col -->
 </div>
 <!-- row closed -->
+
+
+	<div id="map" class="ht-100v" ></div>
+
+	<!-- prettier-ignore -->
+	<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+		({key: "<%= APP_CONFIG[:google_map_key] %>", v: "weekly"});</script>
+
+
+<!-- row closed -->
+
 
 <%= content_for :script_js do %>
 
@@ -223,10 +258,27 @@
 	let my_marker;
 	let latitude = 25.033708;
 	let longitude = 121.564899;
+	let maker_highlight = 0;
+	let type_index = 0;
 
 	let marker = [<%= @shops.count %>]
 	let infowindow = [<%= @shops.count %>]
 	let shop_html= [<%= @shops.count %>]
+
+	const styles = {
+		default: [],
+		hide: [
+			{
+			featureType: "poi.business",
+			stylers: [{ visibility: "off" }],
+			},
+			{
+			featureType: "transit",
+			elementType: "labels.icon",
+			stylers: [{ visibility: "off" }],
+			},
+		],
+	};
 
 	const properties = [
 		<% @shops.each_with_index do |shop , index| %>
@@ -237,6 +289,7 @@
 			service: "<%= shop.service %>",
 			type: "<%= shop.category_text %>",
 			category_name: "<%= shop.category_name %>",
+			category_index: "<%= shop.category %>",
 			position: {
 				lat: <%= shop.latitude.nil? ? 0 : shop.latitude %>,
 				lng: <%= shop.longitude.nil? ? 0 : shop.longitude %>,
@@ -267,24 +320,68 @@
 		return content;
 	}
 
+
+	function setShopList(){
+		show = false;
+		$("ul.list-noborders").empty();
+
+		if (type_index == 0){
+			for (var i = 0; i < properties.length; i++){
+				if (map.getBounds().contains(properties[i].position) == true){
+					show = true;
+					$("ul.list-noborders").prepend(shop_html[i]);
+				}
+			}
+		}
+		else{
+			for (var i = 0; i < properties.length; i++){
+				if (properties[i].category_index == type_index){
+					if (map.getBounds().contains(properties[i].position) == true){
+						show = true;
+						$("ul.list-noborders").prepend(shop_html[i]);
+					}
+				}
+			}
+		}
+
+		if(show == true){
+			$("#mark_list").show();
+		}
+		else{
+			$("#mark_list").hide();
+		}
+	};
+
 	function toggleMarker(index){
 		if (marker[index].content.classList.contains("highlight")) {
 			marker[index].content.classList.remove("highlight");
 			marker[index].zIndex = 1;
+			maker_highlight = 0;
 		}
 		else{
-			for (var i = 0; i < <%= @shops.count %>; i++){
-				marker[i].content.classList.remove("highlight");
-				marker[i].zIndex = 1;
+			//for (var i = 0; i < <%= @shops.count %>; i++){
+			//	marker[i].content.classList.remove("highlight");
+			//	marker[i].zIndex = 1;
+			//}
+			marker[maker_highlight].content.classList.remove("highlight");
+			marker[maker_highlight].zIndex = 1;
+
+			maker_highlight = index;
+			marker[maker_highlight].content.classList.add("highlight");
+			marker[maker_highlight].zIndex = 999;
+			if (map.getZoom() < 16){
+				map.setZoom(16);
 			}
-			marker[index].content.classList.add("highlight");
-			marker[index].zIndex = 999;
+			if (map.getBounds().contains(marker[maker_highlight].position) != true){
+				map.setCenter(marker[maker_highlight].position);
+			}
+
+			setShopList();
+			$("#mark_list").show();
 		}
 	}
 
 	function addMarker(map){
-
-		const location = new google.maps.LatLng( 25.033708 , 121.564899 );
 
 		<% @shops.each_with_index do |shop , index| %>
 		<% if shop.latitude != nil && shop.latitude != 0 %>
@@ -295,7 +392,7 @@
 				map: map,
 				position: properties[<%= index %>].position,
 				content: buildContent(properties[<%= index %>]),
-			  });
+			});
 
 			marker[<%= index %>].addListener('click', function() {
 				toggleMarker(<%= index %>);
@@ -305,15 +402,6 @@
 
 		<% end %>
 		<% end %>
-
-		function setShopList(){
-			$("ul.list-noborders").empty();
-			for (var i = 0; i < properties.length; i++){
-				if (map.getBounds().contains(properties[i].position) == true){
-					$("ul.list-noborders").prepend(shop_html[i]);
-				}
-			}
-		};
 
 		google.maps.event.addListener(map, 'zoom_changed', function() {
 			setShopList();
@@ -328,6 +416,71 @@
 		});
 	}
 
+	function addControl(map){
+
+		const locationButton = document.getElementById("location-button");
+		map.controls[google.maps.ControlPosition.RIGHT_TOP].push(locationButton);
+
+		locationButton.addEventListener("click", () => {
+			// Try HTML5 geolocation.
+			if (navigator.geolocation){
+				navigator.geolocation.getCurrentPosition(
+					(position) => {
+						const pos = {
+							lat: position.coords.latitude,
+							lng: position.coords.longitude,
+						};
+
+						infoWindow.setPosition(pos);
+						infoWindow.setContent("Location found.");
+						infoWindow.open(map);
+						map.setCenter(pos);
+						my_marker.position = pos;
+					},
+					() => {
+						alert("無法定位你目前位置");
+						//const myLocation = new google.maps.LatLng( latitude , longitude );
+						//map.setCenter(myLocation);
+						//my_marker.position = myLocation;
+					},
+				);
+			} else {
+				// Browser doesn't support Geolocation
+				alert("無法定位你目前位置");
+				//const myLocation = new google.maps.LatLng( latitude , longitude );
+				//map.setCenter(myLocation);
+				//my_marker.position = myLocation;
+			}
+		});
+
+		const typeControl = document.getElementById("type-selector-control");
+		map.controls[google.maps.ControlPosition.TOP_LEFT].push(typeControl);
+		const typeSelector = document.getElementById("type-selector");
+
+		typeSelector.addEventListener("change", () => {
+			type_index = typeSelector.value;
+			if (type_index == 0){
+				for (var i = 0; i < properties.length; i++){
+					marker[i].setMap(map);
+				}
+			}
+			else{
+				for (var i = 0; i < properties.length; i++){
+					if (properties[i].category_index == type_index){
+						marker[i].setMap(map);
+					}
+					else{
+						marker[i].setMap(null);
+					}
+				}
+			}
+			setShopList();
+		});
+
+		const markerControl = document.getElementById("mark_list");
+		map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(markerControl);
+
+	}
 
 	async function initMap() {
 
@@ -342,15 +495,16 @@
 
 		navigator.geolocation.getCurrentPosition(
 			function(response) {
-				const location = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
+				const myLocation = new google.maps.LatLng(response.coords.latitude, response.coords.longitude);
 				map = new google.maps.Map(document.getElementById("map"), {
-					center: location,
+					center: myLocation,
 					zoom: 16,
-					mapId: "CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
+					mapId: "4504f8b37365c3d0", //"CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
+					mapTypeControl: false,
 				});
 
 				my_marker = new google.maps.marker.AdvancedMarkerElement({
-					position: location,
+					position: myLocation,
 					map: map,
 				});
 
@@ -359,23 +513,37 @@
 				});
 
 				addMarker(map);
+				addControl(map);
 			},
 			function error(err) {
 				console.warn(`ERROR(${err.code}): ${err.message}`);
 				alert("無法定位你目前位置");
 
-				const location = new google.maps.LatLng( 25.033708 , 121.564899 );
+				const myLocation = new google.maps.LatLng( latitude , longitude );
 				map = new google.maps.Map(document.getElementById("map"), {
-					center: location,
+					center: myLocation,
 					zoom: 16,
-					mapId: "CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
+					mapId: "CAREGIVER_MAP_ID", //"4504f8b37365c3d0", // Map ID is required for advanced markers.
+					mapTypeControl: false,
+					//cameraControl: false,
+					gmpDraggable: true,
+					streetViewControl: false,
+					zoomControlOptions: {
+						position: google.maps.ControlPosition.RIGHT_TOP,
+					},
 				});
 
-				addMarker(map);
+				my_marker = new google.maps.marker.AdvancedMarkerElement({
+					map: map,
+				});
 
+				//map.setOptions({ styles: styles["hide"] });
+				addControl(map);
+				addMarker(map);
 			},
 			option
 		);
+
 
 	}
 
