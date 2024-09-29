@@ -431,11 +431,12 @@
 							lng: position.coords.longitude,
 						};
 
-						infoWindow.setPosition(pos);
-						infoWindow.setContent("Location found.");
-						infoWindow.open(map);
+						//infoWindow.setPosition(pos);
+						//infoWindow.setContent("Location found.");
+						//infoWindow.open(map);
 						map.setCenter(pos);
 						my_marker.position = pos;
+						setShopList();
 					},
 					() => {
 						alert("無法定位你目前位置");
@@ -499,8 +500,14 @@
 				map = new google.maps.Map(document.getElementById("map"), {
 					center: myLocation,
 					zoom: 16,
-					mapId: "4504f8b37365c3d0", //"CAREGIVER_MAP_ID", // Map ID is required for advanced markers.
+					mapId: "CAREGIVER_MAP_ID", //"4504f8b37365c3d0", // Map ID is required for advanced markers.
 					mapTypeControl: false,
+					//cameraControl: false,
+					gmpDraggable: true,
+					streetViewControl: false,
+					zoomControlOptions: {
+						position: google.maps.ControlPosition.RIGHT_TOP,
+					},
 				});
 
 				my_marker = new google.maps.marker.AdvancedMarkerElement({
@@ -512,8 +519,8 @@
 					return;
 				});
 
-				addMarker(map);
 				addControl(map);
+				addMarker(map);
 			},
 			function error(err) {
 				console.warn(`ERROR(${err.code}): ${err.message}`);
