@@ -15,7 +15,6 @@ class Shop < ActiveRecord::Base
     end
 
     def all_address
-
       city.to_s + postal.to_s + self.address.to_s
     end
 
@@ -25,6 +24,15 @@ class Shop < ActiveRecord::Base
       else
         "不顯示"
       end
+    end
+
+    def category_name
+      SHOP_CATEGORY_CODE.map do |c|
+        if self.category == c[:code]
+          return c[:name]
+        end
+      end
+        return "others"
     end
 
     def category_text
@@ -66,10 +74,10 @@ class Shop < ActiveRecord::Base
     def html_index_list(index)
       html = ""
       html += '<li class="list-item">'
-      html += '<div class="avatar avatar-md rounded-circle bg-secondary ">' + self.html_font + '</div>'
+      html += '<div class="avatar avatar-md rounded-circle bg-' + self.category_name +  ' ">' + self.html_font + '</div>'
       html += '<div class=" ml-2">'
       html += '<a class="tx-15 mb-1 font-weight-medium shop-click" href="#" data-value="' + index.to_s + '" >' + self.name.to_s + '</a><h7 class="mb-0 text-muted tx-13"> ' + self.service.to_s + '</h7>'
-      html += '<p class="mb-0 text-primary tx-13">' + self.phone.to_s + ' ▪️ ' + self.all_address.to_s + '</p>'
+      html += '<p class="mb-0 text-primary tx-17">' + self.phone.to_s + ' ▪️ ' + self.address.to_s + '</p>'
       html += '</div>'
       html += '</li>'
     end

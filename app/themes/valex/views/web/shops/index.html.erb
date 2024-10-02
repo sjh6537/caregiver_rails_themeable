@@ -21,7 +21,7 @@
 
 .row-sm {
 	font-size: 14px;
-	line-height: 30px;
+/*	line-height: 30px; */
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -64,7 +64,8 @@
   justify-content: center;
   padding: 4px;
   position: relative;
-  transition: all 0.3s ease-out;
+/*  transition: all 0.3s ease-out; */
+  transition: none;
   width: 30px;
 }
 
@@ -76,9 +77,10 @@
   height: 0;
   left: 50%;
   position: absolute;
-  top: 95%;
+  top: 100%;
   transform: translate(-50%, 0);
-  transition: all 0.3s ease-out;
+/*  transition: all 0.3s ease-out; */
+  transition: none;
   width: 0;
   z-index: 1;
 }
@@ -163,6 +165,10 @@
 /*
 * <%= c[:name] %> icon colors.
 */
+.bg-<%= c[:name] %> {
+  background-color: var(--<%= c[:name] %>-color);
+}
+
 .property.highlight:has(.<%= c[:name] %>) .icon {
   color: var(--<%= c[:name] %>-color);
 }
@@ -188,22 +194,6 @@
   border-top: 9px solid var(--test-color);
 }
 </style>
-
-	<button id="location-button" class="location-button" style="position: absolute; top: 161px; right: 0px;"><i class="fas fa-street-view"></i></button>
-
-	<div id="type-selector-control" class="map-control">
-	<select id="type-selector" class="selector-control">
-		<option value="0" selected="selected">全部顯示</option>
-		<option value="1">行</option>
-		<option value="2">食</option>
-		<option value="3">育</option>
-		<option value="4">住</option>
-		<option value="5">醫療</option>
-		<option value="6">購物</option>
-		<option value="7">銀行</option>
-		<option value="8">樂齡</option>
-	</select>
-	</div>
 
 <!-- row -->
 <div id="mark_list" class="row row-sm">
@@ -244,6 +234,23 @@
 
 
 <!-- row closed -->
+
+<button id="location-button" class="location-button" style="position: absolute; top: 161px; right: 0px;"><i class="fas fa-street-view"></i></button>
+
+
+<div id="type-selector-control" class="map-control">
+<select id="type-selector" class="selector-control">
+	<option value="0" selected="selected">全部顯示</option>
+	<option value="1">行</option>
+	<option value="2">食</option>
+	<option value="3">育</option>
+	<option value="4">住</option>
+	<option value="5">醫療</option>
+	<option value="6">購物</option>
+	<option value="7">銀行</option>
+	<option value="8">樂齡</option>
+</select>
+</div>
 
 
 <%= content_for :script_js do %>
@@ -300,7 +307,6 @@
 
 	function buildContent(property) {
 		const content = document.createElement("div");
-
 		content.classList.add("property");
 		content.innerHTML = `
 			<div class="icon">
@@ -379,6 +385,7 @@
 			setShopList();
 			$("#mark_list").show();
 		}
+
 	}
 
 	function addMarker(map){
@@ -414,6 +421,7 @@
 		google.maps.event.addListener(map, 'dragend', function() {
 			setShopList();
 		});
+
 	}
 
 	function addControl(map){
@@ -530,7 +538,7 @@
 				map = new google.maps.Map(document.getElementById("map"), {
 					center: myLocation,
 					zoom: 16,
-					mapId: "CAREGIVER_MAP_ID", //"4504f8b37365c3d0", // Map ID is required for advanced markers.
+					mapId: "4504f8b37365c3d0", //"4504f8b37365c3d0", // Map ID is required for advanced markers.
 					mapTypeControl: false,
 					//cameraControl: false,
 					gmpDraggable: true,
@@ -555,7 +563,14 @@
 	}
 
 	$(document).ready(function() {
+		$("#mark_list").hide();
+		$("#location-button").hide();
+		$("#type-selector-control").hide();
+
 		initMap();
+
+		$("#location-button").show();
+		$("#type-selector-control").show();
 	});
 
 	</script>
