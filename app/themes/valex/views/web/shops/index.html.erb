@@ -9,7 +9,7 @@
 }
 
 .gm-style-iw button {
-    display:none !important;
+    display:flex !important;
 }
 
 .selector-control {
@@ -52,6 +52,7 @@
 /*
  * Property styles in unhighlighted state.
  */
+
 .property {
   align-items: center;
   background-color: #FFFFFF;
@@ -64,8 +65,7 @@
   justify-content: center;
   padding: 4px;
   position: relative;
-/*  transition: all 0.3s ease-out; */
-  transition: none;
+  transition: all 0.3s ease-out;
   width: 30px;
 }
 
@@ -79,7 +79,7 @@
   position: absolute;
   top: 100%;
   transform: translate(-50%, 0);
-/*  transition: all 0.3s ease-out; */
+  transition: all 0.3s ease-out;
   transition: none;
   width: 0;
   z-index: 1;
@@ -146,6 +146,11 @@
 
 .property.highlight .details {
   display: flex;
+}
+
+.property.highlight .icon svg {
+  width: 50px;
+  height: 50px;
 }
 
 .property.highlight .icon {
@@ -546,6 +551,15 @@
 					zoomControlOptions: {
 						position: google.maps.ControlPosition.RIGHT_TOP,
 					},
+				});
+
+				infoWindow = new google.maps.InfoWindow();
+
+				google.maps.event.addListener(map, "click", function(event) {
+    				if (infoWindow) infoWindow.close();
+					//for (var i = 0; i < ibArray.length; i++ ) {  //I assume you have your infoboxes in some array
+					//	ibArray[i].close();
+			   		//}
 				});
 
 				my_marker = new google.maps.marker.AdvancedMarkerElement({
