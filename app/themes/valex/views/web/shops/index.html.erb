@@ -43,6 +43,24 @@
   background: rgb(235, 235, 235);
 }
 
+.list-highlight {
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    font-size: 0.9375rem;
+    border-top-right-radius: 8px;
+    position: relative !important;
+    background: bisque;
+    border-top-left-radius: 8px;
+}
+
+.order-list .list .list-item:first-child {
+    padding-top: 5px;
+}
+
+.order-list .list .list-item {
+    padding: 5px 0 5px 0;
+}
+
 /**
  * @license
  * Copyright 2019 Google LLC. All Rights Reserved.
@@ -263,7 +281,7 @@
 	<script type="text/javascript">
 
 	$(document).on('click', ".shop-click", function(event) {
-		toggleMarker($(this).data( "value" ));
+		toggleMarker($(this).data( "id" ));
 	});
 
 	let map;
@@ -353,6 +371,12 @@
 					}
 				}
 			}
+		}
+
+		if (maker_highlight !=0){
+			item = $('li[data-id="' + maker_highlight +  '"]');
+			item.addClass("list-highlight");
+			item.prependTo(".list")
 		}
 
 		if(show == true){
@@ -551,15 +575,6 @@
 					zoomControlOptions: {
 						position: google.maps.ControlPosition.RIGHT_TOP,
 					},
-				});
-
-				infoWindow = new google.maps.InfoWindow();
-
-				google.maps.event.addListener(map, "click", function(event) {
-    				if (infoWindow) infoWindow.close();
-					//for (var i = 0; i < ibArray.length; i++ ) {  //I assume you have your infoboxes in some array
-					//	ibArray[i].close();
-			   		//}
 				});
 
 				my_marker = new google.maps.marker.AdvancedMarkerElement({
