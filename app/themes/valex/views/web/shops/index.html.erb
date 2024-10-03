@@ -376,7 +376,8 @@
 		if (maker_highlight !=0){
 			item = $('li[data-id="' + maker_highlight +  '"]');
 			item.addClass("list-highlight");
-			item.prependTo(".list")
+			item.prependTo(".list");
+			$(".form-group").scrollTop(0);
 		}
 
 		if(show == true){
@@ -428,6 +429,7 @@
 				map: map,
 				position: properties[<%= index %>].position,
 				content: buildContent(properties[<%= index %>]),
+				collisionBehavior: google.maps.CollisionBehavior.OPTIONAL_AND_HIDES_LOWER_PRIORITY
 			});
 
 			marker[<%= index %>].addListener('click', function() {
