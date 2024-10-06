@@ -74,7 +74,7 @@ class Shop < ActiveRecord::Base
     def html_index_list(index)
       html = ""
       html += '<li class="list-item" data-id="' + index.to_s + '">'
-      html += '<div class="avatar avatar-md rounded-circle bg-' + self.category_name +  ' ">' + self.html_font + '</div>'
+      html += '<div class="avatar avatar-sm rounded-circle bg-' + self.category_name +  ' ">' + self.html_font + '</div>'
       html += '<div class=" ml-2">'
       html += '<a class="tx-15 mb-1 font-weight-medium shop-click" href="#" data-id="' + index.to_s + '" >' + self.name.to_s + '</a><h7 class="mb-0 text-muted tx-13"> ' + self.service.to_s + '</h7>'
       html += '<p class="mb-0 text-primary tx-17">' + self.phone.to_s + ' ▪️ ' + self.address.to_s + '</p>'
