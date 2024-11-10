@@ -124,6 +124,9 @@ class Admin::ShopsController < ApplicationAdminController
           end
           place_hash["ExtendedData"]["Data"].try(:each) do | data|
             if (data["name"] == "ID")
+              if data["value"].nil?
+                return
+              end
               map_id = data["value"].chomp.gsub(/\n/,"<br>")
               if map_id[1..1] == "."
                 map_id = map_id[0..0] + map_id[2..9]
