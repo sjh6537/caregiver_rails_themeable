@@ -8,6 +8,16 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
 
+
+ # 限定本地端才能使用
+#  constraints lambda { |req| req.local?} do
+#       get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
+#       post 'health/measurements', to: 'admin/health#measurements', as: :measurements
+#  end
+
+  get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
+  post 'health/measurements', to: 'admin/health#measurements', as: :measurements
+
   mount Sidekiq::Web, at: '/sidekiq'
 
   # Defines the root path route ("/")
@@ -48,7 +58,7 @@ Rails.application.routes.draw do
           end
 
           get       'health/send_message'    , to: 'health#send_message'    , as: :send_message
-
+    
           resources :users
 
           resources :request_category, except: [:destroy, :edit, :update, :show]
@@ -59,6 +69,8 @@ Rails.application.routes.draw do
       end
 
     end
+
+
 
     #================= User Subdomain =============================
     #user subdomain chang to customer account , verify in application

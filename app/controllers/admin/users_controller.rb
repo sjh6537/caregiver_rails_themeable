@@ -56,7 +56,7 @@ class Admin::UsersController < ApplicationAdminController
         respond_to do |format|
             if result
                 add_log(ACTION_EDIT,LOG_ADMIN,current_admin.id,LOG_USER,@user.id)
-                append_user("%010d" % @user.id , @user.phone)
+                append_user("%010d" % @user.id , @user.id_card)
                 format.html { redirect_to admin_users_path, notice: I18n.t("Notify.Note.Account_Updated", name: "#{@user.line_name}") }
             else
                 format.html { render action: "edit", alert: I18n.t("Notify.Note.Account_Updated_Fail", name: "#{@user.line_name}") }

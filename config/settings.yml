@@ -6,8 +6,8 @@ default: &default_settings
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
 
-  admin_subdomain: "caregiver.admin"
-  app_path: "caregiver.line"
+  admin_subdomain: "admin"
+  app_path: "line"
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
 
