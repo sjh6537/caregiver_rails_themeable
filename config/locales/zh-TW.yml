@@ -237,6 +237,7 @@ zh-TW:
       DEL_CAREGIVER: 移除目前照護者
       DEL_CARED: 取消目前照護
       AGREEMENT: 聲明
+      HEALTH_REPORT: 量測報告
 
   Note:
     Del_Shop: 是否確定要刪除商家?

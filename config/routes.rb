@@ -96,6 +96,7 @@ Rails.application.routes.draw do
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
     get      '/user/agreement'              , to: 'web/user#agreement'             , as: :web_user_agreement
+    get      '/user/report'                 , to: 'web/user#report'                , as: :web_user_report
 
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request
