@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
     before_action :set_locale
 
-    #theme :theme_select
+    theme :theme_select
 
     def page_not_found
       redirect_to error_not_found_path

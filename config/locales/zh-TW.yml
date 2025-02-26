@@ -236,6 +236,7 @@ zh-TW:
       MANAGE_USERS_SCHEDULE: 管理用戶訊息
       DEL_CAREGIVER: 移除目前照護者
       DEL_CARED: 取消目前照護
+      AGREEMENT: 聲明
 
   Note:
     Del_Shop: 是否確定要刪除商家?

@@ -12,6 +12,16 @@ class Web::UserController < ApplicationWebController
         end
     end
 
+    def agreement
+        if !@user.id_card.present?
+            @title_sub = I18n.t(:AGREEMENT, scope: "Title")
+            Rails.logger.info "ID_Card is empty"
+        else
+             Rails.logger.info "ID_Card isnot empty"
+            redirect_to web_user_edit_path
+        end
+    end
+
     def edit
         @title_sub = I18n.t(:Edit, scope: "Title")
         @caregiver = @user.caregivers.first

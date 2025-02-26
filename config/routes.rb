@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
   post 'health/measurements', to: 'admin/health#measurements', as: :measurements
+  get 'health/check_id_card/:id_card', to: 'admin/health#check_id_card', as: :check_id_card
 
   mount Sidekiq::Web, at: '/sidekiq'
 
@@ -94,6 +95,7 @@ Rails.application.routes.draw do
     get      '/user/coins'                  , to: 'web/user#coins'                 , as: :web_user_coins
     get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
     patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
+    get      '/user/agreement'              , to: 'web/user#agreement'             , as: :web_user_agreement
 
     get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
     post     '/requests'                    , to: 'web/requests#create'            , as: :web_request

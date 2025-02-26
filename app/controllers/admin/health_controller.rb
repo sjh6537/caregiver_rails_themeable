@@ -1,6 +1,7 @@
 class Admin::HealthController < ApplicationController
   protect_from_forgery with: :null_session # 關閉 CSRF 驗證
   before_action :restrict_access_to_localhost, only: [:idcard_list] # 限制只能本機存取
+  before_action :authenticate_user!, only: [:check_id_card]
   include LineHelper
 
   def restrict_access_to_localhost
@@ -10,6 +11,36 @@ class Admin::HealthController < ApplicationController
     return if request.local? || ['127.0.0.1', '::1'].include?(request.remote_ip)
 
     head :forbidden
+  end
+
+  def authenticate_user!
+    token = request.headers['Authorization']&.split(' ')&.last
+    if(token.nil?)  
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+      return
+    else
+      if(token == APP_CONFIG[:token_secret])
+        true
+      else
+        render json: { error: 'Unauthorized' }, status: :unauthorized
+        return
+      end
+    end
+  end
+
+  def check_id_card
+    if params[:id_card].blank?
+      render json: { error: 'id_card is required' }, status: :bad_request
+      return
+    end
+    id_card = params[:id_card]
+    user = User.find_by(id_card: id_card)
+    Rails.logger.info("Checking id_card: #{id_card}")
+    if user
+      render json: { status: 'success', exists: true, name: user.name }, status: :ok
+    else
+      render json: { status: 'success', exists: false }, status: :ok
+    end
   end
 
   def idcard_list
