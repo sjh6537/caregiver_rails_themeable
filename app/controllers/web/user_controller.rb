@@ -4,6 +4,7 @@ class Web::UserController < ApplicationWebController
     before_action :set_user
 
     def show
+        redirect_to web_user_agreement_path if !@user.id_card.present?
         @cared = @user.careds.first
         @caregiver = @user.caregivers.first
         if params[:notice] != nil
@@ -13,6 +14,7 @@ class Web::UserController < ApplicationWebController
     end
 
     def report
+        redirect_to web_user_agreement_path if !@user.id_card.present?
         @reports = @user.health_reports.order(id: :desc)
         @title_sub = I18n.t(:HEALTH_REPORT, scope: "Title")
     end
