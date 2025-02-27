@@ -13,22 +13,17 @@ class Web::UserController < ApplicationWebController
     end
 
     def report
-        @reports = @user.health_reports.order(id: :desc).take(10)
+        @reports = @user.health_reports.order(id: :desc)
         @title_sub = I18n.t(:HEALTH_REPORT, scope: "Title")
     end
 
     def agreement
-        if !@user.id_card.present?
-            @title_sub = I18n.t(:AGREEMENT, scope: "Title")
-        else
-            redirect_to web_user_edit_path
-        end
+        redirect_to web_user_edit_path if @user.id_card.present?
+        @title_sub = I18n.t(:AGREEMENT, scope: "Title")
     end
 
     def edit
-        if !@user.id_card.present?
-            redirect_to web_user_agreement_path
-        end
+        redirect_to web_user_agreement_path if !@user.id_card.present?
         @title_sub = I18n.t(:Edit, scope: "Title")
         @caregiver = @user.caregivers.first
         @cared = @user.careds.first
