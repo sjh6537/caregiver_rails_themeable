@@ -40,20 +40,20 @@ module ApplicationHelper
 
     def create_current_list
         User.all.map do |user|
-            if !user.phone.nil?
-                file = Rails.root.join('health/',"#{user.account}.#{user.phone}")
+            if !user.id_card.nil?
+                file = Rails.root.join('health/',"#{user.account}.#{user.id_card}")
                 File.open( file, "w") do |f|
-                    f.write("#{user.account}.#{user.phone}\r\n")
+                    f.write("#{user.account}.#{user.id_card}\r\n")
                 end
             end
         end
     end
 
-    def append_user(account,phone)
-        if !phone.nil?
-            file = Rails.root.join('health/',"#{account}.#{phone}")
+    def append_user(account,id_card)
+        if !id_card.nil?
+            file = Rails.root.join('health/',"#{account}.#{id_card}")
             File.open( file, "w") do |f|
-                f.write("#{account}.#{phone}\r\n")
+                f.write("#{account}.#{id_card}\r\n")
             end
         end
     end

@@ -30,6 +30,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 zh-TW:
   devise:
+    admin:
+      not_found_in_database: "找不到該用戶"
     failure:
       unauthenticated: "你需要加入會員才能完成此項目"
   Login:
@@ -101,6 +103,7 @@ zh-TW:
     RESET: 重置
 
   Table:
+    ID_Card: 身分證字號
     Text: 文字
     ShopName: 商家名稱
     Account: 帳號
@@ -233,6 +236,8 @@ zh-TW:
       MANAGE_USERS_SCHEDULE: 管理用戶訊息
       DEL_CAREGIVER: 移除目前照護者
       DEL_CARED: 取消目前照護
+      AGREEMENT: 聲明
+      HEALTH_REPORT: 量測報告
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -342,7 +347,7 @@ zh-TW:
       Please_Input_Title: "請輸入訊息標題"
       Caregiver_Confirm_Delete: "請確認是否要移除你的照護者? 移除後若要再建立照護者，需要重新發送訊息給你的 line 好友並經過你好友同意才能成為你的照護者。"
       Cared_Confirm_Delete: "請確認是否要取消你的照護? 取消後若要再建立照護，需要對方重新發送訊息邀請你照護。"
-
+      
   Notify:
     Title:
       ADMINISTRATORS_TABLE: 管理者表格
@@ -424,6 +429,7 @@ zh-TW:
       Account_Blocked: "帳號 <strong>%{name}</strong> 成功黑名單."
       Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
       Category_cannot_delete: 派工類別新增後無法刪除只能隱藏
+      ID_Card_Error: "*身份證字號格式錯誤"
   Tab:
     Line_Message: 訊息
     Line_Recipient: 傳送對象

@@ -7,11 +7,23 @@ class Web::UserController < ApplicationWebController
         @cared = @user.careds.first
         @caregiver = @user.caregivers.first
         if params[:notice] != nil
-            redirect_to web_user_show_path, notice: params[:notice]
+            #redirect_to web_user_show_path, notice: params[:notice]
+            redirect_to web_user_show_path
         end
     end
 
+    def report
+        @reports = @user.health_reports.order(id: :desc)
+        @title_sub = I18n.t(:HEALTH_REPORT, scope: "Title")
+    end
+
+    def agreement
+        redirect_to web_user_edit_path if @user.id_card.present?
+        @title_sub = I18n.t(:AGREEMENT, scope: "Title")
+    end
+
     def edit
+        redirect_to web_user_agreement_path if !@user.id_card.present?
         @title_sub = I18n.t(:Edit, scope: "Title")
         @caregiver = @user.caregivers.first
         @cared = @user.careds.first
@@ -23,7 +35,7 @@ class Web::UserController < ApplicationWebController
 
         respond_to do |format|
             if result
-                append_user("%010d" % @user.id , @user.phone)
+                append_user("%010d" % @user.id , @user.id_card)
                 format.html { redirect_to web_user_show_path, notice: I18n.t("Website.Note.Update_Success", name: "#{@user.line_name}") }
             else
                 format.html { render action: "edit", alert: I18n.t("Website.Note.Update_Fail", name: "#{@user.line_name}") }

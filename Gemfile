@@ -60,6 +60,9 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'solargraph', '~> 0.44'
+  gem 'solargraph-rails'
+
 end
 
 group :test do
@@ -86,7 +89,7 @@ gem 'simple_form'
 #    initializer 'themes_on_rails.precompile' do |app|
 #action_controller.rb
 #    case Rails::VERSION::MAJOR
-gem 'themes_on_rails' # multi themes
+gem 'themes_on_rails', git: 'https://github.com/b8809040/themes_on_rails.git' # multi themes
 
 gem "kt-paperclip", "~> 6.4", ">= 6.4.1"
 
