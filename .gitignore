@@ -16,6 +16,7 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+/log_backup/*
 
 # Ignore pidfiles, but keep the directory.
 /tmp/pids/*
@@ -33,3 +34,61 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# Ignore 
+
+
+
+# 上傳文件
+/public/uploads
+/public/assets
+/public/packs
+/public/packs-test
+
+# Coverage 報告
+/coverage/
+
+# 測試報告
+/spec/reports/
+/test/reports/
+
+# yarn / webpack
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+/public/packs
+/public/packs-test
+
+# VS Code
+.vscode/
+.idea/
+
+# RubyMine
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# 環境變數
+.env
+.env.*
+!.env.example
+
+# 資料庫配置
+/config/database.yml
+
+# Mac
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+.windsurfrules
