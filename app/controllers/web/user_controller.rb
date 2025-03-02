@@ -25,7 +25,7 @@ class Web::UserController < ApplicationWebController
     end
 
     def edit
-        redirect_to web_user_agreement_path if !@user.id_card.present?
+        #redirect_to web_user_agreement_path if !@user.id_card.present?
         @title_sub = I18n.t(:Edit, scope: "Title")
         @caregiver = @user.caregivers.first
         @cared = @user.careds.first
