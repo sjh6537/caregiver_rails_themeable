@@ -34,9 +34,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+/config/credentials.yml.enc
 
 # Ignore 
-
 
 
 # 上傳文件

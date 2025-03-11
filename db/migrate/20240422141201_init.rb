@@ -48,7 +48,5 @@ class Init < ActiveRecord::Migration[7.1]
 	end
 
 	add_index "users", ["account"], name: "index_users_on_account", unique: true, using: :btree
-    add_index "users", ["oauth_token"], name: "index_users_on_oauth_token", unique: true, using: :btree
-
-  end
+	add_index "users", ["oauth_token"], name: "index_users_on_oauth_token", unique: true, using: :btree, length: { oauth_token: 255 }  end
 end

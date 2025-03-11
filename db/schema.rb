@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
-  create_table "admins", force: :cascade do |t|
+  create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "account"
     t.string "name"
     t.boolean "enable", default: true
@@ -33,11 +33,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "coupons", force: :cascade do |t|
+  create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "shop_id"
     t.string "name", limit: 30, default: ""
     t.string "discount", limit: 20, default: ""
-    t.text "comment", limit: 1000, default: ""
     t.boolean "is_vaild", default: true
     t.integer "number_stock", default: 0
     t.datetime "period_start"
@@ -52,12 +51,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.string "full_image_content_type"
     t.bigint "full_image_file_size"
     t.datetime "full_image_updated_at"
+    t.text "comment"
     t.string "rule", limit: 30, default: ""
     t.integer "redeem"
     t.integer "number_used", default: 0
   end
 
-  create_table "history_logs", force: :cascade do |t|
+  create_table "history_logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "source"
     t.integer "source_id"
     t.integer "target"
@@ -69,14 +69,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
   end
 
-  create_table "request_categories", force: :cascade do |t|
+  create_table "request_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "is_show", default: false
     t.string "text", limit: 30, default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "schedule_messages", force: :cascade do |t|
+  create_table "schedule_messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "job_id"
     t.integer "message_type", default: 0
     t.text "user_ids"
@@ -89,7 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
   end
 
-  create_table "shop_images", force: :cascade do |t|
+  create_table "shop_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "shop_id"
     t.string "image_file_name"
     t.string "image_content_type"
@@ -99,14 +99,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
   end
 
-  create_table "shop_pictures", force: :cascade do |t|
+  create_table "shop_pictures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "shop_id"
     t.string "url", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "shops", force: :cascade do |t|
+  create_table "shops", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.boolean "is_show", default: false
     t.integer "addr_city", default: 0
     t.integer "addr_postal", default: 0
@@ -114,8 +114,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
     t.integer "category", default: 0
     t.text "description"
-    t.decimal "latitude"
-    t.decimal "longitude"
+    t.decimal "latitude", precision: 10
+    t.decimal "longitude", precision: 10
     t.string "name", limit: 200, default: ""
     t.string "phone", limit: 200, default: ""
     t.string "address", limit: 200, default: ""
@@ -126,7 +126,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.index ["map_id"], name: "index_map_id"
   end
 
-  create_table "user_coupons", force: :cascade do |t|
+  create_table "user_coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "coupon_id"
     t.boolean "is_vaild", default: true
@@ -137,7 +137,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.boolean "is_expired", default: false
   end
 
-  create_table "user_health_reports", force: :cascade do |t|
+  create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.float "bmi"
     t.integer "heart_rate"
@@ -157,7 +157,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.string "ketones"
   end
 
-  create_table "user_history_coins", force: :cascade do |t|
+  create_table "user_history_coins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "category"
     t.integer "category_id"
@@ -167,12 +167,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
   end
 
-  create_table "user_profiles", force: :cascade do |t|
+  create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.string "line_uid", default: "", null: false
-    t.string "line_token", default: "", null: false
+    t.text "line_token", null: false
     t.string "line_name"
-    t.string "line_image"
+    t.text "line_image"
     t.string "line_phone"
     t.string "line_email"
     t.datetime "created_at"
@@ -182,7 +182,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.index ["line_uid"], name: "index_user_profiles_on_line_uid", unique: true
   end
 
-  create_table "user_request_receivers", force: :cascade do |t|
+  create_table "user_request_receivers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "request_id"
     t.integer "receiver_id"
     t.boolean "response", default: false
@@ -192,7 +192,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.integer "consider", default: 0
   end
 
-  create_table "user_requests", force: :cascade do |t|
+  create_table "user_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "enable", default: true
     t.integer "status", default: 0
@@ -212,14 +212,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.integer "location_postal", default: 0
   end
 
-  create_table "user_users_releated_caregivers", force: :cascade do |t|
+  create_table "user_users_releated_caregivers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "cared_id"
     t.integer "caregiver_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "user_users_releated_friends", force: :cascade do |t|
+  create_table "user_users_releated_friends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
     t.integer "friend_id"
     t.boolean "block", default: false
@@ -227,7 +227,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.datetime "updated_at"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.string "account"
     t.boolean "enable", default: true
@@ -256,7 +256,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.string "id_card"
     t.index ["account"], name: "index_users_on_account", unique: true
     t.index ["id_card"], name: "index_users_on_id_card"
-    t.index ["oauth_token"], name: "index_users_on_oauth_token", unique: true
+    t.index ["oauth_token"], name: "index_users_on_oauth_token", unique: true, length: 255
   end
 
 end

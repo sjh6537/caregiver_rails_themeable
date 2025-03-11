@@ -61,15 +61,15 @@ class User < ActiveRecord::Base
     end
 
     def accept_requests
-      User::Request.where("helper_id == #{self.id}")
+      User::Request.where("helper_id = #{self.id}")
     end
 
     def accept_requests_finish
-      User::Request.where("helper_id == #{self.id} AND request_date < ?", Time.now )
+      User::Request.where("helper_id = #{self.id} AND request_date < ?", Time.now )
     end
 
     def accept_requests_new_and_today
-      User::Request.where("helper_id == #{self.id} AND request_date > ?", Date.today )
+      User::Request.where("helper_id = #{self.id} AND request_date > ?", Date.today )
     end
 
     def request_accept_count(friend_id)
