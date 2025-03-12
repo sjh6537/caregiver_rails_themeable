@@ -1,4 +1,4 @@
-# Caregiver Rails 應用程式
+# 稻相顧多社區版本 應用程式 (使用MYSQL)
 
 這是一個基於 Ruby on Rails 開發的照護相關應用程式，整合了 LINE Bot 功能以及背景工作處理。
 
@@ -32,13 +32,17 @@
 git clone -b padifield [repository_url] --depth=1
 cd caregiver_rails
 ```
+2. 產生master.key與credentials.yml.enc
+```bash
+EDITOR=nano rails credentials:edit
+```
 
-2. 安裝 gem 依賴
+3. 安裝 gem 依賴
 ```bash
 bundle install
 ```
 
-3. 資料庫設定
+4. 資料庫設定
 確保 config/database.yml 配置正確，預設配置為:
 ```yaml
 default:
@@ -51,18 +55,18 @@ default:
   port: 3306
 ```
 
-4. 建立資料庫及執行遷移
+5. 建立資料庫及執行遷移
 ```bash
 rake db:create
 rake db:migrate
 ```
 
-5. 啟動開發伺服器
+6. 啟動開發伺服器
 ```bash
 rails s
 ```
 
-6. 啟動 Sidekiq (在另一個終端)
+7. 啟動 Sidekiq (在另一個終端)
 ```bash
 bundle exec sidekiq
 ```
