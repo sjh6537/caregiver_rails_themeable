@@ -1,2 +1,72 @@
-require 'dualcone'
-Dualcone.run('ae79a3c432afce79a4b79fa48182cc2136924ce43a0a1c8007ec9fb7a2922cf20f10c2d2a66c7d5ce6c58e3e0863dc0c08fffb9385f764cad3fdf57b6df826a4bbaff47b25f7f5800c91e2235520592a093ab81191070f618f373b7222da3be99280fde2d371a42cbdf115eb36a827b6daeee822fefb4a51423b3e4ca8d29d7ba7da3dcb1ac93125c9081c19bd6988c15b1adc247106222a4f4731bd41cab2102b30c3f5ddeee099bbd2d0d2e8a6630821a84ad312508ed58c65741b62341fe0ab200b97497afd6d23ca5cdfffd99aed15d76d86c63dcce8c377f553bbb1c02904bb667bd4263a300371edeeb3d413a2e50c1174ea533090838d113d3586c2450a1f4184cdc7251b4cdded9be9b16e9a2f011a77a614afc37c5cefd89b472dc3822da0d433fdc8470f370c9db06fbf5bc0ebf4c887b9e0e33465dba67c9f430cb76b130e31919c670380d2d1868af83b290dfa6c85a03a21530d74b067ae1a2002b930e5236867f6bf679860b6aed22a69af03b087e0e1baaae00176e9a485566de8eed10f816db94b211e2cdf1865dd347542a278171fddea70bb7f346fc8869c04b3db48e16ff2a40cbcfe9bd0ed71f178fda6fa93425b9e509b43bb929b672359d922d1d2beff67462171be2305cc00cc53c3a74d91efe52bc1f5e82e3cd5bf1af4056b8e460219ea484b21d94bf5f74c430575f85b65ce0616d5193a42c7afcb38aa982ab2e49eaf19ce3db820d2138bc44cbbd811d7398a18474191d724d920607881c917e9464890761f1ed95cebb0d2072d6aa90120a73b2689e035661b2817323267eac57cede9f307d7695a6e16983d6659612f4e1ed7cc3b80eb2c898c0b957ae51cd56ea91164572cfffb3e88e4848930379c298a69eefa5f2092f821ce607f5982495e4fc1e23ec297c57d938562c6ac1112d3bd6ba7da8b444024582f000872d87ee1accd073ae90d3d72b341925aff2a84c96b62ffe4f394981ad3deae995059cd4ccba5e2c86621470a6687fbb264eb0ddd6b03558ca8b28a732709c484e0289966581c5ef007e11d3393c8dfdc8cf782062ffeca64175b978a4c5cdbde9ea257be2e52afdaba960d966d20a45f2ea35508e14a64e5f3ab1037b61f6b4db810c39f25ddeed7fc66b4e786c63abfadaac44077e45ed7e36780b32e7507e7c15fd84072a4ec6db28453698bb9fd7774c9e213d3cbdc76e7a8bb7fedb51586b352a2a62b29fee66b9e33dad8f918f1231a181b2421e370899b36929e3a316a4a26f315e75b0bcc16079efe8321bef9c17e04de1421968f636d2b921359e73140ef9ce2046860d010029e7bb626b58c58377446649b6fb39d4951bfb54d3c26c06e278a0ff2ece0a461516e480e48c7f7cff5201c1cddc063ca1b6776bfc821d9a303d24a16ad549f966373bf5c50059b1f6cf619e3781a4a88df4ff1cb251b96b3f921ae643ea786328d7177d81090b12373aa4b77df4f46838dc9644d3091bc7c2ecfde1d5c56ad9cbe85c9834a42f532b9316a0b12f49626d72f21112510a7d49b97ce817293f29d0e3342931cf3cb4e63ce76b924bee4bb60fcda1a72f72db4c53ede7f74c9f7f06e0a4e0a1e360fde30c3d89e5a1552cfca4c5253b0226f422aebf483ca993f293af003bc7fc2f048c2172ccfb4c5ecc071a143dad1bd876810109ab794b9409e6a5eba2b0b6efd2d5694c779960a838cc3dfcd7fdc395e9716a8d5cb55d97306445c3b640d4f2e997a7ea4a06acc75db43d3fa005978a69a7d73e313def5ad7e8b925db1cee4c7388e2754e4bfc87b0e1ab2704afd19c8c4325a931a1ee88328e9c6343c743322b95abbc9424e9a645407c5b8b01f15c7c106b80818c9198ff18f158d285b36acfbe5f8ff7e5b76c274e783ebc4f0ae3ee630328f45b15b64a42bcc77f19f971adfd843ee871010ac6f0ab3b47c52ac48bee5ff0cb7d8334433f401f2a01421fa16bbe46f9694f5287a4722c5028673d8a1b81ca863064549e247b3e954383b9823ad4dc7ea20b8482c6f418d13ce31e480cb678aeb5d568372cc0984f252896c4ffa87c8807a6c2711f76f4dd09a3d4379250ad6618ac0a8c1a18c2bd7c637d7d5746188ea71bd993330dc96006363f194bb96a63675f7163c782602e9d2c20b13bcaa89ae8397057dec950c0fd597f0731a9188ed6204df26101729ea63ade0081222cd0352c58173acc42a126f9f96d6234b45764a81f6f735c81d592d4fd069f8fc60aa7ede4a741853a73953ca4f765c458f2f1875114e3046b3cc3477925e6b7f1aefd194d4a17be0c811390d4b3bfcf2c9312b5e81246b4c515d54355abb87b0b40110a6ffec044730bbc8657abf05c77a1e426fbfc5a1d22e38d4bdb39ed0467da19dcdfe20e72dbd2806cb4fd4aa040922fbe010a3b3ce3a1f52134c079476a9efbcbd9247451de9418b4d77804deda9cc371df0ef098362d1e29f9b610ff0fedcc4cda470f35f66c37e8f8ba85387beca8158c4060ef5b41a3de82b92745f7a1f470d9f0c3f2ffdc9a70415e6525bb9802f0cb00064cc1ef0f45e5878103d640052c709626c0574dd5d457060a80b82fcf579b5bf924f090c41b85b6ee260d7cf643ea2c33a63211c63a052b1f46d619dfeabab81e9de5e5887e82b082554ba7d2ce7ebaadd54a1babf7a253e35aa890445bc1f6d2883548c94650c2bb282b0909b109795cf4af2c11597ac235dcd704fcbc205def83b89f98900ce872f10a93851a67c53913c3fdf8f4e71e2e8d212c9a3f5ce3b3700c106fe92425827df61d60f81464af9689cfb67ec026ff1b6e19dd25fce141de0107d233c0fe5c8014c8a8ff39564389c04dd7abf8854e8206c2315c1f2c6130214d25058793ca275078c0b64f148eace84eeaa51b3ccb39f56a2aca3619d015b53d4937a5ee18e52020597cc6c4ea579445af90840663f48845e6cec6f60485ddcdcdf697e57bfb50f5f6571889ba8724c5e496251a315d4b8cd7e62a5a1fbba742cffc92f63cf6fae989715672c561cbfc6a3d6f19bd1620e71e6c9fb50e510fae65546f47b2d971a0bcee89e3cfc6a1eff55be4213b678795c1cf82d0947889616c2ed31708628082d11332bf42b11c34f419d32f6a5c79451f58d4c4e81cb940ad6854700b48a40e34f82b9e7ed5970380c2424709cf9b96dd69a4795dba274d68aee06abe1a07c0ee1aa318d6b3b00ec80333e45c46ec11991f83edccd905d0b008a8669f8ac3362f07eb4ae47642759ede00c2368585d7691c18c0eaee3f3cb5464295bdf06920302e6bb0fa7c7b5a7922c4c95a2bbb4e0941760c3552f0e8c8c85ee77688958a1601f6de285faf240782a73bf681fb778b495d00a029a10fca76a6ac19ceb9cd9d060da348f5df4ff6bfd7d3c0bd3b3ac6bbf8711ef1af3a70504b36ced833ac9c44b6379c6eb1d24a9fd7ae9cd4c05f507c477415ba1c69711c1c27f647e99cd048cbc7f5a998508de89f7da0a81554a0b91596965af9736a4c3c23cde576b65d8353d394ecb02d2e6f792e63633d8297b8e82d20bd214d2321a79261a0d90e0dd1f86ba5750e25b2cd349815692fc5181244cc44be93fb5f602d6f626cc15dabdf70189062282948495ba6cba3fd0f394384476ec0bdf04db7dbfc3f8e5acc9965721c04bd79f1f6033fd5d95eb0b41e2a7f15d5b48a02e9a8cb48b5010ded0a14b6e2d3634900be8587bce5fa3671c97ba088f6cc1b26cbc4bc371b0c60590aa4d03d7ebc986bb6e00c42b2e6a62bcb60162a005c24d9860a53a13a068892ae94875ff71d6dc405d75853fbabe18ec4b782cec22959375ba002f2ea5cc6061736001fdf4345011694d686693267de27774b1722d5bf9b4e42d76ec0603f3635ebcde36b9edde7cbd0d3dfe1585844176a3c475704e1d8020d63c8416c6dbd7cd03cc921a1eb256b8c85ef516de2d4d8a0d28c698372a9ac58d161a01faa2e2e3a2afa7864d288a408b4eb1bcab287318911ca273d8eafe0f265e7686039de353249ee153971b88bad1a0f0bf90c46e9772adba8d92c96759e6b1baf46597c15fc434cbf1dd2391908aa42b619101f97a1547566a287a01b434ea88e4eec0dbc81ea1b7d786ec16bb15e3850fa8e02ac89723a4385ec6c35f26acfcbd846cd29064f49cf8eba23e')
+# -*- encoding : utf-8 -*-
+class User::SessionsController < Devise::SessionsController
+    skip_before_action :verify_authenticity_token
+    include LineHelper
+    #include Devise::Controllers::Rememberable
+  
+    def destroy
+        session[:need_return_to] = false
+        session[:return_to] = ""
+        cookies[:return_to] = ""
+        super
+    end
+  
+    def new
+        session[:state] = form_authenticity_token
+        auth_url = login_authorize(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret] , session[:state])
+        redirect_to auth_url, allow_other_host: true
+    end
+  
+    def line_authorize
+        session[:state] = form_authenticity_token
+        auth_url = login_authorize(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret] , session[:state])
+        redirect_to auth_url, allow_other_host: true
+    end
+  
+    def line_callback
+        code = params[:code]
+        if params[:state] == session[:state]
+            access_token = login_token(APP_CONFIG[:line_login_callback_url], APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret], code)
+            id_token = access_token.params[:id_token]
+  
+            response_body = login_get_profile(APP_CONFIG[:line_login_channel_id], APP_CONFIG[:line_login_Channel_secret], id_token , access_token)
+            uid = JSON.parse(response_body)['sub']
+            name = JSON.parse(response_body)['name']
+            image = JSON.parse(response_body)['picture']
+            email = JSON.parse(response_body)['email']
+  
+            @user = User.find_by_account(uid)
+            if @user
+                #remember_me(@user)
+                @user.update(oauth_token: id_token)
+                @user.profile.update(line_name: name,line_token: id_token, line_image: image, line_email: email)
+            else
+                @user = User.new(account: uid, oauth_token: id_token)
+                if @user.save
+                    @user.create_profile(line_uid: uid,line_name: name,line_token: id_token, line_image: image, line_email: email)
+                end
+                #redirect_to new_user_registration_url
+            end
+            sign_in(@user)
+  
+            if (session[:need_return_to] == true)
+                url = session[:return_to]
+                session[:need_return_to] = false
+                session[:return_to] = ""
+                cookies[:return_to] = ""
+                redirect_to url
+            else
+                if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "")
+                    redirect_to web_user_edit_path
+                else
+                    redirect_to web_user_show_path
+                end
+            end
+  
+        else
+            redirect_to error_notice_path, notice: 'invalid varification'
+        end
+    end
+  
+  end
+  

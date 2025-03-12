@@ -1,1 +1,0 @@
-#<User::HealthReport::ActiveRecord_Relation:0x000070ed335c0288>

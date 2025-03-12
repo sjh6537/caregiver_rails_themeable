@@ -1,0 +1,16 @@
+AllCops:
+  TargetRubyVersion: 3.2.3
+  NewCops: enable
+  SuggestExtensions: false
+  
+Layout/SpaceBeforeComma:
+  Enabled: false
+
+Metrics/BlockLength:
+  Max: 40
+
+Style/FrozenStringLiteralComment: # 停用訊息 frozen_string_literal: true
+  Enabled: false
+
+Style/Documentation: # 停用 頂層文檔註解
+  Enabled: false
