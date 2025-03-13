@@ -1,5 +1,5 @@
-class User::Profile < ActiveRecord::Base
-
+module User
+  class Profile < ActiveRecord::Base
     belongs_to :user
-
+  end
 end

@@ -1,6 +1,6 @@
-# -*- encoding : utf-8 -*-
-class Web::CouponsController < ApplicationWebController
-    before_action :set_user, only: [:show_shop, :show_user, :redeem, :use]
+module Web
+  class CouponsController < ApplicationWebController
+    before_action :set_user, only: %i[show_shop show_user redeem use]
 
     def show_shop
       @coupon = Coupon.find_by_id(params[:id])
@@ -11,23 +11,27 @@ class Web::CouponsController < ApplicationWebController
       @usercoupon = @user.coupons.find_by_id(params[:id])
       @coupon = @usercoupon.coupon
       @shop = @coupon.shop
-      if @usercoupon.is_used
-        @time_left = (@usercoupon.used_datetime + 30*60 - Time.now).to_i
-      else
-        @time_left = 0
-      end
+      @time_left = if @usercoupon.is_used
+                     (@usercoupon.used_datetime + (30 * 60) - Time.now).to_i
+                   else
+                     0
+                   end
     end
 
     def redeem
       @coupon = Coupon.find_by_id(params[:id])
       if @coupon.number_stock > 1
         if @user.redeem_coupon(@coupon)
-          redirect_to web_user_coupons_path(0), notice: I18n.t("Notify.Note.Redeem_success", name: "#{@coupon.name}")
+          redirect_to web_user_coupons_path(0), notice: I18n.t('Notify.Note.Redeem_success', name: @coupon.name.to_s)
         else
-          redirect_back fallback_location: "/", alert: I18n.t("Notify.Note.Redeem_fail_coin_not_enough", name: "#{@coupon.name}")
+          redirect_back fallback_location: '/',
+                        alert: I18n.t('Notify.Note.Redeem_fail_coin_not_enough',
+                                      name: @coupon.name.to_s)
         end
       else
-        redirect_back fallback_location: "/", alert: I18n.t("Notify.Note.Redeem_fail_coupon_not_enough", name: "#{@coupon.name}")
+        redirect_back fallback_location: '/',
+                      alert: I18n.t('Notify.Note.Redeem_fail_coupon_not_enough',
+                                    name: @coupon.name.to_s)
       end
     end
 
@@ -40,7 +44,7 @@ class Web::CouponsController < ApplicationWebController
     private
 
     def set_user
-        @user = current_user
+      @user = current_user
     end
-
   end
+end
