@@ -1,12 +1,22 @@
 {
-    // Ruby LSP 配置 (新一代 Ruby 語言服務器)
-    "ruby-lsp.rubyLsp.enableExperimentalFeatures": true,
-    "ruby-lsp.formatter": "rubocop",
+    "ruby.useLanguageServer": true,
+    "ruby.intellisense": "rubyLocate",
+    "ruby.lsp.commandPath": "solargraph",
+    "ruby.lsp.useLanguageServer": true,
+    "ruby.format": "rubocop",
+    "ruby.codeCompletion": "rcodetools",
+    "ruby.interpreter.commandPath": "ruby",
+    "ruby.useBundler": true,
+    "ruby.useLsp": true,
+    "ruby.lint": {
+      "rubocop": {
+        "useBundler": true
+      }
+    },
     
-    // Solargraph 配置 (用於代碼完成和文檔)
     "solargraph.logLevel": "info",
     "solargraph.diagnostics": true,
-    "solargraph.useBundler": true,
+    "solargraph.useBundler": false,
     "solargraph.completion": true,
     "solargraph.hover": true,
     "solargraph.definitions": true,
@@ -16,22 +26,9 @@
     "solargraph.formatting": false,
     "solargraph.autoformat": false,
     
-    // Ruby 配置 (舊配置，為了兼容性保留)
-    "ruby.useLanguageServer": true,
-    "ruby.useLsp": true,
-    "ruby.format": "rubocop",
-    "ruby.useBundler": true,
-    "ruby.lint": {
-      "rubocop": {
-        "useBundler": true
-      }
-    },
-    
-    // 編輯器通用設置
     "editor.semanticHighlighting.enabled": true,
     "editor.suggest.insertMode": "replace",
     
-    // Ruby LSP 功能配置
     "rubyLsp.enabledFeatures": {
       "codeActions": true,
       "diagnostics": true,
@@ -46,16 +43,15 @@
       "selectionRanges": true,
       "semanticHighlighting": true
     },
+    "rubyLsp.enableExperimentalFeatures": true,
     
-    // 搜尋設定
     "search.useIgnoreFiles": false,
     "search.exclude": {
       "**/tmp": true,
       "**/log": true
     },
     
-    // 檔案關聯
     "files.associations": {
       "*.rb": "ruby"
     }
-}
+  }

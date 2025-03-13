@@ -1,6 +1,9 @@
-module Web
-  class DashboardController < ApplicationWebController
+# -*- encoding : utf-8 -*-
+class Web::DashboardController < ApplicationWebController
+
     # GET
-    def index; end
-  end
+    def index
+
+    end
+  
 end

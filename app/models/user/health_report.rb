@@ -1,5 +1,5 @@
-module User
-  class HealthReport < ActiveRecord::Base
+class User::HealthReport < ActiveRecord::Base
+
     belongs_to :user
-  end
+
 end

@@ -1,6 +1,6 @@
-require_relative 'boot'
+require_relative "boot"
 
-require 'rails/all'
+require "rails/all"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -14,7 +14,7 @@ module LearningLife
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    config.autoload_lib(ignore: %w(assets tasks))
 
     config.autoload_paths << Rails.root.join('app/worker')
 
@@ -32,11 +32,11 @@ module LearningLife
       Sidekiq::Scheduler.dynamic = true
     end
 
-    config.hosts << 'caregiver.admin.miaoligo.com'
-    config.hosts << 'caregiver.line.miaoligo.com'
+    config.hosts << "caregiver.admin.miaoligo.com"
+    config.hosts << "caregiver.line.miaoligo.com"
 
-    config.hosts << 'caregiver.admin.test.com'
-    config.hosts << 'caregiver.line.test.com'
-    config.hosts << '0d26-61-220-204-210.ngrok-free.app'
+    config.hosts << "caregiver.admin.test.com"
+    config.hosts << "caregiver.line.test.com"
+    config.hosts << "0d26-61-220-204-210.ngrok-free.app"
   end
 end

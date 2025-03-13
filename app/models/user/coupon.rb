@@ -1,23 +1,32 @@
-module User
-  class Coupon < ActiveRecord::Base
+class User::Coupon < ActiveRecord::Base
+
     belongs_to :user
 
     def coupon
-      Coupon.find_by_id(coupon_id)
+        Coupon.find_by_id(self.coupon_id)
     end
 
     def use
-      update(is_used: true, used_datetime: Time.now)
+        self.update(is_used: true, used_datetime: Time.now)
     end
 
     def check_vaild
-      start_time = coupon.period_start
-      start_time.nil? || start_time >= Time.now
+        start_time = self.coupon.period_start
+        if start_time.nil?
+            true
+        elsif start_time >= Time.now
+            true
+        else
+            false
+        end
     end
 
     def check_expired
-      end_time = coupon.period_end
-      (!end_time.nil? && end_time >= Time.now) || false
+        end_time = self.coupon.period_end
+        if !end_time.nil? && end_time >= Time.now
+            true
+        else
+            false
+        end
     end
-  end
 end
