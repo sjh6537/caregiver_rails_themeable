@@ -1,57 +1,56 @@
 {
-    "ruby.useLanguageServer": true,
-    "ruby.intellisense": "rubyLocate",
-    "ruby.lsp.commandPath": "solargraph",
-    "ruby.lsp.useLanguageServer": true,
-    "ruby.format": "rubocop",
-    "ruby.codeCompletion": "rcodetools",
-    "ruby.interpreter.commandPath": "ruby",
-    "ruby.useBundler": true,
-    "ruby.useLsp": true,
-    "ruby.lint": {
-      "rubocop": {
-        "useBundler": true
-      }
-    },
-    
-    "solargraph.logLevel": "info",
-    "solargraph.diagnostics": true,
-    "solargraph.useBundler": false,
-    "solargraph.completion": true,
-    "solargraph.hover": true,
-    "solargraph.definitions": true,
-    "solargraph.rename": true,
-    "solargraph.references": true,
-    "solargraph.symbols": true,
-    "solargraph.formatting": false,
-    "solargraph.autoformat": false,
-    
-    "editor.semanticHighlighting.enabled": true,
-    "editor.suggest.insertMode": "replace",
-    
-    "rubyLsp.enabledFeatures": {
-      "codeActions": true,
-      "diagnostics": true,
-      "documentHighlights": true,
-      "documentLinks": true,
-      "documentSymbols": true,
-      "foldingRanges": true,
-      "formatting": true,
-      "hover": true,
-      "inlayHint": true,
-      "onTypeFormatting": true,
-      "selectionRanges": true,
-      "semanticHighlighting": true
-    },
-    "rubyLsp.enableExperimentalFeatures": true,
-    
-    "search.useIgnoreFiles": false,
-    "search.exclude": {
-      "**/tmp": true,
-      "**/log": true
-    },
-    
-    "files.associations": {
-      "*.rb": "ruby"
+  "editor.formatOnSave": true,
+  "[ruby]": {
+    "editor.defaultFormatter": null
+  },
+  "ruby.useLanguageServer": true,
+  "ruby.intellisense": "rubyLocate",
+  "ruby.lsp.commandPath": "solargraph",
+  "ruby.lsp.useLanguageServer": true,
+  "ruby.format": "rubocop",
+  "ruby.codeCompletion": "rcodetools",
+  "ruby.interpreter.commandPath": "ruby",
+  "ruby.useBundler": true,
+  "ruby.useLsp": true,
+  "ruby.lint": {
+    "rubocop": {
+      "useBundler": true
     }
+  },
+  "solargraph.logLevel": "info",
+  "solargraph.diagnostics": true,
+  "solargraph.useBundler": false,
+  "solargraph.completion": true,
+  "solargraph.hover": true,
+  "solargraph.definitions": true,
+  "solargraph.rename": true,
+  "solargraph.references": true,
+  "solargraph.symbols": true,
+  "solargraph.formatting": false,
+  "solargraph.autoformat": false,
+  "editor.semanticHighlighting.enabled": true,
+  "editor.suggest.insertMode": "replace",
+  "rubyLsp.enabledFeatures": {
+    "codeActions": true,
+    "diagnostics": true,
+    "documentHighlights": true,
+    "documentLinks": true,
+    "documentSymbols": true,
+    "foldingRanges": true,
+    "formatting": true,
+    "hover": true,
+    "inlayHint": true,
+    "onTypeFormatting": true,
+    "selectionRanges": true,
+    "semanticHighlighting": true
+  },
+  "rubyLsp.enableExperimentalFeatures": true,
+  "search.useIgnoreFiles": false,
+  "search.exclude": {
+    "**/tmp": true,
+    "**/log": true
+  },
+  "files.associations": {
+    "*.rb": "ruby"
   }
+}

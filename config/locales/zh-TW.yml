@@ -103,6 +103,7 @@ zh-TW:
     RESET: 重置
 
   Table:
+    Community: 社區
     ID_Card: 身分證字號
     Text: 文字
     ShopName: 商家名稱
@@ -111,6 +112,7 @@ zh-TW:
     LineName: Line名稱
     Email: 信箱
     Sex: 性別
+    Gender: 性別
     Select_Sex: 選擇性別
     Man: 男
     Woman: 女

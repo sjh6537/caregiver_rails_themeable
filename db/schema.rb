@@ -12,25 +12,70 @@
 
 ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "account"
-    t.string "name"
-    t.boolean "enable", default: true
-    t.boolean "super_admin", default: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string "account", limit: 50, default: "", null: false, comment: "帳號"
+    t.string "name", limit: 50, default: "", null: false, comment: "姓名"
+    t.string "community_manager", limit: 200, default: "", comment: "社區管理名單，以逗號分隔，可用*代表所有全部社區"
+    t.boolean "enable", default: true, null: false, comment: "啟用"
+    t.boolean "super_admin", default: false, null: false, comment: "超級管理員"
+    t.string "email", limit: 200, default: "", null: false, comment: "電子郵件"
+    t.string "encrypted_password", default: "", null: false, comment: "密碼"
+    t.string "reset_password_token", limit: 200, comment: "重設密碼token"
+    t.datetime "reset_password_sent_at", comment: "重設密碼發送時間"
+    t.datetime "remember_created_at", comment: "記住我時間"
+    t.integer "sign_in_count", default: 0, comment: "登入次數"
+    t.datetime "current_sign_in_at", comment: "當前登入時間"
+    t.datetime "last_sign_in_at", comment: "上次登入時間"
+    t.string "current_sign_in_ip", limit: 50, comment: "當前登入IP"
+    t.string "last_sign_in_ip", limit: 50, comment: "上次登入IP"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.index ["account"], name: "index_admins_on_account"
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  end
+
+  create_table "communities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "sn", limit: 20, null: false, comment: "編號"
+    t.string "name", limit: 50, null: false, comment: "名稱"
+    t.string "name_eng", limit: 100, comment: "英文名稱"
+    t.string "description", limit: 50, comment: "描述"
+    t.string "agreement_path", limit: 200, comment: "使用者協議路徑"
+    t.boolean "enable", default: true, null: false, comment: "是否啟用"
+    t.integer "sort", default: 0, null: false, comment: "排序"
+    t.string "token", limit: 200, comment: "token"
+    t.string "logo", limit: 200, comment: "logo"
+    t.string "status", limit: 50, comment: "狀態"
+    t.string "address", limit: 200, comment: "地址"
+    t.string "phone", limit: 20, comment: "電話"
+    t.string "email", limit: 50, comment: "信箱"
+    t.string "contact_name", limit: 50, comment: "聯絡人姓名"
+    t.string "contact_phone", limit: 20, comment: "聯絡人電話"
+    t.string "contact_email", comment: "聯絡人信箱"
+    t.string "contact_title", limit: 50, comment: "聯絡人職稱"
+    t.string "note", limit: 50, comment: "備註"
+    t.string "comment", limit: 50, comment: "社區備註"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["sn"], name: "index_communities_on_sn", unique: true
+    t.index ["token"], name: "index_communities_on_token", unique: true
+  end
+
+  create_table "community_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "community_id", null: false, comment: "社區ID"
+    t.string "line_at_url", limit: 500, comment: "lineAtUrl"
+    t.string "line_login_channel_id", limit: 50, comment: "LineLoginId"
+    t.string "line_login_channel_secret", limit: 500, comment: "LineLoginSecret"
+    t.string "line_login_channel_callback_url", limit: 500, comment: "LineLoginCallback"
+    t.string "line_message_api_channel_id", limit: 50, comment: "LineMessageApiId"
+    t.string "line_message_api_channel_secret", limit: 200, comment: "LineMessageApiSecret"
+    t.string "line_message_api_channel_token", limit: 500, comment: "LineMessageApiToken"
+    t.string "line_message_api_channel_callback_url", limit: 200, comment: "LineMessageApiCallback"
+    t.string "line_liff_id", limit: 50, comment: "LineLiffId"
+    t.string "line_liff_url", limit: 200, comment: "LineLiffUrl"
+    t.string "note", limit: 50, comment: "備註"
+    t.string "comment", limit: 50, comment: "備註"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -228,34 +273,37 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
   end
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "name"
-    t.string "account"
-    t.boolean "enable", default: true
-    t.string "email", default: ""
-    t.text "oauth_token"
-    t.datetime "authentication_token_created_at"
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "remember_token"
-    t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string "phone", default: ""
-    t.boolean "sex", default: true
-    t.string "address", default: ""
-    t.integer "addr_city", default: 0
-    t.integer "addr_postal", default: 0
-    t.datetime "birthday"
+    t.integer "community_id", null: false, comment: "社區ID"
+    t.string "name", limit: 50, default: "", null: false, comment: "姓名"
+    t.string "account", limit: 50, default: "", null: false, comment: "帳號"
+    t.boolean "enable", default: true, null: false, comment: "啟用"
+    t.string "email", limit: 200, default: "", comment: "電子郵件"
+    t.string "title", limit: 50, comment: "職稱"
+    t.string "phone", limit: 20, default: "", comment: "電話"
+    t.string "mobile", limit: 20, default: "", comment: "手機"
+    t.string "gender", limit: 1, default: "M", comment: "性別"
+    t.string "birthday", limit: 10, default: "", comment: "生日"
+    t.string "address", limit: 200, default: "", comment: "地址"
+    t.integer "addr_city", default: 0, comment: "城市"
+    t.integer "addr_postal", default: 0, comment: "郵遞區號"
+    t.string "id_card", limit: 20, comment: "身分證"
+    t.string "nhi_id", limit: 20, comment: "健保卡"
+    t.text "oauth_token", comment: "OAuth Token"
+    t.datetime "authentication_token_created_at", comment: "Token建立時間"
+    t.string "encrypted_password", limit: 200, default: "", null: false, comment: "密碼"
+    t.string "reset_password_token", limit: 200, comment: "重設密碼token"
+    t.datetime "reset_password_sent_at", comment: "重設密碼發送時間"
+    t.datetime "remember_created_at", comment: "記住我時間"
+    t.string "remember_token", limit: 200, comment: "記住我token"
+    t.integer "sign_in_count", default: 0, comment: "登入次數"
+    t.datetime "current_sign_in_at", comment: "當前登入時間"
+    t.datetime "last_sign_in_at", comment: "上次登入時間"
+    t.string "current_sign_in_ip", limit: 50, comment: "當前登入IP"
+    t.string "last_sign_in_ip", limit: 50, comment: "上次登入IP"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.boolean "new_immigrant", default: false
-    t.string "id_card"
     t.index ["account"], name: "index_users_on_account", unique: true
-    t.index ["id_card"], name: "index_users_on_id_card"
     t.index ["oauth_token"], name: "index_users_on_oauth_token", unique: true, length: 255
   end
 

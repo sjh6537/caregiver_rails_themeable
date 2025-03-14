@@ -1,7 +1,7 @@
 default: &default_settings
 
-  site_name: "友伴做伙 樂齡生態"
-  site_name_eng: "caregiver+"
+  site_name: "稻相顧"
+  site_name_eng: "padifield+"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
@@ -11,7 +11,7 @@ default: &default_settings
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
 
-  line_at_url: 'https://liff.line.me/1645278921-kWRPP32q/?accountId=233owasl'
+  line_at_url: 'https://line.me/R/ti/p/%40916lsfmg'
 
   line_authorize_url: 'https://access.line.me/oauth2/v2.1/authorize'
   line_api_token_url: 'https://api.line.me/oauth2/v2.1/token'
@@ -39,8 +39,8 @@ development:
 
 production:
 
-  site_name: "友伴做伙 樂齡生態"
-  site_name_eng: "caregiver+"
+  site_name: "稻相顧"
+  site_name_eng: "padifield+"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
@@ -50,7 +50,7 @@ production:
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
 
-  line_at_url: 'https://lin.ee/qhyr95b'
+  line_at_url: 'https://line.me/R/ti/p/%40916lsfmg'
 
   line_authorize_url: 'https://access.line.me/oauth2/v2.1/authorize'
   line_api_token_url: 'https://api.line.me/oauth2/v2.1/token'
