@@ -111,6 +111,7 @@ class Init < ActiveRecord::Migration[7.1]
                comment: 'LineMessageApiCallback', limit: 200
       t.string :line_liff_id, comment: 'LineLiffId', limit: 50
       t.string :line_liff_url, comment: 'LineLiffUrl', limit: 200
+      t.string :google_map_key, comment: 'GoogleMapKey', limit: 200
       t.string :note, comment: '備註', limit: 50
       t.string :comment, comment: '備註', limit: 50
       t.datetime :created_at

@@ -48,6 +48,7 @@ else
     line_message_api_channel_secret: 'e68fa550601f58ae463e80c68fe6282f',
     line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
     line_message_api_channel_token: 'rJt8P861M/mrTjyXvB+JJeCnFAQovEq03VXE+M2cpP+PLt857iW4Pkj0p27xF6pds4w2GHMRLCG/EFNPAqX28B1QwVJE8kAfLbklYnn/N43HsD6npAczVtfONi2BxPi21Ys7oAEoDOuxcIOnxlDWPgdB04t89/1O/w1cDnyilFU=',
+    google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
     note: '初始設定',
     comment: '2025年設定'
   )
@@ -95,4 +96,50 @@ else
     line_image: 'https://profile.line-scdn.net/0hyMWsJuFiJmJqCjemJS1ZNVZPKA8dJCAqEmVtBBoCfFBBP2gyUTg5B0wPKFRPOGI8BDhrAU5dLAVP'
   )
   puts "Created a new user profile for user id #{new_user.id}"
+end
+
+# 創建第二社區 浚葦社區
+community2 = Community.find_by(sn: 'CM002')
+if community2
+  puts "Community with SN 'CM002' already exists"
+else
+  community2 = Community.create!(
+    sn: 'CM002',
+    name: '浚葦社區',
+    name_eng: 'JW Community',
+    description: '浚葦社區',
+    enable: true,
+    sort: 2,
+    token: SecureRandom.hex(10),
+    logo: '/assets/images/community/cm002_logo.png',
+    status: 'active',
+    address: '503彰化縣花壇鄉車路街196巷33號',
+    phone: '0920805071',
+    email: 'chenfun_b51@hotmail.com',
+    contact_name: '洪浚葦',
+    contact_phone: '0912-345-678',
+    contact_email: '',
+    contact_title: '社區主任',
+    note: '新建社區',
+    comment: '2025年新建立'
+  )
+  puts "Created a new community with SN 'CM002'"
+  # 為社區創建相關的社區資料
+  CommunityProfile.create!(
+    community_id: community2.id,
+    line_at_url: 'https://line.me/R/ti/p/%40519dlpmy',
+    line_login_channel_id: '2007069569',
+    line_login_channel_secret: '2b1bf5bcea68cb1598a3f29ede6eb8cd',
+    line_login_channel_callback_url: 'https://https://padifield.hopto.org/callback',
+    line_liff_id: '2004751931-1jrD53LP',
+    line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+    line_message_api_channel_id: '1656710054',
+    line_message_api_channel_secret: '4db1f73ad5dec618f70fee894b3f34e0',
+    line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+    line_message_api_channel_token: 'ZwnHA+vFeSknDHE1KjgYByCyTmUIeJdZhsk+nU1dQyDwUikLI9QlzwkbDWQSQI0FY8YTcfDBo44olokrFAlPCYpThFoKxJdVwA0JoZYFTy0nyXhVstii9b9/LQ5oyb17sW5jVNo576/16u8HknDIGQdB04t89/1O/w1cDnyilFU=',
+    google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+    note: '初始設定',
+    comment: '2025年設定'
+  )
+  puts "Created a new community profile for community '#{community2.name}'"
 end
