@@ -73,7 +73,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
-  config.hosts << 'admin.lvh.me:3000'
-  config.hosts << 'line.lvh.me:3000'
+  config.hosts << /.*\.lvh\.me(:\d+)?/
   config.hosts << /.*\.ngrok-free\.app/
+  config.hosts << 'admin.lvh.me'
 end

@@ -106,7 +106,7 @@ else
   community2 = Community.create!(
     sn: 'CM002',
     name: '浚葦社區',
-    name_eng: 'JW Community',
+    name_eng: 'weiwei',
     description: '浚葦社區',
     enable: true,
     sort: 2,

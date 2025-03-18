@@ -74,9 +74,9 @@ Rails.application.routes.draw do
   # user account create by line , so don't need registrations....
   devise_for :user, skip: %i[sessions registrations confirmations]
   as :user do
-    get      '/login/:sn'            , to: 'user/sessions#new'                , as: :new_user_session
-    get      '/authorize/:sn'        , to: 'user/sessions#line_authorize'     , as: :line_authorize
-    get      '/callback/:sn' , to: 'user/sessions#line_callback' , as: :line_callback
+    get      '/login/'            , to: 'user/sessions#new' , as: :new_user_session
+    get      '/authorize/'        , to: 'user/sessions#line_authorize' , as: :line_authorize
+    get      '/callback/' , to: 'user/sessions#line_callback' , as: :line_callback
     get      '/logout' , to: 'user/sessions#destroy' , as: :destroy_user_session
   end
 

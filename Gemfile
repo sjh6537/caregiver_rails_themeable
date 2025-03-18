@@ -48,7 +48,8 @@ gem 'dualcone'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  #gem "debug", platforms: %i[ mri windows ] # 限制 mri 和 windows 環境下使用
+  gem "debug"
 end
 
 group :development do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
+ActiveRecord::Schema[7.1].define(version: 2024_08_24_015635) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
@@ -18,6 +18,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.boolean "enable", default: true, null: false, comment: "啟用"
     t.boolean "super_admin", default: false, null: false, comment: "超級管理員"
     t.string "email", limit: 200, default: "", null: false, comment: "電子郵件"
+    t.string "title", limit: 50, comment: "職稱"
+    t.string "phone", limit: 20, default: "", comment: "電話"
     t.string "encrypted_password", default: "", null: false, comment: "密碼"
     t.string "reset_password_token", limit: 200, comment: "重設密碼token"
     t.datetime "reset_password_sent_at", comment: "重設密碼發送時間"
@@ -72,6 +74,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.string "line_message_api_channel_callback_url", limit: 200, comment: "LineMessageApiCallback"
     t.string "line_liff_id", limit: 50, comment: "LineLiffId"
     t.string "line_liff_url", limit: 200, comment: "LineLiffUrl"
+    t.string "google_map_key", limit: 200, comment: "GoogleMapKey"
     t.string "note", limit: 50, comment: "備註"
     t.string "comment", limit: 50, comment: "備註"
     t.datetime "created_at"
@@ -184,22 +187,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
 
   create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id"
-    t.float "bmi"
-    t.integer "heart_rate"
-    t.integer "blood_pressure1"
-    t.integer "blood_pressure2"
-    t.integer "blood_sugar"
-    t.integer "blood_oxygen"
-    t.integer "body_fat"
-    t.float "temperature"
+    t.float "bmi", comment: "BMI"
+    t.float "weight", comment: "體重"
+    t.integer "heart_rate", comment: "心跳"
+    t.integer "blood_pressure1", comment: "收縮壓"
+    t.integer "blood_pressure2", comment: "舒張壓"
+    t.integer "blood_sugar", comment: "血糖"
+    t.integer "blood_oxygen", comment: "血氧濃度"
+    t.integer "body_fat", comment: "體脂"
+    t.float "temperature", comment: "體溫"
+    t.float "hemoglobin", comment: "血紅素"
+    t.float "hematocrit", comment: "血球容積比"
+    t.float "uric_acid", comment: "尿酸"
+    t.float "total_cholesterol", comment: "總膽固醇"
+    t.float "ketones", comment: "酮體"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "hemoglobin"
-    t.string "hematocrit"
-    t.string "uric_acid"
-    t.string "total_cholesterol"
-    t.string "weight"
-    t.string "ketones"
   end
 
   create_table "user_history_coins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -274,6 +277,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
 
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "community_id", null: false, comment: "社區ID"
+    t.integer "cared_user_info_id", comment: "被照護者ID"
+    t.integer "caregiver_user_info_id", comment: "照護者ID"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.boolean "enable", default: true, null: false, comment: "啟用"
@@ -288,6 +293,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_18_071449) do
     t.integer "addr_postal", default: 0, comment: "郵遞區號"
     t.string "id_card", limit: 20, comment: "身分證"
     t.string "nhi_id", limit: 20, comment: "健保卡"
+    t.string "immigrant", limit: 20, comment: "移民"
+    t.string "note", limit: 50, comment: "備註"
+    t.string "comment", limit: 50, comment: "備註"
     t.text "oauth_token", comment: "OAuth Token"
     t.datetime "authentication_token_created_at", comment: "Token建立時間"
     t.string "encrypted_password", limit: 200, default: "", null: false, comment: "密碼"

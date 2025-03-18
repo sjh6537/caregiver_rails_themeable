@@ -4,6 +4,7 @@ class Web::UserController < ApplicationWebController
 
   def show
     redirect_to web_user_agreement_path unless @user.id_card.present?
+    set_community_by_token
     @cared = @user.careds.first
     @caregiver = @user.caregivers.first
     @community = @user.community
@@ -15,17 +16,20 @@ class Web::UserController < ApplicationWebController
 
   def report
     redirect_to web_user_agreement_path unless @user.id_card.present?
+    set_community_by_token
     @reports = @user.health_reports.order(id: :desc)
     @title_sub = I18n.t(:HEALTH_REPORT, scope: 'Title')
   end
 
   def agreement
     redirect_to web_user_edit_path if @user.id_card.present?
+    set_community_by_token
     @title_sub = I18n.t(:AGREEMENT, scope: 'Title')
   end
 
   def edit
     # redirect_to web_user_agreement_path if !@user.id_card.present?
+    set_community_by_token
     @title_sub = I18n.t(:Edit, scope: 'Title')
     @caregiver = @user.caregivers.first
     @cared = @user.careds.first

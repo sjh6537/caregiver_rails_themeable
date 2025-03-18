@@ -6,23 +6,22 @@ class User::SessionsController < Devise::SessionsController
   def destroy
     session[:need_return_to] = false
     session[:return_to] = ''
+    session[:community_id] = nil
     cookies[:return_to] = ''
     super
   end
 
   def new
-    community_token = params[:token]
-    community_profile = get_community_by_token(community_token)
     session[:state] = form_authenticity_token
+    community_profile = current_community.profile
     auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
   end
 
   def line_authorize
-    community_token = params[:token]
-    community_profile = get_community_by_token(community_token)
     session[:state] = form_authenticity_token
+    community_profile = current_community.profile
     auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
@@ -33,10 +32,7 @@ class User::SessionsController < Devise::SessionsController
     code = params[:code]
 
     if params[:state] == session[:state]
-      # 取得社區編號
-      community_token = params[:community_token]
-      community_profile = get_community_by_token(community_token)
-
+      community_profile = current_community.profile
       access_token = login_token(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                  community_profile.line_login_channel_secret, code)
       id_token = access_token.params[:id_token]
@@ -54,7 +50,7 @@ class User::SessionsController < Devise::SessionsController
         @user.update(oauth_token: id_token)
         @user.profile.update(line_name: name, line_token: id_token, line_image: image, line_email: email)
       else
-        @user = User.new(account: uid, oauth_token: id_token)
+        @user = User.new(account: uid, oauth_token: id_token, community_id: current_community.id)
         if @user.save
           @user.create_profile(line_uid: uid, line_name: name, line_token: id_token, line_image: image,
                                line_email: email)
@@ -80,17 +76,23 @@ class User::SessionsController < Devise::SessionsController
     end
   end
 
-  def get_community_by_token(token)
-    community = Community.find_by(token: token)
-    if community
-      session[:community_id] = community.id
-    else
+  def current_community
+    puts 'current_community' + session[:community_id].to_s
+    if session[:community].nil?
       redirect_to error_notice_path, notice: 'invalid community'
+      return nil
     end
-    # Get the community profile
-    community_profile = community.profile if community
-    return community_profile unless community_profile.nil?
 
-    redirect_to error_notice_path, notice: 'Community profile not found'
+    # 查找實際的 Community 對象而不是使用 session 中的值
+    community_id = session[:community_id]
+    # 這樣可以避免 session 中的值被修改
+    @current_community ||= Community.find_by(id: community_id)
+
+    if @current_community.nil?
+      redirect_to error_notice_path, notice: 'community not found'
+      return nil
+    end
+
+    @current_community
   end
 end
