@@ -37,6 +37,6 @@ module LearningLife
 
     config.hosts << "caregiver.admin.test.com"
     config.hosts << "caregiver.line.test.com"
-    config.hosts << "0d26-61-220-204-210.ngrok-free.app"
+    config.hosts << "dcd6-2403-c300-d456-71a5-8468-9d02-d34a-5a7d.ngrok-free.app"
   end
 end

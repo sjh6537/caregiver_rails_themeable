@@ -17,37 +17,27 @@ class ApplicationWebController < ApplicationController
   end
 
   def set_community_by_token
-    # 如果 session[:community] 已存在則直接返回
-    return if session[:community].present?
-
-    token = params[:token]
-    if token.nil?
-      redirect_to error_notice_path, notice: 'invalid token'
-      return
+    sn = params[:sn]
+    if sn.present?
+      session[:sn] = sn
+      Rails.logger.info "設置社區 sn: #{sn}"
+    else
+      Rails.logger.info "沒有提供社區 sn"
     end
-    community = Community.find_by(token: token)
-    if community.nil?
-      redirect_to error_notice_path, notice: 'invalid community'
-      return
-    end
-    session[:community] = community.id
   end
 
   def current_community
-    if session[:community].nil?
-      redirect_to error_notice_path, notice: 'invalid community'
-      return nil
-    end
+    puts 'current_community_sn ' + session[:sn].to_s
 
     # 查找實際的 Community 對象而不是使用 session 中的值
-    community_id = session[:community]
-    @current_community ||= Community.find_by(id: community_id)
+    sn = session[:sn]
+    @current_community ||= Community.find_by(sn: sn)
 
     if @current_community.nil?
       redirect_to error_notice_path, notice: 'community not found'
       return nil
     end
-
+    puts 'current_community: ' + @current_community.sn.to_s
     @current_community
   end
 end

@@ -6,14 +6,24 @@ class User::SessionsController < Devise::SessionsController
   def destroy
     session[:need_return_to] = false
     session[:return_to] = ''
-    session[:community_id] = nil
+    session[:sn] = nil
     cookies[:return_to] = ''
     super
   end
 
   def new
     session[:state] = form_authenticity_token
-    community_profile = current_community.profile
+    puts 'community sn==>' + session[:sn].to_s
+    
+    @current_community = Community.find_by(sn: session[:sn])
+    
+    if @current_community.nil?
+      redirect_to error_notice_path, notice: 'Community not found'
+      return
+    end
+    
+    community_profile = @current_community.profile
+    
     auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
@@ -21,7 +31,17 @@ class User::SessionsController < Devise::SessionsController
 
   def line_authorize
     session[:state] = form_authenticity_token
-    community_profile = current_community.profile
+    puts 'community sn==>' + session[:sn].to_s
+    
+    @current_community = Community.find_by(sn: session[:sn])
+    
+    if @current_community.nil?
+      redirect_to error_notice_path, notice: 'Community not found'
+      return
+    end
+    
+    community_profile = @current_community.profile
+    
     auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
@@ -32,7 +52,16 @@ class User::SessionsController < Devise::SessionsController
     code = params[:code]
 
     if params[:state] == session[:state]
-      community_profile = current_community.profile
+      # 使用 session 中的 community_token 查找 Community
+      @current_community = Community.find_by(sn: session[:sn])
+      
+      if @current_community.nil?
+        redirect_to error_notice_path, notice: 'Community not found'
+        return
+      end
+      
+      community_profile = @current_community.profile
+      
       access_token = login_token(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
                                  community_profile.line_login_channel_secret, code)
       id_token = access_token.params[:id_token]
@@ -50,7 +79,7 @@ class User::SessionsController < Devise::SessionsController
         @user.update(oauth_token: id_token)
         @user.profile.update(line_name: name, line_token: id_token, line_image: image, line_email: email)
       else
-        @user = User.new(account: uid, oauth_token: id_token, community_id: current_community.id)
+        @user = User.new(account: uid, oauth_token: id_token, community_id: @current_community.id)
         if @user.save
           @user.create_profile(line_uid: uid, line_name: name, line_token: id_token, line_image: image,
                                line_email: email)
@@ -77,22 +106,14 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def current_community
-    puts 'current_community' + session[:community_id].to_s
-    if session[:community].nil?
-      redirect_to error_notice_path, notice: 'invalid community'
-      return nil
-    end
-
-    # 查找實際的 Community 對象而不是使用 session 中的值
-    community_id = session[:community_id]
-    # 這樣可以避免 session 中的值被修改
-    @current_community ||= Community.find_by(id: community_id)
-
+    @current_community ||= Community.find_by(sn: session[:sn])
+    
     if @current_community.nil?
-      redirect_to error_notice_path, notice: 'community not found'
+      redirect_to error_notice_path, notice: 'Community not found'
       return nil
     end
-
+    
+    Rails.logger.info "現有社區: #{@current_community.id}"
     @current_community
   end
 end

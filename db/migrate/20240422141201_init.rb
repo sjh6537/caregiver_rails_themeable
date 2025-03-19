@@ -69,14 +69,13 @@ class Init < ActiveRecord::Migration[7.1]
                                         length: { oauth_token: 255 }
 
     create_table :communities , force: :cascade do |t|
-      t.string :sn, null: false, comment: '編號', limit: 20
+      t.string :sn, null: false, comment: '編號', limit: 200
       t.string :name, null: false, comment: '名稱', limit: 50
       t.string :name_eng, comment: '英文名稱', limit: 100
       t.string :description, comment: '描述', limit: 50
       t.string :agreement_path, comment: '使用者協議路徑', limit: 200
       t.boolean :enable, null: false, default: true, comment: '是否啟用'
       t.integer :sort, null: false, default: 0, comment: '排序'
-      t.string :token, comment: 'token', limit: 200
       t.string :logo, comment: 'logo', limit: 200
       t.string :status, comment: '狀態', limit: 50
       t.string :address, comment: '地址', limit: 200
