@@ -27,10 +27,15 @@ class Community < ApplicationRecord
 
   # Callbacks
   before_validation :ensure_token_presence
+  after_create :ensure_community_profile
 
   private
 
   def ensure_token_presence
     self.token = SecureRandom.hex(10) if token.blank?
+  end
+
+  def ensure_community_profile
+    create_community_profile if community_profile.nil?
   end
 end

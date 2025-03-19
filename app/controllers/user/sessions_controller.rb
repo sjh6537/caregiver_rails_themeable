@@ -1,48 +1,28 @@
 class User::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token
   include LineHelper
+  include ApplicationHelper
   # include Devise::Controllers::Rememberable
 
   def destroy
     session[:need_return_to] = false
     session[:return_to] = ''
-    session[:sn] = nil
     cookies[:return_to] = ''
-    super
+    session[:sn] = nil
   end
 
   def new
     session[:state] = form_authenticity_token
-    puts 'community sn==>' + session[:sn].to_s
-    
-    @current_community = Community.find_by(sn: session[:sn])
-    
-    if @current_community.nil?
-      redirect_to error_notice_path, notice: 'Community not found'
-      return
-    end
-    
-    community_profile = @current_community.profile
-    
-    auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
+    community_profile = current_community.community_profile
+    auth_url = login_authorize(community_profile.line_login_channel_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
   end
 
   def line_authorize
     session[:state] = form_authenticity_token
-    puts 'community sn==>' + session[:sn].to_s
-    
-    @current_community = Community.find_by(sn: session[:sn])
-    
-    if @current_community.nil?
-      redirect_to error_notice_path, notice: 'Community not found'
-      return
-    end
-    
-    community_profile = @current_community.profile
-    
-    auth_url = login_authorize(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
+    community_profile = current_community.community_profile
+    auth_url = login_authorize(community_profile.line_login_channel_callback_url, community_profile.line_login_channel_id,
                                community_profile.line_login_channel_secret, session[:state])
     redirect_to auth_url, allow_other_host: true
   end
@@ -52,17 +32,8 @@ class User::SessionsController < Devise::SessionsController
     code = params[:code]
 
     if params[:state] == session[:state]
-      # 使用 session 中的 community_token 查找 Community
-      @current_community = Community.find_by(sn: session[:sn])
-      
-      if @current_community.nil?
-        redirect_to error_notice_path, notice: 'Community not found'
-        return
-      end
-      
-      community_profile = @current_community.profile
-      
-      access_token = login_token(community_profile.line_login_callback_url, community_profile.line_login_channel_id,
+      community_profile = current_community.community_profile
+      access_token = login_token(community_profile.line_login_channel_callback_url, community_profile.line_login_channel_id,
                                  community_profile.line_login_channel_secret, code)
       id_token = access_token.params[:id_token]
 
@@ -103,17 +74,5 @@ class User::SessionsController < Devise::SessionsController
     else
       redirect_to error_notice_path, notice: 'invalid varification'
     end
-  end
-
-  def current_community
-    @current_community ||= Community.find_by(sn: session[:sn])
-    
-    if @current_community.nil?
-      redirect_to error_notice_path, notice: 'Community not found'
-      return nil
-    end
-    
-    Rails.logger.info "現有社區: #{@current_community.id}"
-    @current_community
   end
 end

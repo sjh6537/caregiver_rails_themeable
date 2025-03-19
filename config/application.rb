@@ -35,8 +35,7 @@ module LearningLife
     config.hosts << "caregiver.admin.miaoligo.com"
     config.hosts << "caregiver.line.miaoligo.com"
 
-    config.hosts << "caregiver.admin.test.com"
-    config.hosts << "caregiver.line.test.com"
-    config.hosts << "dcd6-2403-c300-d456-71a5-8468-9d02-d34a-5a7d.ngrok-free.app"
+    config.hosts << ".ngrok-free.app" # 添加萬用的ngrok域名配置
+    
   end
 end

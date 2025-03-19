@@ -128,7 +128,7 @@ else
     line_at_url: 'https://line.me/R/ti/p/%40519dlpmy',
     line_login_channel_id: '2007069569',
     line_login_channel_secret: '2b1bf5bcea68cb1598a3f29ede6eb8cd',
-    line_login_channel_callback_url: 'https://https://padifield.hopto.org/callback',
+    line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
     line_liff_id: '2004751931-1jrD53LP',
     line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
     line_message_api_channel_id: '1656710054',

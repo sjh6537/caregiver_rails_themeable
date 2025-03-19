@@ -4,10 +4,8 @@ class Web::UserController < ApplicationWebController
 
   def show
     redirect_to web_user_agreement_path unless @user.id_card.present?
-    set_community_by_token
     @cared = @user.careds.first
     @caregiver = @user.caregivers.first
-    @community = @user.community
     return if params[:notice].nil?
 
     # redirect_to web_user_show_path, notice: params[:notice]
@@ -16,20 +14,17 @@ class Web::UserController < ApplicationWebController
 
   def report
     redirect_to web_user_agreement_path unless @user.id_card.present?
-    set_community_by_token
     @reports = @user.health_reports.order(id: :desc)
     @title_sub = I18n.t(:HEALTH_REPORT, scope: 'Title')
   end
 
   def agreement
     redirect_to web_user_edit_path if @user.id_card.present?
-    set_community_by_token
     @title_sub = I18n.t(:AGREEMENT, scope: 'Title')
   end
 
   def edit
     # redirect_to web_user_agreement_path if !@user.id_card.present?
-    set_community_by_token
     @title_sub = I18n.t(:Edit, scope: 'Title')
     @caregiver = @user.caregivers.first
     @cared = @user.careds.first
@@ -74,7 +69,14 @@ class Web::UserController < ApplicationWebController
 
   def set_user
     @user = current_user
-    @profile = @user.profile
+    
+    # 如果已登入但社區 ID 不匹配，則導向登出並使用新的 sn 重新登入
+    if @user.present? && current_community.present? && @user.community_id != current_community.id
+      session[:new_sn] = params[:sn] || current_community.sn
+      redirect_to destroy_user_session_path and return
+    end
+    
+    @profile = @user.profile if @user.present?
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

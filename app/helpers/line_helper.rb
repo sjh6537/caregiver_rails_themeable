@@ -2,6 +2,8 @@ module LineHelper
   def login_authorize(callback, client_id, client_secret , state)
     # #state = SecureRandom.urlsafe_base64
     # 參考 https://developers.line.biz/en/docs/line-login/integrate-line-login/#making-an-authorization-request
+    
+    callback = callback.to_s.strip
     client = OAuth2::Client.new(client_id, client_secret, site: APP_CONFIG[:line_authorize_url],
                                                           authorize_url: '', token_method: :post)
     client.auth_code.authorize_url(
@@ -14,6 +16,7 @@ module LineHelper
 
   def login_token(callback, client_id, client_secret, code)
     # 參考 https://developers.line.biz/en/reference/line-login/#issue-access-token
+    callback = callback.to_s.strip
     client = OAuth2::Client.new(client_id, client_secret, site: APP_CONFIG[:line_api_token_url],
                                                           authorize_url: '', token_url: '', token_method: :post)
     # headers already define in Client.get_token

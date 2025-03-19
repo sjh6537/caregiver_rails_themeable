@@ -75,5 +75,4 @@ Rails.application.configure do
   config.action_controller.raise_on_missing_callback_actions = true
   config.hosts << /.*\.lvh\.me(:\d+)?/
   config.hosts << /.*\.ngrok-free\.app/
-  config.hosts << 'admin.lvh.me'
 end

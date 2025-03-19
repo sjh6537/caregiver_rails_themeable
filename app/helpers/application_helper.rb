@@ -58,4 +58,39 @@ module ApplicationHelper
       RequestCategory.find_by_id(id).text
     end
   end
+
+  def set_community_by_token
+    sn = params[:sn]
+    if sn.present?
+      session[:sn] = sn
+      # 確保session確實被設置
+      Rails.logger.info "設置社區 sn: #{sn}, 設置後session[:sn]值: #{session[:sn]}"
+    else
+      Rails.logger.warn "session[:sn]為空，無法設置社區"
+    end
+  end
+
+  def current_community
+    set_community_by_token
+    Rails.logger.info "讀取session中的sn: #{session[:sn].inspect}"
+
+    # 查找實際的 Community 對象而不是使用 session 中的值
+    sn = session[:sn]
+    
+    if sn.blank?
+      Rails.logger.warn "session[:sn]為空，無法找到社區"
+      return nil
+    end
+    
+    @current_community ||= Community.find_by(sn: sn)
+
+    if @current_community.nil?
+      Rails.logger.warn "找不到社區，sn: #{sn}"
+      return nil
+    end
+    
+    Rails.logger.info "找到社區: #{@current_community.sn}"
+    @current_community
+  end
 end
+

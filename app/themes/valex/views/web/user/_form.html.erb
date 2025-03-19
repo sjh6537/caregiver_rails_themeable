@@ -61,170 +61,6 @@
         </div>
     </div>
 </div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Is_new_immigrant") %></label>
-        </div>
-        <div class="col-md-9 ">
-            <select name="user[new_immigrant]" id="user_new_immigrant" class="form-control nice-select custom-select" required>
-                <% if @user.new_immigrant == true %>
-                <option value=1 selected>是</option>
-                <option value=0>否</option>
-                <% else %>
-                <option value=1>是</option>
-                <option value=0 selected>否</option>
-                <% end %>
-            </select>
-        </div>
-    </div>
-</div>
-
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.gender") %></label>
-        </div>
-        <div class="col-md-9">
-            <select name="user[gender]" id="user_gender" class="form-control nice-select custom-select" required>
-                <% if @user.gender == "M" %>
-                <option value="M" selected><%= raw t("Table.Man") %></option>
-                <option value="F"><%= raw t("Table.Woman") %></option>
-                <% else %>
-                <option value="M"><%= raw t("Table.Man") %></option>
-                <option value="F" selected><%= raw t("Table.Woman") %></option>
-                <% end %>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Birthday") %></label>
-        </div>
-        <div class="input-group col-md-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                </div>
-            </div><input class="form-control" name="user[birthday]" placeholder="YYYY-MM-DD" type="date" value=<%= @user.birthday %>>
-        </div>
-    </div>
-</div>
-
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Address") %></label>
-        </div>
-        <div class="col-md-9">
-            <select name="user[addr_city]" id="user_addr_city" class="form-control nice-select custom-select">
-                <option value="0"><%= raw t("Table.Select_city") %></option>
-                <% CITY_CODE.map do |c| %>
-                <% if @user.addr_city == c[:code] %>
-                <option value=<%= c[:code] %> descrition='<%= c[:city] %>' selected><%= c[:city] %></option>
-                <% else %>
-                <option value=<%= c[:code] %> descrition='<%= c[:city] %>'><%= c[:city] %></option>
-                <% end %>
-                <% end %>
-            </select>
-            <spin id="alert_city" class="alert_select_city text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_City") %></spin>
-        </div>
-    </div>
-</div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <select name="user[addr_postal]" id="user_addr_postal" class="form-control nice-select custom-select">
-                <option value="0"><%= t(:Select_postal, scope: "Table") %></option>
-            </select>
-            <spin id="alert_postal" class="alert_select_postal text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_Postal") %></spin>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <%= f.input :address, label: false, :placeholder => t("Table.Detail_Address"), :required => true %>
-            <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
-        </div>
-    </div>
-</div>
-
-<% if (@user.name == "" || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == "") %>
-
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Caregiver") %></label>
-        </div>
-
-        <% if !@caregiver.nil? %>
-        <div class="input-group col-md-4">
-            <spin class="text-muted mg-l-10"><%= @caregiver.name %> , <%= @caregiver.line_name %></spin>
-        </div>
-        <% else %>
-        <div class="d-flex justify-content-between wd-200 mg-l-20">
-            <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine"><i class="fab fa-brands fa-line"></i><%= raw t("Button.CAREGIVER") %></button>
-        </div>
-        <% end %>
-    </div>
-</div>
-
-<% else %>
-
-<% if !@cared.nil? %>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Careds") %></label>
-        </div>
-        <div class="input-group col-md-4">
-            <spin class="text-muted mg-l-10"><%= @cared.name %> , <%= @cared.line_name %></spin>
-        </div>
-        <div class="d-flex justify-content-between wd-200 mg-l-20">
-            <a class="btn btn-danger btn-block btn-with-icon" data-target="#modal_cared_del" data-toggle="modal" href=""">
-                        <i class=" fas fa-user-times"></i><%= raw t("Button.REMOVE_CARED") %>
-            </a>
-        </div>
-    </div>
-</div>
-<% end %>
-
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Caregiver") %> : <spin class="text-orange"><%= raw t("Note.Caregiver") %></spin></label>
-        </div>
-
-        <% if !@caregiver.nil? %>
-        <div class=" ml-3">
-            <h6 class="mb-1 font-weight-medium"><%= @caregiver.name %></h6>
-            <p class="mb-0 text-muted tx-13"><%= @caregiver.line_name %></p>
-        </div>
-        <div class="ml-auto d-flex">
-            <a class="btn btn-danger btn-block btn-with-icon" data-target="#modal_del" data-toggle="modal" href=""">
-                            <i class=" fas fa-user-times"></i><%= raw t("Button.REMOVE_CAREGIVER") %>
-            </a>
-        </div>
-        <% else %>
-        <div class="input-group col-md-4">
-            <spin class="text-muted mg-l-10">目前無照護者 </spin>
-            <p>
-        </div>
-        <div class="d-flex justify-content-between wd-200 mg-l-20">
-            <button class="btn btn-success btn-block btn-with-icon ht-50" id="sendLine" onClick="return sendline();"><i class="fab fa-brands fa-line"></i><%= raw t("Button.CAREGIVER") %></button>
-        </div>
-        <% end %>
-    </div>
-</div>
-
-<% end %>
-
-
 <div class="card-footer d-flex flex-row-reverse  mg-t-40">
     <div class="form-group">
         <div class="row">
@@ -279,9 +115,6 @@
     function hide_alert() {
         $('#alert_name').hide();
         $('#alert_phone').hide();
-        $('#alert_address').hide();
-        $('#alert_city').hide();
-        $('#alert_postal').hide();
         $('#alert_id_card').hide();
         $('#alert_id_card_error').hide();
     }
@@ -309,18 +142,6 @@
             $('#alert_phone').show();
             ret = false;
         }
-        if ($('#user_address').val() == "") {
-            $('#alert_address').show();
-            ret = false;
-        }
-        if ($('#user_addr_city').val() == "0") {
-            $('#alert_city').show();
-            ret = false;
-        }
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            ret = false;
-        }
 
         if (ret == false)
             return false;
@@ -328,117 +149,7 @@
             return true;
     }
 
-    function refresh_select(data) {
-        $('#user_addr_postal').empty();
-        $('#user_addr_postal').append('<option value="0"><%= t(:Select_postal, scope: "Table") %></option>');
-        $('#user_addr_postal').append(data);
-    }
 
-    $(document).on('change', '#user_addr_city', function(event) {
-        city_code = $('#user_addr_city').val();
-        $('#alert_city').hide();
-        $('#alert_postal').hide();
-
-        if ($('#user_addr_city').val() == "0") {
-            $('#alert_city').show();
-            $('#user_addr_city').focus();
-        }
-
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            $('#user_addr_postal').focus();
-        }
-
-        refresh_select(get_postal_selection(city_code));
-    });
-
-    $(document).on('change', '#user_addr_postal', function(event) {
-        $('#alert_postal').hide();
-
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            $('#user_addr_postal').focus();
-        }
-    });
-
-    function get_postal_selection(city) {
-        switch (city) {
-            default:
-            case "1":
-                html_text = '<%= get_postal_selection(1) %>'
-                break;
-            case "2":
-                html_text = '<%= get_postal_selection(2) %>'
-                break;
-            case "3":
-                html_text = '<%= get_postal_selection(3) %>'
-                break;
-            case "4":
-                html_text = '<%= get_postal_selection(4) %>'
-                break;
-            case "5":
-                html_text = '<%= get_postal_selection(5) %>'
-                break;
-            case "6":
-                html_text = '<%= get_postal_selection(6) %>'
-                break;
-            case "7":
-                html_text = '<%= get_postal_selection(7) %>'
-                break;
-            case "8":
-                html_text = '<%= get_postal_selection(8) %>'
-                break;
-            case "9":
-                html_text = '<%= get_postal_selection(9) %>'
-                break;
-            case "10":
-                html_text = '<%= get_postal_selection(10) %>'
-                break;
-            case "11":
-                html_text = '<%= get_postal_selection(11) %>'
-                break;
-            case "12":
-                html_text = '<%= get_postal_selection(12) %>'
-                break;
-            case "13":
-                html_text = '<%= get_postal_selection(13) %>'
-                break;
-            case "14":
-                html_text = '<%= get_postal_selection(14) %>'
-                break;
-            case "15":
-                html_text = '<%= get_postal_selection(15) %>'
-                break;
-            case "16":
-                html_text = '<%= get_postal_selection(16) %>'
-                break;
-            case "17":
-                html_text = '<%= get_postal_selection(17) %>'
-                break;
-            case "18":
-                html_text = '<%= get_postal_selection(18) %>'
-                break;
-            case "19":
-                html_text = '<%= get_postal_selection(19) %>'
-                break;
-            case "20":
-                html_text = '<%= get_postal_selection(20) %>'
-                break;
-            case "21":
-                html_text = '<%= get_postal_selection(21) %>'
-                break;
-            case "22":
-                html_text = '<%= get_postal_selection(22) %>'
-                break;
-            case "23":
-                html_text = '<%= get_postal_selection(23) %>'
-                break;
-            case "24":
-                html_text = '<%= get_postal_selection(24) %>'
-                break;
-        }
-        return html_text
-    }
 
     function alert_warning(text) {
         swal({
@@ -466,16 +177,6 @@
             showOtherMonths: true,
             selectOtherMonths: true
         });
-
-        var addr_city = '<%= @user.addr_city %>';
-        var addr_postal = '<%= @user.addr_postal %>';
-
-        if (addr_city != "0") {
-            refresh_select(get_postal_selection(addr_city));
-            if (addr_postal != "0") {
-                $('#user_addr_postal').val(addr_postal).attr('selected', 'selected');
-            }
-        }
 
     });
 
