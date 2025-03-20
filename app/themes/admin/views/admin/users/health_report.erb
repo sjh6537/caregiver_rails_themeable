@@ -1,0 +1,156 @@
+<%= content_for :head_css do %>
+  <!-- Internal Data table css -->
+  <link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+  <link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+  <link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+  <link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+  <link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+<% end %>
+<!--Row-->
+<div class="row row-sm">
+  <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+    <div class="card">
+      <div class="card-header pb-0">
+        <div class="d-flex justify-content-between">
+          <h4 class="card-title mg-b-0"><%= @user.name %> <%= t(:HEALTH_REPORT, scope: "Title") %></h4>
+          <i class="mdi mdi-dots-horizontal text-gray"></i>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive border-top userlist-table">
+          <table id="example1" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+            <thead>
+              <tr>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Report_Time, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Heart_Rate, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Blood_Pressure1, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Blood_Pressure2, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Weight, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Blood_Sugar, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Blood_Oxygen, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Heart_Bmi, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Temperature, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Total_Cholesterol, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Hemoglobin, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Hematocrit, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Ketones, scope: "Table") %></span></th>
+                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Uric_Acid, scope: "Table") %></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @reports.map do |c| %>
+                <tr>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.heart_rate %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.blood_pressure1 %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.blood_pressure2 %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.weight %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.blood_sugar %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.blood_oxygen %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.bmi %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.temperature %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.total_cholesterol %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.hemoglobin %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.hematocrit %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.ketones %></span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label text-muted d-flex">
+                      <div class="mr-1"></div>
+                      <%= c.uric_acid %></span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- COL END -->
+</div>
+<!-- row closed  -->
+<%= content_for :script_js do %>
+  <!-- Internal Data tables -->
+  <script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+  <script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+  <!--Internal  Datatable js -->
+  <script src="/assets/valex/js/table-data.js"></script>
+  <!-- Internal Select2.min js -->
+  <script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+  <!-- Internal Modal js-->
+  <script src="/assets/valex/js/modal.js"></script>
+  <script type="text/javascript">
+    $(document).on('click', '.delete_button', function(event) {
+    			var id = $(this).data("val");
+    			$('.delete_alerm').attr("href", "/admins/" + id );
+    			$('form.button_to').attr("action", "/admins/" + id );
+    });
+  </script>
+<% end %>

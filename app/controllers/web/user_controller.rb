@@ -69,13 +69,6 @@ class Web::UserController < ApplicationWebController
 
   def set_user
     @user = current_user
-    
-    # 如果已登入但社區 ID 不匹配，則導向登出並使用新的 sn 重新登入
-    if @user.present? && current_community.present? && @user.community_id != current_community.id
-      session[:new_sn] = params[:sn] || current_community.sn
-      redirect_to destroy_user_session_path and return
-    end
-    
     @profile = @user.profile if @user.present?
   end
 

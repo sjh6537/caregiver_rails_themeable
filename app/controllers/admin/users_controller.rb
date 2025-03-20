@@ -37,6 +37,12 @@ class Admin::UsersController < ApplicationAdminController
         end
     end
 
+    def health_report
+        @title_sub = I18n.t('Title.HEALTH_REPORT')
+        @user = User.find_by_id(params[:id])
+        @reports = @user.health_reports.order(id: :desc)
+    end
+
     def edit
         @title_sub = I18n.t("Title.Edit")
     end

@@ -44,6 +44,8 @@ Rails.application.routes.draw do
       post      'users/send_message'                  , to: 'users#send_message'        , as: :line_msg_admin_user
       get       'users/:id/push'                      , to: 'users#push'                , as: :push_page_admin_user
       post      'users/:id/coins'                     , to: 'users#coins_deliver'       , as: :coins_deliver
+      get       'users/:id/health_report' , to: 'users#health_report' ,      as: :user_health_report
+
 
       resources :shops
       post      'shop/import_file' , to: 'shops#import_file' , as: :shops_import_file

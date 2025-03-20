@@ -34,6 +34,13 @@ zh-TW:
       not_found_in_database: "找不到該用戶"
     failure:
       unauthenticated: "你需要加入會員才能完成此項目"
+      invalid: "無效的電子郵件或密碼"
+      unconfirmed: "請先確認您的電子郵件"
+      locked: "您的帳號已被鎖定"
+      already_authenticated: "您已經登入"
+      not_found_in_database: "電子郵件或密碼錯誤"
+      timeout: "您的登入已過期，請重新登入"
+      inactive: "您的帳號尚未啟用"
   Login:
     Account: 帳號
     Email: 信箱
@@ -160,7 +167,6 @@ zh-TW:
     Request_Time: 需求時間
     Hours: 小時
     Over_Day: 超過一天
-    Descrition: 描述
     Message: 訊息
     Biography: 個人訊息
     Friends: 好友
@@ -169,7 +175,6 @@ zh-TW:
     is_Show: 是否顯示
     City: 城市
     Postal: 區域
-    Address: 詳細地址
     Coupons: 優惠卷設定
     Redeem: 柑幣需要數量
     Coupon_Name: 優惠卷名稱
@@ -190,56 +195,55 @@ zh-TW:
     Execution_time: 執行時間
     User_number: 推撥人數
     Selected: 選擇
-    Text: 文字
     Schedule_ID: 訊息ID
     Schedule_name: 訊息標題
     Recipient: 對象
     User: 用戶
 
   Title:
-      REQUEST_CATEGORY_TABLE: 派工類別表格
-      NEW_REQUEST_CATEGORY_TABLE: 新增派工類別
-      SHOP_INFO: 商家資訊
-      SHOPS_TABLE: 商家表格
-      COUPONS: 優惠卷
-      NEW_SHOP: 新增商家
-      DEL_SHOP: 刪除商家
-      DEL_COUPON: 刪除優惠卷
-      NEW_COUPON: '新增商家<font class="tx-orange">「%{name}」</font>優惠卷'
-      ADMINISTRATORS_TABLE: 管理者表格
-      ADMINISTRATORS: 管理者
-      ADMINISTRATOR_INFO: 管理者資訊
-      NEW_ADMINISTRATOR: 新增管理者
-      DEL_ADMIN: 刪除管理者
-      USERS: 使用者
-      USER_INFO: 使用者資訊
-      CONTACT_INFO: 聯絡方式
-      LINE_NOTIFY: LINE NOTIFY 訊息
-      MESSAGE_GROUP: 群組訊息
-      MESSAGE_PERSONAL: 個人訊息
-      LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
-      DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
-      DEL_CANNOT: 無法刪除
-      GROUP: 群組
-      Table: / 表格
-      New: / 新增
-      Edit: / 編輯
-      Update: / 更新
-      Information: / 資訊
-      SURE_SEND: 傳送訊息
-      USER_TABLE: 使用者表格
-      LINE_MESSAGE: LINE 訊息
-      DELIVER_COINS: 贈送柑幣
-      SCHEDULE_LIST: 訊息列表
-      NEW_SCHEDULE: 新增訊息
-      UPDATE_SCHEDULE: 變更訊息
-      DEL_SCHEDULE: 刪除訊息
-      SCHEDULE_TABLE: 訊息排程
-      MANAGE_USERS_SCHEDULE: 管理用戶訊息
-      DEL_CAREGIVER: 移除目前照護者
-      DEL_CARED: 取消目前照護
-      AGREEMENT: 聲明
-      HEALTH_REPORT: 量測報告
+    REQUEST_CATEGORY_TABLE: 派工類別表格
+    NEW_REQUEST_CATEGORY_TABLE: 新增派工類別
+    SHOP_INFO: 商家資訊
+    SHOPS_TABLE: 商家表格
+    COUPONS: 優惠卷
+    NEW_SHOP: 新增商家
+    DEL_SHOP: 刪除商家
+    DEL_COUPON: 刪除優惠卷
+    NEW_COUPON: '新增商家<font class="tx-orange">「%{name}」</font>優惠卷'
+    ADMINISTRATORS_TABLE: 管理者表格
+    ADMINISTRATORS: 管理者
+    ADMINISTRATOR_INFO: 管理者資訊
+    NEW_ADMINISTRATOR: 新增管理者
+    DEL_ADMIN: 刪除管理者
+    USERS: 使用者
+    USER_INFO: 使用者資訊
+    CONTACT_INFO: 聯絡方式
+    LINE_NOTIFY: LINE NOTIFY 訊息
+    MESSAGE_GROUP: 群組訊息
+    MESSAGE_PERSONAL: 個人訊息
+    LINE_NOTIFY_SERVICE: LINE NOTIFY 發送訊息服務
+    DEL_LINE_NOTIFY_SERVICE: 清除發送訊息
+    DEL_CANNOT: 無法刪除
+    GROUP: 群組
+    Table: / 表格
+    New: / 新增
+    Edit: / 編輯
+    Update: / 更新
+    Information: / 資訊
+    SURE_SEND: 傳送訊息
+    USER_TABLE: 使用者表格
+    LINE_MESSAGE: LINE 訊息
+    DELIVER_COINS: 贈送柑幣
+    SCHEDULE_LIST: 訊息列表
+    NEW_SCHEDULE: 新增訊息
+    UPDATE_SCHEDULE: 變更訊息
+    DEL_SCHEDULE: 刪除訊息
+    SCHEDULE_TABLE: 訊息排程
+    MANAGE_USERS_SCHEDULE: 管理用戶訊息
+    DEL_CAREGIVER: 移除目前照護者
+    DEL_CARED: 取消目前照護
+    AGREEMENT: 聲明
+    HEALTH_REPORT: 量測報告
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -268,16 +272,16 @@ zh-TW:
     Redeem_Coupons: 兌換優惠卷
 
     Note:
-      You_have_caregiver: '你正被「%{name}」照護'
-      You_have_careds: '你是「%{name}」的照護者'
-      Cared_requests: '照護者「%{name}」目前派工'
-      Cared_have_no_requests: '照護者「%{name}」目前沒有派工'
+      You_have_caregiver: "你正被「%{name}」照護"
+      You_have_careds: "你是「%{name}」的照護者"
+      Cared_requests: "照護者「%{name}」目前派工"
+      Cared_have_no_requests: "照護者「%{name}」目前沒有派工"
       Caregiver_will_be_selected: '照護者「<font class="tx-orange">「%{name}」</font>會預設勾選'
       Invite_line_friends_join: "邀請Line好友加入友伴"
       Please_fill_location: 請填入詳細位置
-      Please_provide_Request_information: '請提供正確派工資訊以便聯絡使用'
-      Please_provide_Detail_information: '請提供正確資料以便日後活動聯絡使用'
-      Please_provide_Full_information: '使用柑健康前需完成會員資訊登陸'
+      Please_provide_Request_information: "請提供正確派工資訊以便聯絡使用"
+      Please_provide_Detail_information: "請提供正確資料以便日後活動聯絡使用"
+      Please_provide_Full_information: "使用柑健康前需完成會員資訊登陸"
       Who_you_want_to_invite_to_help: "你想邀請誰幫忙?"
       Requests_you_accept: "目前接受過的派工需求"
       Requests_you_create: "目前發起過的派工需求"
@@ -294,51 +298,51 @@ zh-TW:
       You_donot_have_friend: "你沒有任何「友伴」好友，用 Line 邀請好友加入「友伴」"
       You_donot_have_request: "你沒有發起派工"
       You_donot_have_accept_request: "你沒有接受派工"
-      Request_already_send: '派工已發送'
+      Request_already_send: "派工已發送"
       Your_request: '你的派工<font class="tx-orange">「%{title}」</font>'
-      Already_shared_line: '已發送到你的 Line 好友'
-      Already_pushed_friends: '已發送到你的「友伴」好友'
-      Not_pushed_friends: '未發送到你任何「友伴」好友'
-      System_will_send_notify_after_request_accepted: '若派工已被接受系統將通知雙方連絡訊息'
-      And_you_can_get_reward: '並將獲得「柑幣」優惠獎勵'
-      Donot_notify_after_request_finish: '**派工屆期將自動失效不另行通知**'
-      Already_push_n_times: '相同派工已發送%{num}次'
-      Already_agree_n_times: '接受派工%{num}次'
-      Who_agree_this_request: '%{name}接受此派工'
-      Accept_request_finish: '已完成'
-      Accept_request_new: '未完成'
-      nobody_agree_this_request: '未被接受'
-      Today_finish: '今天已完成'
-      Today_expired: '今天已過期'
-      Not_saw_the_request: '好友未點選過派工訊息'
-      Receiver_consider: '考慮中'
-      Request_no_receiver: '您所發送的派工尚未有好友接受'
-      Request_has_receiver: '派工已有接受者'
-      Request_had_finish: '派工已結束'
-      Request_had_expired: '派工已過期'
-      Already_push_receivers: '已發送「友伴」訊息好友'
-      No_push_receivers: '你未發送給任何「友伴」好友訊息'
-      Nobody: '此使用者已退出友伴會員'
-      Does_agree_to_accept: '是否同意接受?'
-      Does_agree_to_be_caregiver: '是否同意成為照護者?'
-      Nobody_be_caregiver: '目前尚未有人成為你的照護者'
-      you_are_already_caregiver: '你已經是「%{name}」的照護者'
-      Request_has_helper: '此份派工已有其他人接受'
-      You_accept_this_request: '你已接受該派工'
-      Accepted_this_request: '已接受該派工'
-      You_accept_this_caregiver: '你已接受該照護者'
+      Already_shared_line: "已發送到你的 Line 好友"
+      Already_pushed_friends: "已發送到你的「友伴」好友"
+      Not_pushed_friends: "未發送到你任何「友伴」好友"
+      System_will_send_notify_after_request_accepted: "若派工已被接受系統將通知雙方連絡訊息"
+      And_you_can_get_reward: "並將獲得「柑幣」優惠獎勵"
+      Donot_notify_after_request_finish: "**派工屆期將自動失效不另行通知**"
+      Already_push_n_times: "相同派工已發送%{num}次"
+      Already_agree_n_times: "接受派工%{num}次"
+      Who_agree_this_request: "%{name}接受此派工"
+      Accept_request_finish: "已完成"
+      Accept_request_new: "未完成"
+      nobody_agree_this_request: "未被接受"
+      Today_finish: "今天已完成"
+      Today_expired: "今天已過期"
+      Not_saw_the_request: "好友未點選過派工訊息"
+      Receiver_consider: "考慮中"
+      Request_no_receiver: "您所發送的派工尚未有好友接受"
+      Request_has_receiver: "派工已有接受者"
+      Request_had_finish: "派工已結束"
+      Request_had_expired: "派工已過期"
+      Already_push_receivers: "已發送「友伴」訊息好友"
+      No_push_receivers: "你未發送給任何「友伴」好友訊息"
+      Nobody: "此使用者已退出友伴會員"
+      Does_agree_to_accept: "是否同意接受?"
+      Does_agree_to_be_caregiver: "是否同意成為照護者?"
+      Nobody_be_caregiver: "目前尚未有人成為你的照護者"
+      you_are_already_caregiver: "你已經是「%{name}」的照護者"
+      Request_has_helper: "此份派工已有其他人接受"
+      You_accept_this_request: "你已接受該派工"
+      Accepted_this_request: "已接受該派工"
+      You_accept_this_caregiver: "你已接受該照護者"
       Update_Success: "會員 <strong>%{name}</strong> 成功更新"
       Update_Fail: "會員 <strong>%{name}</strong> 更新失敗"
-      No_Coupons: '您沒有任何優惠卷'
-      You_have_N_Coins: '你有 <strong>%{number}</strong> 個柑幣'
-      You_have_N_Coupons: '你有 <strong>%{number}</strong> 張優惠卷'
+      No_Coupons: "您沒有任何優惠卷"
+      You_have_N_Coins: "你有 <strong>%{number}</strong> 個柑幣"
+      You_have_N_Coupons: "你有 <strong>%{number}</strong> 張優惠卷"
       No_Coupons_can_Redeem: "目前沒有優卷可以兌換"
-      Redeem_need_N_Coins: '需要<strong>%{number}</strong> 個柑幣兌換'
-      N_Coins_Redeem: '%{number} 柑幣兌換'
-      Use_Coupon: '使用優惠卷'
-      Today_used: '今日已使用'
-      Using_Coupon: '優惠卷正在使用'
-      Use_Coupon_info: '確定優惠卷，該優惠卷會在30分鐘後自動消失，請在消失之前提供優惠店家確認，逾時不受理。'
+      Redeem_need_N_Coins: "需要<strong>%{number}</strong> 個柑幣兌換"
+      N_Coins_Redeem: "%{number} 柑幣兌換"
+      Use_Coupon: "使用優惠卷"
+      Today_used: "今日已使用"
+      Using_Coupon: "優惠卷正在使用"
+      Use_Coupon_info: "確定優惠卷，該優惠卷會在30分鐘後自動消失，請在消失之前提供優惠店家確認，逾時不受理。"
       Line_send_person_success: "訊息 <strong>%{name}</strong> 發送成功"
       Line_send_person_fail: "訊息 <strong>%{name}</strong> 發送失敗"
       Line_send_group_success: "訊息群發成功"
@@ -349,7 +353,8 @@ zh-TW:
       Please_Input_Title: "請輸入訊息標題"
       Caregiver_Confirm_Delete: "請確認是否要移除你的照護者? 移除後若要再建立照護者，需要重新發送訊息給你的 line 好友並經過你好友同意才能成為你的照護者。"
       Cared_Confirm_Delete: "請確認是否要取消你的照護? 取消後若要再建立照護，需要對方重新發送訊息邀請你照護。"
-      
+      Switched_To_New_Community: "已切換到新的社區"
+
   Notify:
     Title:
       ADMINISTRATORS_TABLE: 管理者表格
@@ -377,20 +382,20 @@ zh-TW:
       LOGS: 操作紀錄
       SCHEDULE_TABLE: 訊息排程
     Note:
-      You_remove_this_caregiver: '已成功移除該照護者'
+      You_remove_this_caregiver: "已成功移除該照護者"
       More_Logs: 查看更多操作紀錄
-      Deliver_Coins: '將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回'
-      Deliver_Coins_Success: '系統贈送柑幣成功'
-      Redeem_success: '「%{name}」優惠卷兌換成功'
-      Redeem_fail: '「%{name}」優惠卷兌換失敗'
-      Redeem_fail_coin_not_enough: '「%{name}」優惠卷兌換失敗，柑幣不足'
-      Redeem_fail_coupon_not_enough: '「%{name}」優惠卷兌換失敗，優惠卷已被兌換完畢'
-      Something_Wrong: '發生問題 , 請再點選一次 , 或將問題回報官方人員'
-      You_accept_this_request: '你接受了%{name}的派工'
-      You_accept_this_caregiver: '你成為%{name}的照護者'
-      Your_request_already_create: '你的需求已經建立'
-      Please_Select_One_City: '請選擇一個城市'
-      Please_Select_One_Postal: '請選擇一個區域'
+      Deliver_Coins: "將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回"
+      Deliver_Coins_Success: "系統贈送柑幣成功"
+      Redeem_success: "「%{name}」優惠卷兌換成功"
+      Redeem_fail: "「%{name}」優惠卷兌換失敗"
+      Redeem_fail_coin_not_enough: "「%{name}」優惠卷兌換失敗，柑幣不足"
+      Redeem_fail_coupon_not_enough: "「%{name}」優惠卷兌換失敗，優惠卷已被兌換完畢"
+      Something_Wrong: "發生問題 , 請再點選一次 , 或將問題回報官方人員"
+      You_accept_this_request: "你接受了%{name}的派工"
+      You_accept_this_caregiver: "你成為%{name}的照護者"
+      Your_request_already_create: "你的需求已經建立"
+      Please_Select_One_City: "請選擇一個城市"
+      Please_Select_One_Postal: "請選擇一個區域"
       Fill_Simple_Title: 請簡單描述工作內容
       Cannot_del_Admin: 除了超級管理員，其他管理者無法做管理員刪除和管理員密碼變更的動作。
       Login_super_admin: 登出並登入超級管理員
@@ -425,8 +430,8 @@ zh-TW:
       Cannot_Delete_Notify: "注意: 一般管理員不能刪除 LINE NOTIFY SERVICE....."
       Add_Message_Fail: 加入訊息失敗 , 請聯絡管理員
       Add_Message_Success: " 將在 <strong>%{time}</strong> 對 <strong>%{who}</strong>... 發送訊息: <strong>%{content}</strong>..."
-      Delete_Message_Fail:  刪除訊息失敗 , 請聯絡管理員
-      Delete_Message_Success:  刪除訊息成功
+      Delete_Message_Fail: 刪除訊息失敗 , 請聯絡管理員
+      Delete_Message_Success: 刪除訊息成功
       Block_User: 將該使用者停權使用友伴系統
       Account_Blocked: "帳號 <strong>%{name}</strong> 成功黑名單."
       Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
@@ -438,25 +443,24 @@ zh-TW:
     TEXT_AND_GRAPH: 文字與圖片
     RICH_MENU: 複合頁面
   Tip:
-      Error:
-        Default_Message: "這個值似乎是無效的。"
-        Type_Email: "請輸入一個正確的電子郵件地址。"
-        Type_Url: "請輸入一個有效的網址。"
-        Type_Number: "請輸入一個數字。"
-        Type_Integer: "請輸入一個整數。"
-        Type_Digits: "這個欄位只接受數字。"
-        Type_Alphanum: "這個欄位只接受英文字母或是數字。"
-        Notblank: "這個欄位不能為空白。"
-        Required: "這個欄位必須填寫。"
-        Pattern: "這個值似乎是無效的。"
-        Min: "輸入的值應該大於或等於 %s"
-        Max: "輸入的值應該小於或等於 %s"
-        Range: "輸入的值應該在 %s 和 %s 之間。"
-        Minlength: "輸入的值至少要有 %s 個字元。"
-        Maxlength: "輸入的值最多可以有 %s 個字元。"
-        Length: "字元長度應該在 %s 和 %s 之間。"
-        Mincheck: "你至少要選擇 %s 個項目。"
-        Maxcheck: "你最多可選擇 %s 個項目。"
-        Check: "你必須選擇 %s 到 %s 個項目。"
-        Equalto: "輸入值不同。"
-
+    Error:
+      Default_Message: "這個值似乎是無效的。"
+      Type_Email: "請輸入一個正確的電子郵件地址。"
+      Type_Url: "請輸入一個有效的網址。"
+      Type_Number: "請輸入一個數字。"
+      Type_Integer: "請輸入一個整數。"
+      Type_Digits: "這個欄位只接受數字。"
+      Type_Alphanum: "這個欄位只接受英文字母或是數字。"
+      Notblank: "這個欄位不能為空白。"
+      Required: "這個欄位必須填寫。"
+      Pattern: "這個值似乎是無效的。"
+      Min: "輸入的值應該大於或等於 %s"
+      Max: "輸入的值應該小於或等於 %s"
+      Range: "輸入的值應該在 %s 和 %s 之間。"
+      Minlength: "輸入的值至少要有 %s 個字元。"
+      Maxlength: "輸入的值最多可以有 %s 個字元。"
+      Length: "字元長度應該在 %s 和 %s 之間。"
+      Mincheck: "你至少要選擇 %s 個項目。"
+      Maxcheck: "你最多可選擇 %s 個項目。"
+      Check: "你必須選擇 %s 到 %s 個項目。"
+      Equalto: "輸入值不同。"

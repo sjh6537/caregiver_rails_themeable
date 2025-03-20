@@ -1,5 +1,6 @@
 class User::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token
+  before_action :check_community
   include LineHelper
   include ApplicationHelper
   # include Devise::Controllers::Rememberable
@@ -9,6 +10,9 @@ class User::SessionsController < Devise::SessionsController
     session[:return_to] = ''
     cookies[:return_to] = ''
     session[:sn] = nil
+    #super # 呼叫 Devise::SessionsController 的 destroy 方法
+    sign_out(current_user)
+    redirect_to root_path, allow_other_host: true
   end
 
   def new
@@ -32,6 +36,7 @@ class User::SessionsController < Devise::SessionsController
     code = params[:code]
 
     if params[:state] == session[:state]
+      Rails.logger.info "驗證成功，狀態碼匹配"      
       community_profile = current_community.community_profile
       access_token = login_token(community_profile.line_login_channel_callback_url, community_profile.line_login_channel_id,
                                  community_profile.line_login_channel_secret, code)
@@ -65,7 +70,7 @@ class User::SessionsController < Devise::SessionsController
         session[:return_to] = ''
         cookies[:return_to] = ''
         redirect_to url
-      elsif @user.name == '' || @user.addr_city == 0 || @user.addr_postal == 0 || @user.address == ''
+      elsif @user.name == '' 
         redirect_to web_user_edit_path
       else
         redirect_to web_user_show_path
@@ -73,6 +78,12 @@ class User::SessionsController < Devise::SessionsController
 
     else
       redirect_to error_notice_path, notice: 'invalid varification'
+    end
+  end
+
+  def check_community
+    if current_community.nil?
+      redirect_to error_notice_path, notice: 'not find community, because sn is empty' and return
     end
   end
 end

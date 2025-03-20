@@ -1,152 +1,153 @@
-
 <%= content_for :head_css do %>
 
-	<!-- Internal Data table css -->
-	<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-	<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
-	<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-	<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
-	<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
-	<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+<!-- Internal Data table css -->
+<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
 
 <% end %>
 
 
 <!--Row-->
 <div class="row row-sm">
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-<div class="card">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card">
 
 
-	<div class="card-header pb-0">
-		<div class="d-flex justify-content-between">
-			<h4 class="card-title mg-b-0"><%= t("Title.USER_TABLE") %></h4>
-			<i class="mdi mdi-dots-horizontal text-gray"></i>
-		</div>
-	</div>
-	<div class="card-body">
-		<div class="table-responsive border-top userlist-table">
-			<table id="example" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
-				<thead>
-					<tr>
-						<th class="wd-lg-10p"><span><%= t("Table.User") %></span></th>
-						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Friends") %></span></th>
-						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Requests") %></span></th>
-						<th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Coins") %></span></th>
-						<th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Last_Sign_in") %></span></th>
-						<th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Status") %></span></th>
-						<th class="border-bottom-0 wd-lg-50p"><span><%= t("Table.Action") %></span></th>
-					</tr>
-				</thead>
-				<tbody>
-					<% @users.map do |c| %>
-					<tr>
-						<td>
-	                        <div class="media d-block d-sm-flex">
-	                            <div class="card-aside-img">
-	                                <img class="main-img-user avatar-md mg-sm-r-20 mg-b-20 mg-sm-b-0" src="<%= c.line_image %>" alt="img" class="h-60 w-60">
-	                            </div>
-	                            <div class="media-body">
-	                                <div class="card-item-desc mt-0">
-	                                    <h6 class="font-weight-semibold mt-0 text-uppercase"><%= c.name %></h6>
-	                                    <dl class="card-item-desc-1">
-	                                      <dt><%= t("Table.LineName") %></dt>
-	                                      <dd><%= c.line_name %></dd>
-	                                    </dl>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </td>
-						<td><%= c.friends.count %></td>
-						<td><%= c.requests.count %></td>
-						<td><%= c.coins %></td>
-						<td><%= c.updated_at.strftime('%Y/%m/%d %T') %></td>
-						<td class="text-center">
-							<span class="label text-success d-flex"><div class="dot-label bg-success mr-1"></div><%= c.enable %></span>
-						</td>
-						<td>
-							<a href="<%= admin_user_path(c.id) %>" class="btn btn-sm btn-primary">
-								<i class="las la-search"></i>
-							</a>
-							<a href="<%= edit_admin_user_path(c.id) %>" class="btn btn-sm btn-info">
-								<i class="las la-pen"></i>
-							</a>
+            <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mg-b-0"><%= t("Title.USER_TABLE") %></h4>
+                    <i class="mdi mdi-dots-horizontal text-gray"></i>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive border-top userlist-table">
+                    <table id="example" class="table key-buttons table-striped text-md-nowrap card-table mb-0 table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="wd-lg-10p"><span><%= t("Table.User") %></span></th>
+                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Friends") %></span></th>
+                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Requests") %></span></th>
+                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Coins") %></span></th>
+                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Health_Report") %></span></th>
+                                <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Last_Sign_in") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Status") %></span></th>
+                                <th class="border-bottom-0 wd-lg-50p"><span><%= t("Table.Action") %></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @users.map do |c| %>
+                            <tr>
+                                <td>
+                                    <div class="media d-block d-sm-flex">
+                                        <div class="card-aside-img">
+                                            <img class="main-img-user avatar-md mg-sm-r-20 mg-b-20 mg-sm-b-0" src="<%= c.line_image %>" alt="img" class="h-60 w-60">
+                                        </div>
+                                        <div class="media-body">
+                                            <div class="card-item-desc mt-0">
+                                                <h6 class="font-weight-semibold mt-0 text-uppercase"><%= c.name %></h6>
+                                                <dl class="card-item-desc-1">
+                                                    <dt><%= t("Table.LineName") %></dt>
+                                                    <dd><%= c.line_name %></dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><%= c.friends.count %></td>
+                                <td><%= c.requests.count %></td>
+                                <td><%= c.coins %></td>
+                                <td><a href="<%= admin_user_health_report_path(c.id) %>"><%= c.health_reports.count %></a></td>
+                                <td><%= c.updated_at.strftime('%Y/%m/%d %T') %></td>
+                                <td class="text-center">
+                                    <span class="label text-success d-flex">
+                                        <div class="dot-label bg-success mr-1"></div><%= c.enable %>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="<%= admin_user_path(c.id) %>" class="btn btn-sm btn-primary">
+                                        <i class="las la-search"></i>
+                                    </a>
+                                    <a href="<%= edit_admin_user_path(c.id) %>" class="btn btn-sm btn-info">
+                                        <i class="las la-pen"></i>
+                                    </a>
 
-						</td>
-					</tr>
-					<% end %>
-				</tbody>
-			</table>
-			<!--
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                    <!--
 			<div class="col-sm-4 col-md-6 col-lg-4">
 				<div class="card custom-card">
 						<a class="btn ripple btn-success" data-target="#broadcast_msg" data-toggle="modal" href=""><%= t("Button.BROADCAST") %></a>
 				</div>
 			</div>
 			-->
-		</div>
-	</div>
+                </div>
+            </div>
 
 
-</div>
-</div><!-- COL END -->
+        </div>
+    </div><!-- COL END -->
 </div>
 <!-- row closed  -->
 
 <div class="modal" id="modal_block">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content tx-size-sm">
-			<div class="modal-body tx-center pd-y-20 pd-x-20">
-				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-				<h4 class="tx-danger mg-b-20"><%= t("Notify.Title.BLOCK_USER") %></h4>
-				<p class="mg-b-20 mg-x-20"><%= t("Notify.Note.Block_User") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE" ><%= t("Button.CONTINUE") %></a>
-			</div>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20"><%= t("Notify.Title.BLOCK_USER") %></h4>
+                <p class="mg-b-20 mg-x-20"><%= t("Notify.Note.Block_User") %></p><a aria-label="Close" class="btn ripple btn-danger pd-x-25 delete_alerm" data-dismiss="modal" type="button" href="#" data-method="DELETE"><%= t("Button.CONTINUE") %></a>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="modal" id="broadcast_msg">
-	<div class="modal-dialog modal-dialog-centered" role="document">
-		<div class="modal-content tx-size-sm">
-		<%= render :partial => 'pushtext' %>
-		</div>
-	</div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <%= render :partial => 'pushtext' %>
+        </div>
+    </div>
 </div>
 <%= content_for :script_js do %>
 
-	<!-- Internal Data tables -->
-	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
-	<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+<!-- Internal Data tables -->
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
 
-	<!--Internal  Datatable js -->
-	<script src="/assets/valex/js/table-data.js"></script>
+<!--Internal  Datatable js -->
+<script src="/assets/valex/js/table-data.js"></script>
 
-    <!-- Internal Select2.min js -->
-	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+<!-- Internal Select2.min js -->
+<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
 
-	<!-- Internal Modal js-->
-	<script src="/assets/valex/js/modal.js"></script>
+<!-- Internal Modal js-->
+<script src="/assets/valex/js/modal.js"></script>
 
-	<script type="text/javascript">
-
-	    $(document).on('click', '.delete_button', function(event) {
-			var id = $(this).data("val");
-			$('.delete_alerm').attr("href", "/users/" + id);
-	    });
-
-	</script>
+<script type="text/javascript">
+    $(document).on('click', '.delete_button', function(event) {
+        var id = $(this).data("val");
+        $('.delete_alerm').attr("href", "/users/" + id);
+    });
+</script>
 
 <% end %>

@@ -62,11 +62,37 @@ module ApplicationHelper
   def set_community_by_token
     sn = params[:sn]
     if sn.present?
+      # 檢查是否需要重新登入（社區切換）
+      if session[:sn].present? && session[:sn] != sn && user_signed_in?
+        Rails.logger.info "社區變更，從 #{session[:sn]} 切換到 #{sn}，需要重新登入"
+
+        # 保存當前請求信息，但保留 sn 參數
+        current_path = request.path
+
+        # 登出當前用戶
+         Rails.logger.warn "登出使用者"
+        sign_out(current_user)
+
+        # 將新社區的 sn 存入 session
+        session[:sn] = sn
+
+        # 設置提示信息
+        flash[:notice] =  I18n.t('Website.Note.Community_Change', sn: sn)
+        Rails.logger.info "社區變更，從 #{session[:sn]} 切換到 #{sn}，需要重新登入"
+  
+        # 重定向到登入頁面，帶上社區參數和返回 URL
+        redirect_to new_user_session_path(sn: sn, return_to: "#{current_path}?sn=#{sn}") and return
+      end
+      
       session[:sn] = sn
       # 確保session確實被設置
       Rails.logger.info "設置社區 sn: #{sn}, 設置後session[:sn]值: #{session[:sn]}"
     else
-      Rails.logger.warn "session[:sn]為空，無法設置社區"
+      if session[:sn].present?
+        Rails.logger.info "使用 session 中的 sn: #{session[:sn]}"
+      else
+        Rails.logger.warn "params[:sn] 和 session[:sn] 都為空"
+      end
     end
   end
 
