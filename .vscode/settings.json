@@ -44,6 +44,7 @@
     "selectionRanges": true,
     "semanticHighlighting": true
   },
+  "rubyLsp.enabled": true,
   "rubyLsp.enableExperimentalFeatures": true,
   "search.useIgnoreFiles": false,
   "search.exclude": {

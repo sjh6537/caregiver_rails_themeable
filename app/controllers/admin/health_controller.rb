@@ -133,9 +133,7 @@ class Admin::HealthController < ApplicationController
     blood_oxygen = params[:blood_oxygen]
     body_fat = params[:body_fat]
 
-    if !params[:uid].present?
-      render json: { status: 'error', message: 'error parameter' }, status: :ok
-    else
+    if params[:uid].present?
       # user = User.where("account == ? AND phone == ?", uid , phone)
       user = User.find(uid.to_i)
       if user.nil?
@@ -168,6 +166,8 @@ class Admin::HealthController < ApplicationController
 
         render json: { status: 'success', message: 'Message sent successfully' }, status: :ok
       end
+    else
+      render json: { status: 'error', message: 'error parameter' }, status: :ok
     end
   end
 end
