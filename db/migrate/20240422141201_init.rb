@@ -45,7 +45,7 @@ class Init < ActiveRecord::Migration[7.1]
       t.integer  'addr_postal',               default: 0,     comment: '郵遞區號'
       t.string   'id_card',                   limit: 20, comment: '身分證'
       t.string   'nhi_id',                    limit: 20, comment: '健保卡'
-      t.string   'immigrant',                 limit: 20, comment: '移民'
+      t.boolean 'new_immigrant', default: 0 , comment: '新住民'
       t.string   'note',                      limit: 50, comment: '備註'
       t.string   'comment',                   limit: 50, comment: '備註'
       t.text     'oauth_token',               comment: 'OAuth Token'
@@ -92,7 +92,6 @@ class Init < ActiveRecord::Migration[7.1]
     end
 
     add_index 'communities', ['sn'], name: 'index_communities_on_sn', unique: true, using: :btree
-    add_index 'communities', ['token'], name: 'index_communities_on_token', unique: true, using: :btree
 
     create_table :community_profiles, force: :cascade do |t|
       t.integer :community_id, null: false, comment: '社區ID'

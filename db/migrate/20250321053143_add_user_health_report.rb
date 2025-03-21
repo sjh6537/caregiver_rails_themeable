@@ -2,6 +2,7 @@ class AddUserHealthReport < ActiveRecord::Migration[7.1]
   def change
     create_table :user_health_reports do |t|
       t.integer :user_id, null: false, comment: 'User ID'
+      t.datetime :measure_time, null: false, comment: '測量時間'
       t.float :bmi, comment: 'BMI'
       t.float :weight, comment: '體重'
       t.integer :heart_rate, comment: '心跳'

@@ -199,3 +199,25 @@ if admin2.nil?
   Admin.create!(account: 'leo', password: '123456', name: 'leo', email: 'B8808040@gmail.com') if admin1.nil?
   puts "Created admin account 'leo'"
 end
+
+# 從 fitness_devices_type, 與 fitness_devices 資料抓出來並建立
+fitness_devices_type = FitnessDeviceType.find_by(name: '被動式')
+if fitness_devices_type.nil?
+  fitness_devices_type = FitnessDeviceType.create!(
+    name: '被動式',
+    description: '被動式'
+  )
+  puts "Created fitness device type '#{fitness_devices_type.name}'"
+end
+
+fitness_devices = FitnessDevice.find_by(device_id: 'FT-001')
+if fitness_devices.nil?
+  fitness_devices = FitnessDevice.create!(
+    community_id: community2.id,
+    device_id: 'FT-001',
+    name: '垂直律動機',
+    brand: 'Bakkarat',
+    fitness_device_type_id: fitness_devices_type.id
+  )
+  puts "Created fitness device '#{fitness_devices.name}'"
+end

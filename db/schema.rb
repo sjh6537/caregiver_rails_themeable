@@ -37,14 +37,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
   end
 
   create_table "communities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "sn", limit: 20, null: false, comment: "編號"
+    t.string "sn", limit: 200, null: false, comment: "編號"
     t.string "name", limit: 50, null: false, comment: "名稱"
     t.string "name_eng", limit: 100, comment: "英文名稱"
     t.string "description", limit: 50, comment: "描述"
     t.string "agreement_path", limit: 200, comment: "使用者協議路徑"
     t.boolean "enable", default: true, null: false, comment: "是否啟用"
     t.integer "sort", default: 0, null: false, comment: "排序"
-    t.string "token", limit: 200, comment: "token"
     t.string "logo", limit: 200, comment: "logo"
     t.string "status", limit: 50, comment: "狀態"
     t.string "address", limit: 200, comment: "地址"
@@ -59,7 +58,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["sn"], name: "index_communities_on_sn", unique: true
-    t.index ["token"], name: "index_communities_on_token", unique: true
   end
 
   create_table "community_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -82,15 +80,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
   end
 
   create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "shop_id"
-    t.string "name", limit: 30, default: ""
-    t.string "discount", limit: 20, default: ""
-    t.boolean "is_vaild", default: true
-    t.integer "number_stock", default: 0
-    t.datetime "period_start"
-    t.datetime "period_end"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "shop_id", comment: "商店ID"
+    t.string "name", limit: 30, default: "", comment: "優惠券名稱"
+    t.string "discount", limit: 20, default: "", comment: "折扣內容"
+    t.text "comment", comment: "優惠說明"
+    t.string "rule", limit: 30, default: "", comment: "使用規則"
+    t.integer "redeem", comment: "兌換點數"
+    t.boolean "is_vaild", default: true, comment: "是否有效"
+    t.integer "number_stock", default: 0, comment: "剩餘庫存"
+    t.datetime "period_start", comment: "優惠開始時間"
+    t.datetime "period_end", comment: "優惠結束時間"
     t.string "image_file_name"
     t.string "image_content_type"
     t.bigint "image_file_size"
@@ -99,9 +98,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.string "full_image_content_type"
     t.bigint "full_image_file_size"
     t.datetime "full_image_updated_at"
-    t.text "comment"
-    t.string "rule", limit: 30, default: ""
-    t.integer "redeem"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.integer "number_used", default: 0
   end
 
@@ -193,11 +191,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
   end
 
   create_table "shops", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.boolean "is_show", default: false
-    t.integer "addr_city", default: 0
-    t.integer "addr_postal", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.boolean "is_show", default: false, comment: "是否顯示"
+    t.integer "addr_city", default: 0, comment: "城市代碼"
+    t.integer "addr_postal", default: 0, comment: "郵遞區號"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.integer "category", default: 0
     t.text "description"
     t.decimal "latitude", precision: 10
@@ -213,14 +211,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
   end
 
   create_table "user_coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "coupon_id"
-    t.boolean "is_vaild", default: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer "user_id", comment: "使用者ID"
+    t.integer "coupon_id", comment: "優惠券ID"
+    t.boolean "is_vaild", default: true, comment: "是否有效"
+    t.boolean "is_used", default: false, comment: "是否已使用"
+    t.boolean "is_expired", default: false, comment: "是否已過期"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.datetime "used_datetime"
-    t.boolean "is_used", default: false
-    t.boolean "is_expired", default: false
   end
 
   create_table "user_fitness_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -241,6 +239,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
 
   create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id", null: false, comment: "User ID"
+    t.datetime "measure_time", null: false, comment: "測量時間"
     t.float "bmi", comment: "BMI"
     t.float "weight", comment: "體重"
     t.integer "heart_rate", comment: "心跳"
@@ -292,7 +291,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.integer "count", default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "consider", default: 0
   end
 
   create_table "user_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -303,16 +301,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.integer "category", default: 0
     t.string "title", limit: 30, default: ""
     t.string "location", limit: 30, default: ""
+    t.integer "location_city", default: 0
+    t.integer "location_postal", default: 0
     t.string "contact_info", limit: 30, default: ""
-    t.string "descrition", limit: 300, default: "", null: false
+    t.string "description", limit: 300, default: "", null: false
     t.datetime "request_date"
     t.integer "request_time"
     t.integer "reward", default: 1
     t.boolean "reward_status", default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer "location_city", default: 0
-    t.integer "location_postal", default: 0
   end
 
   create_table "user_users_releated_caregivers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -348,7 +346,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.integer "addr_postal", default: 0, comment: "郵遞區號"
     t.string "id_card", limit: 20, comment: "身分證"
     t.string "nhi_id", limit: 20, comment: "健保卡"
-    t.string "immigrant", limit: 20, comment: "移民"
+    t.boolean "new_immigrant", default: false, comment: "新住民"
     t.string "note", limit: 50, comment: "備註"
     t.string "comment", limit: 50, comment: "備註"
     t.text "oauth_token", comment: "OAuth Token"
@@ -365,7 +363,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.string "last_sign_in_ip", limit: 50, comment: "上次登入IP"
     t.datetime "created_at", comment: "建立時間"
     t.datetime "updated_at", comment: "更新時間"
-    t.boolean "new_immigrant", default: false
     t.index ["account"], name: "index_users_on_account", unique: true
     t.index ["oauth_token"], name: "index_users_on_oauth_token", unique: true, length: 255
   end

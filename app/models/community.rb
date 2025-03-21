@@ -26,14 +26,14 @@ class Community < ApplicationRecord
   scope :sorted, -> { order(sort: :asc) }
 
   # Callbacks
-  before_validation :ensure_token_presence
+  before_validation :ensure_sn_presence
   # 建立社區時，會自動建立一筆空的社區資料
   after_create :ensure_community_profile
 
   private
 
-  def ensure_token_presence
-    self.token = SecureRandom.hex(10) if token.blank?
+  def ensure_sn_presence
+    self.sn = SecureRandom.hex(10) if sn.blank?
   end
 
   def ensure_community_profile
