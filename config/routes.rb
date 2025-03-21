@@ -44,8 +44,8 @@ Rails.application.routes.draw do
       post      'users/send_message'                  , to: 'users#send_message'        , as: :line_msg_admin_user
       get       'users/:id/push'                      , to: 'users#push'                , as: :push_page_admin_user
       post      'users/:id/coins'                     , to: 'users#coins_deliver'       , as: :coins_deliver
-      get       'users/:id/health_report' , to: 'users#health_report' ,      as: :user_health_report
-
+      get       'users/:id/health_report' , to: 'users#health_report' , as: :user_health_report
+      get       'users/:id/fitness_report' , to: 'users#fitness_report' , as: :user_fitness_report
 
       resources :shops
       post      'shop/import_file' , to: 'shops#import_file' , as: :shops_import_file
@@ -93,7 +93,10 @@ Rails.application.routes.draw do
   get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
   patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
   get      '/user/agreement'              , to: 'web/user#agreement'             , as: :web_user_agreement
-  get      '/user/report'                 , to: 'web/user#report'                , as: :web_user_report
+  get      '/user/health_report'                 , to: 'web/user#health_report' ,
+                                                   as: :web_user_health_report
+  get      '/user/fitness_report'                , to: 'web/user#fitness_report' ,
+                                                   as: :web_user_fitness_report
 
   get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
   post     '/requests'                    , to: 'web/requests#create'            , as: :web_request

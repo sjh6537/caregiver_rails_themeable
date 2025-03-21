@@ -34,68 +34,90 @@ else
   )
   puts "Created a new community with SN 'CM001'"
 
-  # 為社區創建相關的社區資料
-  CommunityProfile.create!(
-    community_id: community.id,
-    line_at_url: 'https://line.me/R/ti/p/%40916lsfmg',
-    line_login_channel_id: '2004751931',
-    line_login_channel_secret: '5a4926d24141786c580dfce1120b5bb0',
-    line_login_channel_callback_url: 'https://https://padifield.hopto.org/callback',
-    line_liff_id: '2004751931-1jrD53LP',
-    line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
-    line_message_api_channel_id: '2005495451',
-    line_message_api_channel_secret: 'e68fa550601f58ae463e80c68fe6282f',
-    line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
-    line_message_api_channel_token: 'rJt8P861M/mrTjyXvB+JJeCnFAQovEq03VXE+M2cpP+PLt857iW4Pkj0p27xF6pds4w2GHMRLCG/EFNPAqX28B1QwVJE8kAfLbklYnn/N43HsD6npAczVtfONi2BxPi21Ys7oAEoDOuxcIOnxlDWPgdB04t89/1O/w1cDnyilFU=',
-    google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
-    note: '初始設定',
-    comment: '2025年設定'
-  )
-  puts "Created a new community profile for community '#{community.name}'"
+  # 獲取社區相關的 profile，可能是自動創建的空記錄
+  community_profile = CommunityProfile.find_by(community_id: community.id)
+
+  # 更新已存在的 profile 或創建新的 profile
+  if community_profile
+    community_profile.update!(
+      line_at_url: 'https://line.me/R/ti/p/%40916lsfmg',
+      line_login_channel_id: '2006848648',
+      line_login_channel_secret: '45c7c39f0fac242335b05d421af03b0e',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '2006848439',
+      line_message_api_channel_secret: 'f998cf3afa2fefbdd120e98a763eb5a5',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Updated existing community profile for community '#{community.name}'"
+  else
+    CommunityProfile.create!(
+      community_id: community.id,
+      line_at_url: 'https://line.me/R/ti/p/%40916lsfmg',
+      line_login_channel_id: '2006848648',
+      line_login_channel_secret: '45c7c39f0fac242335b05d421af03b0e',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '2006848439',
+      line_message_api_channel_secret: 'f998cf3afa2fefbdd120e98a763eb5a5',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Created a new community profile for community '#{community.name}'"
+  end
 end
 
 # 找到 user id 是 1 的資料
-user = User.find_by(id: 1)
+# user = User.find_by(id: 1)
 
-# 宣告一個變數來存儲新建立的使用者
-new_user = nil
+# # 宣告一個變數來存儲新建立的使用者
+# new_user = nil
 
-if user
-  new_user = user
-else
-  # 如果找不到 user id 是 1 的資料，創建一個新的 user
-  new_user = User.create!(
-    id: 1,
-    community_id: community.id, # 將user關聯到新創建的社區
-    name: '洪晨峰',
-    account: 'Ua435ab1c9143f1197062ef996cda2916',
-    oauth_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FjY2Vzcy5saW5lLm1lIiwic3ViIjoiVWE0MzVhYjFjOTE0M2YxMTk3MDYyZWY5OTZjZGEyOTE2IiwiYXVkIjoiMjAwNTQ5NTQ1MSIsImV4cCI6MTczOTg2NTkyNSwiaWF0IjoxNzM5ODYyMzI1LCJhbXIiOlsibGluZWF1dG9sb2dpbiJdLCJuYW1lIjoiY2hlbmZ1biIsInBpY3R1cmUiOiJodHRwczovL3Byb2ZpbGUubGluZS1zY2RuLm5ldC8waHlNV3NKdUZpSm1KcUNqZW1KUzFaTlZaUEtBOGRKQ0FxRW1WdEJCb0NmRkJCUDJneVVUZzVCMHdQS0ZSUE9HSThCRGhyQVU1ZExBVlAifQ._aE0kzk-Nd6MWpdXz3aWcMhB9D9FKb3NPbFM5XZaLG8',
-    email: 'chenfun_b51@hotmai.com',
-    phone: '0938692600',
-    id_card: 'N125571815',
-    password: '123456789',
-    created_at: Time.now
-  )
-  puts 'Created a new user with id 1'
-end
+# if user
+#   new_user = user
+# else
+#   # 如果找不到 user id 是 1 的資料，創建一個新的 user
+#   new_user = User.create!(
+#     id: 1,
+#     community_id: community.id, # 將user關聯到新創建的社區
+#     name: '洪晨峰',
+#     account: 'Ua435ab1c9143f1197062ef996cda2916',
+#     oauth_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FjY2Vzcy5saW5lLm1lIiwic3ViIjoiVWE0MzVhYjFjOTE0M2YxMTk3MDYyZWY5OTZjZGEyOTE2IiwiYXVkIjoiMjAwNTQ5NTQ1MSIsImV4cCI6MTczOTg2NTkyNSwiaWF0IjoxNzM5ODYyMzI1LCJhbXIiOlsibGluZWF1dG9sb2dpbiJdLCJuYW1lIjoiY2hlbmZ1biIsInBpY3R1cmUiOiJodHRwczovL3Byb2ZpbGUubGluZS1zY2RuLm5ldC8waHlNV3NKdUZpSm1KcUNqZW1KUzFaTlZaUEtBOGRKQ0FxRW1WdEJCb0NmRkJCUDJneVVUZzVCMHdQS0ZSUE9HSThCRGhyQVU1ZExBVlAifQ._aE0kzk-Nd6MWpdXz3aWcMhB9D9FKb3NPbFM5XZaLG8',
+#     email: 'chenfun_b51@hotmai.com',
+#     phone: '0938692600',
+#     id_card: 'N125571815',
+#     password: '123456789',
+#     created_at: Time.now
+#   )
+#   puts 'Created a new user with id 1'
+# end
 
-# 找到 user_profiles 表格中的相關資料
-user_profile = User::Profile.find_by(user_id: new_user.id)
+# # 找到 user_profiles 表格中的相關資料
+# user_profile = User::Profile.find_by(user_id: new_user.id)
 
-if user_profile
-  puts "User profile already exists for user id #{new_user.id}"
-else
-  # 創建新的 user_profile
-  User::Profile.create!(
-    id: 1,
-    user_id: new_user.id,
-    line_uid: 'Ua435ab1c9143f1197062ef996cda2916',
-    line_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FjY2Vzcy5saW5lLm1lIiwic3ViIjoiVWE0MzVhYjFjOTE0M2YxMTk3MDYyZWY5OTZjZGEyOTE2IiwiYXVkIjoiMjAwNTQ5NTQ1MSIsImV4cCI6MTczOTg2NTkyNSwiaWF0IjoxNzM5ODYyMzI1LCJhbXIiOlsibGluZWF1dG9sb2dpbiJdLCJuYW1lIjoiY2hlbmZ1biIsInBpY3R1cmUiOiJodHRwczovL3Byb2ZpbGUubGluZS1zY2RuLm5ldC8waHlNV3NKdUZpSm1KcUNqZW1KUzFaTlZaUEtBOGRKQ0FxRW1WdEJCb0NmRkJCUDJneVVUZzVCMHdQS0ZSUE9HSThCRGhyQVU1ZExBVlAifQ._aE0kzk-Nd6MWpdXz3aWcMhB9D9FKb3NPbFM5XZaLG8',
-    line_name: 'chenfun',
-    line_image: 'https://profile.line-scdn.net/0hyMWsJuFiJmJqCjemJS1ZNVZPKA8dJCAqEmVtBBoCfFBBP2gyUTg5B0wPKFRPOGI8BDhrAU5dLAVP'
-  )
-  puts "Created a new user profile for user id #{new_user.id}"
-end
+# if user_profile
+#   puts "User profile already exists for user id #{new_user.id}"
+# else
+#   # 創建新的 user_profile
+#   User::Profile.create!(
+#     id: 1,
+#     user_id: new_user.id,
+#     line_uid: 'Ua435ab1c9143f1197062ef996cda2916',
+#     line_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2FjY2Vzcy5saW5lLm1lIiwic3ViIjoiVWE0MzVhYjFjOTE0M2YxMTk3MDYyZWY5OTZjZGEyOTE2IiwiYXVkIjoiMjAwNTQ5NTQ1MSIsImV4cCI6MTczOTg2NTkyNSwiaWF0IjoxNzM5ODYyMzI1LCJhbXIiOlsibGluZWF1dG9sb2dpbiJdLCJuYW1lIjoiY2hlbmZ1biIsInBpY3R1cmUiOiJodHRwczovL3Byb2ZpbGUubGluZS1zY2RuLm5ldC8waHlNV3NKdUZpSm1KcUNqZW1KUzFaTlZaUEtBOGRKQ0FxRW1WdEJCb0NmRkJCUDJneVVUZzVCMHdQS0ZSUE9HSThCRGhyQVU1ZExBVlAifQ._aE0kzk-Nd6MWpdXz3aWcMhB9D9FKb3NPbFM5XZaLG8',
+#     line_name: 'chenfun',
+#     line_image: 'https://profile.line-scdn.net/0hyMWsJuFiJmJqCjemJS1ZNVZPKA8dJCAqEmVtBBoCfFBBP2gyUTg5B0wPKFRPOGI8BDhrAU5dLAVP'
+#   )
+#   puts "Created a new user profile for user id #{new_user.id}"
+# end
 
 # 創建第二社區 浚葦社區
 community2 = Community.find_by(sn: 'CM002')
@@ -122,22 +144,58 @@ else
     comment: '2025年新建立'
   )
   puts "Created a new community with SN 'CM002'"
-  # 為社區創建相關的社區資料
-  CommunityProfile.create!(
-    community_id: community2.id,
-    line_at_url: 'https://line.me/R/ti/p/%40519dlpmy',
-    line_login_channel_id: '2007069569',
-    line_login_channel_secret: '2b1bf5bcea68cb1598a3f29ede6eb8cd',
-    line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
-    line_liff_id: '2004751931-1jrD53LP',
-    line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
-    line_message_api_channel_id: '1656710054',
-    line_message_api_channel_secret: '4db1f73ad5dec618f70fee894b3f34e0',
-    line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
-    line_message_api_channel_token: 'ZwnHA+vFeSknDHE1KjgYByCyTmUIeJdZhsk+nU1dQyDwUikLI9QlzwkbDWQSQI0FY8YTcfDBo44olokrFAlPCYpThFoKxJdVwA0JoZYFTy0nyXhVstii9b9/LQ5oyb17sW5jVNo576/16u8HknDIGQdB04t89/1O/w1cDnyilFU=',
-    google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
-    note: '初始設定',
-    comment: '2025年設定'
-  )
-  puts "Created a new community profile for community '#{community2.name}'"
+
+  # 獲取社區相關的 profile，可能是自動創建的空記錄
+  community_profile = CommunityProfile.find_by(community_id: community2.id)
+
+  # 更新已存在的 profile 或創建新的 profile
+  if community_profile
+    community_profile.update!(
+      line_at_url: 'https://line.me/R/ti/p/%40519dlpmy',
+      line_login_channel_id: '2007069569',
+      line_login_channel_secret: '2b1bf5bcea68cb1598a3f29ede6eb8cd',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '1656710054',
+      line_message_api_channel_secret: '4db1f73ad5dec618f70fee894b3f34e0',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'ZwnHA+vFeSknDHE1KjgYByCyTmUIeJdZhsk+nU1dQyDwUikLI9QlzwkbDWQSQI0FY8YTcfDBo44olokrFAlPCYpThFoKxJdVwA0JoZYFTy0nyXhVstii9b9/LQ5oyb17sW5jVNo576/16u8HknDIGQdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Updated existing community profile for community '#{community2.name}'"
+  else
+    CommunityProfile.create!(
+      community_id: community2.id,
+      line_at_url: 'https://line.me/R/ti/p/%40519dlpmy',
+      line_login_channel_id: '2007069569',
+      line_login_channel_secret: '2b1bf5bcea68cb1598a3f29ede6eb8cd',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '1656710054',
+      line_message_api_channel_secret: '4db1f73ad5dec618f70fee894b3f34e0',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'ZwnHA+vFeSknDHE1KjgYByCyTmUIeJdZhsk+nU1dQyDwUikLI9QlzwkbDWQSQI0FY8YTcfDBo44olokrFAlPCYpThFoKxJdVwA0JoZYFTy0nyXhVstii9b9/LQ5oyb17sW5jVNo576/16u8HknDIGQdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Created a new community profile for community '#{community2.name}'"
+  end
+
+end
+
+# 建立管理者帳號
+admin1 = Admin.find_by(account: 'chenfun')
+admin2 = Admin.find_by(account: 'leo')
+if admin1.nil?
+  Admin.create!(account: 'chenfun', password: '123456', name: 'chenfun', email: 'chenfun168@gmail.com')
+  puts "Created admin account 'chenfun'"
+end
+if admin2.nil?
+  Admin.create!(account: 'leo', password: '123456', name: 'leo', email: 'B8808040@gmail.com') if admin1.nil?
+  puts "Created admin account 'leo'"
 end

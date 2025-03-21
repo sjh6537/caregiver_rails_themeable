@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_21_024304) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
@@ -226,7 +226,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_024304) do
   create_table "user_fitness_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "user_id", comment: "User ID"
     t.integer "fitness_device_id", comment: "健身器材ID"
-    t.string "exercise_type", comment: "運動類型（律動機、跑步、深蹲等）"
+    t.string "exercise_type", limit: 20, comment: "運動類型（律動機、跑步、深蹲等）"
     t.datetime "report_date", comment: "量測日"
     t.datetime "start_time", comment: "運動開始時間"
     t.datetime "end_time", comment: "運動結束時間"
@@ -234,13 +234,13 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_024304) do
     t.integer "intensity", default: 0, comment: "運動強度"
     t.float "calories_burned", default: 0.0, comment: "運動消耗卡路里"
     t.string "notes", limit: 200, comment: "備註"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }, null: false, comment: "更新時間"
     t.index ["user_id"], name: "index_fitness_report_on_user_id"
   end
 
   create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
+    t.integer "user_id", null: false, comment: "User ID"
     t.float "bmi", comment: "BMI"
     t.float "weight", comment: "體重"
     t.integer "heart_rate", comment: "心跳"
@@ -255,8 +255,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_024304) do
     t.float "uric_acid", comment: "尿酸"
     t.float "total_cholesterol", comment: "總膽固醇"
     t.float "ketones", comment: "酮體"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }, null: false, comment: "更新時間"
+    t.index ["user_id"], name: "index_health_report_on_user_id"
   end
 
   create_table "user_history_coins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

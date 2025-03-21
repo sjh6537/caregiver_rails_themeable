@@ -1,4 +1,4 @@
-class User::UserFitnessReport < ApplicationRecord
+class User::FitnessReport < ApplicationRecord
   # 關聯關係
   belongs_to :user
   belongs_to :fitness_device

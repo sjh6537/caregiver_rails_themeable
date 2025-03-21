@@ -12,10 +12,16 @@ class Web::UserController < ApplicationWebController
     redirect_to web_user_show_path
   end
 
-  def report
+  def health_report
     redirect_to web_user_agreement_path unless @user.id_card.present?
     @reports = @user.health_reports.order(id: :desc)
     @title_sub = I18n.t(:HEALTH_REPORT, scope: 'Title')
+  end
+
+  def fitness_report
+    redirect_to web_user_agreement_path unless @user.id_card.present?
+    @reports = @user.fitness_reports.order(id: :desc)
+    @title_sub = I18n.t(:FITNESS_REPORT, scope: 'Title')
   end
 
   def agreement

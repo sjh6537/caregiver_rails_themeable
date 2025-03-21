@@ -199,6 +199,30 @@ zh-TW:
     Schedule_name: 訊息標題
     Recipient: 對象
     User: 用戶
+    Fitness_Report: 運動報告
+    Exercise_Type: 運動類型
+    Start_Time: 開始時間
+    End_Time: 結束時間
+    Duration: 運動時長(分鐘)
+    Intensity: 運動強度
+    Calories_Burned: 燃燒卡路里
+    Health_Report: 量測報告
+    Report_Time: 量測時間
+    Weight: 體重
+    Blood_Pressure1: 收縮壓
+    Blood_Pressure2: 舒張壓
+    Heart_Rate: 脈搏
+    Blood_Sugar: 血糖
+    Blood_Oxygen: 血氧濃度
+    Heart_Bmi: BMI
+    Temperature: 體溫
+    Total_Cholesterol: 總膽固醇
+    Hemoglobin: 血紅素
+    Hematocrit: 血球容積比
+    Ketones: 酮體
+    Uric_Acid: 尿酸
+    Body_Fat: 體脂肪
+    Fitness_Device: 運動裝置
 
   Title:
     REQUEST_CATEGORY_TABLE: 派工類別表格
@@ -244,6 +268,7 @@ zh-TW:
     DEL_CARED: 取消目前照護
     AGREEMENT: 聲明
     HEALTH_REPORT: 量測報告
+    FITNESS_REPORT: 運動報告
 
   Note:
     Del_Shop: 是否確定要刪除商家?

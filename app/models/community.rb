@@ -27,6 +27,7 @@ class Community < ApplicationRecord
 
   # Callbacks
   before_validation :ensure_token_presence
+  # 建立社區時，會自動建立一筆空的社區資料
   after_create :ensure_community_profile
 
   private

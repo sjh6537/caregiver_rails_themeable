@@ -1,25 +1,33 @@
 ---
 include:
-- "**/*.rb"
+  - "**/*.rb"
 exclude:
-- spec/**/*
-- test/**/*
-- vendor/**/*
-- ".bundle/**/*"
-require: []
+  - spec/**/*
+  - test/**/*
+  - vendor/**/*
+  - ".bundle/**/*"
+  - log/**/*
+  - tmp/**/*
+require:
+  - rails
 domains: []
 reporters:
-- rubocop
-- require_not_found
+  - rubocop
+  - require_not_found
 formatter:
   rubocop:
     cops: safe
     except:
-    - Layout/IndentationWidth
+      - Layout/IndentationWidth
     only: []
     extra_args: []
 require_paths: []
 plugins:
-- solargraph-rails
-- rubocop
+  - solargraph-rails
+  - rubocop
 max_files: 5000
+typecheck: false
+index:
+  - ./lib
+  - ./app
+  - ./config
