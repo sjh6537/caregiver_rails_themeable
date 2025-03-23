@@ -4,4 +4,7 @@
       cron: "0 1 * * *"
       class: DailyCheck
       queue: default
-
+    crawler_health_report:
+      cron: "0/1 * * * *"
+      class: UpdateHealthReport
+      queue: default

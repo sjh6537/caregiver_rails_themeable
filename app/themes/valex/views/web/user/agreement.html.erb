@@ -82,7 +82,7 @@
                         </label>
                     </div>
                     <div class="agreement-buttons">
-                        <%= button_to t("Button.CONFIRM"), web_user_edit_path, method: :get, class: "btn btn-primary", id: "accept-button", disabled: true %>
+                        <%= button_to t("Button.CONFIRM"), web_user_accept_agreement_path, method: :post, class: "btn btn-primary", id: "accept-button", disabled: true %>
                     </div>
                 </div>
             </div>

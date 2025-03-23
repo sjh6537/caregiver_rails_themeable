@@ -9,7 +9,7 @@ class HealthReportCrawler
   include Sidekiq::Worker
   sidekiq_options retry: false
 
-  DEBUG = false
+  DEBUG = true
 
   # Asus settings
   ICODE = 'K00016'
@@ -17,12 +17,9 @@ class HealthReportCrawler
 
   # 網址和路徑設定
   POST_URL = 'http://127.0.0.1/health/send_message'
-  USER_INFO_FOLDER = "#{Rails.root}/health"
-  HEALTH_REPORTS_PATH = "#{Rails.root}/tmp/health_reports"
 
   def perform
     run
-  ensure
   end
 
   private
@@ -230,11 +227,8 @@ class HealthReportCrawler
   end
 
   def run
-    # 確保目錄存在
-    FileUtils.mkdir_p(HEALTH_REPORTS_PATH) unless Dir.exist?(HEALTH_REPORTS_PATH)
-
     # 修改：從資料庫中獲取使用者的身分證字號，而不是從檔案中取得
-    id_card_list = User.where.not(id_number: [nil, '']).pluck(:id_number)
+    id_card_list = User.where.not(id_card: [nil, '']).pluck(:id_card)
 
     # 將所有的使用者身分證字號加密
     all_IDs = id_card_list.join(',')
@@ -252,36 +246,120 @@ class HealthReportCrawler
     # 從爬回來的使用者身份證字號，檢查是否有新的量測資料
     all_result = []
 
-    data_dict.keys.each do |id_num|
-      data_dict_post = Marshal.load(Marshal.dump(data_dict[id_num])) # 深度複製
+    data_dict.keys.each do |id|
+      # 尋找對應的使用者
+      user = User.find_by(id_card: id)
+      next unless user
+
+      data_dict_post = Marshal.load(Marshal.dump(data_dict[id])) # 深度複製
       pop_timestamp(data_dict_post)
 
-      health_report_file = File.join(HEALTH_REPORTS_PATH, "#{id_num}.json")
+      with_different = false
 
-      if File.exist?(health_report_file)
-        old_data = JSON.parse(File.read(health_report_file))
+      # 檢查每個類別是否有新資料
+      %w[TP BP BS OX HB BW TC UA OHB].each do |category|
+        measure_time = data_dict[id][category]['measure_time']
+        next if measure_time == 0 # 跳過沒有量測時間的資料
 
-        with_different = false
-        old_data.each do |category, values|
-          next if category == 'User_id'
-
-          # 比較舊資料與新資料的測量時間，檢查是否有更新的測量結果
-          if old_data[category]['measure_time'] != data_dict[id_num][category]['measure_time']
-            with_different = true
-            break
-          end
+        # 轉換測量時間為 DateTime
+        begin
+          measure_datetime = DateTime.parse(measure_time.to_s)
+        rescue StandardError
+          next
         end
 
-        # 如果發現有新的測量資料，則更新本地文件並將新資料加入待發送清單
-        if with_different
-          all_result << data_dict_post
-          File.write(health_report_file, JSON.pretty_generate(data_dict[id_num]))
+        # 從資料庫查詢是否已有相同時間點的資料
+        case category
+        when 'TP' # 體溫
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            temperature: data_dict[id][category]['temperature']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'BP' # 血壓
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            blood_pressure1: data_dict[id][category]['sbp'],
+            blood_pressure2: data_dict[id][category]['dbp'],
+            heart_rate: data_dict[id][category]['hb']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'BS' # 血糖
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            blood_sugar: data_dict[id][category]['bs'],
+            hemoglobin: data_dict[id][category]['hg'],
+            hematocrit: data_dict[id][category]['hct']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'OX' # 血氧
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            blood_oxygen: data_dict[id][category]['oxygen']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'BW' # 體重
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            weight: data_dict[id][category]['bw'],
+            bmi: data_dict[id][category]['bmi']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'TC' # 總膽固醇
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            total_cholesterol: data_dict[id][category]['tc']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'UA' # 尿酸
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            uric_acid: data_dict[id][category]['ua']
+          ).first
+          with_different = true if existing_record.nil?
+        when 'OHB' # 酮體
+          existing_record = User::HealthReport.where(
+            user_id: user.id,
+            measure_time: measure_datetime,
+            ketones: data_dict[id][category]['ohb']
+          ).first
+          with_different = true if existing_record.nil?
         end
-      else
-        # 第一次量測，直接將資料保存並加入待發送清單
-        all_result << data_dict_post
-        File.write(health_report_file, JSON.pretty_generate(data_dict[id_num]))
+
+        # 如果發現任何新資料，就跳出檢查循環
+        break if with_different
       end
+
+      # 如果有新的測量資料，加入待發送清單，並存入資料庫
+      next unless with_different
+
+      all_result << data_dict_post
+
+      # 建立健康報告記錄
+      report = user.health_reports.new(
+        measure_time: DateTime.now,
+        temperature: data_dict[id]['TP']['temperature'] == 0 ? nil : data_dict[id]['TP']['temperature'],
+        blood_pressure1: data_dict[id]['BP']['sbp'] == 0 ? nil : data_dict[id]['BP']['sbp'],
+        blood_pressure2: data_dict[id]['BP']['dbp'] == 0 ? nil : data_dict[id]['BP']['dbp'],
+        heart_rate: data_dict[id]['BP']['hb'] == 0 ? nil : data_dict[id]['BP']['hb'].to_i,
+        blood_sugar: data_dict[id]['BS']['bs'] == 0 ? nil : data_dict[id]['BS']['bs'].to_i,
+        hemoglobin: data_dict[id]['BS']['hg'] == 0 ? nil : data_dict[id]['BS']['hg'],
+        hematocrit: data_dict[id]['BS']['hct'] == 0 ? nil : data_dict[id]['BS']['hct'],
+        blood_oxygen: data_dict[id]['OX']['oxygen'] == 0 ? nil : data_dict[id]['OX']['oxygen'].to_i,
+        weight: data_dict[id]['BW']['bw'] == 0 ? nil : data_dict[id]['BW']['bw'],
+        bmi: data_dict[id]['BW']['bmi'] == 0 ? nil : data_dict[id]['BW']['bmi'],
+        total_cholesterol: data_dict[id]['TC']['tc'] == 0 ? nil : data_dict[id]['TC']['tc'],
+        uric_acid: data_dict[id]['UA']['ua'] == 0 ? nil : data_dict[id]['UA']['ua'],
+        ketones: data_dict[id]['OHB']['ohb'] == 0 ? nil : data_dict[id]['OHB']['ohb']
+      )
+      report.save
     end
 
     # 將新的量測資料送回稻相顧資料庫（並推播）

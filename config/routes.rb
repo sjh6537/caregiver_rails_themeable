@@ -93,6 +93,7 @@ Rails.application.routes.draw do
   get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
   patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
   get      '/user/agreement'              , to: 'web/user#agreement'             , as: :web_user_agreement
+  post     '/user/accept_agreement'       , to: 'web/user#accept_agreement'      , as: :web_user_accept_agreement
   get      '/user/health_report'                 , to: 'web/user#health_report' ,
                                                    as: :web_user_health_report
   get      '/user/fitness_report'                , to: 'web/user#fitness_report' ,

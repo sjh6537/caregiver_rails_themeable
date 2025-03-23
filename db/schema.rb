@@ -346,6 +346,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.integer "addr_postal", default: 0, comment: "郵遞區號"
     t.string "id_card", limit: 20, comment: "身分證"
     t.string "nhi_id", limit: 20, comment: "健保卡"
+    t.boolean "is_accepted", default: false, comment: "是否同意使用者協議"
     t.boolean "new_immigrant", default: false, comment: "新住民"
     t.string "note", limit: 50, comment: "備註"
     t.string "comment", limit: 50, comment: "備註"

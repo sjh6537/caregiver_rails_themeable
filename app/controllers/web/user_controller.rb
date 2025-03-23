@@ -1,9 +1,9 @@
 class Web::UserController < ApplicationWebController
   include ApplicationHelper
   before_action :set_user
+  before_action :check_user_accepted, only: %i[show health_report fitness_report edit]
 
   def show
-    redirect_to web_user_agreement_path unless @user.id_card.present?
     @cared = @user.careds.first
     @caregiver = @user.caregivers.first
     return if params[:notice].nil?
@@ -13,20 +13,25 @@ class Web::UserController < ApplicationWebController
   end
 
   def health_report
-    redirect_to web_user_agreement_path unless @user.id_card.present?
     @reports = @user.health_reports.order(id: :desc)
     @title_sub = I18n.t(:HEALTH_REPORT, scope: 'Title')
   end
 
   def fitness_report
-    redirect_to web_user_agreement_path unless @user.id_card.present?
     @reports = @user.fitness_reports.order(id: :desc)
     @title_sub = I18n.t(:FITNESS_REPORT, scope: 'Title')
   end
 
   def agreement
-    redirect_to web_user_edit_path if @user.id_card.present?
     @title_sub = I18n.t(:AGREEMENT, scope: 'Title')
+  end
+
+  def accept_agreement
+    if @user.update(is_accepted: true)
+      redirect_to web_user_edit_path
+    else
+      redirect_to web_user_agreement_path
+    end
   end
 
   def edit
@@ -76,6 +81,13 @@ class Web::UserController < ApplicationWebController
   def set_user
     @user = current_user
     @profile = @user.profile if @user.present?
+  end
+
+  def check_user_accepted
+    return if @user.is_accepted
+
+    # params[:notice] = nil
+    redirect_to web_user_agreement_path
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
