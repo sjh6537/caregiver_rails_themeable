@@ -5,6 +5,6 @@
       class: DailyCheck
       queue: default
     crawler_health_report:
-      cron: "0/1 * * * *"
+      cron: "*/1 * * * *" # 每分鐘執行一次
       class: UpdateHealthReport
       queue: default
