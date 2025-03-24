@@ -188,6 +188,74 @@ else
 
 end
 
+community3 = Community.find_by(sn: 'CM003')
+if community3
+  puts "Community with SN 'CM003' already exists"
+else
+  community3 = Community.create!(
+    sn: 'CM003',
+    name: '塵封小站',
+    name_eng: 'chenfeng',
+    description: '塵封小站',
+    enable: true,
+    sort: 2,
+    logo: '/assets/images/community/cm003_logo.png',
+    status: 'active',
+    address: '709台南市南區建國路二段',
+    phone: '0921345678',
+    email: 'chenfun123@hotmail.com',
+    contact_name: '江塵封',
+    contact_phone: '0912345678',
+    contact_email: '',
+    contact_title: '社區主任',
+    note: '新建社區',
+    comment: '2024年新建立'
+  )
+  puts "Created a new community with SN 'CM003'"
+
+  # 獲取社區相關的 profile，可能是自動創建的空記錄
+  community_profile = CommunityProfile.find_by(community_id: community3.id)
+
+  # 更新已存在的 profile 或創建新的 profile
+  if community_profile
+    community_profile.update!(
+      line_at_url: 'https://line.me/R/ti/p/%40724kzqto',
+      line_login_channel_id: '2007109675',
+      line_login_channel_secret: '631fb5014d30cbece649d3bc4ad178a6',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '2007109659',
+      line_message_api_channel_secret: '9eb120c2498a3afe1acba0bb053996d5',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'vxamUBKGP2n8295DaJgAId/mSCoGMyg6+Wn2yeYE76bCuu4MgeHZzLK54WO1si8I+PfWUIMEs2X1LMmqK2cuJlNJEOHhTcZ7Ro7y4o6qlTZIKOenJsy6WECVMApvPbYfV/GyIabJExhERL/8Ypeq2gdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Updated existing community profile for community '#{community3.name}'"
+  else
+    CommunityProfile.create!(
+      community_id: community3.id,
+      line_at_url: 'https://line.me/R/ti/p/%40724kzqto',
+      line_login_channel_id: '2007109675',
+      line_login_channel_secret: '631fb5014d30cbece649d3bc4ad178a6',
+      line_login_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_liff_id: '2004751931-1jrD53LP',
+      line_liff_url: 'https://liff.line.me/2004751931-POn4oBxp',
+      line_message_api_channel_id: '2007109659',
+      line_message_api_channel_secret: '9eb120c2498a3afe1acba0bb053996d5',
+      line_message_api_channel_callback_url: 'https://padifield.hopto.org/callback',
+      line_message_api_channel_token: 'vxamUBKGP2n8295DaJgAId/mSCoGMyg6+Wn2yeYE76bCuu4MgeHZzLK54WO1si8I+PfWUIMEs2X1LMmqK2cuJlNJEOHhTcZ7Ro7y4o6qlTZIKOenJsy6WECVMApvPbYfV/GyIabJExhERL/8Ypeq2gdB04t89/1O/w1cDnyilFU=',
+      google_map_key: 'AIzaSyAIrjnyChM8LHj1xInbMWFlGye5LxFaatU',
+      note: '初始設定',
+      comment: '2025年設定'
+    )
+    puts "Created a new community profile for community '#{community3.name}'"
+  end
+
+end
+
 # 建立管理者帳號
 admin1 = Admin.find_by(account: 'chenfun')
 admin2 = Admin.find_by(account: 'leo')
