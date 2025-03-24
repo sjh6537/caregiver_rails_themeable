@@ -1,0 +1,130 @@
+<!-- row -->
+<div class="row row-sm">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card">
+            <div class="card-header bg-orange text-center">
+                <h3 class="card-title mb-1"><%= t('Title.HEALTH_REPORT') %></h3>
+            </div>
+            <div class="card-body pt-0 mt-2">
+                <%= form_for [:web, @health_report], html: { class: "form-horizontal" } do |f| %>
+                <% if @health_report.errors.any? %>
+                <div class="alert alert-danger">
+                    <ul>
+                        <% @health_report.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                        <% end %>
+                    </ul>
+                </div>
+                <% end %>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :bmi, t('Table.BMI'), class: "form-label" %>
+                            <%= f.number_field :bmi, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :weight, t('Table.Weight'), class: "form-label" %>
+                            <%= f.number_field :weight, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :temperature, t('Table.Temperature'), class: "form-label" %>
+                            <%= f.number_field :temperature, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :blood_pressure1, t('Table.Blood_Pressure1'), class: "form-label" %>
+                            <%= f.number_field :blood_pressure1, class: "form-control" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :blood_pressure2, t('Table.Blood_Pressure2'), class: "form-label" %>
+                            <%= f.number_field :blood_pressure2, class: "form-control" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :heart_rate, t('Table.Heart_Rate'), class: "form-label" %>
+                            <%= f.number_field :heart_rate, class: "form-control" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :blood_sugar, t('Table.Blood_Sugar'), class: "form-label" %>
+                            <%= f.number_field :blood_sugar, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :blood_oxygen, t('Table.Blood_Oxygen'), class: "form-label" %>
+                            <%= f.number_field :blood_oxygen, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :hemoglobin, t('Table.Hemoglobin'), class: "form-label" %>
+                            <%= f.number_field :hemoglobin, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :hematocrit, t('Table.Hematocrit'), class: "form-label" %>
+                            <%= f.number_field :hematocrit, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :uric_acid, t('Table.Uric_Acid'), class: "form-label" %>
+                            <%= f.number_field :uric_acid, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :ketones, t('Table.Ketones'), class: "form-label" %>
+                            <%= f.number_field :ketones, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :total_cholesterol, t('Table.Total_Cholesterol'), class: "form-label" %>
+                            <%= f.number_field :total_cholesterol, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group mb-0 mt-3 justify-content-end">
+                    <div>
+                        <%= f.submit t('Button.CREATE'), class: "btn btn-primary" %>
+                        <%= link_to t('Button.GOTO_BACK'), web_user_health_report_path, class: "btn btn-secondary" %>
+                    </div>
+                </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row closed -->

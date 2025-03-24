@@ -3,8 +3,14 @@
     <!-- Col -->
 
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+
         <div class="card">
             <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <%= link_to new_web_user_health_report_path(user_id: @user.id), class: "btn btn-info mt-2 mb-2" do %>
+                    <i class="fas fa-plus"></i> <%= t('Button.NEW') %>
+                    <% end %>
+                </div>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>

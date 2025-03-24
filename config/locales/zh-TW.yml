@@ -108,6 +108,7 @@ zh-TW:
     UPDATE_SCHEDULE: 更新訊息
     MANAGE_USERS_SCHEDULE: 管理用戶訊息
     RESET: 重置
+    NEW: 新增
 
   Table:
     Community: 社區
@@ -286,6 +287,10 @@ zh-TW:
     Updated_Fail: 更新「%{name}」失敗
     Deleted: 刪除「%{name}」成功
     Deleted_Fail: 刪除「%{name}」失敗
+    Created_Record: 建立成功
+    Created_Record_Fail: 建立失敗
+    Updated_Record: 更新成功
+    Updated_Record_Fail: 更新失敗
 
   Website:
     Member_Centre: 會員中心

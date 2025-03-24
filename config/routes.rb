@@ -139,6 +139,12 @@ Rails.application.routes.draw do
   get      '/liff/url_to'                 , to: 'liff#url_to'                    , as: :liff_url_to
   post     '/line_notify'                 , to: 'linemsg#notify'                 , as: :line_notify
 
+  namespace :web do
+    resources :user do
+      resources :health_reports, only: %i[new create]
+    end
+  end
+
   #================= asset =============================
   get       '/coupons/:id/image/:filename'              , to:   'asset#coupons'          , as: :coupon_image
   get       '/coupons/:id/full_image/:filename'         , to:   'asset#coupons_full'     , as: :coupon_image_full
