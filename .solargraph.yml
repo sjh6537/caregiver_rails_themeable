@@ -31,3 +31,4 @@ index:
   - ./lib
   - ./app
   - ./config
+useBundler: true

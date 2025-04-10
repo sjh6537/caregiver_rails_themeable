@@ -27,5 +27,12 @@ class AddRequests < ActiveRecord::Migration[7.1]
       t.datetime 'created_at'
       t.datetime 'updated_at'
     end
+
+    create_table 'user_users_releated_caregivers', force: :cascade do |t|
+      t.integer  'cared_id'
+      t.integer  'caregiver_id'
+      t.datetime 'created_at'
+      t.datetime 'updated_at'
+    end
   end
 end

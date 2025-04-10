@@ -288,4 +288,14 @@ if fitness_devices.nil?
     fitness_device_type_id: fitness_devices_type.id
   )
   puts "Created fitness device '#{fitness_devices.name}'"
+
+  RequestCategory.create(is_show: true, text: '煮飯')
+  RequestCategory.create(is_show: true, text: '購物')
+  RequestCategory.create(is_show: true, text: '洗衣')
+  RequestCategory.create(is_show: true, text: '水電修理')
+  RequestCategory.create(is_show: true, text: '看醫生')
+  RequestCategory.create(is_show: true, text: '醫囑提醒')
+  RequestCategory.create(is_show: true, text: '寵物陪伴')
+  RequestCategory.create(is_show: true, text: '外出協助')
+
 end

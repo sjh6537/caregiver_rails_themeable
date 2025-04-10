@@ -1,64 +1,58 @@
 class ScheduleMessage < ApplicationRecord
-    require 'json'
-    validates :scheduled_time, presence: true
+  require 'json'
+  validates :scheduled_time, presence: true
 
-    def user_number
-        JSON.parse(self.user_ids).count
+  def user_number
+    JSON.parse(user_ids).count
+  end
+
+  def users_text
+    users_text = ''
+    JSON.parse(user_ids).each do |id|
+      user = User.find(id)
+      next if user.nil?
+
+      users_text += ', ' if users_text != ''
+      users_text += user.name
     end
+    users_text
+  end
 
-    def users_text
-        users_text = ""
-        JSON.parse(self.user_ids).each do |id|
-            user = User.find(id)
-            if !user.nil?
-                if (users_text != "")
-                    users_text += ", "
-                end
-                users_text += user.name
-            end
-        end
-        return users_text
+  def status_text
+    if status == SCHEDULE_MESSAGE_NEW
+      return '<div class="text-danger">錯誤</div>' if scheduled_time.nil? || scheduled_time <= DateTime.now
+
+      '<div class="text-success">未發送</div>'
+
+    elsif status == SCHEDULE_MESSAGE_SENDED
+      '<div class="text-primary">已發送</div>'
+    elsif status == SCHEDULE_MESSAGE_FAIL
+      '<div class="text-danger">發送失敗</div>'
     end
+  end
 
-    def status_text
-        if self.status == SCHEDULE_MESSAGE_NEW
-            if (self.scheduled_time.nil? || self.scheduled_time <= DateTime.now)
-                return '<div class="text-danger">錯誤</div>'
-            else
-                return '<div class="text-success">未發送</div>'
-            end
-        elsif self.status == SCHEDULE_MESSAGE_SENDED
-            return '<div class="text-primary">已發送</div>'
-        elsif self.status == SCHEDULE_MESSAGE_FAIL
-            return '<div class="text-danger">發送失敗</div>'
-        end
+  def scheduled_time_text
+    if scheduled_time.nil?
+      ''
+    else
+      scheduled_time.strftime('%Y/%m/%d %I:%M %p')
     end
+  end
 
-    def scheduled_time_text
-        if !self.scheduled_time.nil?
-            self.scheduled_time.strftime('%Y/%m/%d %I:%M %p')
-        else
-            ""
-        end
+  def execution_time_text
+    if execution_time.nil?
+      ''
+    else
+      execution_time.strftime('%Y/%m/%d %I:%M %p')
     end
+  end
 
-    def execution_time_text
-        if !self.execution_time.nil?
-            self.execution_time.strftime('%Y/%m/%d %I:%M %p')
-        else
-            ""
-        end
+  def client_ids
+    recipients = []
+    JSON.parse(user_ids).each do |id|
+      user = User.find(id)
+      recipients << user.account unless user.nil?
     end
-
-    def client_ids
-        recipients = []
-        JSON.parse(self.user_ids).each do |id|
-            user = User.find(id)
-            if !user.nil?
-                recipients << user.account
-            end
-        end
-        return recipients
-    end
-
+    recipients
+  end
 end
