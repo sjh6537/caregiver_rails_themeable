@@ -32,10 +32,9 @@ module LearningLife
       Sidekiq::Scheduler.dynamic = true
     end
 
-    config.hosts << "caregiver.admin.miaoligo.com"
-    config.hosts << "caregiver.line.miaoligo.com"
+    config.hosts << "padifield.hopto.org"
+    config.hosts << "padifieldadmin.hopto.org"
 
-    config.hosts << ".ngrok-free.app" # 添加萬用的ngrok域名配置
-    
+    config.hosts << 'admin.localhost.com:3000'
   end
 end
