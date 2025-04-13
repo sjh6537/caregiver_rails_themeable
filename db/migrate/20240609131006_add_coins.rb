@@ -11,15 +11,15 @@ class AddCoins < ActiveRecord::Migration[7.1]
     end
 
     create_table 'history_logs', force: :cascade do |t|
-      t.integer  'source'
-      t.integer  'source_id'
-      t.integer  'target'
-      t.integer  'target_id'
-      t.integer  'action'
-      t.string   'data',                limit: 30, default: nil
-      t.string   'description',         limit: 50, default: nil
-      t.datetime 'created_at'
-      t.datetime 'updated_at'
+      t.integer  'source', comment: '來源類型'
+      t.integer  'source_id', comment: '來源 ID'
+      t.integer  'target', comment: '目標類型'
+      t.integer  'target_id', comment: '目標 ID'
+      t.integer  'action', comment: '動作類型'
+      t.string   'data',                limit: 30, default: nil, comment: '額外資料'
+      t.string   'description',         limit: 50, default: nil, comment: '描述文字'
+      t.datetime 'created_at', comment: '建立時間'
+      t.datetime 'updated_at', comment: '更新時間'
     end
   end
 end
