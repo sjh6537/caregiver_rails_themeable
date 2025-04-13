@@ -1,6 +1,6 @@
 default: &default_settings
   site_name: "稻相顧"
-  site_name_eng: "padifield+"
+  site_name_eng: "padifield"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
@@ -10,20 +10,20 @@ default: &default_settings
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
 
-  line_at_url: "https://line.me/R/ti/p/%40916lsfmg"
+  line_at_url: "https://liff.line.me/1645278921-kWRPP32q/?accountId=233owasl"
 
   line_authorize_url: "https://access.line.me/oauth2/v2.1/authorize"
   line_api_token_url: "https://api.line.me/oauth2/v2.1/token"
   line_api_verify_url: "https://api.line.me/oauth2/v2.1/verify"
 
-  line_login_channel_id: "2004751931"
-  line_login_Channel_secret: "5a4926d24141786c580dfce1120b5bb0"
-  line_login_callback_url: "https://0d26-61-220-204-210.ngrok-free.app/callback"
+  line_login_channel_id: "2006848648"
+  line_login_Channel_secret: "45c7c39f0fac242335b05d421af03b0e"
+  line_login_callback_url: "https://padifield.hopto.org/callback"
 
-  line_message_api_channel_id: "2004637485"
-  line_message_api_channel_secret: "e68fa550601f58ae463e80c68fe6282f"
-  line_message_api_channel_token: "rJt8P861M/mrTjyXvB+JJeCnFAQovEq03VXE+M2cpP+PLt857iW4Pkj0p27xF6pds4w2GHMRLCG/EFNPAqX28B1QwVJE8kAfLbklYnn/N43HsD6npAczVtfONi2BxPi21Ys7oAEoDOuxcIOnxlDWPgdB04t89/1O/w1cDnyilFU="
-  line_message_api_callback_url: "https://0d26-61-220-204-210.ngrok-free.app/line_notify"
+  line_message_api_channel_id: "2006848439"
+  line_message_api_channel_secret: "f998cf3afa2fefbdd120e98a763eb5a5"
+  line_message_api_channel_token: "iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU="
+  line_message_api_callback_url: "https://padifield.hopto.org/line_notify"
 
   line_liff_id: "2004751931-1jrD53LP"
   line_liff_url: "https://liff.line.me/2004751931-POn4oBxp"
@@ -37,30 +37,30 @@ development:
 
 production:
   site_name: "稻相顧"
-  site_name_eng: "padifield+"
+  site_name_eng: "padifield"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
 
-  admin_subdomain: "caregiver.admin"
-  app_path: "caregiver.line"
+  admin_subdomain: "padifieldadmin"
+  app_path: "line"
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
 
-  line_at_url: "https://line.me/R/ti/p/%40916lsfmg"
+  line_at_url: "https://lin.ee/2Va3G4i"
 
   line_authorize_url: "https://access.line.me/oauth2/v2.1/authorize"
   line_api_token_url: "https://api.line.me/oauth2/v2.1/token"
   line_api_verify_url: "https://api.line.me/oauth2/v2.1/verify"
 
-  line_login_channel_id: "2005495451"
-  line_login_Channel_secret: "37aaf1f2eacd10f2733e09c92b29ef48"
-  line_login_callback_url: "https://caregiver.line.miaoligo.com/callback"
+  line_login_channel_id: "2006848648"
+  line_login_Channel_secret: "45c7c39f0fac242335b05d421af03b0e"
+  line_login_callback_url: "https://padifield.hopto.org/callback"
 
-  line_message_api_channel_id: "2005098674"
-  line_message_api_channel_secret: "31fb12fd1f8bcb4a0d2d4c9d520258db"
-  line_message_api_channel_token: "xr3tnLxe/y7VMD05LIsBrSPR3TjuTPYB5cxepihGh7qQpZeIDIGtREf4Bz3Bp1PKHKardPjXQYKi+uGGg9NLy6PVhEfU/sK2B8+uabNUe1pbbzyjuWyd4tywRYioZxAKgg2Wxp5pMe9/X7GOXJC87QdB04t89/1O/w1cDnyilFU="
-  line_message_api_callback_url: "https://ddbf-34-81-217-13.ngrok-free.app/callback"
+  line_message_api_channel_id: "2006848439"
+  line_message_api_channel_secret: "f998cf3afa2fefbdd120e98a763eb5a5"
+  line_message_api_channel_token: "iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU="
+  line_message_api_callback_url: "https://padifield.hopto.org/callback"
 
   line_liff_id: "2005495451-9LQ3bkab"
   line_liff_url: "https://liff.line.me/2005495451-9LQ3bkab"
