@@ -92,3 +92,4 @@ ehthumbs.db
 Desktop.ini
 
 .windsurfrules
+/config/credentials/production.key
