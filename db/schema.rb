@@ -11,7 +11,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
-  create_table "admins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "admins", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
     t.string "community_manager", limit: 200, default: "", comment: "社區管理名單，以逗號分隔，可用*代表所有全部社區"
@@ -36,7 +36,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
   end
 
-  create_table "communities", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "communities", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "sn", limit: 200, null: false, comment: "編號"
     t.string "name", limit: 50, null: false, comment: "名稱"
     t.string "name_eng", limit: 100, comment: "英文名稱"
@@ -60,7 +60,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["sn"], name: "index_communities_on_sn", unique: true
   end
 
-  create_table "community_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "community_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "community_id", null: false, comment: "社區ID"
     t.string "line_at_url", limit: 500, comment: "lineAtUrl"
     t.string "line_login_channel_id", limit: 50, comment: "LineLoginId"
@@ -79,7 +79,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.datetime "updated_at"
   end
 
-  create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "shop_id", comment: "商店ID"
     t.string "name", limit: 30, default: "", comment: "優惠券名稱"
     t.string "discount", limit: 20, default: "", comment: "折扣內容"
@@ -88,22 +88,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.integer "redeem", comment: "兌換點數"
     t.boolean "is_vaild", default: true, comment: "是否有效"
     t.integer "number_stock", default: 0, comment: "剩餘庫存"
+    t.integer "number_used", default: 0, comment: "已使用數量"
     t.datetime "period_start", comment: "優惠開始時間"
     t.datetime "period_end", comment: "優惠結束時間"
-    t.string "image_file_name"
-    t.string "image_content_type"
-    t.bigint "image_file_size"
-    t.datetime "image_updated_at"
-    t.string "full_image_file_name"
-    t.string "full_image_content_type"
-    t.bigint "full_image_file_size"
-    t.datetime "full_image_updated_at"
+    t.string "image_file_name", comment: "圖片檔案名稱"
+    t.string "image_content_type", comment: "圖片內容類型"
+    t.bigint "image_file_size", comment: "圖片檔案大小"
+    t.datetime "image_updated_at", comment: "圖片更新時間"
+    t.string "full_image_file_name", comment: "完整圖片檔案名稱"
+    t.string "full_image_content_type", comment: "完整圖片內容類型"
+    t.bigint "full_image_file_size", comment: "完整圖片檔案大小"
+    t.datetime "full_image_updated_at", comment: "完整圖片更新時間"
     t.datetime "created_at", comment: "建立時間"
     t.datetime "updated_at", comment: "更新時間"
-    t.integer "number_used", default: 0
   end
 
-  create_table "fitness_device_types", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "fitness_device_types", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", limit: 50, comment: "健身器材類型名稱"
     t.string "description", limit: 100, comment: "健身器材類型描述"
     t.string "icon", limit: 50, comment: "健身器材類型圖示"
@@ -114,7 +114,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["name"], name: "index_fitness_device_type_on_name", unique: true
   end
 
-  create_table "fitness_devices", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "fitness_devices", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "community_id", comment: "社群ID"
     t.integer "fitness_device_type_id", comment: "健身器材類型ID"
     t.string "map_id", limit: 20, comment: "地圖ID"
@@ -141,39 +141,39 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["community_id"], name: "index_fitness_device_on_community_id"
   end
 
-  create_table "history_logs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "source"
-    t.integer "source_id"
-    t.integer "target"
-    t.integer "target_id"
-    t.integer "action"
-    t.string "data", limit: 30
-    t.string "description", limit: 50
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "history_logs", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "source", comment: "來源類型"
+    t.integer "source_id", comment: "來源 ID"
+    t.integer "target", comment: "目標類型"
+    t.integer "target_id", comment: "目標 ID"
+    t.integer "action", comment: "動作類型"
+    t.string "data", limit: 30, comment: "額外資料"
+    t.string "description", limit: 50, comment: "描述文字"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "request_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.boolean "is_show", default: false
-    t.string "text", limit: 30, default: "", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "request_categories", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.boolean "is_show", default: false, comment: "是否顯示"
+    t.string "text", limit: 30, default: "", null: false, comment: "類別名稱"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "schedule_messages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.string "job_id"
-    t.integer "message_type", default: 0
-    t.text "user_ids"
-    t.string "schedule_name"
-    t.string "message_text"
-    t.datetime "scheduled_time"
-    t.datetime "execution_time"
-    t.integer "status", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "schedule_messages", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "job_id", comment: "工作ID"
+    t.integer "message_type", default: 0, comment: "訊息類型"
+    t.text "user_ids", comment: "使用者ID列表"
+    t.string "schedule_name", comment: "排程名稱"
+    t.string "message_text", comment: "訊息內容"
+    t.datetime "scheduled_time", comment: "預定時間"
+    t.datetime "execution_time", comment: "執行時間"
+    t.integer "status", default: 0, comment: "狀態"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "shop_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "shop_images", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "shop_id"
     t.string "image_file_name"
     t.string "image_content_type"
@@ -183,45 +183,45 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.datetime "updated_at"
   end
 
-  create_table "shop_pictures", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "shop_pictures", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "shop_id"
     t.string "url", default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "shops", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "shops", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.string "name", limit: 200, default: "", comment: "商店名稱"
     t.boolean "is_show", default: false, comment: "是否顯示"
+    t.string "phone", limit: 200, default: "", comment: "聯絡電話"
+    t.string "address", limit: 200, default: "", comment: "商店地址"
     t.integer "addr_city", default: 0, comment: "城市代碼"
     t.integer "addr_postal", default: 0, comment: "郵遞區號"
+    t.string "price", limit: 200, default: "", comment: "價格"
+    t.integer "category", default: 0, comment: "類別"
+    t.string "service", limit: 200, default: "", comment: "服務"
+    t.text "description", comment: "描述"
+    t.decimal "latitude", precision: 10, comment: "緯度"
+    t.decimal "longitude", precision: 10, comment: "經度"
+    t.string "opening", limit: 200, default: "", comment: "營業時間"
+    t.string "map_id", limit: 20, default: "", null: false, comment: "地圖ID"
     t.datetime "created_at", comment: "建立時間"
     t.datetime "updated_at", comment: "更新時間"
-    t.integer "category", default: 0
-    t.text "description"
-    t.decimal "latitude", precision: 10
-    t.decimal "longitude", precision: 10
-    t.string "name", limit: 200, default: ""
-    t.string "phone", limit: 200, default: ""
-    t.string "address", limit: 200, default: ""
-    t.string "price", limit: 200, default: ""
-    t.string "service", limit: 200, default: ""
-    t.string "opening", limit: 200, default: ""
-    t.string "map_id", limit: 20, default: "", null: false
     t.index ["map_id"], name: "index_map_id"
   end
 
-  create_table "user_coupons", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "user_coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "user_id", comment: "使用者ID"
     t.integer "coupon_id", comment: "優惠券ID"
     t.boolean "is_vaild", default: true, comment: "是否有效"
     t.boolean "is_used", default: false, comment: "是否已使用"
     t.boolean "is_expired", default: false, comment: "是否已過期"
+    t.datetime "used_datetime", comment: "使用時間"
     t.datetime "created_at", comment: "建立時間"
     t.datetime "updated_at", comment: "更新時間"
-    t.datetime "used_datetime"
   end
 
-  create_table "user_fitness_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "user_fitness_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "user_id", comment: "User ID"
     t.integer "fitness_device_id", comment: "健身器材ID"
     t.string "exercise_type", limit: 20, comment: "運動類型（律動機、跑步、深蹲等）"
@@ -237,7 +237,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["user_id"], name: "index_fitness_report_on_user_id"
   end
 
-  create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "user_health_reports", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "user_id", null: false, comment: "User ID"
     t.datetime "measure_time", null: false, comment: "測量時間"
     t.float "bmi", comment: "BMI"
@@ -259,76 +259,76 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_21_053143) do
     t.index ["user_id"], name: "index_health_report_on_user_id"
   end
 
-  create_table "user_history_coins", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "category"
-    t.integer "category_id"
-    t.integer "number", default: 0
-    t.string "description", default: ""
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_history_coins", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "user_id", comment: "使用者 ID"
+    t.integer "category", comment: "類別"
+    t.integer "category_id", comment: "類別 ID"
+    t.integer "number", default: 0, comment: "數量"
+    t.string "description", default: "", comment: "描述"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "line_uid", default: "", null: false
-    t.text "line_token", null: false
-    t.string "line_name"
-    t.text "line_image"
-    t.string "line_phone"
-    t.string "line_email"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer "coins_this_y", default: 0
-    t.integer "coins_next_y", default: 0
+  create_table "user_profiles", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "user_id", comment: "使用者 ID"
+    t.string "line_uid", default: "", null: false, comment: "LINE 使用者唯一識別碼"
+    t.text "line_token", null: false, comment: "LINE 存取權杖"
+    t.string "line_name", comment: "LINE 使用者名稱"
+    t.text "line_image", comment: "LINE 頭像圖片網址"
+    t.string "line_phone", comment: "LINE 綁定電話號碼"
+    t.string "line_email", comment: "LINE 綁定電子郵件"
+    t.integer "coins_this_y", default: 0, comment: "本年度點數"
+    t.integer "coins_next_y", default: 0, comment: "下年度點數"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
     t.index ["line_uid"], name: "index_user_profiles_on_line_uid", unique: true
   end
 
-  create_table "user_request_receivers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "request_id"
-    t.integer "receiver_id"
-    t.boolean "response", default: false
-    t.integer "count", default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_request_receivers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "request_id", comment: "請求ID"
+    t.integer "receiver_id", comment: "接收者ID"
+    t.boolean "response", default: false, comment: "是否回應"
+    t.integer "count", default: 0, comment: "計數"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "user_requests", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
-    t.boolean "enable", default: true
-    t.integer "status", default: 0
-    t.integer "helper_id"
-    t.integer "category", default: 0
-    t.string "title", limit: 30, default: ""
-    t.string "location", limit: 30, default: ""
-    t.integer "location_city", default: 0
-    t.integer "location_postal", default: 0
-    t.string "contact_info", limit: 30, default: ""
-    t.string "description", limit: 300, default: "", null: false
-    t.datetime "request_date"
-    t.integer "request_time"
-    t.integer "reward", default: 1
-    t.boolean "reward_status", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_requests", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "user_id", comment: "使用者ID"
+    t.boolean "enable", default: true, comment: "是否啟用"
+    t.integer "status", default: 0, comment: "狀態：0=等待處理，1=已接受，2=已完成"
+    t.integer "helper_id", comment: "協助者ID"
+    t.integer "category", default: 0, comment: "請求類別"
+    t.string "title", limit: 30, default: "", comment: "標題"
+    t.string "location", limit: 30, default: "", comment: "地點"
+    t.integer "location_city", default: 0, comment: "城市代碼"
+    t.integer "location_postal", default: 0, comment: "郵遞區號"
+    t.string "contact_info", limit: 30, default: "", comment: "聯絡資訊"
+    t.string "description", limit: 300, default: "", null: false, comment: "詳細描述"
+    t.datetime "request_date", comment: "請求日期"
+    t.integer "request_time", comment: "請求時間（小時）"
+    t.integer "reward", default: 1, comment: "獎勵點數"
+    t.boolean "reward_status", default: false, comment: "獎勵狀態：false=未發放，true=已發放"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "user_users_releated_caregivers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "cared_id"
-    t.integer "caregiver_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_users_releated_caregivers", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "cared_id", comment: "被照顧者ID"
+    t.integer "caregiver_id", comment: "照顧者ID"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "user_users_releated_friends", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "friend_id"
-    t.boolean "block", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "user_users_releated_friends", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
+    t.integer "user_id", comment: "使用者ID"
+    t.integer "friend_id", comment: "朋友ID"
+    t.boolean "block", default: false, comment: "是否封鎖"
+    t.datetime "created_at", comment: "建立時間"
+    t.datetime "updated_at", comment: "更新時間"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.integer "community_id", null: false, comment: "社區ID"
     t.integer "cared_user_info_id", comment: "被照護者ID"
     t.integer "caregiver_user_info_id", comment: "照護者ID"

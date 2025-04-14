@@ -1,0 +1,31 @@
+<%# app/views/web/user/careds.html.erb %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title"><%= @title_sub %></h4>
+                </div>
+                <div class="card-body">
+                    <% if @careds.present? %>
+                    <ul class="list-group">
+                        <% @careds.each do |cared_user| %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
+                                <%= cared_user.line_name %>
+                                <%# 加入姓名和手機 %>
+                                <small class="text-muted ms-2">(<%= cared_user.name %> / <%= cared_user.line_phone %>)</small>
+                            </span>
+                        </li>
+                        <% end %>
+                    </ul>
+                    <% else %>
+                    <p class="text-center text-muted">目前沒有被照顧者。</p>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

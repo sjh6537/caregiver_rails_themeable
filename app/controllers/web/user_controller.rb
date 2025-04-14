@@ -1,7 +1,7 @@
 class Web::UserController < ApplicationWebController
   include ApplicationHelper
   before_action :set_user
-  before_action :check_user_accepted, only: %i[show health_report fitness_report edit]
+  before_action :check_user_accepted, only: %i[show health_report fitness_report edit careds]
 
   def show
     @cared = @user.careds.first
@@ -74,6 +74,12 @@ class Web::UserController < ApplicationWebController
 
   def coins
     @history_coins = @user.history_coins
+  end
+
+  # 新增 careds 動作
+  def careds
+    @careds = @user.careds
+    @title_sub = I18n.t(:CAREDS, scope: 'Title') # 假設翻譯檔案中有此鍵值
   end
 
   private
