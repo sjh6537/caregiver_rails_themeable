@@ -1,6 +1,6 @@
 class ApplicationWebController < ApplicationController
   include ApplicationHelper
-  before_action :set_user_based_on_environment
+  before_action :set_current_user
 
   private
 

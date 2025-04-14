@@ -44,6 +44,11 @@ class Web::HealthReportsController < ApplicationWebController
     text += "#{I18n.t('Table.Heart_Rate')}: #{report.heart_rate}\n" if report.heart_rate.present?
     text += "#{I18n.t('Table.Blood_Sugar')}: #{report.blood_sugar}\n" if report.blood_sugar.present?
     text += "#{I18n.t('Table.Blood_Oxygen')}: #{report.blood_oxygen}\n" if report.blood_oxygen.present?
+    text += "#{I18n.t('Table.Hemoglobin')}: #{report.hemoglobin}\n" if report.hemoglobin.present?
+    text += "#{I18n.t('Table.Hematocrit')}: #{report.hematocrit}\n" if report.hematocrit.present?
+    text += "#{I18n.t('Table.Uric_Acid')}: #{report.uric_acid}\n" if report.uric_acid.present?
+    text += "#{I18n.t('Table.Ketones')}: #{report.ketones}\n" if report.ketones.present?
+    text += "#{I18n.t('Table.Total_Cholesterol')}: #{report.total_cholesterol}\n" if report.total_cholesterol.present?
 
     # 發送給用戶
     message_push(current_user.account, text)
