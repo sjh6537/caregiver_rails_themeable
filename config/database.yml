@@ -4,8 +4,8 @@ default: &default
   collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: padifield
-  password: your_password
-  host: 18.139.163.70  # 改成你的 MySQL host，如果是遠端可填 IP
+  password: padifield2025
+  host: 18.139.163.70 # 改成你的 MySQL host，如果是遠端可填 IP
 
 development:
   <<: *default
