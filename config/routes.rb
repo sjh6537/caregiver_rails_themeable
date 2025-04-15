@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   post 'health/measurements', to: 'admin/health#measurements', as: :measurements
   get 'health/check_id_card/:id_card', to: 'admin/health#check_id_card', as: :check_id_card
 
+  post 'cared_facilities/new_event', to: 'admin/cared_facilities#new_event', as: :new_event
+
   mount Sidekiq::Web, at: '/sidekiq'
 
   # Defines the root path route ("/")
