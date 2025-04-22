@@ -1,99 +1,56 @@
-<% if !@cared.nil? %>
-	<!-- row -->
-	<div class="row row-sm">
-		<!-- Col -->
+<% if @careds.present? %>
+<!-- row -->
+<div class="row row-sm">
+    <!-- Col -->
 
-		<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-		<div class="card order-list">
-		<div class="card-body">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card order-list">
+            <div class="card-body">
+                <div class="tx-12 tx-gray-500 mb-3">
+                    <% if @careds.present? %>
+                    <ul class="list-group">
+                        <% @careds.each do |cared_user| %>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>
+                                <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
+                                <%= cared_user.line_name %>
+                            </span>
+                            <h6 class="text-muted ms-2">姓名：<%= cared_user.name %><br />電話：<%= cared_user.phone %></h6><br />
+                        </li>
+                        <% end %>
+                    </ul>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
 
-		<div class="tx-12 tx-gray-500 mb-3">
-			<div class="mg-t-5"><%= raw t("Website.Note.You_have_careds", name: @cared.name) %></div>
-		</div>
-
-		<% if @cared.requests_new_and_today.count != 0 %>
-
-			<div class="tx-12 tx-gray-500 mb-3">
-				<div class="mg-t-5"><%= raw t("Website.Note.Cared_requests", name: @cared.name) %></div>
-			</div>
-
-			<div class="form-group">
-			<div class="row">
-				<div class="col-md-9">
-						<ul class="list list-noborders pb-0 mb-0">
-							<% @cared.requests_new_and_today.each_with_index do |r , index|  %>
-							<li class="list-item">
-								<a class="fas fa-solid fa-screwdriver-wrench tx-30 tx-teal" href="<%= web_request_show_path(r.id) %>"></a>
-								<div class=" ml-3">
-									<h6 class="mb-1 font-weight-medium"><%= r.title %></h6>
-									<p class="mb-0 text-muted tx-13"><%= r.date %></p>
-								</div>
-
-								<div class="ml-auto tx-13">
-									<% if r.is_expired  %>
-										<% if r.is_finish  %>
-											<p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Today_finish") %></p>
-										<% else %>
-											<p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Today_expired") %></p>
-										<% end %>
-									<% else %>
-										<% if !r.helper.nil?  %>
-											<p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.Who_agree_this_request", name: r.helper.name) %></p>
-										<% else %>
-											<p class="mb-1 text-muted d-flex flex-row-reverse"><%= raw t("Website.Note.nobody_agree_this_request") %></p>
-										<% end %>
-									<% end %>
-								</div>
-							</li>
-							<% end %>
-						</ul>
-				</div>
-			</div>
-			</div>
-
-		<% else %>
-
-			<div class="form-group  pd-t-20">
-			<div class="row">
-				<div class="col-md-12 alert-success"><strong><%= raw t("Website.Note.Cared_have_no_requests", name: @cared.name) %></strong></div>
-			</div>
-			</div>
-
-		<% end %>
-
-
-
-		</div>
-		</div>
-		</div>
-
-		<!-- /Col -->
-	</div>
-	<!-- row closed -->
-
+    <!-- /Col -->
+</div>
+<!-- row closed -->
 
 <% end %>
 
-<% if !@caregiver.nil? %>
+<% if @caregivers.present? %>
 
-	<!-- row -->
-	<div class="row row-sm">
-		<!-- Col -->
+<!-- row -->
+<div class="row row-sm">
+    <!-- Col -->
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card order-list">
+            <div class="card-body">
+                <div class="tx-12 tx-gray-500 mb-3">
+                    <% if @caregivers.present? %>
+                    <% @caregivers.each do |caregiver| %>
+                    <div class="mg-t-5"><%= raw t("Website.Note.You_have_caregiver", name: caregiver.name) %></div>
+                    <% end %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Col -->
+</div>
+<!-- row closed -->
 
-		<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-		<div class="card order-list">
-		<div class="card-body">
-
-			<div class="tx-12 tx-gray-500 mb-3">
-				<div class="mg-t-5"><%= raw t("Website.Note.You_have_caregiver", name: @caregiver.name) %></div>
-			</div>
-
-		</div>
-		</div>
-		</div>
-
-		<!-- /Col -->
-	</div>
-	<!-- row closed -->
-
-	<% end %>
+<% end %>

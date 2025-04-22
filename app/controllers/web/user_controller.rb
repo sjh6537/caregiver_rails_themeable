@@ -4,8 +4,8 @@ class Web::UserController < ApplicationWebController
   before_action :check_user_accepted, only: %i[show health_report fitness_report edit careds]
 
   def show
-    @cared = @user.careds.first
-    @caregiver = @user.caregivers.first
+    @careds = @user.careds
+    @caregivers = @user.caregivers
     return if params[:notice].nil?
 
     # redirect_to web_user_show_path, notice: params[:notice]
