@@ -46,8 +46,11 @@ Rails.application.routes.draw do
       post      'users/send_message'                  , to: 'users#send_message'        , as: :line_msg_admin_user
       get       'users/:id/push'                      , to: 'users#push'                , as: :push_page_admin_user
       post      'users/:id/coins'                     , to: 'users#coins_deliver'       , as: :coins_deliver
-      get       'users/:id/health_report' , to: 'users#health_report' , as: :user_health_report
-      get       'users/:id/fitness_report' , to: 'users#fitness_report' , as: :user_fitness_report
+      get       'users/:id/health_report'             , to: 'users#health_report'       , as: :user_health_report
+      get       'users/:id/fitness_report'            , to: 'users#fitness_report'      , as: :user_fitness_report
+      get       'users/:id/cared_candidates'              , to: 'users#cared_candidates'    ,
+                                                            as: :users_cared_candidates
+      post      'users/:id/set_cared'                     , to: 'users#set_cared'           , as: :users_set_cared
 
       resources :shops
       post      'shop/import_file' , to: 'shops#import_file' , as: :shops_import_file
@@ -145,6 +148,7 @@ Rails.application.routes.draw do
   namespace :web do
     resources :user do
       resources :health_reports, only: %i[new create]
+      resources :fitness_reports, only: %i[new create]
     end
   end
 

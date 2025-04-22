@@ -166,6 +166,46 @@ class Admin::UsersController < ApplicationAdminController
     end
   end
 
+  # 取得同社區可設定為被照顧者的使用者
+  def cared_candidates
+    community_id = params[:community_id]
+    caregiver_id = params[:id]
+    Rails.logger.info "Found community_id : #{community_id}"
+
+    # 取得所有符合條件的使用者
+    users = User.where(community_id: community_id).where.not(id: caregiver_id)
+
+    # 取得已經被設為被照顧者的使用者 ID
+    selected_user_ids = User::UsersReleatedCaregivers.where(caregiver_id: caregiver_id).pluck(:cared_id)
+
+    # 準備結果資料
+    result = users.includes(:profile).map do |user|
+      {
+        id: user.id,
+        name: user.name,
+        line_name: user.line_name,
+        selected: selected_user_ids.include?(user.id)
+      }
+    end
+
+    render json: result
+  end
+
+  # 設定被照顧者
+  def set_cared
+    caregiver_id = params[:id]
+    cared_ids = params[:cared_ids] || []
+    # 先移除舊的
+    User::UsersReleatedCaregivers.where(caregiver_id: caregiver_id).destroy_all
+    # 新增
+    cared_ids.each do |cared_id|
+      User::UsersReleatedCaregivers.create(caregiver_id: caregiver_id, cared_id: cared_id)
+    end
+    render json: { status: 'success' }
+  rescue StandardError => e
+    render json: { status: 'fail', message: e.message }
+  end
+
   private
 
   def set_user

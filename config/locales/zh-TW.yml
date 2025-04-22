@@ -109,6 +109,8 @@ zh-TW:
     MANAGE_USERS_SCHEDULE: 管理用戶訊息
     RESET: 重置
     NEW: 新增
+    CARE_RECEIVER: 被照顧者
+    
 
   Table:
     Community: 社區
@@ -204,7 +206,7 @@ zh-TW:
     Exercise_Type: 運動類型
     Start_Time: 開始時間
     End_Time: 結束時間
-    Duration: 運動時長(分鐘)
+    Duration: 運動時長(秒)
     Intensity: 運動強度
     Calories_Burned: 燃燒卡路里
     Health_Report: 量測報告
@@ -271,6 +273,7 @@ zh-TW:
     AGREEMENT: 聲明
     HEALTH_REPORT: 量測報告
     FITNESS_REPORT: 運動報告
+    CARE_RECEIVER: 被照顧者
 
   Note:
     Del_Shop: 是否確定要刪除商家?

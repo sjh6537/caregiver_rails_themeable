@@ -1,6 +1,14 @@
 $(function() {
 	'use strict'
 	
+	// 設定 jQuery 的全域 AJAX 設定
+	// 讓所有 AJAX 請求自動包含 CSRF 令牌
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
 	// ______________LOADER
 	$("#global-loader").fadeOut("slow");
 	

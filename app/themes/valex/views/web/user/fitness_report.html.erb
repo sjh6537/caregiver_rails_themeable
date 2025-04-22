@@ -5,6 +5,11 @@
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
         <div class="card">
             <div class="card-body">
+                <div class="d-flex justify-content-end">
+                    <%= link_to new_web_user_fitness_report_path(user_id: @user.id), class: "btn btn-info mt-2 mb-2" do %>
+                    <i class="fas fa-plus"></i> <%= t('Button.NEW') %>
+                    <% end %>
+                </div>
                 <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
@@ -28,9 +33,11 @@
                         </tr>
                         <tr>
                             <td><%= t('Table.Start_Time') %></td>
-                            <td><%= report.start_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                            <td colspan="3"><%= report.start_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                        </tr>
+                        <tr>
                             <td><%= t('Table.End_Time') %></td>
-                            <td><%= report.end_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
+                            <td colspan="3"><%= report.end_time.strftime("%Y-%m-%d %H:%M:%S") %></td>
                         </tr>
                         <tr>
                             <td><%= t('Table.Duration') %></td>

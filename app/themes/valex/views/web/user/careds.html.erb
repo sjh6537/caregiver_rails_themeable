@@ -5,7 +5,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title"><%= @title_sub %></h4>
+                    <h3 class="text-center"><%= @title_sub %></h3>
                 </div>
                 <div class="card-body">
                     <% if @careds.present? %>
@@ -15,9 +15,9 @@
                             <span>
                                 <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
                                 <%= cared_user.line_name %>
-                                <%# 加入姓名和手機 %>
-                                <small class="text-muted ms-2">(<%= cared_user.name %> / <%= cared_user.line_phone %>)</small>
                             </span>
+                            <h6 class="text-muted ms-2">姓名：<%= cared_user.name %><br />電話：<%= cared_user.phone %></h6><br />
+
                         </li>
                         <% end %>
                     </ul>

@@ -1,28 +1,29 @@
-
 <!-- row -->
 <div class="row row-sm">
-<!-- Col -->
-<div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-<div class="card">
-<div class="card-body">
-	
-		<div class="mb-4 main-content-label tx-primary"><h5><%= t("Title.NEW_ADMINISTRATOR") %></h5></div>
+    <!-- Col -->
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
 
-		<%= render :partial => 'form' %>
+                <div class="mb-4 main-content-label tx-primary">
+                    <h5><%= t("Title.NEW_ADMINISTRATOR") %></h5>
+                </div>
 
-</div>
-</div>
-</div>
-<!-- /Col -->
+                <%= render :partial => 'form' %>
+
+            </div>
+        </div>
+    </div>
+    <!-- /Col -->
 </div>
 <!-- row closed -->
 
 <%= content_for :script_js do %>
 
-    <!-- Internal Select2.min js -->
-	<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+<!-- Internal Select2.min js -->
+<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
 
-	<!-- Internal Modal js-->
-	<script src="/assets/valex/js/modal.js"></script>
+<!-- Internal Modal js-->
+<script src="/assets/valex/js/modal.js"></script>
 
 <% end %>

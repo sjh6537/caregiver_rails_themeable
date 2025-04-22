@@ -5,7 +5,7 @@ class User::FitnessReport < ApplicationRecord
 
   # 驗證
   validates :exercise_type, presence: true
-  validates :report_date, presence: true
+  validates :report_date, presence: false
   validates :start_time, presence: true
   validates :end_time, presence: true
   validates :duration, numericality: { only_integer: true, greater_than_or_equal_to: 0 }

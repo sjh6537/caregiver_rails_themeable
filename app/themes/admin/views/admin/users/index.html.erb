@@ -76,7 +76,9 @@
                                     <a href="<%= edit_admin_user_path(c.id) %>" class="btn btn-sm btn-info">
                                         <i class="las la-pen"></i>
                                     </a>
-
+                                    <button type="button" class="btn btn-sm btn-warning set-cared-btn" data-user-id="<%= c.id %>" data-community-id="<%= c.community_id %>" data-target="#setCaredModal" data-toggle="modal">
+                                        <%= t("Title.CARE_RECEIVER") %>
+                                    </button>
                                 </td>
                             </tr>
                             <% end %>
@@ -116,6 +118,38 @@
         </div>
     </div>
 </div>
+
+<!-- 新增設定被照顧者 Modal -->
+<div class="modal fade" id="setCaredModal" tabindex="-1" role="dialog" aria-labelledby="setCaredModalLabel" aria-modal="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="setCaredModalLabel"><%= t("Title.CARE_RECEIVER") %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="set-cared-form">
+                    <input type="hidden" name="caregiver_id" id="modal-caregiver-id">
+                    <div class="form-group">
+                        <label>選擇同社區可設定為被照顧者的使用者：</label>
+                        <div id="cared-user-list">
+                            <span class="text-muted">載入中...</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="save-cared-btn">儲存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <%= content_for :script_js do %>
 
 <!-- Internal Data tables -->
@@ -149,6 +183,55 @@
     $(document).on('click', '.delete_button', function(event) {
         var id = $(this).data("val");
         $('.delete_alerm').attr("href", "/users/" + id);
+    });
+</script>
+
+<script>
+    $(function() {
+        var currentCaregiverId = null;
+        var currentCommunityId = null;
+
+        // 使用事件委派，將事件綁定到 document 上
+        $(document).on('click', '.set-cared-btn', function() {
+            // 取得被照顧者的使用者 ID 和社區 ID
+            console.log($(this).data('user-id'));
+            currentCaregiverId = $(this).data('user-id');
+            currentCommunityId = $(this).data('community-id');
+            $('#modal-caregiver-id').val(currentCaregiverId);
+            // 取得同社區可設定為被照顧者的使用者
+            $.get('/users/' + currentCaregiverId + '/cared_candidates', {
+                community_id: currentCommunityId
+            }, function(data) {
+                var html = '';
+                if (data.length === 0) {
+                    html = '<span class="text-danger">無可設定的被照顧者</span>';
+                } else {
+                    data.forEach(function(user) {
+                        html += '<div class="col form-check">';
+                        html += '<input class="form-check-input" type="checkbox" name="cared_ids[]" value="' + user.id + '" id="cared_' + user.id + '" ' + (user.selected ? 'checked' : '') + '>';
+                        html += '<label class="form-check-label" for="cared_' + user.id + '">' + user.name + ' (' + user.line_name + ')</label>';
+                        html += '</div>';
+                    });
+                }
+                $('#cared-user-list').html(html);
+            });
+        });
+        $('#save-cared-btn').on('click', function() {
+            var caredIds = [];
+            $('#cared-user-list input[name="cared_ids[]"]:checked').each(function() {
+                caredIds.push($(this).val());
+            });
+            $.post('/users/' + currentCaregiverId + '/set_cared', {
+                cared_ids: caredIds
+            }, function(resp) {
+                if (resp.status === 'success') {
+                    swal("被照顧者", "設定成功", "success");
+                    $('#setCaredModal').modal('hide');
+                } else {
+                    swal("被照顧者", "設定失敗", "error");
+                }
+            });
+        });
     });
 </script>
 
