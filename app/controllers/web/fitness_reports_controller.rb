@@ -5,6 +5,9 @@ class Web::FitnessReportsController < ApplicationWebController
 
   def new
     @report = current_user.fitness_reports.new
+    @exercise_types = User::FitnessReport.by_user(current_user.id).distinct.pluck(:exercise_type)
+    @fitness_devices = FitnessDevice.where(enabled: true,
+                                           community_id: current_user.community_id)
     @title_sub = I18n.t(:NEW, scope: 'Title')
   end
 

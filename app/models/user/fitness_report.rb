@@ -1,9 +1,10 @@
 class User::FitnessReport < ApplicationRecord
   # 關聯關係
   belongs_to :user
-  belongs_to :fitness_device
+  belongs_to :fitness_device, optional: true
 
   # 驗證
+  # fitness_device 為非必填欄位
   validates :exercise_type, presence: true
   validates :report_date, presence: false
   validates :start_time, presence: true

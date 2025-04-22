@@ -1,8 +1,8 @@
 <div class="row row-sm">
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
         <div class="card">
-            <div class="card-header">
-                <h4 class="card-title"><%= t('Button.NEW') %> <%= t('Table.Fitness_Report') %></h4>
+            <div class="card-header bg-orange text-center">
+                <h3 class="card-title mb-1"><%= t('Table.Fitness_Report') %></h3>
             </div>
             <div class="card-body">
                 <%= form_for [:web, @report], as: :user_fitness_report, html: { class: "form-horizontal" } do |f| %>
@@ -19,27 +19,30 @@
 
                 <div class="form-group">
                     <%= f.label :exercise_type, t('Table.Exercise_Type') %>
-                    <%= f.text_field :exercise_type, class: 'form-control' %>
+                    <span class="text-danger">*</span>
+                    <%= f.text_field :exercise_type, class: 'form-control', list: 'exercise_type_list', placeholder: t('Placeholder.Input_Exercise_Type'), required: true %>
+                    <datalist id="exercise_type_list">
+                        <% @exercise_types.each do |type| %>
+                        <option value="<%= type %>">
+                            <% end %>
+                    </datalist>
                 </div>
 
                 <div class="form-group">
                     <%= f.label :fitness_device_id, t('Table.Fitness_Device') %>
-                    <%# 這裡假設您有一個 FitnessDevice 模型，並且想要一個下拉選單 %>
-                    <%# 您需要根據您的實際情況調整 options_from_collection_for_select %>
-                    <%= f.collection_select :fitness_device_id, FitnessDevice.all, :id, :name, { prompt: t('Select.Choose') }, { class: 'form-control' } %>
-                    <%# 如果沒有 FitnessDevice 模型，或者您想用其他方式輸入，請修改此處 %>
-                    <%# 例如，如果您只想輸入文字： %>
-                    <%#= f.text_field :fitness_device_id, class: 'form-control' %>
+                    <%= f.collection_select :fitness_device_id, @fitness_devices, :id, :name, { prompt: t('Placeholder.Selected_Device') }, { class: 'form-control' } %>
                 </div>
 
                 <div class="form-group">
                     <%= f.label :start_time, t('Table.Start_Time') %>
-                    <%= f.datetime_local_field :start_time, class: 'form-control' %>
+                    <span class="text-danger">*</span>
+                    <%= f.datetime_local_field :start_time, class: 'form-control', required: true %>
                 </div>
 
                 <div class="form-group">
                     <%= f.label :end_time, t('Table.End_Time') %>
-                    <%= f.datetime_local_field :end_time, class: 'form-control' %>
+                    <span class="text-danger">*</span>
+                    <%= f.datetime_local_field :end_time, class: 'form-control', required: true %>
                 </div>
                 <div class="form-group">
                     <%= f.label :calories_burned, t('Table.Calories_Burned') %>
@@ -53,7 +56,7 @@
 
                 <div class="actions">
                     <%= f.submit t('Button.CREATE'), class: 'btn btn-primary' %>
-                    <%= link_to t('Button.GOTO_BACK'), web_user_fitness_reports_path, class: 'btn btn-secondary' %>
+                    <%= link_to t('Button.GOTO_BACK'), web_user_fitness_report_path, class: 'btn btn-secondary' %>
                 </div>
                 <% end %>
             </div>

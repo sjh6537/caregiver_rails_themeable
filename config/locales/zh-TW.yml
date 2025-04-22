@@ -110,7 +110,19 @@ zh-TW:
     RESET: 重置
     NEW: 新增
     CARE_RECEIVER: 被照顧者
-    
+
+  Placeholder:
+    Search: 搜尋
+    Search_Shop: 搜尋商家
+    Search_User: 搜尋使用者
+    Search_Admin: 搜尋管理者
+    Search_Coupon: 搜尋優惠卷
+    Search_Category: 搜尋派工類別
+    Search_Line_Message: 搜尋訊息
+    Search_Line_Recipient: 搜尋傳送對象
+    Search_Line_Notify_Service: 搜尋LINE NOTIFY服務
+    Input_Exercise_Type: 請輸入運動類型
+    Selected_Device: 選擇裝置
 
   Table:
     Community: 社區
@@ -227,6 +239,7 @@ zh-TW:
     Uric_Acid: 尿酸
     Body_Fat: 體脂肪
     Fitness_Device: 運動裝置
+
 
   Title:
     REQUEST_CATEGORY_TABLE: 派工類別表格
