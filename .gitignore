@@ -92,10 +92,10 @@ ehthumbs.db
 Desktop.ini
 
 .windsurfrules
-/config/credentials/production.key
-
-/config/credentials/development.key
+/config/credentials/*
 
 # github prompts
 /.github/*
 
+# Redis
+dump.rdb
