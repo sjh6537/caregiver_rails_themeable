@@ -109,7 +109,7 @@ zh-TW:
     MANAGE_USERS_SCHEDULE: 管理用戶訊息
     RESET: 重置
     NEW: 新增
-    CARE_RECEIVER: 被照顧者
+    CARE_RECEIVER: 被照護者
 
   Placeholder:
     Search: 搜尋
@@ -286,7 +286,8 @@ zh-TW:
     AGREEMENT: 聲明
     HEALTH_REPORT: 量測報告
     FITNESS_REPORT: 運動報告
-    CARE_RECEIVER: 被照顧者
+    CARE_RECEIVER: 被照護者
+    CAREGIVER: 照護者
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -401,6 +402,8 @@ zh-TW:
       Caregiver_Confirm_Delete: "請確認是否要移除你的照護者? 移除後若要再建立照護者，需要重新發送訊息給你的 line 好友並經過你好友同意才能成為你的照護者。"
       Cared_Confirm_Delete: "請確認是否要取消你的照護? 取消後若要再建立照護，需要對方重新發送訊息邀請你照護。"
       Switched_To_New_Community: "已切換到新的社區"
+      Select_Caregiver_Same_Community: "選擇同社區可設定為被照顧者的使用者" 
+      No_Cared_Candidates: "無可設定的被照顧者"
 
   Notify:
     Title:
@@ -484,6 +487,8 @@ zh-TW:
       Account_Blocked_Failed: "帳號 <strong>%{name}</strong> 黑名單失敗."
       Category_cannot_delete: 派工類別新增後無法刪除只能隱藏
       ID_Card_Error: "*身份證字號格式錯誤"
+      Successfully_Configured: "設定成功"
+      Successfully_Configured_Fail: "設定失敗" 
   Tab:
     Line_Message: 訊息
     Line_Recipient: 傳送對象

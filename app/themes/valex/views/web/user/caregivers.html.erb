@@ -1,7 +1,6 @@
 <%# app/views/web/user/careds.html.erb %>
 
 <div class="container">
-    <% if @careds.present? %>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -9,26 +8,25 @@
                     <h3 class=""><%= @title_sub %></h3>
                 </div>
                 <div class="card-body">
-                    <% if @careds.any? %>
+                    <% if @caregivers.any? %>
                     <ul class="list-group">
-                        <% @careds.each do |cared_user| %>
+                        <% @caregivers.each do |user| %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <span>
-                                <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
-                                <%= cared_user.line_name %>
+                                <%= image_tag user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
+                                <%= user.line_name %>
                             </span>
-                            <h6 class="text-muted ms-2">姓名：<%= cared_user.name %><br />電話：<%= cared_user.phone %></h6><br />
+                            <h6 class="text-muted ms-2">姓名：<%= user.name %><br />電話：<%= user.phone %></h6><br />
                         </li>
                         <% end %>
                     </ul>
                     <% else %>
                     <div class="text-center py-4">
-                        <h4 class="text-danger">目前沒有被照顧者資訊</h4>
+                        <h4 class="text-danger"><%= t('Website.Note.Nobody_be_caregiver') %></h4>
                     </div>
                     <% end %>
                 </div>
             </div>
         </div>
-        <% end %>
     </div>
 </div>

@@ -79,7 +79,12 @@ class Web::UserController < ApplicationWebController
   # 新增 careds 動作
   def careds
     @careds = @user.careds
-    @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title') # 假設翻譯檔案中有此鍵值
+    @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
+  end
+
+  def caregivers
+    @caregivers = @user.caregivers
+    @title_sub = I18n.t(:CAREGIVER, scope: 'Title')
   end
 
   private

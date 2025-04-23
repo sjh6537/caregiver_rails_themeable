@@ -133,9 +133,9 @@
                 <form id="set-cared-form">
                     <input type="hidden" name="caregiver_id" id="modal-caregiver-id">
                     <div class="form-group">
-                        <label>選擇同社區可設定為被照顧者的使用者：</label>
+                        <label><%= t("Website.Note.Select_Caregiver_Same_Community") %></label>
                         <div id="cared-user-list">
-                            <span class="text-muted">載入中...</span>
+                            <span class="text-muted"><%= t("Button.loading") %></span>
                         </div>
                     </div>
                 </form>
@@ -190,6 +190,12 @@
     $(function() {
         var currentCaregiverId = null;
         var currentCommunityId = null;
+        var title = '<%= t("Title.CARE_RECEIVER") %>';
+        var noCared = '<%= t("Website.Note.No_Cared_Candidates") %>';
+        var confirmButtonText = '<%= t("Button.Confirm") %>';
+        var cancelButtonText = '<%= t("Button.Cancel") %>';
+        var successMessage = '<%= t("Notify.Note.Successfully_Configured") %>';
+        var errorMessage = '<%= t("Notify.Note.Successfully_Configured_Fail") %>';
 
         // 使用事件委派，將事件綁定到 document 上
         $(document).on('click', '.set-cared-btn', function() {
@@ -225,10 +231,10 @@
                 cared_ids: caredIds
             }, function(resp) {
                 if (resp.status === 'success') {
-                    swal("被照顧者", "設定成功", "success");
+                    swal(title, successMessage, "success");
                     $('#setCaredModal').modal('hide');
                 } else {
-                    swal("被照顧者", "設定失敗", "error");
+                    swal(title, errorMessage, "error");
                 }
             });
         });

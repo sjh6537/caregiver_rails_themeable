@@ -59,10 +59,13 @@
                         <a class="fas fa-solid fa-dumbbell tx-40 tx-orange" href="<%= web_user_fitness_report_path %>"></a>
                         <p class="mb-1 text-muted tx-center"><%= @user.fitness_reports.count %></p>
                     </div>
-
                     <div class="text-center mx-3 my-2">
-                        <a class="fas fa-solid fa-user tx-40 tx-orange" href="<%= web_user_careds_path %>"></a>
+                        <a class="fas fa-solid fa-person-cane tx-40 tx-orange" href="<%= web_user_careds_path %>"></a>
                         <p class="mb-1 text-muted tx-center"><%= @careds.count %></p>
+                    </div>
+                    <div class="text-center mx-3 my-2">
+                        <a class="fas fa-solid fa-user-nurse tx-40 tx-orange" href="<%= web_user_caregivers_path %>"></a>
+                        <p class="mb-1 text-muted tx-center"><%= @caregivers.count %></p>
                     </div>
                 </div>
             </div>
