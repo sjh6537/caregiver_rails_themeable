@@ -1,23 +1,22 @@
-# MySQL. Versions 5.5.8 and up are supported.
-#
-#   Ensure the MySQL gem is defined in your Gemfile
-#   gem "mysql2"
-#
 default: &default
   adapter: mysql2
   encoding: utf8mb4
-  pool: 5
-  username: sa
-  password: taiwan
-  host: db
-  port: 3306
+  collation: utf8mb4_unicode_ci
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: padifield
+  password: padifield2025
+  host: 18.139.163.70  # 改成你的 MySQL host，如果是遠端可填 IP
 
 development:
   <<: *default
-  database: padifield_development
+  database: mysql_db
+
+test:
+  <<: *default
+  database: mysql_db_test
 
 production:
   <<: *default
-  database: padifield_production
-  username: sa
-  password: taiwan
+  database: mysql_db_production
+  username: padifield
+  password: padifield2025

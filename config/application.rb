@@ -32,9 +32,8 @@ module LearningLife
       Sidekiq::Scheduler.dynamic = true
     end
 
-    config.hosts << 'padifield.hopto.org'
-    config.hosts << 'padifieldadmin.hopto.org'
-
-    config.hosts << 'admin.localhost.com:3000'
+    config.hosts << 'padifield.line.miaoligo.com'
+    config.hosts << 'padifield.admin.miaoligo.com'
+    config.hosts << 'padifield.linebot.miaoligo.com'
   end
 end
