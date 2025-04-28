@@ -33,7 +33,7 @@ production:
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
 
-  admin_subdomain: "admin"
+  admin_subdomain: "padifield.admin"
   app_path: "line"
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
