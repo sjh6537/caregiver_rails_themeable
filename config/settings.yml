@@ -5,7 +5,7 @@ default: &default_settings
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
 
-  admin_subdomain: "padifieldadmin"
+  admin_subdomain: "admin"
   app_path: "line"
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
@@ -15,15 +15,6 @@ default: &default_settings
   line_authorize_url: "https://access.line.me/oauth2/v2.1/authorize"
   line_api_token_url: "https://api.line.me/oauth2/v2.1/token"
   line_api_verify_url: "https://api.line.me/oauth2/v2.1/verify"
-
-  line_login_channel_id: "2006848648"
-  line_login_Channel_secret: "45c7c39f0fac242335b05d421af03b0e"
-  line_login_callback_url: "https://padifield.hopto.org/callback"
-
-  line_message_api_channel_id: "2006848439"
-  line_message_api_channel_secret: "f998cf3afa2fefbdd120e98a763eb5a5"
-  line_message_api_channel_token: "iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU="
-  line_message_api_callback_url: "https://padifield.hopto.org/line_notify"
 
   line_liff_id: "2004751931-1jrD53LP"
   line_liff_url: "https://liff.line.me/2004751931-POn4oBxp"
@@ -42,7 +33,7 @@ production:
   #site_email_host: "caregiver.com"
   #site_email: "service@caregiver.com"
 
-  admin_subdomain: "padifieldadmin"
+  admin_subdomain: "admin"
   app_path: "line"
 
   health_view_url: "https://phslineweb.taiyidigital.com/App"
@@ -52,15 +43,6 @@ production:
   line_authorize_url: "https://access.line.me/oauth2/v2.1/authorize"
   line_api_token_url: "https://api.line.me/oauth2/v2.1/token"
   line_api_verify_url: "https://api.line.me/oauth2/v2.1/verify"
-
-  line_login_channel_id: "2006848648"
-  line_login_Channel_secret: "45c7c39f0fac242335b05d421af03b0e"
-  line_login_callback_url: "https://padifield.hopto.org/callback"
-
-  line_message_api_channel_id: "2006848439"
-  line_message_api_channel_secret: "f998cf3afa2fefbdd120e98a763eb5a5"
-  line_message_api_channel_token: "iFRLruIPxX9DybWtIZmqe4ChcbJeT9kFNsBEvsA0XrOxBBbgg1VmpVIr3WOfp4/n47TYrYhxbMoFbkoedglXIR6zQpPHyRHQvjufI+dXrbpwOWrVy1vYkUW20cIKhrA1LatLJz+ExHCXBqM1MgjNNgdB04t89/1O/w1cDnyilFU="
-  line_message_api_callback_url: "https://padifield.hopto.org/callback"
 
   line_liff_id: "2005495451-9LQ3bkab"
   line_liff_url: "https://liff.line.me/2005495451-9LQ3bkab"
