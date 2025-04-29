@@ -5,7 +5,13 @@ class Admin::UsersController < ApplicationAdminController
 
   def index
     @title_sub = I18n.t('Title.Table')
-    @users = User.all
+    # 超級管理者可查看所有使用者，一般管理者只能查看同社區使用者
+    @users = if current_admin.super_admin?
+               User.all
+             else
+               Rails.logger.info "Found current_admin.community_id : #{current_admin.community_id}"
+               User.where(community_id: current_admin.community_id)
+             end
   end
 
   def new

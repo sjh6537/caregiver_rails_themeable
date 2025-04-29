@@ -29,10 +29,7 @@
                         <thead>
                             <tr>
                                 <th class="wd-lg-10p"><span><%= t("Table.User") %></span></th>
-                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Friends") %></span></th>
-                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Requests") %></span></th>
-                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Coins") %></span></th>
-                                <th class="border-bottom-0 wd-lg-5p"><span><%= t("Table.Health_Report") %></span></th>
+                                <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Health_Report") %></span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Fitness_Report") %></span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Last_Sign_in") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Status") %></span></th>
@@ -58,12 +55,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td><%= c.friends.count %></td>
-                                <td><%= c.requests.count %></td>
-                                <td><%= c.coins %></td>
                                 <td><a href="<%= admin_user_health_report_path(c.id) %>"><%= c.health_reports.count %></a></td>
                                 <td><a href="<%= admin_user_fitness_report_path(c.id) %>"><%= c.fitness_reports.count %></a></td>
-                                <td><%= c.updated_at.strftime('%Y/%m/%d %T') %></td>
+                                <td><%= c.current_sign_in_at.strftime('%Y/%m/%d %T') %></td>
                                 <td class="text-center">
                                     <span class="label text-success d-flex">
                                         <div class="dot-label bg-success mr-1"></div><%= c.enable %>

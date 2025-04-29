@@ -3,7 +3,7 @@ class Admin::AdminsController < ApplicationAdminController
 
   def index
     @title_sub = I18n.t(:Table, scope: 'Title')
-    @admins = Admin.all
+    @admins = Admin.where(super_admin: false)
   end
 
   def new

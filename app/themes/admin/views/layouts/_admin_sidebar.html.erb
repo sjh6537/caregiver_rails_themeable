@@ -41,16 +41,17 @@
                 </a>
             </li>
 
-
+            <% if current_admin.super_admin? %>
             <li class="slide">
                 <a class="side-menu__item" href="<%= admin_admins_path %>">
-                    <i class="side-menu__icon far fa-address-card"></i><span class="side-menu__label"><%= t("Sidebar.Item.Administrator") %></span><span class="badge badge-success side-badge"><%= Admin.count %></span>
+                    <i class="side-menu__icon far fa-address-card"></i><span class="side-menu__label"><%= t("Sidebar.Item.Administrator") %></span><span class="badge badge-success side-badge"><%= Admin.where(super_admin:false).count %></span>
                 </a>
             </li>
+            <% end %>
 
             <li class="slide">
                 <a class="side-menu__item" href="<%= admin_users_path %>">
-                    <i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t("Sidebar.Item.Users") %></span><span class="badge badge-success side-badge"><%= User.count %></span>
+                    <i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t("Sidebar.Item.Users") %></span><span class="badge badge-success side-badge"><%= current_admin.super_admin? ? User.count : User.where(community_id: current_admin.community_id).count %></span>
                 </a>
             </li>
 
