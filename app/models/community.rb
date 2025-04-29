@@ -19,6 +19,7 @@ class Community < ApplicationRecord
 
   # Relationships
   has_many :users, dependent: :destroy
+  has_many :admins, dependent: :nullify
   has_one :community_profile, dependent: :destroy
 
   # Scopes
