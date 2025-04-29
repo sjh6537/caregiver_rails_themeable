@@ -16,7 +16,7 @@
                                 <%= image_tag user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
                                 <%= user.line_name %>
                             </span>
-                            <h6 class="text-muted ms-2">姓名：<%= user.name %><br />電話：<%= user.phone %></h6><br />
+                            <h6 class="text-muted ms-2"><%= t('Table.Name')%>：<%= user.name %><br /><%=t("Table.Phone")%>：<%= user.phone %></h6><br />
                         </li>
                         <% end %>
                     </ul>

@@ -374,6 +374,7 @@ zh-TW:
       Does_agree_to_accept: "是否同意接受?"
       Does_agree_to_be_caregiver: "是否同意成為照護者?"
       Nobody_be_caregiver: "目前尚未有人成為你的照護者"
+      Nobody_be_cared: "目前尚未有被照護者"
       you_are_already_caregiver: "你已經是「%{name}」的照護者"
       Request_has_helper: "此份派工已有其他人接受"
       You_accept_this_request: "你已接受該派工"

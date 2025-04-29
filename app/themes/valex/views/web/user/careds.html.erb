@@ -1,7 +1,6 @@
 <%# app/views/web/user/careds.html.erb %>
 
 <div class="container">
-    <% if @careds.present? %>
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -17,18 +16,17 @@
                                 <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
                                 <%= cared_user.line_name %>
                             </span>
-                            <h6 class="text-muted ms-2">姓名：<%= cared_user.name %><br />電話：<%= cared_user.phone %></h6><br />
+                            <h6 class="text-muted ms-2"><%= t('Table.Name')%>：<%= cared_user.name %><br /><%=t("Table.Phone")%>：<%= cared_user.phone %></h6><br />
                         </li>
                         <% end %>
                     </ul>
                     <% else %>
                     <div class="text-center py-4">
-                        <h4 class="text-danger">目前沒有被照顧者資訊</h4>
+                        <h4 class="text-danger"><%= t('Website.Note.Nobody_be_cared') %></h4>
                     </div>
                     <% end %>
                 </div>
             </div>
         </div>
-        <% end %>
     </div>
 </div>
