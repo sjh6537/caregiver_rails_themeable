@@ -10,11 +10,33 @@ class HealthReportCrawler
   class APIError < Error; end
   class EncryptionError < Error; end
 
-  # Asus settings
-  ICODE = 'K00016'
-  KEY = 'K00016yFjdKGNeVF'
+  attr_reader :icode, :key
+
+  # 建立爬蟲實例時接收參數
+  def initialize(icode: nil, key: nil)
+    @icode = icode || get_icode_from_community_profile
+    @key = key || get_key_from_community_profile
+  end
 
   private
+
+  def get_icode_from_community_profile
+    # 從 CommunityProfile 模型取得 icode，如果沒有則使用預設值
+    default_icode = 'K00016'
+    return CommunityProfile.first&.asus_icode || default_icode
+  rescue StandardError => e
+    log("無法取得 icode 從 CommunityProfile: #{e.message}", :error)
+    default_icode
+  end
+
+  def get_key_from_community_profile
+    # 從 CommunityProfile 模型取得 key，如果沒有則使用預設值
+    default_key = 'K00016yFjdKGNeVF'
+    return CommunityProfile.first&.asus_key || default_key
+  rescue StandardError => e
+    log("無法取得 key 從 CommunityProfile: #{e.message}", :error)
+    default_key
+  end
 
   def log(message, level = :info)
     Rails.logger.send(level, "[HealthReportCrawler] #{message}") if Rails.env.development? || level != :debug
@@ -43,10 +65,10 @@ class HealthReportCrawler
   # @param key [String] 加密金鑰
   # @param raw_string [String] 要加密的原始字串
   # @return [String] Base64 編碼的加密字串
-  def aes_cbc_encrypt(key, raw_string)
-    return '' if key.nil? || raw_string.nil?
+  def aes_cbc_encrypt(raw_string)
+    return '' if @key.nil? || raw_string.nil?
 
-    key_bytes, iv = aes_key_iv(key)
+    key_bytes, iv = aes_key_iv(@key)
 
     cipher = OpenSSL::Cipher.new('AES-128-CBC')
     cipher.encrypt
@@ -64,10 +86,10 @@ class HealthReportCrawler
   # @param key [String] 解密金鑰
   # @param enc_string [String] Base64 編碼的加密字串
   # @return [String] 解密後的原始字串
-  def aes_cbc_decrypt(key, enc_string)
-    return '' if key.nil? || enc_string.nil? || enc_string.empty?
+  def aes_cbc_decrypt(enc_string)
+    return '' if @key.nil? || enc_string.nil? || enc_string.empty?
 
-    key_bytes, iv = aes_key_iv(key)
+    key_bytes, iv = aes_key_iv(@key)
 
     decipher = OpenSSL::Cipher.new('AES-128-CBC')
     decipher.decrypt
@@ -86,7 +108,7 @@ class HealthReportCrawler
     end
   end
 
-  def get_vital_signs(icode, encrypted_id, start_time, end_time)
+  def get_vital_signs(encrypted_id, start_time, end_time)
     # 根據環境使用不同的 URL
     base_url = if Rails.env.production?
                  'https://hhds.asus-healthcare.com'
@@ -98,7 +120,7 @@ class HealthReportCrawler
 
     headers = {
       'Content-Type' => 'application/json',
-      'icode' => icode
+      'icode' => @icode
     }
 
     data = {
@@ -253,210 +275,7 @@ class HealthReportCrawler
       user_info['UA'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
-
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
       end
     end
-
-    # 處理氧氣飽和數據 (OHB)
-    if user_info['OHB'].length > 0
-      user_info['OHB'].reverse_each do |item|
-        user_id = item['id']
-        user_data[user_id] ||= create_empty_dict(user_id)
-
-        user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
-        user_data[user_id]['OHB']['measure_time'] = item['measure_time']
-      end
-    end
-
-    user_data
-  end
-
-  def pop_timestamp(data_dict)
-    data_dict.each do |category, values|
-      if data_dict[category].is_a?(Hash) && data_dict[category].key?('measure_time')
-        data_dict[category].delete('measure_time')
-      end
-    end
-  end
-
-  def run
-    log('Starting health report crawling')
-    # 修改：從資料庫中獲取使用者的身分證字號，而不是從檔案中取得
-    id_card_list = User.where.not(id_card: [nil, '']).pluck(:id_card)
-
-    if id_card_list.empty?
-      log('No users found with ID cards')
-      return
-    end
-
-    # 將所有的使用者身分證字號加密
-    all_IDs = id_card_list.join(',')
-    log("Processing #{id_card_list.size} users")
-    log("All IDs: #{all_IDs}")
-    encrypted_id = aes_cbc_encrypt(KEY, all_IDs)
-
-    # 從Asus的server爬所有使用者的量測資料
-    current_date = DateTime.now.strftime('%Y-%m-%d')
-    start_time = "#{current_date} 00:00:00"
-    end_time = "#{current_date} 23:59:59"
-
-    vital_signs = get_vital_signs(ICODE, encrypted_id, start_time, end_time)
-    user_info = aes_cbc_decrypt(KEY, vital_signs['data'])
-    data_dict = extract_data(user_info)
-
-    # 從爬回來的使用者身份證字號，檢查是否有新的量測資料
-    all_result = []
-    success_count = 0
-    error_count = 0
-
-    data_dict.keys.each do |id|
-      # 尋找對應的使用者
-      user = User.find_by(id_card: id)
-      next unless user
-
-      process_user_data(user, data_dict[id], all_result)
-      success_count += 1
-    rescue StandardError => e
-      error_count += 1
-      log("Error processing user #{id}: #{e.message}", :error)
-    end
-
-    log("Processed #{success_count} users successfully, #{error_count} errors")
-
-    # 將新的量測資料送回稻相顧資料庫（並推播）
-    send_health_data(all_result) if all_result.any?
-  rescue StandardError => e
-    log("Critical error in health report crawler: #{e.message}", :error)
-    Rails.logger.error e.backtrace.join("\n")
-  end
-
-  private
-
-  def process_user_data(user, user_data, all_result)
-    data_dict_post = Marshal.load(Marshal.dump(user_data)) # 深度複製
-    pop_timestamp(data_dict_post)
-
-    return unless new_measurements?(user, user_data)
-
-    all_result << data_dict_post
-    save_health_report(user, user_data)
-  end
-
-  def new_measurements?(user, data)
-    %w[TP BP BS OX HB BW TC UA OHB].any? do |category|
-      measure_time = data[category]['measure_time']
-      next false if measure_time == 0
-
-      begin
-        measure_datetime = DateTime.parse(measure_time.to_s)
-        !existing_measurement?(user, category, measure_datetime, data[category])
-      rescue StandardError => e
-        log("Error checking measurements for #{category}: #{e.message}", :error)
-        false
-      end
-    end
-  end
-
-  def existing_measurement?(user, category, measure_datetime, data)
-    case category
-    when 'TP'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        temperature: data['temperature']
-      )
-    when 'BP'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_pressure1: data['sbp'],
-        blood_pressure2: data['dbp'],
-        heart_rate: data['hb']
-      )
-    when 'BS'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_sugar: data['bs'],
-        hemoglobin: data['hg'],
-        hematocrit: data['hct']
-      )
-    when 'OX'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_oxygen: data['oxygen']
-      )
-    when 'BW'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        weight: data['bw'],
-        bmi: data['bmi']
-      )
-    when 'TC'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        total_cholesterol: data['tc']
-      )
-    when 'UA'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        uric_acid: data['ua']
-      )
-    when 'OHB'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        ketones: data['ohb']
-      )
-    else
-      false
-    end
-  end
-
-  def send_health_data(data)
-    return if data.empty?
-
-    uri = URI.parse(post_url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-    http.read_timeout = Settings.health_report.timeout || 30
-    http.open_timeout = Settings.health_report.timeout || 30
-
-    request = Net::HTTP::Post.new(uri.path)
-    request['Content-Type'] = 'application/json'
-    request.body = data.to_json
-
-    response = http.request(request)
-
-    unless response.code.to_s.start_with?('2')
-      log("Failed to send health data. Status: #{response.code}, Body: #{response.body}", :error)
-      raise APIError, "Failed to send health data: #{response.code}"
-    end
-
-    log("Successfully sent health data for #{data.size} users")
-  rescue StandardError => e
-    log("Error sending health data: #{e.message}", :error)
-    raise APIError, "Failed to send health data: #{e.message}"
-  end
-
-  def save_health_report(user, data)
-    report = user.health_reports.new(
-      measure_time: DateTime.now,
-      temperature: data['TP']['temperature'] == 0 ? nil : data['TP']['temperature'],
-      blood_pressure1: data['BP']['sbp'] == 0 ? nil : data['BP']['sbp'],
-      blood_pressure2: data['BP']['dbp'] == 0 ? nil : data['BP']['dbp'],
-      heart_rate: data['BP']['hb'] == 0 ? nil : data['BP']['hb'].to_i,
-      blood_sugar: data['BS']['bs'] == 0 ? nil : data['BS']['bs'].to_i,
-      hemoglobin: data['BS']['hg'] == 0 ? nil : data['BS']['hg'],
-      hematocrit: data['BS']['hct'] == 0 ? nil : data['BS']['hct'],
-      blood_oxygen: data['OX']['oxygen'] == 0 ? nil : data['OX']['oxygen'].to_i,
-      weight: data['BW']['bw'] == 0 ? nil : data['BW']['bw'],
-      bmi: data['BW']['bmi'] == 0 ? nil : data['BW']['bmi'],
-      total_cholesterol: data['TC']['tc'] == 0 ? nil : data['TC']['tc'],
-      uric_acid: data['UA']['ua'] == 0 ? nil : data['UA']['ua'],
-      ketones: data['OHB']['ohb'] == 0 ? nil : data['OHB']['ohb']
-    )
-    report.save!
-  rescue StandardError => e
-    log("Error saving health report for user #{user.id}: #{e.message}", :error)
-    raise
-  end
-end
