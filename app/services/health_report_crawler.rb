@@ -14,29 +14,12 @@ class HealthReportCrawler
 
   # 建立爬蟲實例時接收參數
   def initialize(icode: nil, key: nil)
-    @icode = icode || get_icode_from_community_profile
-    @key = key || get_key_from_community_profile
+    @icode = icode
+    @key = key
+    @community = CommunityProfile.find_by(icode: icode).community
   end
 
   private
-
-  def get_icode_from_community_profile
-    # 從 CommunityProfile 模型取得 icode，如果沒有則使用預設值
-    default_icode = 'K00016'
-    return CommunityProfile.first&.asus_icode || default_icode
-  rescue StandardError => e
-    log("無法取得 icode 從 CommunityProfile: #{e.message}", :error)
-    default_icode
-  end
-
-  def get_key_from_community_profile
-    # 從 CommunityProfile 模型取得 key，如果沒有則使用預設值
-    default_key = 'K00016yFjdKGNeVF'
-    return CommunityProfile.first&.asus_key || default_key
-  rescue StandardError => e
-    log("無法取得 key 從 CommunityProfile: #{e.message}", :error)
-    default_key
-  end
 
   def log(message, level = :info)
     Rails.logger.send(level, "[HealthReportCrawler] #{message}") if Rails.env.development? || level != :debug
@@ -169,6 +152,7 @@ class HealthReportCrawler
     default_value = 0
     {
       'User_id' => user_id,
+      'measure_time' => default_value,
       'TP' => { 'temperature' => default_value, 'measure_time' => default_value },
       'BP' => { 'sbp' => default_value, 'dbp' => default_value, 'hb' => default_value,
                 'measure_time' => default_value },
@@ -195,6 +179,8 @@ class HealthReportCrawler
 
         user_data[user_id]['TP']['temperature'] = item['temperature'].to_f
         user_data[user_id]['TP']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -208,6 +194,8 @@ class HealthReportCrawler
         user_data[user_id]['BP']['dbp'] = item['dbp'].to_f
         user_data[user_id]['BP']['hb'] = item['hb'].to_f
         user_data[user_id]['BP']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -221,6 +209,8 @@ class HealthReportCrawler
         user_data[user_id]['BS']['hg'] = item['hg'].to_f
         user_data[user_id]['BS']['hct'] = item['hct'].to_f
         user_data[user_id]['BS']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -233,6 +223,8 @@ class HealthReportCrawler
         user_data[user_id]['OX']['oxygen'] = item['oxygen'].to_f
         user_data[user_id]['OX']['hb'] = item['hb'].to_f
         user_data[user_id]['OX']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -244,6 +236,8 @@ class HealthReportCrawler
 
         user_data[user_id]['HB']['hb'] = item['hb'].to_f
         user_data[user_id]['HB']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -256,6 +250,8 @@ class HealthReportCrawler
         user_data[user_id]['BW']['bw'] = item['bw'].to_f
         user_data[user_id]['BW']['bmi'] = item['bmi'].to_f
         user_data[user_id]['BW']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -267,6 +263,8 @@ class HealthReportCrawler
 
         user_data[user_id]['TC']['tc'] = item['tc'].to_f
         user_data[user_id]['TC']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
 
@@ -277,5 +275,109 @@ class HealthReportCrawler
         user_data[user_id] ||= create_empty_dict(user_id)
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
       end
     end
+
+    # 處理血氧數據 (OHB)
+    if user_info['OHB'].length > 0
+      user_info['OHB'].reverse_each do |item|
+        user_id = item['id']
+        user_data[user_id] ||= create_empty_dict(user_id)
+
+        user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
+        user_data[user_id]['OHB']['measure_time'] = item['measure_time']
+        # 更新最近的量測時間
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+      end
+    end
+    user_data
+  end
+
+  # 刪除時間戳記
+  def pop_timestamp(data_dict)
+    data_dict.each do |category, values|
+      values.delete('measure_time') if values.is_a?(Hash)
+    end
+  end
+
+  def fetch_and_process_health_data
+    # 取得所有使用者的身分證字號
+    user_infos = @community.users.pluck(:id_card)
+    # 除去空值
+    raw_string = user_infos.reject(&:blank?)
+
+    # 將所有的使用者身分證字號加密
+    all_ids = raw_string.join(',')
+    encrypted_id = aes_cbc_encrypt(all_ids)
+
+    # 從Asus的server爬所有使用者的量測資料
+    current_date = Time.now
+    date_string = current_date.strftime('%Y-%m-%d')
+    start_time = "#{date_string} 00:00:00"
+    end_time = "#{date_string} 23:59:59"
+
+    vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
+    # 解密回來的資料
+    user_info = aes_cbc_decrypt(vital_signs['data'])
+    data_dict = extract_data(user_info)
+
+    # 從爬回來的使用者身份證字號, 檢查是否有新的量測資料
+    all_result = []
+
+    data_dict.keys.each do |id_card|
+      # 檢查使用者是否存在
+      user = @community.users.find_by(id_card: id_card)
+      next unless user
+
+      data_dict_post = Marshal.load(Marshal.dump(data_dict[id_card])) # 深度複製
+      pop_timestamp(data_dict_post) if defined?(pop_timestamp)
+
+      # 檢查使用者是否有新的量測資料
+      last_record = user.health_records.order('measure_time DESC').first
+      next if last_record && last_record.measure_time >= data_dict[id_card]['measure_time']
+
+      # 將新的量測資料加入到 all_result 陣列中
+      all_result << {
+        user_id: id_card,
+        data: data_dict_post
+      }
+    end
+
+    nil unless all_result.any?
+    # 將新的量測資料送回稻相顧資料庫(並推播)
+
+    all_result.each do |result|
+      user = @community.users.find_by(id_card: result[:user_id])
+      next unless user
+
+      # 將資料轉換為 HealthRecord 物件
+      health_record = UserHealthReport.new(
+        user_id: user.id,
+        measure_time: Time.at(result[:data]['measure_time']),
+        bmi: result[:data]['BW']['bmi'],
+        weight: result[:data]['BW']['bw'],
+        heart_rate: result[:data]['BP']['hb'].to_i,
+        blood_pressure1: result[:data]['BP']['sbp'].to_i,
+        blood_pressure2: result[:data]['BP']['dbp'].to_i,
+        blood_sugar: result[:data]['BS']['bs'].to_i,
+        blood_oxygen: result[:data]['OX']['oxygen'].to_i,
+        temperature: result[:data]['TP']['temperature'],
+        hemoglobin: result[:data]['OX']['hb'],
+        hematocrit: result[:data]['BS']['hct'],
+        uric_acid: result[:data]['UA']['ua'],
+        total_cholesterol: result[:data]['TC']['tc']
+      )
+
+      # 儲存健康紀錄
+      if health_record.save
+        log("健康紀錄已儲存，使用者 ID：#{user.id}")
+        # 推播通知
+        # 推播通知的邏輯可以在這裡實現
+      else
+        log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{health_record.errors.full_messages.join(', ')}", :error)
+      end
+    end
+  end
+end

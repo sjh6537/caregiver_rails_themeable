@@ -2,20 +2,28 @@
 # 首先引入相關依賴
 require 'rubygems'
 require 'bundler/setup'
-# 引入 sidekiq
-require 'sidekiq'
 # 然後引入您的類別
 require File.expand_path('../config/environment', __dir__)
 require_relative '../app/services/health_report_crawler'
 
 # 創建一個實例
-crawler = HealthReportCrawler.new
 
-ICODE = 'K00016' unless defined?(ICODE)
+community_sn = 'CM001'
 
-# 使用 send 方法執行私有方法
-key = 'K00016yFjdKGNeVF'
-raw_string = 'A131640688,S124964043'
+community = Community.find_by(sn: community_sn)
+if community.nil?
+  puts "找不到社區: #{community_sn}"
+  exit
+end
+
+# 這裡的 icode 和 key 是從社區中獲取的
+icode = community.icode
+key = community.key
+
+crawler = HealthReportCrawler.new(icode: icode, key: key)
+
+# 這裡的 raw_string 是要加密的原始字串
+raw_string = 'A123456789'
 puts "身份證: #{raw_string}"
 result = crawler.send(:aes_cbc_encrypt, key, raw_string)
 puts "結果: #{result}"
