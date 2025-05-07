@@ -6,6 +6,8 @@ require 'uri'
 require 'fileutils'
 
 class HealthReportCrawler
+  include ReportHelper
+  include LineHelper
   class Error < StandardError; end
   class APIError < Error; end
   class EncryptionError < Error; end
@@ -353,7 +355,7 @@ class HealthReportCrawler
       next unless user
 
       # 將資料轉換為 HealthRecord 物件
-      health_record = UserHealthReport.new(
+      report = UserHealthReport.new(
         user_id: user.id,
         measure_time: Time.at(result[:data]['measure_time']),
         bmi: result[:data]['BW']['bmi'],
@@ -371,12 +373,12 @@ class HealthReportCrawler
       )
 
       # 儲存健康紀錄
-      if health_record.save
+      if report.save
         log("健康紀錄已儲存，使用者 ID：#{user.id}")
-        # 推播通知
-        # 推播通知的邏輯可以在這裡實現
+        # 推播通知發送給用戶
+        message_push(user.account, format_report(report))
       else
-        log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{health_record.errors.full_messages.join(', ')}", :error)
+        log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{report.errors.full_messages.join(', ')}", :error)
       end
     end
   end
