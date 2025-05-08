@@ -1,4 +1,6 @@
 class TestController < ApplicationController
+  protect_from_forgery with: :null_session # 關閉 CSRF 驗證
+
   include LineHelper
 
   # 設定跳過驗證（僅用於測試環境）
