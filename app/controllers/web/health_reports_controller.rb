@@ -36,7 +36,7 @@ class Web::HealthReportsController < ApplicationWebController
   end
 
   def send_report_notification(report)
-    text = format_report(report)
+    text = format_health_report(report)
     # 發送給用戶
     message_push(current_user.account, text)
 

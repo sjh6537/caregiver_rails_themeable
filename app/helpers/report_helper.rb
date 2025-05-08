@@ -1,5 +1,5 @@
 module ReportHelper
-  def format_report(report)
+  def format_health_report(report)
     text = "你有一份新的健康報告：\n\n"
     text += "#{I18n.t('Table.Measure_Time')}: #{report.measure_time}\n"
     text += "#{I18n.t('Table.BMI')}: #{report.bmi}\n" if report.bmi.present?
@@ -16,6 +16,19 @@ module ReportHelper
     text += "#{I18n.t('Table.Ketones')}: #{report.ketones}\n" if report.ketones.present?
     text += "#{I18n.t('Table.Total_Cholesterol')}: #{report.total_cholesterol}\n" if report.total_cholesterol.present?
     text += "#{I18n.t('Table.Measure_Time')}: #{report.measure_time}\n" if report.measure_time.present?
+    text
+  end
+
+  def format_fitness_report(report)
+    text = "你有一份新的運動報告：\n\n"
+    text += "#{I18n.t('Table.Measure_Time')}: #{report.report_date}\n" if report.exercise_type.present?
+    text += "#{I18n.t('Table.Exercise_Type')}: #{report.exercise_type}\n" if report.exercise_type.present?
+    text += "#{I18n.t('Table.Fitness_Device')}: #{report.fitness_device.name}\n" if report.fitness_device.present?
+    text += "#{I18n.t('Table.Start_Time')}: #{report.start_time}\n" if report.start_time.present?
+    text += "#{I18n.t('Table.End_Time')}: #{report.end_time}\n" if report.end_time.present?
+    text += "#{I18n.t('Table.Duration')}: #{report.duration}\n" if report.duration.present?
+    text += "#{I18n.t('Table.Intensity')}: #{report.intensity}\n" if report.intensity.present?
+    text += "#{I18n.t('Table.Calories_Burned')}: #{report.calories_burned}\n" if report.calories_burned.present?
     text
   end
 end

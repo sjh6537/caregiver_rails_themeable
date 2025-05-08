@@ -285,7 +285,7 @@ class HealthReportCrawler
     # 處理血氧數據 (OHB)
     if user_info['OHB'].length > 0
       user_info['OHB'].reverse_each do |item|
-        user_id = item['id']
+        user_id = item['id'
         user_data[user_id] ||= create_empty_dict(user_id)
 
         user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
@@ -304,6 +304,7 @@ class HealthReportCrawler
     end
   end
 
+  # 抓取並處理健康數據
   def fetch_and_process_health_data
     # 取得所有使用者的身分證字號
     user_infos = @community.users.pluck(:id_card)
@@ -347,9 +348,10 @@ class HealthReportCrawler
       }
     end
 
-    nil unless all_result.any?
+    return nil unless all_result.any?
     # 將新的量測資料送回稻相顧資料庫(並推播)
-
+    
+    saved_reports = []
     all_result.each do |result|
       user = @community.users.find_by(id_card: result[:user_id])
       next unless user
@@ -376,10 +378,13 @@ class HealthReportCrawler
       if report.save
         log("健康紀錄已儲存，使用者 ID：#{user.id}")
         # 推播通知發送給用戶
-        message_push(user.account, format_report(report))
+        message_push(user.account, format_health_report(report))
+        saved_reports << { user_id: user.id, report_id: report.id }
       else
         log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{report.errors.full_messages.join(', ')}", :error)
       end
     end
+    
+    return { processed: all_result.size, saved: saved_reports }
   end
 end

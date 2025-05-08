@@ -17,8 +17,10 @@ Rails.application.routes.draw do
   get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
   post 'health/measurements', to: 'admin/health#measurements', as: :measurements
   get 'health/check_id_card/:id_card', to: 'admin/health#check_id_card', as: :check_id_card
-
   post 'cared_facilities/new_event', to: 'admin/cared_facilities#new_event', as: :new_event
+  # 測試用路由
+  post 'test/line_push', to: 'test#test_line_push'
+  post 'test/health_report', to: 'test#test_health_report'
 
   mount Sidekiq::Web, at: '/sidekiq'
 
