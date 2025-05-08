@@ -76,7 +76,7 @@ class TestController < ApplicationController
     # 檢查社區設定檔的 icode 和 key 是否正確
     # 建立測試爬蟲實例並執行健康數據抓取
     crawler = HealthReportCrawler.new(icode: community_profile.asus_icode, key: community_profile.asus_key)
-    result = crawler.fetch_health_data
+    result = crawler.fetch_health_data(params[:start_time], params[:end_time])
 
     render json: {
       status: 'success',

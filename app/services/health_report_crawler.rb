@@ -312,8 +312,9 @@ class HealthReportCrawler
   end
 
   # 爬取健康數據
-  def fetch_health_data
+  def fetch_health_data(start_time = nil, end_time = nil)
     # 取得所有使用者的身分證字號
+    log("社區名稱: #{@community.name}")
     user_infos = @community.users.pluck(:id_card)
     # 除去空值
     raw_string = user_infos.reject(&:blank?)
@@ -328,11 +329,12 @@ class HealthReportCrawler
     # 從Asus的server爬所有使用者的量測資料
     current_date = Time.now
     date_string = current_date.strftime('%Y-%m-%d')
-    start_time = "#{date_string} 00:00:00"
-    end_time = "#{date_string} 23:59:59"
+    start_time = "#{date_string} 00:00:00" if start_time.nil?
+    end_time = "#{date_string} 23:59:59" if end_time.nil?
 
     begin
       vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
+      log("API 回傳資料: #{vital_signs.inspect}", :debug)
       # 檢查回傳結果是否包含 data 欄位
       if vital_signs && vital_signs['data']
         # 解密回來的資料
