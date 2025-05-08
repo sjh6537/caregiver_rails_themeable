@@ -2,7 +2,7 @@ module LineHelper
   def login_authorize(callback, client_id, client_secret , state)
     # #state = SecureRandom.urlsafe_base64
     # 參考 https://developers.line.biz/en/docs/line-login/integrate-line-login/#making-an-authorization-request
-    
+
     callback = callback.to_s.strip
     client = OAuth2::Client.new(client_id, client_secret, site: APP_CONFIG[:line_authorize_url],
                                                           authorize_url: '', token_method: :post)
@@ -56,18 +56,29 @@ module LineHelper
 
     message = message_package_text(text)
 
+    # 由client_ids 取得使用者，再取得社區設定檔
     if client_ids.nil?
-      LinemsgController.new.client.broadcast(message)
+      return false
     elsif client_ids.is_a?(Array)
-      if client_ids.count == 0
-        LinemsgController.new.client.broadcast(message)
-      else
-        client_ids.each do |uid|
-          LinemsgController.new.client.push_message(uid, message)
-        end
+      return false if client_ids.count == 0
+
+      client_ids.each do |uid|
+        message_push(uid, text)
       end
     else
-      LinemsgController.new.client.push_message(client_ids, message)
+      # 由client_ids 取得使用者，再取得社區設定檔
+      user = User.find_by(account: client_ids)
+      return false if user.nil?
+
+      community_profile = user.community.community_profile
+      return false if community_profile.nil?
+
+      client = Line::Bot::Client.new do |config|
+        config.channel_id = community_profile.line_message_api_channel_id
+        config.channel_secret = community_profile.line_message_api_channel_secret
+        config.channel_token = community_profile.line_message_api_channel_token
+      end
+      client.push_message(client_ids, message)
     end
 
     true

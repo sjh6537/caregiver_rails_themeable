@@ -17,60 +17,56 @@ class TestController < ApplicationController
       return
     end
 
-    # 建立訊息物件
-    line_message = {
-      type: 'text',
-      text: message
-    }
-    community_profile = user.community.community_profile
-
-    line_client = Line::Bot::Client.new do |config|
-      config.channel_id = community_profile.line_message_api_channel_id
-      config.channel_secret = community_profile.line_message_api_channel_secret
-      config.channel_token = community_profile.line_message_api_channel_token
-    end
-
     # 推播訊息
-    response = line_client.push_message(user.account, line_message)
+    result = message_push(user.account, message)
 
-    if response.code.to_i == 200
+    if result
       render json: { status: 'success', message: '推播訊息已成功發送！' }, status: :ok
     else
       render json: {
         status: 'error',
-        message: '推播訊息發送失敗！',
-        details: response.body
+        message: '推播訊息發送失敗！'
       }, status: :unprocessable_entity
     end
   end
 
   # 二、測試 HealthReportCrawler 功能
   def test_health_report
-    icode = params[:icode]
-    key = params[:key]
+    community_sn = params[:sn]
 
     # 檢查參數是否存在
-    unless icode.present? && key.present?
+    unless community_sn.present?
       render json: {
         status: 'error',
-        message: '缺少必要參數！請提供 icode 和 key'
+        message: '缺少必要SN參數！'
       }, status: :bad_request
       return
     end
 
     # 檢查社區設定檔是否存在
-    community_profile = CommunityProfile.find_by(icode: icode)
-    unless community_profile
+    community = Community.find_by(sn: community_sn)
+    unless community
       render json: {
         status: 'error',
-        message: '找不到對應的社區設定檔！請確認 icode 是否正確'
+        message: '找不到對應的社區！請確認 sn 是否正確'
       }, status: :not_found
       return
     end
 
+    # 檢查社區設定檔是否存在
+    community_profile = community.community_profile
+
+    unless community_profile.icode.present? && community_profile.key.present?
+      render json: {
+        status: 'error',
+        message: '社區設定檔缺少必要的 icode 或 key！'
+      }, status: :bad_request
+      return
+    end
+
     # 建立測試爬蟲實例並執行健康數據抓取
-    crawler = TestHealthReportCrawler.new(icode: icode, key: key)
-    result = crawler.fetch_and_process_health_data
+    crawler = TestHealthReportCrawler.new(icode: community_profile.icode, key: community_profile.key)
+    result = crawler.fetch_health_data
 
     render json: {
       status: 'success',

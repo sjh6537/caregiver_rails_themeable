@@ -273,7 +273,6 @@ class HealthReportCrawler
     # 處理尿酸數據 (UA)
     if user_info['UA'].length > 0
       user_info['UA'].reverse_each do |item|
-        user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
@@ -285,9 +284,8 @@ class HealthReportCrawler
     # 處理血氧數據 (OHB)
     if user_info['OHB'].length > 0
       user_info['OHB'].reverse_each do |item|
-        user_id = item['id'
+        user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
-
         user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
         user_data[user_id]['OHB']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
@@ -304,8 +302,8 @@ class HealthReportCrawler
     end
   end
 
-  # 抓取並處理健康數據
-  def fetch_and_process_health_data
+  # 爬取健康數據
+  def fetch_health_data
     # 取得所有使用者的身分證字號
     user_infos = @community.users.pluck(:id_card)
     # 除去空值
@@ -324,8 +322,12 @@ class HealthReportCrawler
     vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
     # 解密回來的資料
     user_info = aes_cbc_decrypt(vital_signs['data'])
-    data_dict = extract_data(user_info)
+    extract_data(user_info)
+  end
 
+  # 處理健康數據
+  def process_health_data
+    data_dict = fetch_health_data
     # 從爬回來的使用者身份證字號, 檢查是否有新的量測資料
     all_result = []
 
@@ -349,8 +351,9 @@ class HealthReportCrawler
     end
 
     return nil unless all_result.any?
+
     # 將新的量測資料送回稻相顧資料庫(並推播)
-    
+
     saved_reports = []
     all_result.each do |result|
       user = @community.users.find_by(id_card: result[:user_id])
@@ -384,7 +387,7 @@ class HealthReportCrawler
         log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{report.errors.full_messages.join(', ')}", :error)
       end
     end
-    
-    return { processed: all_result.size, saved: saved_reports }
+
+    { processed: all_result.size, saved: saved_reports }
   end
 end
