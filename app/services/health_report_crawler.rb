@@ -12,16 +12,19 @@ class HealthReportCrawler
   class APIError < Error; end
   class EncryptionError < Error; end
 
-  attr_reader :icode, :key
+  attr_reader :icode, :key, :community
 
   # 建立爬蟲實例時接收參數
   def initialize(icode: nil, key: nil)
     @icode = icode
     @key = key
-    @community = CommunityProfile.find_by(icode: icode).community
-  end
+    community_profile = CommunityProfile.find_by(asus_icode: icode)
+    @community = community_profile&.community
+    return unless @community.nil?
 
-  private
+    log("無法找到 icode=#{icode} 的社區或其資料", :error)
+    raise Error, '無法找到社區資料'
+  end
 
   def log(message, level = :info)
     Rails.logger.send(level, "[HealthReportCrawler] #{message}") if Rails.env.development? || level != :debug
@@ -169,12 +172,17 @@ class HealthReportCrawler
   end
 
   def extract_data(user_info)
-    user_info = JSON.parse(user_info)
+    begin
+      user_info = JSON.parse(user_info)
+    rescue JSON::ParserError => e
+      log("JSON 解析錯誤: #{e.message}", :error)
+      return {} # 返回空雜湊表，避免程式中斷
+    end
 
     user_data = {}
 
     # 處理體溫數據 (TP)
-    if user_info['TP'].length > 0
+    if user_info['TP'] && user_info['TP'].is_a?(Array) && user_info['TP'].length > 0
       user_info['TP'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -187,7 +195,7 @@ class HealthReportCrawler
     end
 
     # 處理血壓數據 (BP)
-    if user_info['BP'].length > 0
+    if user_info['BP'] && user_info['BP'].is_a?(Array) && user_info['BP'].length > 0
       user_info['BP'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -202,7 +210,7 @@ class HealthReportCrawler
     end
 
     # 處理血糖數據 (BS)
-    if user_info['BS'].length > 0
+    if user_info['BS'] && user_info['BS'].is_a?(Array) && user_info['BS'].length > 0
       user_info['BS'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -217,7 +225,7 @@ class HealthReportCrawler
     end
 
     # 處理氧氣數據 (OX)
-    if user_info['OX'].length > 0
+    if user_info['OX'] && user_info['OX'].is_a?(Array) && user_info['OX'].length > 0
       user_info['OX'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -231,7 +239,7 @@ class HealthReportCrawler
     end
 
     # 處理血紅素數據 (HB)
-    if user_info['HB'].length > 0
+    if user_info['HB'] && user_info['HB'].is_a?(Array) && user_info['HB'].length > 0
       user_info['HB'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -244,7 +252,7 @@ class HealthReportCrawler
     end
 
     # 處理體重數據 (BW)
-    if user_info['BW'].length > 0
+    if user_info['BW'] && user_info['BW'].is_a?(Array) && user_info['BW'].length > 0
       user_info['BW'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -258,7 +266,7 @@ class HealthReportCrawler
     end
 
     # 處理總膽固醇數據 (TC)
-    if user_info['TC'].length > 0
+    if user_info['TC'] && user_info['TC'].is_a?(Array) && user_info['TC'].length > 0
       user_info['TC'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -271,8 +279,9 @@ class HealthReportCrawler
     end
 
     # 處理尿酸數據 (UA)
-    if user_info['UA'].length > 0
+    if user_info['UA'] && user_info['UA'].is_a?(Array) && user_info['UA'].length > 0
       user_info['UA'].reverse_each do |item|
+        user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
@@ -282,7 +291,7 @@ class HealthReportCrawler
     end
 
     # 處理血氧數據 (OHB)
-    if user_info['OHB'].length > 0
+    if user_info['OHB'] && user_info['OHB'].is_a?(Array) && user_info['OHB'].length > 0
       user_info['OHB'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -297,7 +306,7 @@ class HealthReportCrawler
 
   # 刪除時間戳記
   def pop_timestamp(data_dict)
-    data_dict.each do |category, values|
+    data_dict.each do |_category, values|
       values.delete('measure_time') if values.is_a?(Hash)
     end
   end
@@ -309,6 +318,9 @@ class HealthReportCrawler
     # 除去空值
     raw_string = user_infos.reject(&:blank?)
 
+    # 如果沒有使用者資料，提前返回空雜湊
+    return {} if raw_string.empty?
+
     # 將所有的使用者身分證字號加密
     all_ids = raw_string.join(',')
     encrypted_id = aes_cbc_encrypt(all_ids)
@@ -319,15 +331,29 @@ class HealthReportCrawler
     start_time = "#{date_string} 00:00:00"
     end_time = "#{date_string} 23:59:59"
 
-    vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
-    # 解密回來的資料
-    user_info = aes_cbc_decrypt(vital_signs['data'])
-    extract_data(user_info)
+    begin
+      vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
+      # 檢查回傳結果是否包含 data 欄位
+      if vital_signs && vital_signs['data']
+        # 解密回來的資料
+        user_info = aes_cbc_decrypt(vital_signs['data'])
+        extract_data(user_info)
+      else
+        log('API 回傳資料缺少必要欄位', :error)
+        {}
+      end
+    rescue APIError, EncryptionError => e
+      log("爬取健康數據失敗: #{e.message}", :error)
+      {}
+    end
   end
 
   # 處理健康數據
   def process_health_data
     data_dict = fetch_health_data
+    # 如果沒有獲取到任何健康數據，提前返回
+    return { processed: 0, saved: [] } if data_dict.nil? || data_dict.empty?
+
     # 從爬回來的使用者身份證字號, 檢查是否有新的量測資料
     all_result = []
 

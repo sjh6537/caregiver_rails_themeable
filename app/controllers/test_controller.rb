@@ -57,7 +57,14 @@ class TestController < ApplicationController
 
     # 檢查社區設定檔是否存在
     community_profile = community.community_profile
-
+    unless community_profile
+      render json: {
+        status: 'error',
+        message: '找不到對應的社區設定檔！'
+      }, status: :not_found
+      return
+    end
+    # 檢查社區設定檔是否有必要的 icode 和 key
     unless community_profile.asus_icode.present? && community_profile.asus_key.present?
       render json: {
         status: 'error',
@@ -66,6 +73,7 @@ class TestController < ApplicationController
       return
     end
 
+    # 檢查社區設定檔的 icode 和 key 是否正確
     # 建立測試爬蟲實例並執行健康數據抓取
     crawler = HealthReportCrawler.new(icode: community_profile.asus_icode, key: community_profile.asus_key)
     result = crawler.fetch_health_data
@@ -75,24 +83,24 @@ class TestController < ApplicationController
       message: '健康報告資料抓取成功！',
       result: result
     }, status: :ok
-  rescue HealthReportCrawler::APIError => e
-    render json: {
-      status: 'error',
-      message: '抓取健康報告時發生 API 錯誤！',
-      error: e.message
-    }, status: :bad_gateway
-  rescue HealthReportCrawler::EncryptionError => e
-    render json: {
-      status: 'error',
-      message: '資料加解密過程發生錯誤！',
-      error: e.message
-    }, status: :internal_server_error
-  rescue StandardError => e
-    render json: {
-      status: 'error',
-      message: '發生未預期的錯誤！',
-      error: e.message,
-      backtrace: e.backtrace.take(10)
-    }, status: :internal_server_error
+    # rescue HealthReportCrawler::APIError => e
+    #   render json: {
+    #     status: 'error',
+    #     message: '抓取健康報告時發生 API 錯誤！',
+    #     error: e.message
+    #   }, status: :bad_gateway
+    # rescue HealthReportCrawler::EncryptionError => e
+    #   render json: {
+    #     status: 'error',
+    #     message: '資料加解密過程發生錯誤！',
+    #     error: e.message
+    #   }, status: :internal_server_error
+    # rescue StandardError => e
+    #   render json: {
+    #     status: 'error',
+    #     message: '發生未預期的錯誤！',
+    #     error: e.message,
+    #     backtrace: e.backtrace.take(10)
+    #   }, status: :internal_server_error
   end
 end
