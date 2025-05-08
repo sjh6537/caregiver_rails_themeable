@@ -58,7 +58,7 @@ class TestController < ApplicationController
     # 檢查社區設定檔是否存在
     community_profile = community.community_profile
 
-    unless community_profile.icode.present? && community_profile.key.present?
+    unless community_profile.asus_icode.present? && community_profile.asus_key.present?
       render json: {
         status: 'error',
         message: '社區設定檔缺少必要的 icode 或 key！'
@@ -67,7 +67,7 @@ class TestController < ApplicationController
     end
 
     # 建立測試爬蟲實例並執行健康數據抓取
-    crawler = TestHealthReportCrawler.new(icode: community_profile.icode, key: community_profile.key)
+    crawler = HealthReportCrawler.new(icode: community_profile.asus_icode, key: community_profile.asus_key)
     result = crawler.fetch_health_data
 
     render json: {
