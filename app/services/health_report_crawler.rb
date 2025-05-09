@@ -388,7 +388,7 @@ class HealthReportCrawler
       # pop_timestamp(data_dict_post) if defined?(pop_timestamp)
 
       # 檢查使用者是否有新的量測資料
-      last_record = user.health_records.order('measure_time DESC').first
+      last_record = user.health_reports.order('measure_time DESC').first
       next if last_record && last_record.measure_time > data_dict[id_card]['measure_time']
 
       # 將新的量測資料加入到 all_result 陣列中
