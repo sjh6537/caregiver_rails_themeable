@@ -407,8 +407,8 @@ class HealthReportCrawler
       user = @community.users.find_by(id_card: result[:user_id])
       next unless user
 
-      # 將資料轉換為 HealthRecord 物件
-      report = UserHealthReport.new(
+      # 將資料轉換為 HealthReport 物件
+      report = User::HealthReport.new(
         user_id: user.id,
         measure_time: Time.at(result[:data]['measure_time']),
         bmi: result[:data]['BW']['bmi'],
