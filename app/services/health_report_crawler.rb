@@ -408,9 +408,27 @@ class HealthReportCrawler
       next unless user
 
       # 將資料轉換為 HealthReport 物件
+      # 處理 measure_time 格式
+
+      mt = result[:data]['measure_time']
+      measure_time =
+        if mt.is_a?(Numeric) || (mt.is_a?(String) && mt.match?(/^\d+$/))
+          Time.at(mt.to_i)
+        else
+          begin
+            Time.zone.parse(mt)
+          rescue StandardError
+            begin
+              Time.parse(mt)
+            rescue StandardError
+              nil
+            end
+          end
+        end
+
       report = User::HealthReport.new(
         user_id: user.id,
-        measure_time: Time.at(result[:data]['measure_time']),
+        measure_time: measure_time,
         bmi: result[:data]['BW']['bmi'],
         weight: result[:data]['BW']['bw'],
         heart_rate: result[:data]['BP']['hb'],
