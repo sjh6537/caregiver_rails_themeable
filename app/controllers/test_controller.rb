@@ -103,4 +103,81 @@ class TestController < ApplicationController
     #     backtrace: e.backtrace.take(10)
     #   }, status: :internal_server_error
   end
+
+  # 三、取得個人健康資料
+  def test_user_health_report
+    id_card = params[:id_card]
+    start_time = params[:start_time]
+    end_time = params[:end_time] || Date.today.to_s
+
+    # 檢查必要參數
+    unless id_card.present?
+      render json: {
+        status: 'error',
+        message: '缺少身份證號碼參數！'
+      }, status: :bad_request
+      return
+    end
+
+    # 尋找使用者
+    user = User.find_by(id_card: id_card)
+    unless user
+      render json: {
+        status: 'error',
+        message: '找不到此身份證號碼的使用者！'
+      }, status: :not_found
+      return
+    end
+
+    # 確認使用者所屬社區
+    community = user.community
+    unless community && community.community_profile
+      render json: {
+        status: 'error',
+        message: '使用者社區資訊不完整或缺少設定檔！'
+      }, status: :not_found
+      return
+    end
+
+    # 確認社區設定檔有必要的健康資料存取資訊
+    profile = community.community_profile
+    unless profile.asus_icode.present? && profile.asus_key.present?
+      render json: {
+        status: 'error',
+        message: '社區設定檔缺少必要的健康資料存取設定！'
+      }, status: :bad_request
+      return
+    end
+
+    begin
+      # 建立爬蟲實例並取得特定使用者的健康資料
+      crawler = HealthReportCrawler.new(icode: profile.asus_icode, key: profile.asus_key)
+      result = crawler.fetch_health_data(start_time, end_time, [id_card])
+
+      render json: {
+        status: 'success',
+        message: '健康報告資料抓取成功！',
+        result: result
+      }, status: :ok
+    rescue HealthReportCrawler::APIError => e
+      render json: {
+        status: 'error',
+        message: '取得健康資料時發生 API 錯誤！',
+        error: e.message
+      }, status: :bad_gateway
+    rescue HealthReportCrawler::EncryptionError => e
+      render json: {
+        status: 'error',
+        message: '資料加解密過程發生錯誤！',
+        error: e.message
+      }, status: :internal_server_error
+    rescue StandardError => e
+      render json: {
+        status: 'error',
+        message: '發生未預期的錯誤！',
+        error: e.message,
+        backtrace: e.backtrace.take(10)
+      }, status: :internal_server_error
+    end
+  end
 end

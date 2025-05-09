@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   # 測試用路由
   post 'test/line_push', to: 'test#test_line_push'
   post 'test/health_report', to: 'test#test_health_report'
+  post 'test/user_health_report', to: 'test#test_user_health_report'
 
   mount Sidekiq::Web, at: '/sidekiq'
 

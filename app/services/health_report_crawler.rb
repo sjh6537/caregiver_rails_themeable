@@ -312,10 +312,15 @@ class HealthReportCrawler
   end
 
   # 爬取健康數據
-  def fetch_health_data(start_time = nil, end_time = nil)
+  def fetch_health_data(start_time = nil, end_time = nil, id_cards = nil)
     # 取得所有使用者的身分證字號
-    log("社區名稱: #{@community.name}")
-    user_infos = @community.users.pluck(:id_card)
+    user_infos = if id_cards.nil?
+                   # 取得所有使用者的身分證字號
+                   @community.users.pluck(:id_card)
+                 else
+                   id_cards
+                 end
+    log("使用者身分證字號: #{user_infos.inspect}")
     # 除去空值
     raw_string = user_infos.reject(&:blank?)
 
