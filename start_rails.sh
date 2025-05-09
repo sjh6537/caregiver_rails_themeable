@@ -14,12 +14,16 @@ else
     echo "Redis 伺服器已在執行中"
 fi
 
+# 確保 log 目錄存在
+mkdir -p log
+
 # 檢查 Sidekiq 是否已啟動
 if ! pgrep -f "sidekiq" > /dev/null
 then
     echo "啟動 Sidekiq 工作者..."
-    bundle exec sidekiq -e production -C config/sidekiq.yml -d
-    if [ $? -eq 0 ]; then
+    nohup bundle exec sidekiq -e production -C config/sidekiq.yml > log/sidekiq.log 2>&1 &
+    sleep 2
+    if pgrep -f "sidekiq" > /dev/null; then
         echo "Sidekiq 已在背景執行中"
     else
         echo "警告: Sidekiq 啟動可能失敗，請檢查日誌"
@@ -33,7 +37,8 @@ if ! pgrep -f "rails server" > /dev/null
 then
     echo "啟動 Rails 伺服器..."
     bundle exec rails server -e production -d
-    if [ $? -eq 0 ]; then
+    sleep 2
+    if pgrep -f "rails server" > /dev/null; then
         echo "Rails 伺服器已在背景執行中"
     else
         echo "警告: Rails 伺服器啟動可能失敗，請檢查日誌"
