@@ -20,6 +20,7 @@ module LearningLife
 
     config.i18n.default_locale = :'zh-TW'
     config.time_zone = 'Asia/Taipei'
+    config.active_record.default_timezone = :utc
     config.active_job.queue_adapter = :sidekiq
     # Configuration for the application, engines, and railties goes here.
     #

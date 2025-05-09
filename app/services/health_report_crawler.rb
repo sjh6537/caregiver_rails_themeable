@@ -390,7 +390,23 @@ class HealthReportCrawler
 
       # 檢查使用者是否有新的量測資料
       last_record = user.health_reports.order('measure_time DESC').first
-      next if last_record && last_record.measure_time > data_dict[id_card]['measure_time']
+      last_time = last_record&.measure_time
+      new_time_raw = data_dict[id_card]['measure_time']
+      new_time =
+        if new_time_raw.is_a?(Numeric) || (new_time_raw.is_a?(String) && new_time_raw.match?(/^\d+$/))
+          Time.at(new_time_raw.to_i)
+        else
+          begin
+            Time.zone.parse(new_time_raw)
+          rescue StandardError
+            begin
+              Time.parse(new_time_raw)
+            rescue StandardError
+              nil
+            end
+          end
+        end
+      next if last_time && new_time && last_time >= new_time
 
       # 將新的量測資料加入到 all_result 陣列中
       all_result << {
