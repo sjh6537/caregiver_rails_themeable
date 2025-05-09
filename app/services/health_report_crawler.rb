@@ -190,7 +190,9 @@ class HealthReportCrawler
         user_data[user_id]['TP']['temperature'] = item['temperature'].to_f
         user_data[user_id]['TP']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        # 確保比較的值類型一致，將item['measure_time']轉換為整數
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -205,7 +207,8 @@ class HealthReportCrawler
         user_data[user_id]['BP']['hb'] = item['hb'].to_f
         user_data[user_id]['BP']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -220,7 +223,8 @@ class HealthReportCrawler
         user_data[user_id]['BS']['hct'] = item['hct'].to_f
         user_data[user_id]['BS']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -234,7 +238,8 @@ class HealthReportCrawler
         user_data[user_id]['OX']['hb'] = item['hb'].to_f
         user_data[user_id]['OX']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -247,7 +252,8 @@ class HealthReportCrawler
         user_data[user_id]['HB']['hb'] = item['hb'].to_f
         user_data[user_id]['HB']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -261,7 +267,8 @@ class HealthReportCrawler
         user_data[user_id]['BW']['bmi'] = item['bmi'].to_f
         user_data[user_id]['BW']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -274,7 +281,8 @@ class HealthReportCrawler
         user_data[user_id]['TC']['tc'] = item['tc'].to_f
         user_data[user_id]['TC']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -286,7 +294,8 @@ class HealthReportCrawler
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
 
@@ -298,7 +307,8 @@ class HealthReportCrawler
         user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
         user_data[user_id]['OHB']['measure_time'] = item['measure_time']
         # 更新最近的量測時間
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'], item['measure_time']].max
+        measure_time = item['measure_time'].to_i
+        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
       end
     end
     user_data
@@ -320,7 +330,6 @@ class HealthReportCrawler
                  else
                    id_cards
                  end
-    log("使用者身分證字號: #{user_infos.inspect}")
     # 除去空值
     raw_string = user_infos.reject(&:blank?)
 
@@ -339,7 +348,7 @@ class HealthReportCrawler
 
     begin
       vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
-      log("API 回傳資料: #{vital_signs.inspect}", :debug)
+      log("API 回傳資料: #{vital_signs.inspect}")
       # 檢查回傳結果是否包含 data 欄位
       if vital_signs && vital_signs['data']
         # 解密回來的資料
