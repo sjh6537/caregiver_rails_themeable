@@ -14,13 +14,32 @@ else
     echo "Redis 伺服器已在執行中"
 fi
 
-# 啟動 Sidekiq
-echo "啟動 Sidekiq 工作者..."
-bundle exec sidekiq -e production -C config/sidekiq.yml -d
-echo "Sidekiq 已在背景執行中"
+# 檢查 Sidekiq 是否已啟動
+if ! pgrep -f "sidekiq" > /dev/null
+then
+    echo "啟動 Sidekiq 工作者..."
+    bundle exec sidekiq -e production -C config/sidekiq.yml -d
+    if [ $? -eq 0 ]; then
+        echo "Sidekiq 已在背景執行中"
+    else
+        echo "警告: Sidekiq 啟動可能失敗，請檢查日誌"
+    fi
+else
+    echo "Sidekiq 已在執行中"
+fi
 
-# 啟動 Rails 伺服器
-echo "啟動 Rails 伺服器..."
-bundle exec rails server -e production -d
+# 檢查 Rails 伺服器是否已啟動
+if ! pgrep -f "rails server" > /dev/null
+then
+    echo "啟動 Rails 伺服器..."
+    bundle exec rails server -e production -d
+    if [ $? -eq 0 ]; then
+        echo "Rails 伺服器已在背景執行中"
+    else
+        echo "警告: Rails 伺服器啟動可能失敗，請檢查日誌"
+    fi
+else
+    echo "Rails 伺服器已在執行中"
+fi
 
-echo "系統已關閉"
+echo "所有服務已成功啟動並在背景執行中"
