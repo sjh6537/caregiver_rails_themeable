@@ -16,6 +16,7 @@ class HealthReportCrawler
 
   # 建立爬蟲實例時接收參數
   def initialize(icode: nil, key: nil)
+    log('抓取Health Hub 健康報告')
     @icode = icode
     @key = key
     community_profile = CommunityProfile.find_by(asus_icode: icode)
@@ -370,8 +371,8 @@ class HealthReportCrawler
   end
 
   # 處理健康數據
-  def process_health_data
-    data_dict = fetch_health_data
+  def process_health_data(user_health_data_infos)
+    data_dict = user_health_data_infos
     # 如果沒有獲取到任何健康數據，提前返回
     return { processed: 0, saved: [] } if data_dict.nil? || data_dict.empty?
 

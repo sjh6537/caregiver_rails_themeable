@@ -83,25 +83,6 @@ class TestController < ApplicationController
       message: '健康報告資料抓取成功！',
       result: result
     }, status: :ok
-    # rescue HealthReportCrawler::APIError => e
-    #   render json: {
-    #     status: 'error',
-    #     message: '抓取健康報告時發生 API 錯誤！',
-    #     error: e.message
-    #   }, status: :bad_gateway
-    # rescue HealthReportCrawler::EncryptionError => e
-    #   render json: {
-    #     status: 'error',
-    #     message: '資料加解密過程發生錯誤！',
-    #     error: e.message
-    #   }, status: :internal_server_error
-    # rescue StandardError => e
-    #   render json: {
-    #     status: 'error',
-    #     message: '發生未預期的錯誤！',
-    #     error: e.message,
-    #     backtrace: e.backtrace.take(10)
-    #   }, status: :internal_server_error
   end
 
   # 三、取得個人健康資料
@@ -153,6 +134,7 @@ class TestController < ApplicationController
       # 建立爬蟲實例並取得特定使用者的健康資料
       crawler = HealthReportCrawler.new(icode: profile.asus_icode, key: profile.asus_key)
       result = crawler.fetch_health_data(start_time, end_time, [id_card])
+      crawler.process_health_data(result)
 
       render json: {
         status: 'success',
