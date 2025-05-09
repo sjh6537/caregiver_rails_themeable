@@ -317,6 +317,7 @@ class HealthReportCrawler
         end
       end
     end
+
     user_data
   end
 
@@ -440,7 +441,8 @@ class HealthReportCrawler
         hemoglobin: result[:data]['OX']['hb'],
         hematocrit: result[:data]['BS']['hct'],
         uric_acid: result[:data]['UA']['ua'],
-        total_cholesterol: result[:data]['TC']['tc']
+        total_cholesterol: result[:data]['TC']['tc'],
+        ketones: result[:data]['OHB']['ohb']
       )
 
       # 儲存健康紀錄

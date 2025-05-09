@@ -1,6 +1,4 @@
 # UpdateHealthReport 類別負責更新所有使用者的健康報告資訊
-# 此工作由 Sidekiq 排程器每分鐘執行一次 (詳見 config/sidekiq.yml)
-# 主要用途：更新所有用戶的 nhi_id 欄位為目前的時間戳記，用於健康報告狀態追蹤
 class UpdateHealthReport
   include Sidekiq::Worker # 將此類別標記為 Sidekiq 工作者，可以進行背景任務處理
   sidekiq_options retry: false # 設定此任務失敗時不進行重試
@@ -9,7 +7,7 @@ class UpdateHealthReport
   # @return [void]
   def perform
     # 找出所有有設定 asus_icode 的社區
-    Community.where(enabled: true).each do |community|
+    Community.where(enable: true).each do |community|
       profile = community.community_profile
       next unless profile.asus_icode.present? && profile.asus_key.present?
 
