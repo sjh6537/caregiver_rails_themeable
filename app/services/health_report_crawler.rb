@@ -153,22 +153,28 @@ class HealthReportCrawler
     end
   end
 
+  # 建立空的使用者健康資料雜湊表
   def create_empty_dict(user_id)
     default_value = 0
-    {
-      'User_id' => user_id,
-      'measure_time' => default_value,
-      'TP' => { 'temperature' => default_value, 'measure_time' => default_value },
+    measure_time_val = ''
+    temp = { 'User_id' => user_id, 'measure_time' => measure_time_val }
+
+    # 體溫、血壓、血糖等資料結構
+    fields = {
+      'TP' => { 'temperature' => default_value, 'measure_time' => measure_time_val },
       'BP' => { 'sbp' => default_value, 'dbp' => default_value, 'hb' => default_value,
-                'measure_time' => default_value },
-      'BS' => { 'bs' => default_value, 'hg' => default_value, 'hct' => default_value, 'measure_time' => default_value },
-      'OX' => { 'oxygen' => default_value, 'hb' => default_value, 'measure_time' => default_value },
-      'HB' => { 'hb' => default_value, 'measure_time' => default_value },
-      'BW' => { 'bw' => default_value, 'bmi' => default_value, 'measure_time' => default_value },
-      'TC' => { 'tc' => default_value, 'measure_time' => default_value },
-      'UA' => { 'ua' => default_value, 'measure_time' => default_value },
-      'OHB' => { 'ohb' => default_value, 'measure_time' => default_value }
+                'measure_time' => measure_time_val },
+      'BS' => { 'bs' => default_value, 'hg' => default_value, 'hct' => default_value,
+                'measure_time' => measure_time_val },
+      'OX' => { 'oxygen' => default_value, 'hb' => default_value, 'measure_time' => measure_time_val },
+      'HB' => { 'hb' => default_value, 'measure_time' => measure_time_val },
+      'BW' => { 'bw' => default_value, 'bmi' => default_value, 'measure_time' => measure_time_val },
+      'TC' => { 'tc' => default_value, 'measure_time' => measure_time_val },
+      'UA' => { 'ua' => default_value, 'measure_time' => measure_time_val },
+      'OHB' => { 'ohb' => default_value, 'measure_time' => measure_time_val }
     }
+
+    temp.merge(fields)
   end
 
   def extract_data(user_info)
@@ -189,10 +195,9 @@ class HealthReportCrawler
 
         user_data[user_id]['TP']['temperature'] = item['temperature'].to_f
         user_data[user_id]['TP']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        # 確保比較的值類型一致，將item['measure_time']轉換為整數
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -206,9 +211,9 @@ class HealthReportCrawler
         user_data[user_id]['BP']['dbp'] = item['dbp'].to_f
         user_data[user_id]['BP']['hb'] = item['hb'].to_f
         user_data[user_id]['BP']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -222,9 +227,9 @@ class HealthReportCrawler
         user_data[user_id]['BS']['hg'] = item['hg'].to_f
         user_data[user_id]['BS']['hct'] = item['hct'].to_f
         user_data[user_id]['BS']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -237,9 +242,9 @@ class HealthReportCrawler
         user_data[user_id]['OX']['oxygen'] = item['oxygen'].to_f
         user_data[user_id]['OX']['hb'] = item['hb'].to_f
         user_data[user_id]['OX']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -251,9 +256,9 @@ class HealthReportCrawler
 
         user_data[user_id]['HB']['hb'] = item['hb'].to_f
         user_data[user_id]['HB']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -266,9 +271,9 @@ class HealthReportCrawler
         user_data[user_id]['BW']['bw'] = item['bw'].to_f
         user_data[user_id]['BW']['bmi'] = item['bmi'].to_f
         user_data[user_id]['BW']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -280,9 +285,9 @@ class HealthReportCrawler
 
         user_data[user_id]['TC']['tc'] = item['tc'].to_f
         user_data[user_id]['TC']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -293,9 +298,9 @@ class HealthReportCrawler
         user_data[user_id] ||= create_empty_dict(user_id)
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
@@ -306,9 +311,9 @@ class HealthReportCrawler
         user_data[user_id] ||= create_empty_dict(user_id)
         user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
         user_data[user_id]['OHB']['measure_time'] = item['measure_time']
-        # 更新最近的量測時間
-        measure_time = item['measure_time'].to_i
-        user_data[user_id]['measure_time'] = [user_data[user_id]['measure_time'].to_i, measure_time].max
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
     user_data
@@ -379,11 +384,11 @@ class HealthReportCrawler
       next unless user
 
       data_dict_post = Marshal.load(Marshal.dump(data_dict[id_card])) # 深度複製
-      pop_timestamp(data_dict_post) if defined?(pop_timestamp)
+      # pop_timestamp(data_dict_post) if defined?(pop_timestamp)
 
       # 檢查使用者是否有新的量測資料
       last_record = user.health_records.order('measure_time DESC').first
-      next if last_record && last_record.measure_time >= data_dict[id_card]['measure_time']
+      next if last_record && last_record.measure_time > data_dict[id_card]['measure_time']
 
       # 將新的量測資料加入到 all_result 陣列中
       all_result << {
@@ -407,11 +412,11 @@ class HealthReportCrawler
         measure_time: Time.at(result[:data]['measure_time']),
         bmi: result[:data]['BW']['bmi'],
         weight: result[:data]['BW']['bw'],
-        heart_rate: result[:data]['BP']['hb'].to_i,
-        blood_pressure1: result[:data]['BP']['sbp'].to_i,
-        blood_pressure2: result[:data]['BP']['dbp'].to_i,
-        blood_sugar: result[:data]['BS']['bs'].to_i,
-        blood_oxygen: result[:data]['OX']['oxygen'].to_i,
+        heart_rate: result[:data]['BP']['hb'],
+        blood_pressure1: result[:data]['BP']['sbp'],
+        blood_pressure2: result[:data]['BP']['dbp'],
+        blood_sugar: result[:data]['BS']['bs'],
+        blood_oxygen: result[:data]['OX']['oxygen'],
         temperature: result[:data]['TP']['temperature'],
         hemoglobin: result[:data]['OX']['hb'],
         hematocrit: result[:data]['BS']['hct'],
