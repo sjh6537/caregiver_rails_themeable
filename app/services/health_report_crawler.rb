@@ -6,15 +6,26 @@ require 'uri'
 require 'fileutils'
 
 class HealthReportCrawler
+  include ReportHelper
+  include LineHelper
   class Error < StandardError; end
   class APIError < Error; end
   class EncryptionError < Error; end
 
-  # Asus settings
-  ICODE = 'K00016'
-  KEY = 'K00016yFjdKGNeVF'
+  attr_reader :icode, :key, :community
 
-  private
+  # 建立爬蟲實例時接收參數
+  def initialize(icode: nil, key: nil)
+    log('抓取Health Hub 健康報告')
+    @icode = icode
+    @key = key
+    community_profile = CommunityProfile.find_by(asus_icode: icode)
+    @community = community_profile&.community
+    return unless @community.nil?
+
+    log("無法找到 icode=#{icode} 的社區或其資料", :error)
+    raise Error, '無法找到社區資料'
+  end
 
   def log(message, level = :info)
     Rails.logger.send(level, "[HealthReportCrawler] #{message}") if Rails.env.development? || level != :debug
@@ -43,10 +54,10 @@ class HealthReportCrawler
   # @param key [String] 加密金鑰
   # @param raw_string [String] 要加密的原始字串
   # @return [String] Base64 編碼的加密字串
-  def aes_cbc_encrypt(key, raw_string)
-    return '' if key.nil? || raw_string.nil?
+  def aes_cbc_encrypt(raw_string)
+    return '' if @key.nil? || raw_string.nil?
 
-    key_bytes, iv = aes_key_iv(key)
+    key_bytes, iv = aes_key_iv(@key)
 
     cipher = OpenSSL::Cipher.new('AES-128-CBC')
     cipher.encrypt
@@ -64,10 +75,10 @@ class HealthReportCrawler
   # @param key [String] 解密金鑰
   # @param enc_string [String] Base64 編碼的加密字串
   # @return [String] 解密後的原始字串
-  def aes_cbc_decrypt(key, enc_string)
-    return '' if key.nil? || enc_string.nil? || enc_string.empty?
+  def aes_cbc_decrypt(enc_string)
+    return '' if @key.nil? || enc_string.nil? || enc_string.empty?
 
-    key_bytes, iv = aes_key_iv(key)
+    key_bytes, iv = aes_key_iv(@key)
 
     decipher = OpenSSL::Cipher.new('AES-128-CBC')
     decipher.decrypt
@@ -86,7 +97,7 @@ class HealthReportCrawler
     end
   end
 
-  def get_vital_signs(icode, encrypted_id, start_time, end_time)
+  def get_vital_signs(encrypted_id, start_time, end_time)
     # 根據環境使用不同的 URL
     base_url = if Rails.env.production?
                  'https://hhds.asus-healthcare.com'
@@ -98,7 +109,7 @@ class HealthReportCrawler
 
     headers = {
       'Content-Type' => 'application/json',
-      'icode' => icode
+      'icode' => @icode
     }
 
     data = {
@@ -143,41 +154,56 @@ class HealthReportCrawler
     end
   end
 
+  # 建立空的使用者健康資料雜湊表
   def create_empty_dict(user_id)
     default_value = 0
-    {
-      'User_id' => user_id,
-      'TP' => { 'temperature' => default_value, 'measure_time' => default_value },
+    measure_time_val = ''
+    temp = { 'User_id' => user_id, 'measure_time' => measure_time_val }
+
+    # 體溫、血壓、血糖等資料結構
+    fields = {
+      'TP' => { 'temperature' => default_value, 'measure_time' => measure_time_val },
       'BP' => { 'sbp' => default_value, 'dbp' => default_value, 'hb' => default_value,
-                'measure_time' => default_value },
-      'BS' => { 'bs' => default_value, 'hg' => default_value, 'hct' => default_value, 'measure_time' => default_value },
-      'OX' => { 'oxygen' => default_value, 'hb' => default_value, 'measure_time' => default_value },
-      'HB' => { 'hb' => default_value, 'measure_time' => default_value },
-      'BW' => { 'bw' => default_value, 'bmi' => default_value, 'measure_time' => default_value },
-      'TC' => { 'tc' => default_value, 'measure_time' => default_value },
-      'UA' => { 'ua' => default_value, 'measure_time' => default_value },
-      'OHB' => { 'ohb' => default_value, 'measure_time' => default_value }
+                'measure_time' => measure_time_val },
+      'BS' => { 'bs' => default_value, 'hg' => default_value, 'hct' => default_value,
+                'measure_time' => measure_time_val },
+      'OX' => { 'oxygen' => default_value, 'hb' => default_value, 'measure_time' => measure_time_val },
+      'HB' => { 'hb' => default_value, 'measure_time' => measure_time_val },
+      'BW' => { 'bw' => default_value, 'bmi' => default_value, 'measure_time' => measure_time_val },
+      'TC' => { 'tc' => default_value, 'measure_time' => measure_time_val },
+      'UA' => { 'ua' => default_value, 'measure_time' => measure_time_val },
+      'OHB' => { 'ohb' => default_value, 'measure_time' => measure_time_val }
     }
+
+    temp.merge(fields)
   end
 
   def extract_data(user_info)
-    user_info = JSON.parse(user_info)
+    begin
+      user_info = JSON.parse(user_info)
+    rescue JSON::ParserError => e
+      log("JSON 解析錯誤: #{e.message}", :error)
+      return {} # 返回空雜湊表，避免程式中斷
+    end
 
     user_data = {}
 
     # 處理體溫數據 (TP)
-    if user_info['TP'].length > 0
+    if user_info['TP'] && user_info['TP'].is_a?(Array) && user_info['TP'].length > 0
       user_info['TP'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
 
         user_data[user_id]['TP']['temperature'] = item['temperature'].to_f
         user_data[user_id]['TP']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理血壓數據 (BP)
-    if user_info['BP'].length > 0
+    if user_info['BP'] && user_info['BP'].is_a?(Array) && user_info['BP'].length > 0
       user_info['BP'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -186,11 +212,14 @@ class HealthReportCrawler
         user_data[user_id]['BP']['dbp'] = item['dbp'].to_f
         user_data[user_id]['BP']['hb'] = item['hb'].to_f
         user_data[user_id]['BP']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理血糖數據 (BS)
-    if user_info['BS'].length > 0
+    if user_info['BS'] && user_info['BS'].is_a?(Array) && user_info['BS'].length > 0
       user_info['BS'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -199,11 +228,14 @@ class HealthReportCrawler
         user_data[user_id]['BS']['hg'] = item['hg'].to_f
         user_data[user_id]['BS']['hct'] = item['hct'].to_f
         user_data[user_id]['BS']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理氧氣數據 (OX)
-    if user_info['OX'].length > 0
+    if user_info['OX'] && user_info['OX'].is_a?(Array) && user_info['OX'].length > 0
       user_info['OX'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -211,22 +243,28 @@ class HealthReportCrawler
         user_data[user_id]['OX']['oxygen'] = item['oxygen'].to_f
         user_data[user_id]['OX']['hb'] = item['hb'].to_f
         user_data[user_id]['OX']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理血紅素數據 (HB)
-    if user_info['HB'].length > 0
+    if user_info['HB'] && user_info['HB'].is_a?(Array) && user_info['HB'].length > 0
       user_info['HB'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
 
         user_data[user_id]['HB']['hb'] = item['hb'].to_f
         user_data[user_id]['HB']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理體重數據 (BW)
-    if user_info['BW'].length > 0
+    if user_info['BW'] && user_info['BW'].is_a?(Array) && user_info['BW'].length > 0
       user_info['BW'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
@@ -234,229 +272,206 @@ class HealthReportCrawler
         user_data[user_id]['BW']['bw'] = item['bw'].to_f
         user_data[user_id]['BW']['bmi'] = item['bmi'].to_f
         user_data[user_id]['BW']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理總膽固醇數據 (TC)
-    if user_info['TC'].length > 0
+    if user_info['TC'] && user_info['TC'].is_a?(Array) && user_info['TC'].length > 0
       user_info['TC'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
 
         user_data[user_id]['TC']['tc'] = item['tc'].to_f
         user_data[user_id]['TC']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     # 處理尿酸數據 (UA)
-    if user_info['UA'].length > 0
+    if user_info['UA'] && user_info['UA'].is_a?(Array) && user_info['UA'].length > 0
       user_info['UA'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
-
         user_data[user_id]['UA']['ua'] = item['ua'].to_f
         user_data[user_id]['UA']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
-    # 處理氧氣飽和數據 (OHB)
-    if user_info['OHB'].length > 0
+    # 處理血氧數據 (OHB)
+    if user_info['OHB'] && user_info['OHB'].is_a?(Array) && user_info['OHB'].length > 0
       user_info['OHB'].reverse_each do |item|
         user_id = item['id']
         user_data[user_id] ||= create_empty_dict(user_id)
-
         user_data[user_id]['OHB']['ohb'] = item['ohb'].to_f
         user_data[user_id]['OHB']['measure_time'] = item['measure_time']
+        if user_data[user_id]['measure_time'].blank? || item['measure_time'].to_s > user_data[user_id]['measure_time'].to_s
+          user_data[user_id]['measure_time'] = item['measure_time']
+        end
       end
     end
 
     user_data
   end
 
+  # 刪除時間戳記
   def pop_timestamp(data_dict)
-    data_dict.each do |category, values|
-      if data_dict[category].is_a?(Hash) && data_dict[category].key?('measure_time')
-        data_dict[category].delete('measure_time')
-      end
+    data_dict.each do |_category, values|
+      values.delete('measure_time') if values.is_a?(Hash)
     end
   end
 
-  def run
-    log('Starting health report crawling')
-    # 修改：從資料庫中獲取使用者的身分證字號，而不是從檔案中取得
-    id_card_list = User.where.not(id_card: [nil, '']).pluck(:id_card)
+  # 爬取健康數據
+  def fetch_health_data(start_time = nil, end_time = nil, id_cards = nil)
+    # 取得所有使用者的身分證字號
+    user_infos = if id_cards.nil?
+                   # 取得所有使用者的身分證字號
+                   @community.users.pluck(:id_card)
+                 else
+                   id_cards
+                 end
+    # 除去空值
+    raw_string = user_infos.reject(&:blank?)
 
-    if id_card_list.empty?
-      log('No users found with ID cards')
-      return
-    end
+    # 如果沒有使用者資料，提前返回空雜湊
+    return {} if raw_string.empty?
 
     # 將所有的使用者身分證字號加密
-    all_IDs = id_card_list.join(',')
-    log("Processing #{id_card_list.size} users")
-    log("All IDs: #{all_IDs}")
-    encrypted_id = aes_cbc_encrypt(KEY, all_IDs)
+    all_ids = raw_string.join(',')
+    encrypted_id = aes_cbc_encrypt(all_ids)
 
     # 從Asus的server爬所有使用者的量測資料
-    current_date = DateTime.now.strftime('%Y-%m-%d')
-    start_time = "#{current_date} 00:00:00"
-    end_time = "#{current_date} 23:59:59"
+    current_date = Time.now
+    date_string = current_date.strftime('%Y-%m-%d')
+    start_time = "#{date_string} 00:00:00" if start_time.nil?
+    end_time = "#{date_string} 23:59:59" if end_time.nil?
 
-    vital_signs = get_vital_signs(ICODE, encrypted_id, start_time, end_time)
-    user_info = aes_cbc_decrypt(KEY, vital_signs['data'])
-    data_dict = extract_data(user_info)
+    begin
+      vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
+      log("API 回傳資料: #{vital_signs.inspect}")
+      # 檢查回傳結果是否包含 data 欄位
+      if vital_signs && vital_signs['data']
+        # 解密回來的資料
+        user_info = aes_cbc_decrypt(vital_signs['data'])
+        extract_data(user_info)
+      else
+        log('API 回傳資料缺少必要欄位', :error)
+        {}
+      end
+    rescue APIError, EncryptionError => e
+      log("爬取健康數據失敗: #{e.message}", :error)
+      {}
+    end
+  end
 
-    # 從爬回來的使用者身份證字號，檢查是否有新的量測資料
+  # 處理健康數據
+  def process_health_data(user_health_data_infos)
+    data_dict = user_health_data_infos
+    # 如果沒有獲取到任何健康數據，提前返回
+    return { processed: 0, saved: [] } if data_dict.nil? || data_dict.empty?
+
+    # 從爬回來的使用者身份證字號, 檢查是否有新的量測資料
     all_result = []
-    success_count = 0
-    error_count = 0
 
-    data_dict.keys.each do |id|
-      # 尋找對應的使用者
-      user = User.find_by(id_card: id)
+    data_dict.keys.each do |id_card|
+      # 檢查使用者是否存在
+      user = @community.users.find_by(id_card: id_card)
       next unless user
 
-      process_user_data(user, data_dict[id], all_result)
-      success_count += 1
-    rescue StandardError => e
-      error_count += 1
-      log("Error processing user #{id}: #{e.message}", :error)
+      data_dict_post = Marshal.load(Marshal.dump(data_dict[id_card])) # 深度複製
+      # pop_timestamp(data_dict_post) if defined?(pop_timestamp)
+
+      # 檢查使用者是否有新的量測資料
+      last_record = user.health_reports.order('measure_time DESC').first
+      last_time = last_record&.measure_time
+      new_time_raw = data_dict[id_card]['measure_time']
+      new_time =
+        if new_time_raw.is_a?(Numeric) || (new_time_raw.is_a?(String) && new_time_raw.match?(/^\d+$/))
+          Time.at(new_time_raw.to_i)
+        else
+          begin
+            Time.zone.parse(new_time_raw)
+          rescue StandardError
+            begin
+              Time.parse(new_time_raw)
+            rescue StandardError
+              nil
+            end
+          end
+        end
+      next if last_time && new_time && last_time >= new_time
+
+      # 將新的量測資料加入到 all_result 陣列中
+      all_result << {
+        user_id: id_card,
+        data: data_dict_post
+      }
     end
 
-    log("Processed #{success_count} users successfully, #{error_count} errors")
+    return nil unless all_result.any?
 
-    # 將新的量測資料送回稻相顧資料庫（並推播）
-    send_health_data(all_result) if all_result.any?
-  rescue StandardError => e
-    log("Critical error in health report crawler: #{e.message}", :error)
-    Rails.logger.error e.backtrace.join("\n")
-  end
+    # 將新的量測資料送回稻相顧資料庫(並推播)
 
-  private
+    saved_reports = []
+    all_result.each do |result|
+      user = @community.users.find_by(id_card: result[:user_id])
+      next unless user
 
-  def process_user_data(user, user_data, all_result)
-    data_dict_post = Marshal.load(Marshal.dump(user_data)) # 深度複製
-    pop_timestamp(data_dict_post)
+      # 將資料轉換為 HealthReport 物件
+      # 處理 measure_time 格式
 
-    return unless new_measurements?(user, user_data)
+      mt = result[:data]['measure_time']
+      measure_time =
+        if mt.is_a?(Numeric) || (mt.is_a?(String) && mt.match?(/^\d+$/))
+          Time.at(mt.to_i)
+        else
+          begin
+            Time.zone.parse(mt)
+          rescue StandardError
+            begin
+              Time.parse(mt)
+            rescue StandardError
+              nil
+            end
+          end
+        end
 
-    all_result << data_dict_post
-    save_health_report(user, user_data)
-  end
+      report = User::HealthReport.new(
+        user_id: user.id,
+        measure_time: measure_time,
+        bmi: result[:data]['BW']['bmi'],
+        weight: result[:data]['BW']['bw'],
+        heart_rate: result[:data]['BP']['hb'],
+        blood_pressure1: result[:data]['BP']['sbp'],
+        blood_pressure2: result[:data]['BP']['dbp'],
+        blood_sugar: result[:data]['BS']['bs'],
+        blood_oxygen: result[:data]['OX']['oxygen'],
+        temperature: result[:data]['TP']['temperature'],
+        hemoglobin: result[:data]['OX']['hb'],
+        hematocrit: result[:data]['BS']['hct'],
+        uric_acid: result[:data]['UA']['ua'],
+        total_cholesterol: result[:data]['TC']['tc'],
+        ketones: result[:data]['OHB']['ohb']
+      )
 
-  def new_measurements?(user, data)
-    %w[TP BP BS OX HB BW TC UA OHB].any? do |category|
-      measure_time = data[category]['measure_time']
-      next false if measure_time == 0
-
-      begin
-        measure_datetime = DateTime.parse(measure_time.to_s)
-        !existing_measurement?(user, category, measure_datetime, data[category])
-      rescue StandardError => e
-        log("Error checking measurements for #{category}: #{e.message}", :error)
-        false
+      # 儲存健康紀錄
+      if report.save
+        log("健康紀錄已儲存，使用者 ID：#{user.id}")
+        # 推播通知發送給用戶
+        message_push(user.account, format_health_report(report))
+        saved_reports << { user_id: user.id, report_id: report.id }
+      else
+        log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{report.errors.full_messages.join(', ')}", :error)
       end
     end
-  end
 
-  def existing_measurement?(user, category, measure_datetime, data)
-    case category
-    when 'TP'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        temperature: data['temperature']
-      )
-    when 'BP'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_pressure1: data['sbp'],
-        blood_pressure2: data['dbp'],
-        heart_rate: data['hb']
-      )
-    when 'BS'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_sugar: data['bs'],
-        hemoglobin: data['hg'],
-        hematocrit: data['hct']
-      )
-    when 'OX'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        blood_oxygen: data['oxygen']
-      )
-    when 'BW'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        weight: data['bw'],
-        bmi: data['bmi']
-      )
-    when 'TC'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        total_cholesterol: data['tc']
-      )
-    when 'UA'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        uric_acid: data['ua']
-      )
-    when 'OHB'
-      user.health_reports.exists?(
-        measure_time: measure_datetime,
-        ketones: data['ohb']
-      )
-    else
-      false
-    end
-  end
-
-  def send_health_data(data)
-    return if data.empty?
-
-    uri = URI.parse(post_url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-    http.read_timeout = Settings.health_report.timeout || 30
-    http.open_timeout = Settings.health_report.timeout || 30
-
-    request = Net::HTTP::Post.new(uri.path)
-    request['Content-Type'] = 'application/json'
-    request.body = data.to_json
-
-    response = http.request(request)
-
-    unless response.code.to_s.start_with?('2')
-      log("Failed to send health data. Status: #{response.code}, Body: #{response.body}", :error)
-      raise APIError, "Failed to send health data: #{response.code}"
-    end
-
-    log("Successfully sent health data for #{data.size} users")
-  rescue StandardError => e
-    log("Error sending health data: #{e.message}", :error)
-    raise APIError, "Failed to send health data: #{e.message}"
-  end
-
-  def save_health_report(user, data)
-    report = user.health_reports.new(
-      measure_time: DateTime.now,
-      temperature: data['TP']['temperature'] == 0 ? nil : data['TP']['temperature'],
-      blood_pressure1: data['BP']['sbp'] == 0 ? nil : data['BP']['sbp'],
-      blood_pressure2: data['BP']['dbp'] == 0 ? nil : data['BP']['dbp'],
-      heart_rate: data['BP']['hb'] == 0 ? nil : data['BP']['hb'].to_i,
-      blood_sugar: data['BS']['bs'] == 0 ? nil : data['BS']['bs'].to_i,
-      hemoglobin: data['BS']['hg'] == 0 ? nil : data['BS']['hg'],
-      hematocrit: data['BS']['hct'] == 0 ? nil : data['BS']['hct'],
-      blood_oxygen: data['OX']['oxygen'] == 0 ? nil : data['OX']['oxygen'].to_i,
-      weight: data['BW']['bw'] == 0 ? nil : data['BW']['bw'],
-      bmi: data['BW']['bmi'] == 0 ? nil : data['BW']['bmi'],
-      total_cholesterol: data['TC']['tc'] == 0 ? nil : data['TC']['tc'],
-      uric_acid: data['UA']['ua'] == 0 ? nil : data['UA']['ua'],
-      ketones: data['OHB']['ohb'] == 0 ? nil : data['OHB']['ohb']
-    )
-    report.save!
-  rescue StandardError => e
-    log("Error saving health report for user #{user.id}: #{e.message}", :error)
-    raise
+    { processed: all_result.size, saved: saved_reports }
   end
 end

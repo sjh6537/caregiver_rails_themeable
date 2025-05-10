@@ -33,11 +33,11 @@ class LinemsgController < ApplicationController
     head :ok
   end
 
-  def client
+  def client(channel_id = nil, channel_secret = nil, channel_token = nil)
     Line::Bot::Client.new do |config|
-      config.channel_id = APP_CONFIG[:line_message_api_channel_id]
-      config.channel_secret = APP_CONFIG[:line_message_api_channel_secret]
-      config.channel_token = APP_CONFIG[:line_message_api_channel_token]
+      config.channel_id = channel_id || APP_CONFIG[:line_message_api_channel_id]
+      config.channel_secret = channel_secret || APP_CONFIG[:line_message_api_channel_secret]
+      config.channel_token = channel_token || APP_CONFIG[:line_message_api_channel_token]
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_29_000100) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_05_141704) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
@@ -132,6 +132,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_29_000100) do
     t.string "comment", limit: 50, comment: "備註"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "asus_icode", limit: 20, comment: "Asus 量測資料的身份證"
+    t.string "asus_key", limit: 50, comment: "Asus 量測資料的金鑰"
   end
 
   create_table "coupons", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|

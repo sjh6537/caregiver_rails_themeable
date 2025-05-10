@@ -61,7 +61,7 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'solargraph', '~> 0.44'
+  gem 'solargraph', '~> 0.53'
   gem 'solargraph-rails'
 
 end
