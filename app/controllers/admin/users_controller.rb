@@ -47,8 +47,9 @@ class Admin::UsersController < ApplicationAdminController
                      end
       respond_to do |format|
         format.html do
-          # @user = User.new(admin_params)
-          render action: 'new', alert: I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
+          @user = User.new(admin_params)
+          flash.now[:alert] = I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
+          render action: 'new'
         end
       end
       return
@@ -73,7 +74,7 @@ class Admin::UsersController < ApplicationAdminController
     # @user_profile.user = @user
     # 預設值設定
     @user_profile.line_name = @user.name
-    @user_profile.line_uid = @user.id_card
+    @user_profile.line_uid = @user.account
     @user_profile.line_image = ActionController::Base.helpers.asset_path('valex/img/faces/no_line.png')
     @user_profile.line_token = ''
     # 保存使用者資料的關聯檔案
@@ -138,10 +139,44 @@ class Admin::UsersController < ApplicationAdminController
   def update
     @title_sub = I18n.t('Title.Edit')
 
-    # 準備更新的參數
-    update_params = admin_params.dup
+    # 檢查身份證是否重複
+    if id_card_changed_and_duplicate?
+      handle_duplicate_id_card
+      return
+    end
 
-    # 如果不是超級管理者，確保不能修改社區ID
+    update_params = prepare_update_params
+    result = update_user(update_params)
+
+    respond_to do |format|
+      if result
+        handle_successful_update(format)
+      else
+        handle_failed_update(format)
+      end
+    end
+  end
+
+  def id_card_changed_and_duplicate?
+    return false unless params[:user][:id_card].present? && params[:user][:id_card] != @user.id_card
+
+    community_id = current_admin.super_admin? ? params[:user][:community_id] : current_admin.community_id
+    User.where(id_card: params[:user][:id_card], community_id: community_id)
+        .where.not(id: @user.id).exists?
+  end
+
+  def handle_duplicate_id_card
+    @communities = get_available_communities
+    respond_to do |format|
+      format.html do
+        flash.now[:alert] = I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
+        render action: 'edit'
+      end
+    end
+  end
+
+  def prepare_update_params
+    update_params = admin_params.dup
     unless current_admin.super_admin?
       # 檢查是否嘗試修改社區ID
       if update_params[:community_id].present? && update_params[:community_id].to_i != current_admin.community_id
@@ -150,37 +185,44 @@ class Admin::UsersController < ApplicationAdminController
             redirect_to admin_users_path, alert: I18n.t('Notify.Note.Cannot_Update_Other_Community')
           end
         end
-        return
+        return nil
       end
       # 確保社區ID不變
       update_params[:community_id] = @user.community_id
     end
+    update_params
+  end
 
-    # 根據是否有帳號參數決定使用哪種更新方法
-    result = if params[:user][:account].present?
-               @user.update(update_params)
-             else
-               @user.update_without_password(update_params)
-             end
+  def update_user(update_params)
+    return nil unless update_params
 
-    respond_to do |format|
-      if result
-        add_log(ACTION_EDIT, LOG_ADMIN, current_admin.id, LOG_USER, @user.id)
-        append_user('%010d' % @user.id , @user.id_card)
-        format.html do
-          redirect_to admin_users_path, notice: I18n.t('Notify.Note.Account_Updated', name: "#{@user.line_name}")
-        end
-      else
-        # 如果更新失敗，準備社區列表
-        @communities = if current_admin.super_admin?
-                         Community.all.sorted
-                       else
-                         Community.where(id: current_admin.community_id).sorted
-                       end
-        format.html do
-          render action: 'edit', alert: I18n.t('Notify.Note.Account_Updated_Fail', name: "#{@user.line_name}")
-        end
-      end
+    if params[:user][:account].present?
+      @user.update(update_params)
+    else
+      @user.update_without_password(update_params)
+    end
+  end
+
+  def handle_successful_update(format)
+    add_log(ACTION_EDIT, LOG_ADMIN, current_admin.id, LOG_USER, @user.id)
+    append_user(format('%010d', @user.id), @user.id_card)
+    format.html do
+      redirect_to admin_users_path, notice: I18n.t('Notify.Note.Account_Updated', name: @user.line_name.to_s)
+    end
+  end
+
+  def handle_failed_update(format)
+    @communities = get_available_communities
+    format.html do
+      render action: 'edit', alert: I18n.t('Notify.Note.Account_Updated_Fail', name: @user.line_name.to_s)
+    end
+  end
+
+  def get_available_communities
+    if current_admin.super_admin?
+      Community.all.sorted
+    else
+      Community.where(id: current_admin.community_id).sorted
     end
   end
 
