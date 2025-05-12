@@ -348,12 +348,13 @@ class HealthReportCrawler
     encrypted_id = aes_cbc_encrypt(all_ids)
 
     # 從Asus的server爬所有使用者的量測資料
+    # 丟入時間沒有用，只能丟 00:00:00 ~ 23:59:59
     current_date = Time.current
+    # 這裡的時間是以當前時間為基準，減去 5 分鐘
+    # date_time = (current_date - (5 * 60)).strftime('%Y-%m-%d %H:%M:%S')
     date_string = current_date.strftime('%Y-%m-%d')
-    # 這裡的時間是以當前時間為基準，減去 10 分鐘
-    date_time = (current_date - (10 * 60)).strftime('%Y-%m-%d %H:%M:%S')
 
-    start_time = date_time if start_time.nil?
+    start_time =  "#{date_string} 00:00:00" if start_time.nil?
     end_time = "#{date_string} 23:59:59" if end_time.nil?
 
     begin
