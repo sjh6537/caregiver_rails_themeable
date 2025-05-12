@@ -8,16 +8,6 @@
                     <h3 class=""><%= @title_sub %></h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3 text-right">
-                        <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#addCaredForm" aria-expanded="false" aria-controls="addCaredForm">
-                            <%= t('Button.ADD') %> <%= t('Title.CARE_RECEIVER') %>
-                        </button>
-                    </div>
-                    <div class="collapse mb-4" id="addCaredForm">
-                        <div class="card card-body">
-                            <%= render partial: 'cared_form', locals: { cared_user: User.new } %>
-                        </div>
-                    </div>
                     <% if @careds.any? %>
                     <ul class="list-group">
                         <% @careds.each do |cared_user| %>
