@@ -502,6 +502,7 @@ zh-TW:
       Community_Not_Found: "社區不存在"
       No_Permission: "沒有權限" 
       ID_Card_Exists: "身份證字號<strong>%{id_card}</strong> 已存在"
+      Cared_Connected: "已成功綁定照顧者"
   Tab:
     Line_Message: 訊息
     Line_Recipient: 傳送對象

@@ -82,6 +82,44 @@ class Web::UserController < ApplicationWebController
     @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
   end
 
+  # 前台建立被照護者
+  def create_cared
+    @cared_user = User.new(user_params)
+    @cared_user.account = Time.current.strftime('%y%m%d%H%M%S%L')
+    @cared_user.enable = true
+    @cared_user.is_accepted = true
+    @cared_user.note = 'created_by_caregiver'
+    @cared_user.community_id = @user.community_id
+    @cared_user.current_sign_in_at = Time.current
+    @cared_user.last_sign_in_at = Time.current
+
+    # 驗證同社區身份證重複
+    existing_user = User.find_by(id_card: @cared_user.id_card, community_id: @user.community_id)
+    # 若身份證已存在，直接綁定關聯
+    if existing_user.present? && !User::UsersReleatedCaregivers.exists?(caregiver_id: @user.id,
+                                                                        cared_id: existing_user.id)
+      User::UsersReleatedCaregivers.create(caregiver_id: @user.id, cared_id: existing_user.id)
+      redirect_to web_user_careds_path,
+                  notice: I18n.t('Notify.Note.Cared_Connected',
+                                 name: existing_user.name || existing_user.line_name)
+    end
+
+    # 建立 profile
+    @cared_user.build_profile(line_name: @cared_user.name, line_uid: @cared_user.account,
+                              line_image: ActionController::Base.helpers.asset_path('valex/img/faces/no_line.png'), line_token: '')
+
+    if @cared_user.save
+      # 綁定關聯
+      User::UsersReleatedCaregivers.create(caregiver_id: @user.id, cared_id: @cared_user.id)
+      redirect_to web_user_careds_path, notice: I18n.t('Notify.Note.Cared_Connected', name: @cared_user.name)
+    else
+      @careds = @user.careds
+      @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
+      flash.now[:alert] = I18n.t('Notify.Note.Account_Created_Fail', name: @cared_user.name)
+      render :careds
+    end
+  end
+
   def caregivers
     @caregivers = @user.caregivers
     @title_sub = I18n.t(:CAREGIVER, scope: 'Title')
