@@ -47,8 +47,8 @@ class Admin::UsersController < ApplicationAdminController
                      end
       respond_to do |format|
         format.html do
-          flash[:alert] = I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
-          render action: 'new'
+          # @user = User.new(admin_params)
+          render action: 'new', alert: I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
         end
       end
       return
@@ -62,15 +62,15 @@ class Admin::UsersController < ApplicationAdminController
     @user.account = Time.current.strftime('%y%m%d%H%M%S%L')
     @user.comment = "建立者ID：#{current_admin.id}，建立者名稱：#{current_admin.name}"
     @user.note = 'no_line'
-    @user.password = @user.id_card
     @user.current_sign_in_at = Time.current
     @user.last_sign_in_at = Time.current
     # 設置使用者狀態為啟用
     @user.enable = true
+    @user.is_accepted = true
 
     # 建立與使用者關聯的資料檔案 (profile)
     @user_profile = User::Profile.new
-    @user_profile.user = @user
+    # @user_profile.user = @user
     # 預設值設定
     @user_profile.line_name = @user.name
     @user_profile.line_uid = @user.id_card
