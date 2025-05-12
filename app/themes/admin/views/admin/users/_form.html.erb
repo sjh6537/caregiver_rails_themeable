@@ -5,7 +5,11 @@
     }
 </style>
 
-
+<% if @user.nil? %>
+<div class="alert alert-danger">
+    使用者資料無法載入，請返回列表重試。
+</div>
+<% else %>
 <%= simple_form_for [:admin, @user], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
 <%= f.error_notification %>
 
@@ -13,27 +17,45 @@
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
-            <label class="form-label"><%= t("Table.Name") %></label>
+            <label class="form-label"><%= t("Table.Name") %> <span class="text-danger">*</span></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :name, label: false, :placeholder => t("Table.Name") %>
+            <%= f.input :name, label: false, :placeholder => t("Table.Name"), :required => true %>
+            <spin id="alert_name" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
         </div>
     </div>
 </div>
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
-            <label class="form-label"><%= t("Table.ID_Card") %></label>
+            <label class="form-label"><%= t("Table.Community") %> <span class="text-danger">*</span></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :id_card, label: false, :placeholder => t("Table.ID_Card") %>
+            <% if current_admin.super_admin? %>
+            <%= f.input :community_id, collection: @communities, label: false, include_blank: t(:Select_community, scope: "Table"), input_html: { class: "form-control", required: true } %>
+            <spin id="alert_community" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_Community") %></spin>
+            <% else %>
+            <label class="form-label"><%= current_admin.community&.name || t(:Not_Assigned, scope: "Table") %></label>
+            <%= f.input :community_id, as: :hidden %>
+            <% end %>
         </div>
     </div>
 </div>
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
-            <label class="form-label"><%= t("Table.Phone") %></label>
+            <label class="form-label"><%= t("Table.ID_Card") %> <span class="text-danger">*</span></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :id_card, label: false, :placeholder => t("Table.ID_Card"), :required => true %>
+            <spin id="alert_id_card" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
+        </div>
+    </div>
+</div>
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t("Table.Phone") %> <span class="text-danger">*</span></label>
         </div>
         <div class="col-md-9">
             <%= f.input :phone, label: false, :placeholder => t("Table.Phone"), :required => true %>
@@ -41,106 +63,22 @@
         </div>
     </div>
 </div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.gender") %></label>
-        </div>
-        <div class="col-md-9">
-            <select name="user[gender]" id="user_gender" class="form-control nice-select custom-select" required>
-                <% if @user.gender == "M" %>
-                <option value=M selected><%= raw t("Table.Man") %></option>
-                <option value=F><%= raw t("Table.Woman") %></option>
-                <% else %>
-                <option value=M><%= raw t("Table.Man") %></option>
-                <option value=F selected><%= raw t("Table.Woman") %></option>
-                <% end %>
-            </select>
-        </div>
-    </div>
-</div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Birthday") %></label>
-        </div>
-        <div class="input-group col-md-4">
-            <div class="input-group-prepend">
-                <div class="input-group-text">
-                    <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
-                </div>
-            </div><input class="form-control fc-datepicker" name="user[birthday]" placeholder="MM/DD/YYYY" type="text" value=<%= @user.birthday %>>
-        </div>
-    </div>
-</div>
-
-<div class="mb-4 main-content-label tx-success"><%= t("Title.CONTACT_INFO") %></div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= t("Table.Email") %></label>
-        </div>
-        <div class="col-md-9">
-            <%= f.input :email, label: false, :placeholder => t("Table.Email") %>
-        </div>
-    </div>
-</div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3">
-            <label class="form-label"><%= raw t("Table.Address") %></label>
-        </div>
-        <div class="col-md-9">
-            <select name="user[addr_city]" id="user_addr_city" class="form-control nice-select custom-select">
-                <option value="0"><%= raw t("Table.Select_city") %></option>
-                <% CITY_CODE.map do |c| %>
-                <% if @user.addr_city == c[:code] %>
-                <option value=<%= c[:code] %> descrition='<%= c[:city] %>' selected><%= c[:city] %></option>
-                <% else %>
-                <option value=<%= c[:code] %> descrition='<%= c[:city] %>'><%= c[:city] %></option>
-                <% end %>
-                <% end %>
-            </select>
-            <spin id="alert_city" class="alert_select_city text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_City") %></spin>
-        </div>
-    </div>
-</div>
-<div class="form-group ">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <select name="user[addr_postal]" id="user_addr_postal" class="form-control nice-select custom-select">
-                <option value="0"><%= t(:Select_postal, scope: "Table") %></option>
-            </select>
-            <spin id="alert_postal" class="alert_select_postal text-danger tx-12"><%= raw t("Notify.Note.Please_Select_One_Postal") %></spin>
-        </div>
-    </div>
-</div>
-<div class="form-group">
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-9">
-            <%= f.input :address, label: false, :placeholder => t("Table.Detail_Address"), :required => false %>
-            <spin id="alert_address" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
-        </div>
-    </div>
-</div>
-
 <!-- ############# button ########### -->
 <% if @user.new_record? %>
 </div>
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary waves-effect waves-light"><%= t("Button.CREATE") %></button>
+    <button type="submit" class="btn btn-primary waves-effect waves-light" onclick="return checkform()"><%= t("Button.CREATE") %></button>
 </div>
 </div>
 <% else %>
 </div>
 <div class="card-footer">
-    <button type="submit" class="btn btn-primary waves-effect waves-light"><%= t("Button.UPDATE") %></button>
+    <button type="submit" class="btn btn-primary waves-effect waves-light" onclick="return checkform()"><%= t("Button.UPDATE") %></button>
 </div>
 </div>
 <% end %>
 
+<% end %>
 <% end %>
 
 <div class="modal" id="modal_del">
@@ -161,10 +99,10 @@
 <script type="text/javascript">
     function hide_alert() {
         $('#alert_name').hide();
+        $('#alert_id_card').hide();
+        $('#alert_id_card_error').hide();
+        $('#alert_community').hide();
         $('#alert_phone').hide();
-        $('#alert_address').hide();
-        $('#alert_city').hide();
-        $('#alert_postal').hide();
     }
 
     function checkform() {
@@ -175,139 +113,31 @@
             $('#alert_name').show();
             ret = false;
         }
+        //身份證驗證
+        if ($('#user_id_card').val() == "") {
+            $('#alert_id_card').show();
+            ret = false;
+        } else {
+            if (!isValidTaiwanID($('#user_id_card').val())) {
+                $('#alert_id_card_error').show();
+                ret = false;
+            }
+        }
+        // 只有超級管理員需要檢查社區的選擇
+        if ($('#user_community_id').length && $('#user_community_id').val() == "") {
+            $('#alert_community').show();
+            ret = false;
+        }
         if ($('#user_phone').val() == "") {
             $('#alert_phone').show();
             ret = false;
         }
-        if ($('#user_address').val() == "") {
-            $('#alert_address').show();
-            ret = false;
-        }
-        if ($('#user_addr_city').val() == "0") {
-            $('#alert_city').show();
-            ret = false;
-        }
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            ret = false;
-        }
+
 
         if (ret == false)
             return false;
         else
             return true;
-    }
-
-    function refresh_select(data) {
-        $('#user_addr_postal').empty();
-        $('#user_addr_postal').append('<option value="0"><%= t(:Select_postal, scope: "Table") %></option>');
-        $('#user_addr_postal').append(data);
-    }
-
-    $(document).on('change', '#user_addr_city', function(event) {
-        city_code = $('#user_addr_city').val();
-        $('#alert_city').hide();
-        $('#alert_postal').hide();
-
-        if ($('#user_addr_city').val() == "0") {
-            $('#alert_city').show();
-            $('#user_addr_city').focus();
-        }
-
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            $('#user_addr_postal').focus();
-        }
-
-        refresh_select(get_postal_selection(city_code));
-    });
-
-    $(document).on('change', '#user_addr_postal', function(event) {
-        $('#alert_postal').hide();
-
-        if ($('#user_addr_postal').val() == "0") {
-            $('#alert_postal').show();
-            $('#user_addr_postal').focus();
-        }
-    });
-
-    function get_postal_selection(city) {
-        switch (city) {
-            default:
-            case "1":
-                html_text = '<%= get_postal_selection(1) %>'
-                break;
-            case "2":
-                html_text = '<%= get_postal_selection(2) %>'
-                break;
-            case "3":
-                html_text = '<%= get_postal_selection(3) %>'
-                break;
-            case "4":
-                html_text = '<%= get_postal_selection(4) %>'
-                break;
-            case "5":
-                html_text = '<%= get_postal_selection(5) %>'
-                break;
-            case "6":
-                html_text = '<%= get_postal_selection(6) %>'
-                break;
-            case "7":
-                html_text = '<%= get_postal_selection(7) %>'
-                break;
-            case "8":
-                html_text = '<%= get_postal_selection(8) %>'
-                break;
-            case "9":
-                html_text = '<%= get_postal_selection(9) %>'
-                break;
-            case "10":
-                html_text = '<%= get_postal_selection(10) %>'
-                break;
-            case "11":
-                html_text = '<%= get_postal_selection(11) %>'
-                break;
-            case "12":
-                html_text = '<%= get_postal_selection(12) %>'
-                break;
-            case "13":
-                html_text = '<%= get_postal_selection(13) %>'
-                break;
-            case "14":
-                html_text = '<%= get_postal_selection(14) %>'
-                break;
-            case "15":
-                html_text = '<%= get_postal_selection(15) %>'
-                break;
-            case "16":
-                html_text = '<%= get_postal_selection(16) %>'
-                break;
-            case "17":
-                html_text = '<%= get_postal_selection(17) %>'
-                break;
-            case "18":
-                html_text = '<%= get_postal_selection(18) %>'
-                break;
-            case "19":
-                html_text = '<%= get_postal_selection(19) %>'
-                break;
-            case "20":
-                html_text = '<%= get_postal_selection(20) %>'
-                break;
-            case "21":
-                html_text = '<%= get_postal_selection(21) %>'
-                break;
-            case "22":
-                html_text = '<%= get_postal_selection(22) %>'
-                break;
-            case "23":
-                html_text = '<%= get_postal_selection(23) %>'
-                break;
-            case "24":
-                html_text = '<%= get_postal_selection(24) %>'
-                break;
-        }
-        return html_text
     }
 
     function alert_warning(text) {
@@ -328,17 +158,53 @@
         });
     };
 
-    $(document).ready(function() {
-        hide_alert();
-        add_city = '<%= @user.addr_city %>';
-        addr_postal = '<%= @user.addr_postal %>';
-        if (add_city != 0) {
-            refresh_select(get_postal_selection(add_city));
-            if (addr_postal != 0) {
-                $('#user_addr_postal').val(addr_postal).attr('selected', 'selected');
+    function isValidTaiwanID(id) {
+        id = id.trim();
+
+        if (id.length != 10) {
+            console.log("Fail，長度不正確");
+            return false
+        }
+
+
+        let countyCode = id.charCodeAt(0);
+        if (countyCode < 65 | countyCode > 90) {
+            console.log("Fail，字首英文代號，縣市不正確");
+            return false
+        }
+
+        let genderCode = id.charCodeAt(1);
+        if (genderCode != 49 && genderCode != 50) {
+            console.log("Fail，性別代碼不正確");
+            return false
+        }
+
+        let serialCode = id.slice(2)
+        for (let i in serialCode) {
+            let c = serialCode.charCodeAt(i);
+            if (c < 48 | c > 57) {
+                console.log("Fail，數字區出現非數字字元");
+                return false
             }
         }
 
+        let conver = "ABCDEFGHJKLMNPQRSTUVXYWZIO"
+        let weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1]
+
+        id = String(conver.indexOf(id[0]) + 10) + id.slice(1);
+
+        checkSum = 0
+        for (let i = 0; i < id.length; i++) {
+            c = parseInt(id[i])
+            w = weights[i]
+            checkSum += c * w
+        }
+
+        return checkSum % 10 == 0
+    }
+
+    $(document).ready(function() {
+        hide_alert();
     });
 </script>
 

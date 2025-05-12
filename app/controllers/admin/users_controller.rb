@@ -1,38 +1,98 @@
 class Admin::UsersController < ApplicationAdminController
   include LineHelper
   include ApplicationHelper
-  before_action :set_user, except: %i[all_schedules delete_schedules]
+  before_action :set_user, except: %i[index new create all_schedules delete_schedules]
+  before_action :ensure_user, only: %i[edit show update block]
 
   def index
     @title_sub = I18n.t('Title.Table')
     # 超級管理者可查看所有使用者，一般管理者只能查看同社區使用者
     @users = if current_admin.super_admin?
-               User.all
+               User.all.order(id: :desc)
              else
                Rails.logger.info "Found current_admin.community_id : #{current_admin.community_id}"
-               User.where(community_id: current_admin.community_id)
+               User.where(community_id: current_admin.community_id).order(id: :desc)
              end
   end
 
   def new
     @title_sub = I18n.t('Title.New')
     @user = User.new
+    # 如果是一般管理者，預設社區ID為管理者的社區ID
+    @user.community_id = current_admin.community_id unless current_admin.super_admin?
+    # 獲取可選的社區列表，超級管理者可選所有社區，一般管理者只能選自己的社區
+    @communities = if current_admin.super_admin?
+                     Community.all.sorted
+                   else
+                     Community.where(id: current_admin.community_id).sorted
+                   end
     respond_to do |format|
       format.html
     end
   end
 
   def create
+    # 檢查此社區是否已經有相同身份證的使用者
+    existing_user = if current_admin.super_admin? && params[:user][:community_id].present?
+                      User.where(id_card: params[:user][:id_card], community_id: params[:user][:community_id]).first
+                    else
+                      User.where(id_card: params[:user][:id_card], community_id: current_admin.community_id).first
+                    end
+
+    if existing_user
+      @communities = if current_admin.super_admin?
+                       Community.all.sorted
+                     else
+                       Community.where(id: current_admin.community_id).sorted
+                     end
+      respond_to do |format|
+        format.html do
+          flash[:alert] = I18n.t('Notify.Note.ID_Card_Exists', id_card: params[:user][:id_card])
+          render action: 'new'
+        end
+      end
+      return
+    end
+
     @title_sub = I18n.t('Title.New')
-    @user = User.new(admin_params)
+    @user = User.new(admin_params) # 如果是一般管理者，強制設定社區ID為管理者的社區ID
+    @user.community_id = current_admin.community_id unless current_admin.super_admin?
+
+    # 為新建使用者設置預設帳號（身份證）和其他必要欄位
+    @user.account = Time.current.strftime('%y%m%d%H%M%S%L')
+    @user.comment = "建立者ID：#{current_admin.id}，建立者名稱：#{current_admin.name}"
+    @user.note = 'no_line'
+    @user.password = @user.id_card
+    @user.current_sign_in_at = Time.current
+    @user.last_sign_in_at = Time.current
+    # 設置使用者狀態為啟用
+    @user.enable = true
+
+    # 建立與使用者關聯的資料檔案 (profile)
+    @user_profile = User::Profile.new
+    @user_profile.user = @user
+    # 預設值設定
+    @user_profile.line_name = @user.name
+    @user_profile.line_uid = @user.id_card
+    @user_profile.line_image = ActionController::Base.helpers.asset_path('valex/img/faces/no_line.png')
+    @user_profile.line_token = ''
+    # 保存使用者資料的關聯檔案
+    @user.profile = @user_profile
+
     respond_to do |format|
       if @user.save
         format.html do
-          redirect_to admin_users_path, notice: I18n.t('Notify.Note.Account_Created', name: "#{@user.line_name}")
+          redirect_to admin_users_path, notice: I18n.t('Notify.Note.Account_Created', name: "#{@user.name}")
         end
       else
+        # 如果保存失敗，重新獲取社區列表
+        @communities = if current_admin.super_admin?
+                         Community.all.sorted
+                       else
+                         Community.where(id: current_admin.community_id).sorted
+                       end
         format.html do
-          render action: 'new', alert: I18n.t('Notify.Note.Account_Created_Fail', name: "#{@user.line_name}")
+          render action: 'new', alert: I18n.t('Notify.Note.Account_Created_Fail', name: "#{@user.name}")
         end
       end
     end
@@ -60,19 +120,48 @@ class Admin::UsersController < ApplicationAdminController
 
   def edit
     @title_sub = I18n.t('Title.Edit')
+
+    # 如果不是超級管理者且嘗試編輯其他社區的使用者，重定向到使用者列表
+    unless current_admin.super_admin? || @user.community_id == current_admin.community_id
+      redirect_to admin_users_path, alert: I18n.t('Notify.Note.Cannot_Edit_Other_Community')
+      return
+    end
+
+    # 獲取可選的社區列表
+    @communities = if current_admin.super_admin?
+                     Community.all.sorted
+                   else
+                     Community.where(id: current_admin.community_id).sorted
+                   end
   end
 
   def update
     @title_sub = I18n.t('Title.Edit')
-    # if current_admin.super_user == false
-    #   result = @user.update_without_password(admin_params)
-    # else
+
+    # 準備更新的參數
+    update_params = admin_params.dup
+
+    # 如果不是超級管理者，確保不能修改社區ID
+    unless current_admin.super_admin?
+      # 檢查是否嘗試修改社區ID
+      if update_params[:community_id].present? && update_params[:community_id].to_i != current_admin.community_id
+        respond_to do |format|
+          format.html do
+            redirect_to admin_users_path, alert: I18n.t('Notify.Note.Cannot_Update_Other_Community')
+          end
+        end
+        return
+      end
+      # 確保社區ID不變
+      update_params[:community_id] = @user.community_id
+    end
+
+    # 根據是否有帳號參數決定使用哪種更新方法
     result = if params[:user][:account].present?
-               @user.update(admin_params)
+               @user.update(update_params)
              else
-               @user.update_without_password(admin_params)
+               @user.update_without_password(update_params)
              end
-    # end
 
     respond_to do |format|
       if result
@@ -82,6 +171,12 @@ class Admin::UsersController < ApplicationAdminController
           redirect_to admin_users_path, notice: I18n.t('Notify.Note.Account_Updated', name: "#{@user.line_name}")
         end
       else
+        # 如果更新失敗，準備社區列表
+        @communities = if current_admin.super_admin?
+                         Community.all.sorted
+                       else
+                         Community.where(id: current_admin.community_id).sorted
+                       end
         format.html do
           render action: 'edit', alert: I18n.t('Notify.Note.Account_Updated_Fail', name: "#{@user.line_name}")
         end
@@ -216,6 +311,18 @@ class Admin::UsersController < ApplicationAdminController
 
   def set_user
     @user = User.find_by_id(params[:id])
+  end
+
+  def ensure_user
+    unless @user
+      begin
+        redirect_to admin_users_path, alert: I18n.t('Notify.Note.User_Not_Found')
+      rescue StandardError
+        '使用者不存在'
+      end
+      return false
+    end
+    true
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
