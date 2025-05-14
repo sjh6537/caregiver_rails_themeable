@@ -37,8 +37,6 @@ class Web::UserController < ApplicationWebController
   def edit
     # redirect_to web_user_agreement_path if !@user.id_card.present?
     @title_sub = I18n.t(:Edit, scope: 'Title')
-    @caregiver = @user.caregivers.first
-    @cared = @user.careds.first
     @community = @user.community
   end
 
@@ -82,13 +80,19 @@ class Web::UserController < ApplicationWebController
     @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
   end
 
+  def careds_new
+    @cared_user = User.new
+    @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
+    render view: 'careds'
+  end
+
   # 前台建立被照護者
   def create_cared
     @cared_user = User.new(user_params)
     @cared_user.account = Time.current.strftime('%y%m%d%H%M%S%L')
     @cared_user.enable = true
     @cared_user.is_accepted = true
-    @cared_user.note = 'created_by_caregiver'
+    @cared_user.note = "建立者ID：#{@user.id}，建立者名稱：#{@user.name}"
     @cared_user.community_id = @user.community_id
     @cared_user.current_sign_in_at = Time.current
     @cared_user.last_sign_in_at = Time.current
@@ -115,7 +119,7 @@ class Web::UserController < ApplicationWebController
     else
       @careds = @user.careds
       @title_sub = I18n.t(:CARE_RECEIVER, scope: 'Title')
-      flash.now[:alert] = I18n.t('Notify.Note.Account_Created_Fail', name: @cared_user.name)
+      flash.now[:alert] = I18n.t('Notify.Note.Cared_Created_Fail')
       render :careds
     end
   end
@@ -123,6 +127,61 @@ class Web::UserController < ApplicationWebController
   def caregivers
     @caregivers = @user.caregivers
     @title_sub = I18n.t(:CAREGIVER, scope: 'Title')
+  end
+
+  # 快速新增被照護者（從模態視窗）
+  def add_cared
+    # 檢查必要的參數
+    unless params[:name].present? && params[:phone].present? && params[:id_card].present?
+      redirect_to web_user_careds_path, alert: '請填寫必要的資訊'
+      return
+    end
+
+    # 檢查是否已存在相同手機號碼的使用者（在同社區）
+    existing_user = User.find_by(id_card: params[:id_card], community_id: @user.community_id)
+
+    if existing_user.present?
+      # 檢查是否已經是照護關係
+      if User::UsersReleatedCaregivers.exists?(caregiver_id: @user.id, cared_id: existing_user.id)
+        redirect_to web_user_careds_path, alert: '此使用者已經在您的被照護者名單中'
+        return
+      end
+
+      # 新增照護關係
+      User::UsersReleatedCaregivers.create(caregiver_id: @user.id, cared_id: existing_user.id)
+      redirect_to web_user_careds_path, notice: "已成功加入 #{existing_user.name} 至您的照護名單"
+      return
+    end
+
+    # 建立新使用者
+    new_cared = User.new(
+      name: params[:name],
+      phone: params[:phone],
+      id_card: params[:id_card],
+      account: Time.current.strftime('%y%m%d%H%M%S%L'),
+      enable: true,
+      is_accepted: true,
+      note: "建立者ID：#{@user.id}，建立者名稱：#{@user.name}，關係：#{params[:relationship]}",
+      community_id: @user.community_id,
+      current_sign_in_at: Time.current,
+      last_sign_in_at: Time.current
+    )
+
+    # 建立 profile
+    new_cared.build_profile(
+      line_name: params[:name],
+      line_uid: new_cared.account,
+      line_image: ActionController::Base.helpers.asset_path('valex/img/faces/no_line.png'),
+      line_token: ''
+    )
+
+    if new_cared.save
+      # 綁定關聯
+      User::UsersReleatedCaregivers.create(caregiver_id: @user.id, cared_id: new_cared.id)
+      redirect_to web_user_careds_path, notice: "已成功建立並加入 #{new_cared.name} 至您的照護名單"
+    else
+      redirect_to web_user_careds_path, alert: '建立失敗，請檢查輸入的資訊'
+    end
   end
 
   private

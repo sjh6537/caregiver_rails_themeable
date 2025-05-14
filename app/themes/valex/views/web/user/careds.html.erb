@@ -1,22 +1,47 @@
 <%# app/views/web/user/careds.html.erb %>
 
+<!-- 引用 Sweet Alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+    .text-danger {
+        color: red;
+        font-size: 12px;
+    }
+
+    .alert_text {
+        display: block;
+        margin-top: 5px;
+    }
+</style>
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header text-center bg-info text-white">
-                    <h3 class=""><%= @title_sub %></h3>
+                <div class="card-header text-center bg-info text-white d-flex justify-content-between align-items-center">
+                    <h3 class="flex-grow-1 text-center"><%= @title_sub %></h3>
+                    <button class="btn btn-light" data-toggle="modal" data-target="#addCaredModal">
+                        <i class="fas fa-plus"></i> <%= t('Button.NEW') %>
+                    </button>
                 </div>
                 <div class="card-body">
                     <% if @careds.any? %>
                     <ul class="list-group">
                         <% @careds.each do |cared_user| %>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>
-                                <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
-                                <%= cared_user.line_name %>
-                            </span>
-                            <h6 class="text-muted ms-2"><%= t('Table.Name')%>：<%= cared_user.name %><br /><%=t("Table.Phone")%>：<%= cared_user.phone %></h6><br />
+                            <div class="d-flex align-items-center">
+                                <span class="mr-3">
+                                    <%= image_tag cared_user.line_image, class: 'avatar avatar-sm rounded-circle me-2' %>
+                                    <%= cared_user.line_name %>
+                                </span>
+                                <h6 class="text-muted ms-2 mb-0"><%= t('Table.Name')%>：<%= cared_user.name %><br /><%=t("Table.Phone")%>：<%= cared_user.phone %></h6>
+                            </div>
+                            <div style="display:none;">
+                                <button class="btn btn-sm btn-danger" onclick="removeCared(<%= cared_user.id %>)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
                         </li>
                         <% end %>
                     </ul>
@@ -30,3 +55,206 @@
         </div>
     </div>
 </div>
+
+<!-- 新增被照護者模態視窗 -->
+<div class="modal fade" id="addCaredModal" tabindex="-1" role="dialog" aria-labelledby="addCaredModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="addCaredModalLabel"><%= t('Button.CREATE_NEW_CARED') %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%= form_with(url: add_cared_path, method: :post, id: "addCaredForm", local: true) do |f| %>
+                <div class="form-group">
+                    <%= f.label :name, t('Table.Name') %>
+                    <%= f.text_field :name, class: "form-control", required: true %>
+                    <span id="alert_name" class="alert_text text-danger tx-12" style="display:none;"><%= raw t("Notify.Note.Please_Input_Text") %></span>
+                </div>
+                <div class="form-group">
+                    <%= f.label :id_card, t('Table.ID_Card') %>
+                    <%= f.text_field :id_card, class: "form-control", required: true %>
+                    <span id="alert_id_card" class="alert_text text-danger tx-12" style="display:none;"><%= raw t("Notify.Note.Please_Input_Text") %></span>
+                    <span id="alert_id_card_error" class="alert_text text-danger tx-12" style="display:none;"><%= raw t("Notify.Note.ID_Card_Error") %></span>
+                </div>
+                <div class="form-group">
+                    <%= f.label :phone, t('Table.Phone') %>
+                    <%= f.text_field :phone, class: "form-control", required: true %>
+                    <span id="alert_phone" class="alert_text text-danger tx-12" style="display:none;"><%= raw t("Notify.Note.Please_Input_Text") %></span>
+                </div>
+                <% end %>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" id="submitBtn" class="btn btn-primary" onclick="validateAndSubmitForm();">建立</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 函數宣告區域
+    function hide_alert() {
+        $('#alert_name').hide();
+        $('#alert_phone').hide();
+        $('#alert_id_card').hide();
+        $('#alert_id_card_error').hide();
+    }
+
+    // 移除被照護者函數
+    function removeCared(caredId) {
+        Swal.fire({
+            title: '<%= t("Notify.Title.DELETE_COMFIRM") %>',
+            text: '<%= t("Website.Note.Remove_Cared_Is_Continue") %>',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是，確定移除',
+            cancelButtonText: '取消'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 建立一個臨時表單來提交刪除請求
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '<%= web_caregiver_cared_delete_path(cared_id: 0) %>'.replace('0', caredId);
+
+                // 添加 CSRF token
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = 'authenticity_token';
+                csrfInput.value = csrfToken;
+                form.appendChild(csrfInput);
+
+                // 添加 _method 參數，模擬 DELETE 請求
+                const methodInput = document.createElement('input');
+                methodInput.type = 'hidden';
+                methodInput.name = '_method';
+                methodInput.value = 'delete';
+                form.appendChild(methodInput);
+
+                // 添加表單到 body 並提交
+                document.body.appendChild(form);
+                form.submit();
+
+                // 顯示成功訊息
+                Swal.fire({
+                    icon: 'success',
+                    title: '<%= t("Notify.Note.Remove_Cared_Success") %>',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    // 表單驗證與提交
+    function validateAndSubmitForm() {
+        hide_alert();
+        let ret = true;
+
+        // 檢查必填欄位
+        if ($('#addCaredForm input[name="name"]').val() == "") {
+            $('#alert_name').show();
+            ret = false;
+        }
+
+        // 身份證驗證
+        if ($('#addCaredForm input[name="id_card"]').val() == "") {
+            $('#alert_id_card').show();
+            ret = false;
+        } else {
+            if (!isValidTaiwanID($('#addCaredForm input[name="id_card"]').val())) {
+                $('#alert_id_card_error').show();
+                ret = false;
+            }
+        }
+
+        if ($('#addCaredForm input[name="phone"]').val() == "") {
+            $('#alert_phone').show();
+            ret = false;
+        }
+        if (ret == false)
+            return false;
+        else {
+            // 禁用提交按鈕，防止重複點擊
+            $('#submitBtn').prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> 處理中...');
+
+            // 先關閉模態框，再顯示 Sweet Alert
+            $('#addCaredModal').modal('hide');
+
+            // 等待模態框完全關閉後再顯示 Sweet Alert
+            setTimeout(function() {
+                // 顯示提交中訊息
+                Swal.fire({
+                    title: '<%= t("Notify.Process.Loading") %>',
+                    html: '<%= t("Notify.Process.Submitting") %>',
+                    allowOutsideClick: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // 所有驗證通過，提交表單
+                document.getElementById('addCaredForm').submit();
+            }, 500); // 給模態框 500ms 的時間關閉
+        }
+    }
+
+    function isValidTaiwanID(id) {
+        id = id.trim();
+
+        if (id.length != 10) {
+            console.log("Fail，長度不正確");
+            return false
+        }
+
+        let countyCode = id.charCodeAt(0);
+        if (countyCode < 65 | countyCode > 90) {
+            console.log("Fail，字首英文代號，縣市不正確");
+            return false
+        }
+
+        let genderCode = id.charCodeAt(1);
+        if (genderCode != 49 && genderCode != 50) {
+            console.log("Fail，性別代碼不正確");
+            return false
+        }
+
+        let serialCode = id.slice(2)
+        for (let i in serialCode) {
+            let c = serialCode.charCodeAt(i);
+            if (c < 48 | c > 57) {
+                console.log("Fail，數字區出現非數字字元");
+                return false
+            }
+        }
+
+        let conver = "ABCDEFGHJKLMNPQRSTUVXYWZIO"
+        let weights = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1]
+
+        id = String(conver.indexOf(id[0]) + 10) + id.slice(1);
+
+        checkSum = 0
+        for (let i = 0; i < id.length; i++) {
+            c = parseInt(id[i])
+            w = weights[i]
+            checkSum += c * w
+        }
+        return checkSum % 10 == 0
+    }
+
+    $(document).ready(function() {
+        hide_alert();
+
+        // 當 modal 重新打開時，重置按鈕狀態
+        $('#addCaredModal').on('show.bs.modal', function() {
+            $('#submitBtn').prop('disabled', false).html('建立');
+            hide_alert();
+        });
+    });
+</script>
