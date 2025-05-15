@@ -205,15 +205,24 @@ class Web::UserController < ApplicationWebController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    # 取得原始參數
+    # 先允許所有參數，然後才能進行處理
     user_params = params.require(:user).permit!
 
+    # 將許可後的參數轉換為 hash
+    user_hash = user_params.to_h
+
     # 處理字串參數，去除前後空白
-    user_params.to_h.each do |key, value|
-      user_params[key] = value.strip if value.is_a?(String) && value.respond_to?(:strip)
+    sanitized_hash = {}
+    user_hash.each do |key, value|
+      sanitized_hash[key] = if value.is_a?(String) && !value.blank?
+                              value.strip
+                            else
+                              value
+                            end
     end
 
-    user_params.permit!
+    # 回傳處理後的參數
+    ActionController::Parameters.new(sanitized_hash).permit!
   end
 
   def set_breadcrumb
