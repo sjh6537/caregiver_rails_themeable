@@ -132,6 +132,11 @@ class Web::UserController < ApplicationWebController
   # 快速新增被照護者（從模態視窗）
   def add_cared
     # 檢查必要的參數
+    # 去除參數前後空白
+    params[:name] = params[:name].strip if params[:name].is_a?(String)
+    params[:phone] = params[:phone].strip if params[:phone].is_a?(String)
+    params[:id_card] = params[:id_card].strip if params[:id_card].is_a?(String)
+
     unless params[:name].present? && params[:phone].present? && params[:id_card].present?
       redirect_to web_user_careds_path, alert: '請填寫必要的資訊'
       return
@@ -200,7 +205,15 @@ class Web::UserController < ApplicationWebController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit!
+    # 取得原始參數
+    user_params = params.require(:user)
+
+    # 處理字串參數，去除前後空白
+    user_params.to_h.each do |key, value|
+      user_params[key] = value.strip if value.is_a?(String) && value.respond_to?(:strip)
+    end
+
+    user_params.permit!
   end
 
   def set_breadcrumb

@@ -369,7 +369,15 @@ class Admin::UsersController < ApplicationAdminController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def admin_params
-    params.require(:user).permit!
+    # 取得原始參數
+    user_params = params.require(:user)
+
+    # 處理字串參數，去除前後空白
+    user_params.to_h.each do |key, value|
+      user_params[key] = value.strip if value.is_a?(String) && value.respond_to?(:strip)
+    end
+
+    user_params.permit!
   end
 
   def set_breadcrumb
