@@ -206,7 +206,7 @@ class Web::UserController < ApplicationWebController
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
     # 取得原始參數
-    user_params = params.require(:user)
+    user_params = params.require(:user).permit!
 
     # 處理字串參數，去除前後空白
     user_params.to_h.each do |key, value|
