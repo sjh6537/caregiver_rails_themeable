@@ -29,6 +29,8 @@ class User < ActiveRecord::Base
 
   belongs_to :community , optional: true , class_name: 'Community'
 
+  has_many :fitness_devices
+
   def coins
     profile.coins_this_y
   end

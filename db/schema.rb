@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_05_141704) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_25_002741) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
@@ -195,6 +195,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_05_141704) do
     t.datetime "warranty_expiration_at", comment: "保固到期時間"
     t.datetime "last_used_at", comment: "最後使用時間"
     t.datetime "last_maintenance_at", comment: "最後維護時間"
+    t.integer "user_id"
     t.index ["community_id"], name: "index_fitness_device_on_community_id"
   end
 

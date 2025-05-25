@@ -3,6 +3,7 @@ class FitnessDevice < ApplicationRecord
   belongs_to :community
   belongs_to :fitness_device_type
   has_many :user_fitness_reports, dependent: :restrict_with_error
+  belongs_to :user, optional: true
 
   # 驗證
   validates :name, presence: true, length: { maximum: 50 }
