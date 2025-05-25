@@ -107,8 +107,12 @@ Rails.application.routes.draw do
                                                    as: :web_user_health_report
   get      '/user/fitness_report'                , to: 'web/user#fitness_report' ,
                                                    as: :web_user_fitness_report
-  get      '/user/careds' , to: 'web/user#careds' , as: :web_user_careds # 新增被照顧者列表路由
-  get      '/user/caregivers'                   , to: 'web/user#caregivers' , as: :web_user_caregivers # 新增照顧者列表路由
+  get      '/user/careds' , to: 'web/user#careds' , as: :web_user_careds # 被照顧者列表路由
+  get      '/user/careds/new' , to: 'web/user#careds_new' , as: :web_user_careds_new # 新增被照顧者表單路由
+  get      '/user/careds/:id/edit' , to: 'web/user#careds_edit' , as: :web_user_careds_edit # 編輯被照顧者
+  post     '/user/careds/create', to: 'web/user#create_cared', as: :web_user_create_cared # 新增被照顧者
+  post     '/user/careds/add', to: 'web/user#add_cared', as: :add_cared # 快速添加被照顧者
+  get      '/user/caregivers'                   , to: 'web/user#caregivers' , as: :web_user_caregivers # 照顧者列表路由
 
   get      '/requests/new/:category'      , to: 'web/requests#new'               , as: :web_request_new
   post     '/requests'                    , to: 'web/requests#create'            , as: :web_request

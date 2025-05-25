@@ -348,12 +348,17 @@ class HealthReportCrawler
     encrypted_id = aes_cbc_encrypt(all_ids)
 
     # 從Asus的server爬所有使用者的量測資料
-    current_date = Time.now
+    # 丟入時間沒有用，只能丟 00:00:00 ~ 23:59:59
+    current_date = Time.current
+    # 這裡的時間是以當前時間為基準，減去 5 分鐘
+    # date_time = (current_date - (5 * 60)).strftime('%Y-%m-%d %H:%M:%S')
     date_string = current_date.strftime('%Y-%m-%d')
-    start_time = "#{date_string} 00:00:00" if start_time.nil?
+
+    start_time =  "#{date_string} 00:00:00" if start_time.nil?
     end_time = "#{date_string} 23:59:59" if end_time.nil?
 
     begin
+      log("取得健康量測記錄時間為: #{start_time} ~ #{end_time}")
       vital_signs = get_vital_signs(encrypted_id, start_time, end_time)
       log("API 回傳資料: #{vital_signs.inspect}")
       # 檢查回傳結果是否包含 data 欄位
@@ -467,6 +472,14 @@ class HealthReportCrawler
         # 推播通知發送給用戶
         message_push(user.account, format_health_report(report))
         saved_reports << { user_id: user.id, report_id: report.id }
+
+        # 推播通知給被照護人
+        # 如果使用者有被照護人，則推播通知給所有被照護人
+        if user.caregivers.any?
+          user.caregivers.each do |caregiver|
+            message_push(caregiver.account, format_health_report(report, "您的照顧者 #{user.name} 有新的健康報告：\n\n"))
+          end
+        end
       else
         log("健康紀錄儲存失敗，使用者 ID：#{user.id}，錯誤：#{report.errors.full_messages.join(', ')}", :error)
       end

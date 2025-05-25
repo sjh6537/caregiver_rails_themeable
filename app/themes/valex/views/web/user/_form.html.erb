@@ -70,45 +70,6 @@
 </div>
 
 <% end %>
-
-<% if !@cared.nil? %>
-<div class="modal" id="modal_cared_del">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content tx-size-sm">
-            <div class="modal-body tx-center pd-y-20 pd-x-20">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="fas fa-user-times tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20"><%= t("Title.DEL_CARED") %></h4>
-                <p class="mg-b-20 mg-x-20"><%= t("Website.Note.Cared_Confirm_Delete") %></p>
-
-                <form class="button_to" method="post" action="/caregiver/cared/<%= @cared.id %>/delete">
-                    <input type="hidden" name="_method" value="delete" autocomplete="off">
-                    <button class="btn ripple btn-danger pd-x-25 delete_schedule_alerm" type="submit"><%= t(:CONFIRM, scope: "Button") %></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<% end %>
-
-<% if !@caregiver.nil? %>
-<div class="modal" id="modal_del">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content tx-size-sm">
-            <div class="modal-body tx-center pd-y-20 pd-x-20">
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button> <i class="fas fa-user-times tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20"><%= t("Title.DEL_CAREGIVER") %></h4>
-                <p class="mg-b-20 mg-x-20"><%= t("Website.Note.Caregiver_Confirm_Delete") %></p>
-
-                <form class="button_to" method="post" action="/caregiver/<%= @caregiver.id %>/delete">
-                    <input type="hidden" name="_method" value="delete" autocomplete="off">
-                    <button class="btn ripple btn-danger pd-x-25 delete_schedule_alerm" type="submit"><%= t(:CONFIRM, scope: "Button") %></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<% end %>
-
 <%= content_for :script_js do %>
 
 <script type="text/javascript">

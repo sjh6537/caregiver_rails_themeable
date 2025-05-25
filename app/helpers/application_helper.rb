@@ -32,19 +32,9 @@ module ApplicationHelper
   end
 
   def create_current_list
-    User.all.map do |user|
-      next if user.id_card.nil?
-
-      file = Rails.root.join('health/', "#{user.account}.#{user.id_card}")
-      File.write(file, "#{user.account}.#{user.id_card}\r\n")
-    end
   end
 
   def append_user(account, id_card)
-    return if id_card.nil?
-
-    file = Rails.root.join('health/', "#{account}.#{id_card}")
-    File.write(file, "#{account}.#{id_card}\r\n")
   end
 
   def request_category_all
@@ -70,29 +60,27 @@ module ApplicationHelper
         current_path = request.path
 
         # 登出當前用戶
-         Rails.logger.warn "登出使用者"
+        Rails.logger.warn '登出使用者'
         sign_out(current_user)
 
         # 將新社區的 sn 存入 session
         session[:sn] = sn
 
         # 設置提示信息
-        flash[:notice] =  I18n.t('Website.Note.Community_Change', sn: sn)
+        flash[:notice] = I18n.t('Website.Note.Community_Change', sn: sn)
         Rails.logger.info "社區變更，從 #{session[:sn]} 切換到 #{sn}，需要重新登入"
-  
+
         # 重定向到登入頁面，帶上社區參數和返回 URL
         redirect_to new_user_session_path(sn: sn, return_to: "#{current_path}?sn=#{sn}") and return
       end
-      
+
       session[:sn] = sn
       # 確保session確實被設置
       Rails.logger.info "設置社區 sn: #{sn}, 設置後session[:sn]值: #{session[:sn]}"
+    elsif session[:sn].present?
+      Rails.logger.info "使用 session 中的 sn: #{session[:sn]}"
     else
-      if session[:sn].present?
-        Rails.logger.info "使用 session 中的 sn: #{session[:sn]}"
-      else
-        Rails.logger.warn "params[:sn] 和 session[:sn] 都為空"
-      end
+      Rails.logger.warn 'params[:sn] 和 session[:sn] 都為空'
     end
   end
 
@@ -102,21 +90,20 @@ module ApplicationHelper
 
     # 查找實際的 Community 對象而不是使用 session 中的值
     sn = session[:sn]
-    
+
     if sn.blank?
-      Rails.logger.warn "session[:sn]為空，無法找到社區"
+      Rails.logger.warn 'session[:sn]為空，無法找到社區'
       return nil
     end
-    
+
     @current_community ||= Community.find_by(sn: sn)
 
     if @current_community.nil?
       Rails.logger.warn "找不到社區，sn: #{sn}"
       return nil
     end
-    
+
     Rails.logger.info "找到社區: #{@current_community.sn}"
     @current_community
   end
 end
-

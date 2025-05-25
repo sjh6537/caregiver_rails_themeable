@@ -5,6 +5,6 @@
       class: DailyCheck
       queue: default
     crawler_health_report:
-      cron: "*/5 * * * *" 
+      cron: "*/2 * * * *" 
       class: UpdateHealthReport
       queue: default

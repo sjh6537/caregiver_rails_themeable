@@ -62,6 +62,7 @@ zh-TW:
     SIGN_IN: 登入
     SIGN_OUT: 登出
     CREATE: 新建
+    CREATE_NEW_USER: 新增使用者
     CREATE_NEW_ADMIN: 新增管理者
     CREATE_NEW_SHOP: 新增商家
     CREATE_NEW_COUPON: 新增優惠卷
@@ -224,6 +225,7 @@ zh-TW:
     Health_Report: 量測報告
     Report_Time: 量測時間
     Measure_Time: 量測類型
+    BMI: BMI
     Weight: 體重
     Blood_Pressure1: 收縮壓
     Blood_Pressure2: 舒張壓
@@ -257,6 +259,7 @@ zh-TW:
     ADMINISTRATORS: 管理者
     ADMINISTRATOR_INFO: 管理者資訊
     NEW_ADMINISTRATOR: 新增管理者
+    NEW_USER: 新增使用者
     DEL_ADMIN: 刪除管理者
     USERS: 使用者
     USER_INFO: 使用者資訊
@@ -407,6 +410,7 @@ zh-TW:
       Switched_To_New_Community: "已切換到新的社區"
       Select_Caregiver_Same_Community: "選擇同社區可設定為被照顧者的使用者" 
       No_Cared_Candidates: "無可設定的被照顧者"
+      Remove_Cared_Is_Continue: "此操作將移除被照護者，是否繼續？"
 
   Notify:
     Title:
@@ -434,9 +438,15 @@ zh-TW:
       BLOCK_USER: 使用者停用
       LOGS: 操作紀錄
       SCHEDULE_TABLE: 訊息排程
+      DELETE_COMFIRM: 刪除確認?
+    Process:
+      Loading: "處理中..."
+      Submitting: "正在送出資料，請稍候"
     Note:
       You_remove_this_caregiver: "已成功移除該照護者"
+      You_remove_this_cared: "已成功移除該被照護者"
       More_Logs: 查看更多操作紀錄
+      Delete_confirm: "確定要執行這個操作嗎？此操作無法復原。"
       Deliver_Coins: "將贈送該使用者選擇的柑幣數量，贈送確認後柑幣無法收回"
       Deliver_Coins_Success: "系統贈送柑幣成功"
       Redeem_success: "「%{name}」優惠卷兌換成功"
@@ -449,6 +459,7 @@ zh-TW:
       Your_request_already_create: "你的需求已經建立"
       Please_Select_One_City: "請選擇一個城市"
       Please_Select_One_Postal: "請選擇一個區域"
+      Please_Select_One_Community: "請選擇一個社區"
       Fill_Simple_Title: 請簡單描述工作內容
       Cannot_del_Admin: 除了超級管理員，其他管理者無法做管理員刪除和管理員密碼變更的動作。
       Login_super_admin: 登出並登入超級管理員
@@ -459,6 +470,9 @@ zh-TW:
       Account_Created_Fail: "帳號 <strong>%{name}</strong> 創建失敗."
       Account_Updated_Fail: "帳號 <strong>%{name}</strong> 更新失敗."
       Account_Deleted_Fail: "帳號 <strong>%{name}</strong> 刪除失敗."
+      Cannot_Edit_Other_Community: "您無法編輯其他社區的使用者."
+      Cannot_Update_Other_Community: "您無法更新其他社區的使用者."
+      User_Not_Found: "找不到使用者資料."
       Schedule_Message_Created: "帳號「%{name}」成功創建推撥訊息「%{title}」"
       Schedule_Message_Created_Fail: "帳號「%{name}」推撥訊息創建失敗"
       Created: "<strong>%{name}</strong> 成功創建."
@@ -491,7 +505,13 @@ zh-TW:
       Category_cannot_delete: 派工類別新增後無法刪除只能隱藏
       ID_Card_Error: "*身份證字號格式錯誤"
       Successfully_Configured: "設定成功"
-      Successfully_Configured_Fail: "設定失敗" 
+      Successfully_Configured_Fail: "設定失敗"
+      Community_Not_Found: "社區不存在"
+      No_Permission: "沒有權限" 
+      ID_Card_Exists: "身份證字號<strong>%{id_card}</strong> 已存在"
+      Cared_Connected: "已成功綁定照顧者"
+      Cared_Created_Fail : "綁定照顧者失敗"
+      Remove_Cared_Success: "已成功移除照顧者"
   Tab:
     Line_Message: 訊息
     Line_Recipient: 傳送對象
