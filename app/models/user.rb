@@ -30,6 +30,7 @@ class User < ActiveRecord::Base
   belongs_to :community , optional: true , class_name: 'Community'
 
   has_many :fitness_devices
+  has_many :cared_facilities, foreign_key: 'cared_user_info_id'
 
   def coins
     profile.coins_this_y

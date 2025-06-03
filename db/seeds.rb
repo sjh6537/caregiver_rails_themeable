@@ -289,13 +289,28 @@ if fitness_devices.nil?
   )
   puts "Created fitness device '#{fitness_devices.name}'"
 
-  RequestCategory.create(is_show: true, text: '煮飯')
-  RequestCategory.create(is_show: true, text: '購物')
-  RequestCategory.create(is_show: true, text: '洗衣')
-  RequestCategory.create(is_show: true, text: '水電修理')
-  RequestCategory.create(is_show: true, text: '看醫生')
-  RequestCategory.create(is_show: true, text: '醫囑提醒')
-  RequestCategory.create(is_show: true, text: '寵物陪伴')
-  RequestCategory.create(is_show: true, text: '外出協助')
+
+# Cared Facility Types
+CaredFacilityType.create!([
+  { name: 'CO2' },
+  { name: 'GAS' },
+  { name: 'CO2_GAS' },
+  { name: 'Fire' },
+  { name: 'Camera' },
+  { name: 'EmergencyButton' }
+])
+
+# Cared Facility Event Types
+CaredFacilityEventType.create!([
+  { name: 'KeepAlive' },
+  { name: 'Warning' },
+  { name: 'Urgent' },
+])
+
+# Cared Facility (照護設備)
+CaredFacility.create!([
+  { name: 'CO2偵測器1', cared_user_info_id: 2, cared_facility_type_id: CaredFacilityType.find_by(name: 'CO2_GAS').id, activation_date: Time.now, serial_number: 'CO2-001', model: 'X100', inuse: true, enabled: true },
+  { name: '緊急按鈕1', cared_user_info_id: 2, cared_facility_type_id: CaredFacilityType.find_by(name: 'EmergencyButton').id, activation_date: Time.now, serial_number: 'EMG-001', model: 'BTN-A1', inuse: true, enabled: true }
+])
 
 end
