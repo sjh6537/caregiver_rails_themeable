@@ -12,7 +12,7 @@ class Admin::CaredFacilitiesController < ApplicationController
   end
 
   def new_event
-    device_id = params[:fitness_device_id].to_i
+    device_id = params[:cared_facility_id].to_i
     community_id = params[:community_id].to_i
 
     begin
