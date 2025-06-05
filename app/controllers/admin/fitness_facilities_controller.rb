@@ -1,6 +1,8 @@
 class Admin::FitnessFacilitiesController < ApplicationController
   protect_from_forgery with: :null_session # 關閉 CSRF 驗證
   before_action :authenticate_token!, only: [:new_event]
+  include LineHelper
+  include ReportHelper
 
   def authenticate_token!
     token = request.headers['Authorization']&.split(' ')&.last
@@ -17,13 +19,13 @@ class Admin::FitnessFacilitiesController < ApplicationController
 
     begin
       data = JSON.parse(request.body.read)
-      report_date = data["report_date"]
+      report_date = data['report_date']
 
       # 根據裝置 ID 找出設備
       device = FitnessDevice.find_by(id: device_id)
 
       if device.nil?
-        render json: { error: "Device not found" }, status: :not_found
+        render json: { error: 'Device not found' }, status: :not_found
         return
       end
 
@@ -31,7 +33,7 @@ class Admin::FitnessFacilitiesController < ApplicationController
       user = device.user
 
       if user.nil?
-        render json: { error: "Device not bound to any user" }, status: :not_found
+        render json: { error: 'Device not bound to any user' }, status: :not_found
         return
       end
 
@@ -40,7 +42,7 @@ class Admin::FitnessFacilitiesController < ApplicationController
         user_id: user.id,
         exercise_type: '律動機',
         fitness_device_id: device.id,
-        report_date: Date.strptime(report_date, "%Y/%m/%d"),
+        report_date: Date.strptime(report_date, '%Y/%m/%d'),
         start_time: Time.now,
         end_time: Time.now + 10.minutes,
         duration: 600,
@@ -48,17 +50,33 @@ class Admin::FitnessFacilitiesController < ApplicationController
         calories_burned: 50.0
       )
 
+      send_report_notification(user, report)
+
       render json: {
-        message: "Report created",
+        message: 'Report created',
         report_id: report.id,
         user_id: user.id
       }, status: :created
     rescue JSON::ParserError => e
       render json: { error: "Invalid JSON: #{e.message}" }, status: :bad_request
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "Create failed: #{e.message}"
-      render json: { error: "Internal error" }, status: :internal_server_error
+      render json: { error: 'Internal error' }, status: :internal_server_error
     end
   end
 
+  def send_report_notification(user, report)
+    text = format_fitness_report(report)
+    # 發送給用戶
+    message_push(user.account, text) if user.line_token.present?
+
+    # 發送給所有照護者
+    caregivers = user.caregivers
+    return if caregivers.empty?
+
+    caregivers.each do |caregiver|
+      caregiver_text = "您的照顧者「#{user.name}」有新的運動報告：\n\n" + text
+      message_push(caregiver.account, caregiver_text) if caregiver.line_token.present?
+    end
+  end
 end

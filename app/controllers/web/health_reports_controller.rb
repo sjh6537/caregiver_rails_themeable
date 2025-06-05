@@ -40,11 +40,13 @@ class Web::HealthReportsController < ApplicationWebController
     # 發送給用戶
     message_push(current_user.account, text)
 
-    # 發送給照護者
-    caregiver = current_user.caregivers.first
-    return unless caregiver.present?
+    # 發送給所有照護者
+    caregivers = current_user.caregivers
+    return if caregivers.empty?
 
-    caregiver_text = "你的照護對象「#{current_user.name}」有一份新的健康報告：\n\n" + text
-    message_push(caregiver.account, caregiver_text)
+    caregivers.each do |caregiver|
+      caregiver_text = "您的照顧者「#{current_user.name}」有新的健康報告：\n\n" + text
+      message_push(caregiver.account, caregiver_text) if caregiver.line_token.present?
+    end
   end
 end
