@@ -32,6 +32,13 @@ else
     echo "Sidekiq 已在執行中"
 fi
 
+# 移除舊的 Rails 伺服器 PID 檔案 (如果存在)
+if [ -f tmp/pids/server.pid ]; then
+    echo "移除舊的 Rails 伺服器 PID 檔案..."
+    rm tmp/pids/server.pid
+    echo "舊的 PID 檔案已移除"
+fi
+
 # 檢查 Rails 伺服器是否已啟動
 if ! pgrep -f "rails server" > /dev/null
 then
