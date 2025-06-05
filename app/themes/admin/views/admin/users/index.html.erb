@@ -36,11 +36,12 @@
                                 <tr>
                                     <th class="wd-lg-10p"><span><%= t("Table.User") %></span></th>
                                     <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.ID_Card") %></span></th>
+                                    <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Birthday") %></span></th>
                                     <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Health_Report") %></span></th>
                                     <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Fitness_Report") %></span></th>
                                     <th class="border-bottom-0 wd-lg-15p"><span><%= t("Table.Last_Sign_in") %></span></th>
                                     <th class="border-bottom-0 wd-lg-10p"><span><%= t("Table.Status") %></span></th>
-                                    <th class="border-bottom-0 wd-lg-50p"><span><%= t("Table.Action") %></span></th>
+                                    <th class="border-bottom-0 wd-lg-40p"><span><%= t("Table.Action") %></span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,6 +64,7 @@
                                         </div>
                                     </td>
                                     <td><a href="<%= admin_user_health_report_path(c.id) %>"><%= c.id_card %></a></td>
+                                    <td><%= c.birthday %></td>
                                     <td><a href="<%= admin_user_health_report_path(c.id) %>"><%= c.health_reports.count %></a></td>
                                     <td><a href="<%= admin_user_fitness_report_path(c.id) %>"><%= c.fitness_reports.count %></a></td>
                                     <td><%= c.current_sign_in_at.strftime('%Y/%m/%d %T') %></td>

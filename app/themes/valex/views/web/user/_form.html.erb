@@ -61,6 +61,26 @@
         </div>
     </div>
 </div>
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= raw t("Table.Birthday") %></label>
+        </div>
+        <div class="col-md-9">
+            <div class="input-group w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="typcn typcn-calendar-outline tx-24 lh--9 op-6"></i>
+                    </div>
+                </div>
+                <div class="flex-grow-1">
+                    <%= f.input :birthday, label: false, :placeholder => "YYYY-MM-DD", :required => true, input_html: { class: "fc-datepicker form-control w-100" } %>
+                </div>
+            </div>
+            <spin id="alert_birthday" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
+        </div>
+    </div>
+</div>
 <div class="card-footer d-flex flex-row-reverse  mg-t-40">
     <div class="form-group">
         <div class="row">
@@ -78,6 +98,7 @@
         $('#alert_phone').hide();
         $('#alert_id_card').hide();
         $('#alert_id_card_error').hide();
+        $('#alert_birthday').hide();
     }
 
     function checkform() {
@@ -101,6 +122,10 @@
         }
         if ($('#user_phone').val() == "") {
             $('#alert_phone').show();
+            ret = false;
+        }
+        if ($('#user_birthday').val() == "") {
+            $('#alert_birthday').show();
             ret = false;
         }
 
