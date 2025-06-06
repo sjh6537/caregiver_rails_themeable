@@ -4,6 +4,13 @@ class Web::UserController < ApplicationWebController
   before_action :check_user_accepted, only: %i[show health_report fitness_report edit careds]
 
   def show
+    # 檢查使用者是否已填寫身份證
+    if @user.id_card.blank?
+      redirect_to web_user_edit_path, notice: I18n.t('Website.Note.Please_Fill_Basic_Info')
+      return
+    end
+
+    # 繼續執行原有的 show 動作
     @careds = @user.careds
     @caregivers = @user.caregivers
     return if params[:notice].nil?

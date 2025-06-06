@@ -411,6 +411,7 @@ zh-TW:
       Select_Caregiver_Same_Community: "選擇同社區可設定為被照顧者的使用者" 
       No_Cared_Candidates: "無可設定的被照顧者"
       Remove_Cared_Is_Continue: "此操作將移除被照護者，是否繼續？"
+      Please_Fill_Basic_Info: "請填寫基本資料"
 
   Notify:
     Title:
@@ -512,6 +513,7 @@ zh-TW:
       Cared_Connected: "已成功綁定照顧者"
       Cared_Created_Fail : "綁定照顧者失敗"
       Remove_Cared_Success: "已成功移除照顧者"
+
   Tab:
     Line_Message: 訊息
     Line_Recipient: 傳送對象
