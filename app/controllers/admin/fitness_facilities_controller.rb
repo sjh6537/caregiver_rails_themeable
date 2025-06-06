@@ -66,16 +66,16 @@ class Admin::FitnessFacilitiesController < ApplicationController
   end
 
   def send_report_notification(user, report)
-    text = format_fitness_report(report)
+    user_text = format_fitness_report(report)
     # 發送給用戶
-    message_push(user.account, text) if user.line_token.present?
+    message_push(user.account, user_text) if user.line_token.present?
 
     # 發送給所有照護者
     caregivers = user.caregivers
     return if caregivers.empty?
 
+    caregiver_text = format_fitness_report(report, "您的照顧者「#{user.name}」有新的運動報告：\n\n")
     caregivers.each do |caregiver|
-      caregiver_text = "您的照顧者「#{user.name}」有新的運動報告：\n\n" + text
       message_push(caregiver.account, caregiver_text) if caregiver.line_token.present?
     end
   end
