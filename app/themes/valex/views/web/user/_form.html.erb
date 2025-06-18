@@ -3,6 +3,42 @@
         color: red;
         font-size: 14px;
     }
+
+    button[type="submit"],
+    input[type="submit"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
+        /* 確保按鈕有足夠的點擊區域 */
+        min-height: 44px;
+        min-width: 44px;
+
+        /* 防止被其他元素遮蔽 */
+        position: relative;
+        z-index: 999;
+
+        /* 確保在小螢幕上可見 */
+        margin-bottom: 20px;
+    }
+
+    .card-footer {
+        padding-bottom: 60px !important;
+        margin-bottom: 40px !important;
+    }
+
+    /* 針對小螢幕裝置 */
+    @media (max-width: 768px) {
+        .card-footer {
+            padding-bottom: 80px !important;
+            position: relative;
+        }
+
+        .btn {
+            position: sticky;
+            bottom: 20px;
+        }
+    }
 </style>
 
 <div class="form-group">
