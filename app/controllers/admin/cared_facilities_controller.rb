@@ -1,6 +1,8 @@
 class Admin::CaredFacilitiesController < ApplicationController
   protect_from_forgery with: :null_session # 關閉 CSRF 驗證
   before_action :authenticate_token!, only: [:new_event]
+  include LineHelper
+  include ReportHelper
 
   def authenticate_token!
     token = request.headers['Authorization']&.split(' ')&.last
@@ -48,6 +50,8 @@ class Admin::CaredFacilitiesController < ApplicationController
         processed_note: nil
       )
 
+      send_report_notification(user, event)
+
       render json: {
         message: "Event received",
         event_id: event.id,
@@ -58,6 +62,21 @@ class Admin::CaredFacilitiesController < ApplicationController
     rescue => e
       Rails.logger.error "Create failed: #{e.message}"
       render json: { error: "Internal error" }, status: :internal_server_error
+    end
+  end
+
+  def send_report_notification(user, event)
+    user_text = "緊急通報"
+    # 發送給用戶
+    message_push(user.account, user_text) if user.profile.present? and user&.line_token.present?
+
+    # 發送給所有照護者
+    caregivers = user.caregivers
+    return if caregivers.empty?
+
+    caregiver_text = "您的照顧者「#{user.name}」有緊急通報\n\n"
+    caregivers.each do |caregiver|
+      message_push(caregiver.account, caregiver_text) if caregiver.profile.present? and caregiver&.line_token.present?
     end
   end
 
