@@ -99,3 +99,4 @@ Desktop.ini
 
 # Redis
 dump.rdb
+/config/credentials/production.key
