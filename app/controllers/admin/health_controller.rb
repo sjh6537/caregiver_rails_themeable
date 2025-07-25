@@ -28,9 +28,16 @@ class Admin::HealthController < ApplicationController
       return
     end
     id_card = params[:id_card]
+    birthday = params[:birthday]
+    gender = params[:gender]
     user = User.find_by(id_card: id_card)
     Rails.logger.info("Checking id_card: #{id_card}")
     if user
+      # 若有生日或性別參數則更新
+      update_hash = {}
+      update_hash[:birthday] = birthday if birthday.present?
+      update_hash[:gender] = gender if gender.present?
+      user.update(update_hash) if update_hash.any?
       render json: { status: 'success', exists: true, name: user.name }, status: :ok
     else
       render json: { status: 'success', exists: false }, status: :ok
