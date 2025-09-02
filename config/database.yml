@@ -3,17 +3,15 @@ default: &default
   encoding: utf8mb4
   collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: padifield
-  password: padifield2025
-  host: 18.139.163.70  # 改成你的 MySQL host，如果是遠端可填 IP
-  sslca: /home/padifield/padifield_rails/db/ca.pem
-  sslcert: /home/padifield/padifield_rails/db/client-cert.pem
-  sslkey: /home/padifield/padifield_rails/db/client-key.pem
-  sslverify: true
+
+
 
 development:
   <<: *default
-  database: mysql_db
+  database: padifield_development
+  host: localhost
+  username: sa
+  password: taiwan
 
 test:
   <<: *default
@@ -24,3 +22,8 @@ production:
   database: mysql_db_production
   username: padifield
   password: padifield2025
+  host: 18.139.163.70  # 改成你的 MySQL host，如果是遠端可填 IP
+  sslca: /home/padifield/padifield_rails/db/ca.pem
+  sslcert: /home/padifield/padifield_rails/db/client-cert.pem
+  sslkey: /home/padifield/padifield_rails/db/client-key.pem
+  sslverify: true
