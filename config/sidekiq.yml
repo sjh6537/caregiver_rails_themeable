@@ -8,7 +8,7 @@
       cron: "*/2 * * * *" 
       class: UpdateHealthReport # 處理 CM005 西勢社區
       queue: default
-    crawler_health_report_for_zhongzhuang:
+    crawler_health_asus_report:
       cron: "*/5 * * * *"
-      class: UpdateHealthReportForZhongZhuang # 處理 CM001 中庄和 CM004 花壇的社區
+      class: UpdateAsusReport # 處理 CM001 中庄和 CM004 花壇的社區
       queue: default

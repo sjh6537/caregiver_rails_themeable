@@ -1,5 +1,5 @@
-# UpdateHealthReportForZhongZhuang 類別負責更新FiveMinute所有使用者的健康報告資訊
-class UpdateHealthReportForZhongZhuang
+#  UpdateAsusReport 類別負責更新所有使用者的健康報告資訊
+class UpdateAsusReport
   include Sidekiq::Worker # 將此類別標記為 Sidekiq 工作者，可以進行背景任務處理
   sidekiq_options retry: false # 設定此任務失敗時不進行重試
 
