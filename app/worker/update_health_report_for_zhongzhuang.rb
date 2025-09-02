@@ -1,13 +1,13 @@
-# UpdateHealthReport 類別負責更新所有使用者的健康報告資訊
-class UpdateHealthReport
+# UpdateHealthReportForZhongZhuang 類別負責更新FiveMinute所有使用者的健康報告資訊
+class UpdateHealthReportForZhongZhuang
   include Sidekiq::Worker # 將此類別標記為 Sidekiq 工作者，可以進行背景任務處理
   sidekiq_options retry: false # 設定此任務失敗時不進行重試
 
   # 執行更新所有用戶健康報告的主要方法
   # @return [void]
   def perform
-    # 處理 SN 為 CM005 西勢社區
-    target_sns = %w[CM005]
+    # 處理 SN 為 CM001 中庄和 CM004 花壇的社區
+    target_sns = %w[CM001 CM004]
     communities = Community.where(sn: target_sns)
     if communities.empty?
       Rails.logger.info "找不到 SN 為 #{target_sns.join(', ')} 的社區，結束更新任務"
