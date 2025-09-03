@@ -52,19 +52,19 @@
                                 <td><%= device.name %></td>
                                 <td>
                                     <% if device.fitness_device_type %>
-                                    <span class="badge badge-primary">
-                                        <% if device.fitness_device_type.icon.present? %>
-                                        <i class="<%= device.fitness_device_type.icon %>" style="color: <%= device.fitness_device_type.icon_color %>"></i>
-                                        <% end %>
-                                        <%= device.fitness_device_type.name %>
-                                    </span>
+
+                                    <% if device.fitness_device_type.icon.present? %>
+                                    <i class="<%= device.fitness_device_type.icon %>" style="color: <%= device.fitness_device_type.icon_color %>"></i>
+                                    <% end %>
+                                    <%= device.fitness_device_type.name %>
+
                                     <% else %>
                                     <span class="text-muted">無類型</span>
                                     <% end %>
                                 </td>
                                 <td>
                                     <% if device.community %>
-                                    <span class="badge badge-info"><%= device.community.name %></span>
+                                    <span class=""><%= device.community.name %></span>
                                     <% else %>
                                     <span class="text-muted">—</span>
                                     <% end %>

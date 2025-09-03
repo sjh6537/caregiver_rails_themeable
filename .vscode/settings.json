@@ -53,5 +53,7 @@
   },
   "files.associations": {
     "*.rb": "ruby"
-  }
+  },
+  "chat.tools.autoApprove": true,
+  "chat.agent.maxRequests": 100
 }
