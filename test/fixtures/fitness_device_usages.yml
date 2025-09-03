@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fitness_device: one
+  user: one
+  start_time: 2025-09-02 14:04:42
+  end_time: 2025-09-02 14:04:42
+  status: 1
+  notes: MyText
+
+two:
+  fitness_device: two
+  user: two
+  start_time: 2025-09-02 14:04:42
+  end_time: 2025-09-02 14:04:42
+  status: 1
+  notes: MyText

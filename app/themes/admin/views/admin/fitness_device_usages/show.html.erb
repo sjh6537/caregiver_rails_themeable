@@ -1,0 +1,214 @@
+<% set_breadcrumb title: '健身器材使用記錄', icon: 'fas fa-chart-line' %>
+<% set_breadcrumb title: "使用記錄詳情", icon: 'fas fa-eye' %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">
+          <i class="fas fa-eye me-2"></i>使用記錄詳情
+        </h3>
+        <div class="card-tools">
+          <%= link_to admin_fitness_device_usages_path, class: "btn btn-secondary btn-sm" do %>
+            <i class="fas fa-arrow-left me-1"></i>返回列表
+          <% end %>
+          
+          <% if @usage_record.in_use? %>
+            <%= button_to admin_fitness_device_usage_path(@usage_record), method: :patch, 
+                          params: { fitness_device_usage: { action: 'end_usage' } },
+                          confirm: '確定要結束此次使用嗎？',
+                          class: "btn btn-warning btn-sm ms-1" do %>
+              <i class="fas fa-stop me-1"></i>結束使用
+            <% end %>
+          <% end %>
+          
+          <%= link_to admin_fitness_device_usage_path(@usage_record), method: :delete,
+                      confirm: '確定要刪除此使用記錄嗎？',
+                      class: "btn btn-danger btn-sm ms-1" do %>
+            <i class="fas fa-trash me-1"></i>刪除
+          <% end %>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- 左側：基本資訊 -->
+          <div class="col-md-6">
+            <h5><i class="fas fa-info-circle me-2"></i>基本資訊</h5>
+            <table class="table table-borderless">
+              <tr>
+                <th width="120">使用者：</th>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div>
+                      <div class="fw-bold"><%= @usage_record.user.name %></div>
+                      <% if @usage_record.user.email.present? %>
+                        <small class="text-muted"><%= @usage_record.user.email %></small>
+                      <% end %>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>健身器材：</th>
+                <td>
+                  <div>
+                    <div class="fw-bold"><%= @usage_record.fitness_device.name %></div>
+                    <small class="text-muted">
+                      <%= @usage_record.fitness_device.fitness_device_type.name %> 
+                      (<%= @usage_record.fitness_device.device_id %>)
+                    </small>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>所屬社區：</th>
+                <td><%= @usage_record.fitness_device.community.name %></td>
+              </tr>
+              <tr>
+                <th>設備位置：</th>
+                <td><%= @usage_record.fitness_device.location || '未設定' %></td>
+              </tr>
+              <tr>
+                <th>狀態：</th>
+                <td>
+                  <% if @usage_record.in_use? %>
+                    <span class="badge bg-warning">使用中</span>
+                  <% else %>
+                    <span class="badge bg-success">已完成</span>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </div>
+          
+          <!-- 右側：時間和統計資訊 -->
+          <div class="col-md-6">
+            <h5><i class="fas fa-clock me-2"></i>時間資訊</h5>
+            <table class="table table-borderless">
+              <tr>
+                <th width="120">開始時間：</th>
+                <td>
+                  <% if @usage_record.start_time %>
+                    <%= @usage_record.start_time.strftime('%Y/%m/%d %H:%M:%S') %>
+                  <% else %>
+                    <span class="text-muted">未記錄</span>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <th>結束時間：</th>
+                <td>
+                  <% if @usage_record.end_time %>
+                    <%= @usage_record.end_time.strftime('%Y/%m/%d %H:%M:%S') %>
+                  <% else %>
+                    <span class="text-warning">使用中</span>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <th>使用時長：</th>
+                <td>
+                  <% if @usage_record.duration_minutes %>
+                    <span class="fw-bold text-primary"><%= @usage_record.duration_formatted %></span>
+                  <% elsif @usage_record.in_use? && @usage_record.start_time %>
+                    <span class="text-info">
+                      進行中 (<%= time_distance_in_words(@usage_record.start_time, Time.current) %>)
+                    </span>
+                  <% else %>
+                    <span class="text-muted">--</span>
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <th>消耗卡路里：</th>
+                <td>
+                  <% if @usage_record.calories_burned %>
+                    <span class="fw-bold text-success">
+                      <%= number_with_delimiter(@usage_record.calories_burned) %> 卡
+                    </span>
+                  <% else %>
+                    <span class="text-muted">--</span>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        
+        <!-- 備註 -->
+        <% if @usage_record.notes.present? %>
+          <div class="row mt-4">
+            <div class="col-12">
+              <h5><i class="fas fa-comment me-2"></i>備註</h5>
+              <div class="alert alert-info">
+                <%= simple_format(@usage_record.notes) %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+        
+        <!-- 時間軸 -->
+        <div class="row mt-4">
+          <div class="col-12">
+            <h5><i class="fas fa-history me-2"></i>記錄時間軸</h5>
+            <div class="timeline">
+              <div class="time-label">
+                <span class="bg-primary">
+                  <%= @usage_record.created_at.strftime('%Y/%m/%d') %>
+                </span>
+              </div>
+              
+              <div>
+                <i class="fas fa-play bg-success"></i>
+                <div class="timeline-item">
+                  <span class="time">
+                    <i class="fas fa-clock"></i> 
+                    <%= @usage_record.start_time.strftime('%H:%M') if @usage_record.start_time %>
+                  </span>
+                  <h3 class="timeline-header">開始使用設備</h3>
+                  <div class="timeline-body">
+                    使用者 <%= @usage_record.user.name %> 開始使用 <%= @usage_record.fitness_device.name %>
+                  </div>
+                </div>
+              </div>
+              
+              <% if @usage_record.end_time %>
+                <div>
+                  <i class="fas fa-stop bg-danger"></i>
+                  <div class="timeline-item">
+                    <span class="time">
+                      <i class="fas fa-clock"></i> 
+                      <%= @usage_record.end_time.strftime('%H:%M') %>
+                    </span>
+                    <h3 class="timeline-header">結束使用</h3>
+                    <div class="timeline-body">
+                      使用時長：<%= @usage_record.duration_formatted %>
+                      <% if @usage_record.calories_burned %>
+                        <br>消耗卡路里：<%= number_with_delimiter(@usage_record.calories_burned) %> 卡
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% else %>
+                <div>
+                  <i class="fas fa-clock bg-warning"></i>
+                  <div class="timeline-item">
+                    <span class="time">
+                      <i class="fas fa-clock"></i> 目前
+                    </span>
+                    <h3 class="timeline-header text-warning">使用中</h3>
+                    <div class="timeline-body">
+                      <% if @usage_record.start_time %>
+                        已使用 <%= time_distance_in_words(@usage_record.start_time, Time.current) %>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

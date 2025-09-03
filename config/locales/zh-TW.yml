@@ -58,6 +58,10 @@ zh-TW:
       Line_Message: 訊息推撥
       Message: 訊息
       Users: 用戶
+      Fitness_Management: 健身器材管理
+      Fitness_Device_Types: 健身器材類型
+      Fitness_Devices: 健身器材
+      Fitness_Device_Usages: 使用記錄
   Button:
     SIGN_IN: 登入
     SIGN_OUT: 登出
@@ -111,6 +115,12 @@ zh-TW:
     RESET: 重置
     NEW: 新增
     CARE_RECEIVER: 被照護者
+    CREATE_NEW_FITNESS_DEVICE_TYPE: 新增健身器材類型
+    CREATE_NEW_FITNESS_DEVICE: 新增健身器材
+    BIND_USER: 綁定使用者
+    UNBIND_USER: 解除綁定
+    VIEW_USAGE_HISTORY: 查看使用記錄
+    END_USAGE: 結束使用
 
   Placeholder:
     Search: 搜尋
@@ -243,6 +253,26 @@ zh-TW:
     Fitness_Device: 運動裝置
     Not_Assigned: 未指派
     Select_community: 選擇社區
+    Fitness_Device_Type: 健身器材類型
+    Device_ID: 設備編號
+    Brand: 品牌
+    Model: 型號
+    Serial_Number: 序號
+    Mac_Address: MAC地址
+    IP_Address: IP地址
+    Current_User: 目前使用者
+    Last_Usage: 最後使用
+    Available: 可用
+    In_Use: 使用中
+    Sort_Order: 排序
+    Icon: 圖示
+    Icon_Color: 圖示顏色
+    Enabled: 啟用
+    Enable_Fitness_Device_Type: 啟用此健身器材類型
+    Usage_Duration: 使用時長
+    Bind_User: 綁定使用者
+    Unbind_User: 解除綁定
+    Usage_History: 使用記錄
 
 
   Title:
@@ -293,6 +323,17 @@ zh-TW:
     FITNESS_REPORT: 運動報告
     CARE_RECEIVER: 被照護者
     CAREGIVER: 照護者
+    FITNESS_DEVICE_TYPES_TABLE: 健身器材類型表格
+    NEW_FITNESS_DEVICE_TYPE: 新增健身器材類型
+    EDIT_FITNESS_DEVICE_TYPE: 編輯健身器材類型
+    FITNESS_DEVICES_TABLE: 健身器材表格
+    NEW_FITNESS_DEVICE: 新增健身器材
+    EDIT_FITNESS_DEVICE: 編輯健身器材
+    FITNESS_DEVICE_USAGES_TABLE: 健身器材使用記錄表格
+    FITNESS_DEVICE_USAGE_INFO: 使用記錄資訊
+    DEL_FITNESS_DEVICE_TYPE: 刪除健身器材類型
+    DEL_FITNESS_DEVICE: 刪除健身器材
+    DEL_FITNESS_DEVICE_USAGE: 刪除使用記錄
 
   Note:
     Del_Shop: 是否確定要刪除商家?

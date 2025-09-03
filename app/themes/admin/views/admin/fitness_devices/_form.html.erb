@@ -1,0 +1,142 @@
+<%= simple_form_for([:admin, @fitness_device], :html => { :class => 'forms-sample' }) do |f| %>
+<div class="row">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Name, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :name, label: false, placeholder: "健身器材名稱", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">器材類型</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.association :fitness_device_type, collection: (@fitness_device_types || FitnessDeviceType.all), 
+            prompt: "請選擇器材類型", label: false,
+            input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">序號</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :serial_number, label: false, placeholder: "設備序號", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">品牌</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :brand, label: false, placeholder: "設備品牌", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">型號</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :model, label: false, placeholder: "設備型號", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">位置</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :location, label: false, placeholder: "設備擺放位置", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">社區</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.association :community, collection: (@communities || Community.all), 
+            prompt: "請選擇社區", label: false,
+            input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">MAC 地址</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :mac_address, label: false, placeholder: "設備MAC地址", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">IP 地址</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :ip_address, label: false, placeholder: "設備IP地址", input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">狀態</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.select :status, 
+            options_for_select([
+                ['正常', 'normal'],
+                ['維修中', 'maintenance'],
+                ['故障', 'broken'],
+                ['停用', 'disabled']
+            ], @fitness_device.status), 
+            { prompt: "請選擇狀態" }, 
+            { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">排序順序</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :sort_order, label: false, placeholder: "排序順序 (數字)", 
+            input_html: { type: "number", min: 0, value: @fitness_device.sort_order || 0, class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Enabled, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <div class="form-check mg-t-10">
+            <%= f.check_box :enabled, class: "form-check-input" %>
+            <label class="form-check-label">
+                啟用此健身器材
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label">備註</label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :notes, as: :text, label: false, placeholder: "設備備註", 
+            input_html: { rows: 3, class: "form-control" } %>
+    </div>
+</div>
+
+<div class="mg-t-30">
+    <%= f.button :submit, "儲存", class: "btn btn-primary pd-x-20" %>
+    <%= link_to "取消", admin_fitness_devices_path, class: "btn btn-secondary pd-x-20" %>
+</div>
+<% end %>

@@ -49,6 +49,34 @@ module ApplicationHelper
     end
   end
 
+  # 計算時間差距的輔助方法
+  def time_distance_in_words(from_time, to_time = Time.current)
+    return '' if from_time.nil?
+
+    distance_in_minutes = ((to_time - from_time) / 1.minute).round
+
+    case distance_in_minutes
+    when 0..1
+      '1分鐘內'
+    when 2..44
+      "#{distance_in_minutes}分鐘"
+    when 45..89
+      '約1小時'
+    when 90..1439
+      "約#{(distance_in_minutes.to_f / 60).round}小時"
+    when 1440..2519
+      '約1天'
+    when 2520..43_199
+      "約#{(distance_in_minutes.to_f / 1440).round}天"
+    when 43_200..86_399
+      '約1個月'
+    when 86_400..525_599
+      "約#{(distance_in_minutes.to_f / 43_200).round}個月"
+    else
+      "約#{(distance_in_minutes.to_f / 525_600).round}年"
+    end
+  end
+
   def set_community_by_token
     sn = params[:sn]
     if sn.present?

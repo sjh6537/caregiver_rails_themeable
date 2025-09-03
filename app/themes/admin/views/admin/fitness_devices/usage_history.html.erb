@@ -1,0 +1,207 @@
+<%= render 'admin/shared/breadcrumb' %>
+
+<div class="row row-sm">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mg-b-0"><%= @fitness_device.name %> - 使用記錄</h4>
+                    <div>
+                        <%= link_to admin_fitness_devices_path, class: "btn btn-sm btn-outline-primary" do %>
+                        <i class="las la-arrow-left"></i> 返回設備列表
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="usage-table" class="table mg-b-0 text-md-nowrap table-hover">
+                        <thead>
+                            <tr>
+                                <th>使用者</th>
+                                <th>開始時間</th>
+                                <th>結束時間</th>
+                                <th>持續時間</th>
+                                <th>消耗卡路里</th>
+                                <th>步數</th>
+                                <th>距離 (km)</th>
+                                <th>平均心率</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% (@usage_records || []).each do |usage| %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <h6 class="mg-b-0"><%= usage.user&.name || "未知使用者" %></h6>
+                                            <small class="text-muted"><%= usage.user&.line_name %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= usage.start_time&.strftime("%Y-%m-%d %H:%M") || "-" %>
+                                </td>
+                                <td>
+                                    <%= usage.end_time&.strftime("%Y-%m-%d %H:%M") || "-" %>
+                                </td>
+                                <td>
+                                    <% if usage.duration_minutes && usage.duration_minutes > 0 %>
+                                    <%= "#{usage.duration_minutes} 分鐘" %>
+                                    <% else %>
+                                    -
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <%= usage.calories_burned || "-" %>
+                                </td>
+                                <td>
+                                    <%= usage.steps_count || "-" %>
+                                </td>
+                                <td>
+                                    <% if usage.distance_km && usage.distance_km > 0 %>
+                                    <%= sprintf("%.2f", usage.distance_km) %>
+                                    <% else %>
+                                    -
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <% if usage.average_heart_rate && usage.average_heart_rate > 0 %>
+                                    <%= "#{usage.average_heart_rate} bpm" %>
+                                    <% else %>
+                                    -
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <% case usage.status %>
+                                    <% when 'completed' %>
+                                    <span class="badge badge-success">已完成</span>
+                                    <% when 'in_progress' %>
+                                    <span class="badge badge-primary">進行中</span>
+                                    <% when 'cancelled' %>
+                                    <span class="badge badge-warning">已取消</span>
+                                    <% when 'error' %>
+                                    <span class="badge badge-danger">錯誤</span>
+                                    <% else %>
+                                    <span class="badge badge-secondary">未知</span>
+                                    <% end %>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+
+                    <% if (@usage_records || []).empty? %>
+                    <div class="text-center py-4">
+                        <p class="text-muted">此設備尚無使用記錄</p>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#usage-table')) {
+            $('#usage-table').DataTable().destroy();
+        }
+
+        $('#usage-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json"
+            },
+            "responsive": true,
+            "pageLength": 20,
+            "order": [
+                [1, "desc"]
+            ], // 按開始時間降序排列
+            "columnDefs": [{
+                    "orderable": false,
+                    "targets": [8]
+                } // 狀態欄不可排序
+            ]
+        });
+    });
+</script>
+<tr>
+    <td><%= device.id %></td>
+    <td><%= device.name %></td>
+    <td>
+        <% if device.fitness_device_type %>
+        <span class="badge badge-primary">
+            <% if device.fitness_device_type.icon.present? %>
+            <i class="<%= device.fitness_device_type.icon %>" style="color: <%= device.fitness_device_type.icon_color %>"></i>
+            <% end %>
+            <%= device.fitness_device_type.name %>
+        </span>
+        <% else %>
+        <span class="text-muted">無類型</span>
+        <% end %>
+    </td>
+    <td><%= device.serial_number || '—' %></td>
+    <td><%= device.location || '—' %></td>
+    <td>
+        <% if device.user %>
+        <div class="d-flex align-items-center">
+            <span class="badge badge-success mr-2">
+                <%= device.user.name %>
+                <% if device.user.line_name.present? %>
+                (<%= device.user.line_name %>)
+                <% end %>
+            </span>
+            <button type="button" class="btn btn-sm btn-outline-danger unbind-user-btn" data-device-id="<%= device.id %>" onclick="return confirm('確定要解除綁定嗎？')">
+                <i class="las la-unlink"></i>
+            </button>
+        </div>
+        <% else %>
+        <button class="btn btn-sm btn-outline-primary bind-user-btn" data-device-id="<%= device.id %>" data-community-id="<%= device.community_id %>" data-toggle="modal" data-target="#bindUserModal">
+            <i class="las la-link"></i> 綁定使用者
+        </button>
+        <% end %>
+    </td>
+    <td class="text-center">
+        <% if device.enabled? %>
+        <span class="label text-success d-flex">
+            <div class="dot-label bg-success mr-1"></div><%= t(:Active, scope: "Table") %>
+        </span>
+        <% else %>
+        <span class="label text-danger d-flex">
+            <div class="dot-label bg-danger mr-1"></div><%= t(:Banned, scope: "Table") %>
+        </span>
+        <% end %>
+    </td>
+    <td>
+        <div class="btn-group" role="group">
+            <a href="<%= edit_admin_fitness_device_path(device) %>" class="btn btn-sm btn-info" title="編輯">
+                <i class="las la-pen"></i>
+            </a>
+            <a href="<%= usage_history_admin_fitness_device_path(device) %>" class="btn btn-sm btn-warning" title="使用記錄">
+                <i class="las la-history"></i>
+            </a>
+            <a class="btn ripple btn-sm btn-danger delete_button" data-val="<%= device.id %>" data-target="#modal_del" data-toggle="modal" title="刪除">
+                <i class="las la-trash"></i>
+            </a>
+        </div>
+    </td>
+</tr>
+<% end %>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div><!-- COL END -->
+</div>
+<!-- row closed -->
+
+<!-- 綁定使用者 Modal -->
+<div class="modal fade" id="bindUserModal" tabindex="-1" role="dialog" aria-labelledby="bindUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bindUserModalLabel">綁定使用者</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
