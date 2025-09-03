@@ -35,6 +35,7 @@
                                 <th class="border-bottom-0 wd-lg-5p"><span>ID</span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Name, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span>類型</span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span>社區</span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span>序號</span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span>位置</span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span>綁定使用者</span></th>
@@ -59,7 +60,15 @@
                                     <span class="text-muted">無類型</span>
                                     <% end %>
                                 </td>
+                                <td>
+                                    <% if device.community %>
+                                    <span class="badge badge-info"><%= device.community.name %></span>
+                                    <% else %>
+                                    <span class="text-muted">—</span>
+                                    <% end %>
+                                </td>
                                 <td><%= device.serial_number || '—' %></td>
+
                                 <td><%= device.location || '—' %></td>
                                 <td>
                                     <% if device.user %>
@@ -99,7 +108,7 @@
                                         <a href="<%= usage_history_admin_fitness_device_path(device) %>" class="btn btn-sm btn-warning" title="使用記錄">
                                             <i class="las la-history"></i>
                                         </a>
-                                        <a class="btn ripple btn-sm btn-danger delete_button" data-val="<%= device.id %>" data-target="#modal_del" data-toggle="modal" title="刪除">
+                                        <a class="btn ripple btn-sm btn-danger" data-toggle="modal" data-target="#modal_del_<%= device.id %>" title="刪除">
                                             <i class="las la-trash"></i>
                                         </a>
                                     </div>
@@ -150,19 +159,21 @@
     </div>
 </div>
 
-<div class="modal" id="modal_del">
+<% @fitness_devices.each do |device| %>
+<div class="modal" id="modal_del_<%= device.id %>">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content tx-size-sm">
             <div class="modal-body tx-center pd-y-20 pd-x-20">
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                 <h4 class="tx-danger mg-b-20">刪除健身器材</h4>
-                <p class="mg-b-20 mg-x-20">確定要刪除此健身器材嗎？</p>
-                <%= button_to t("Button.CONTINUE"), "", method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
+                <p class="mg-b-20 mg-x-20">確定要刪除「<%= device.name %>」這個健身器材嗎？<br><span class="text-danger">（刪除設備會連同所有使用記錄一併刪除）</span></p>
+                <%= button_to t("Button.CONTINUE"), admin_fitness_device_path(device), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
             </div>
         </div>
     </div>
 </div>
+<% end %>
 
 <%= content_for :script_js do %>
 <!-- Internal Data tables -->
@@ -301,10 +312,6 @@
         });
     });
 
-    // 刪除按鈕事件
-    $(document).on("click", ".delete_button", function(event) {
-        var id = $(this).data("val");
-        $("form.button_to").attr("action", "/fitness_devices/" + id);
-    });
+    // 刪除按鈕事件不再需要
 </script>
 <% end %>

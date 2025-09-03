@@ -58,12 +58,8 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def destroy
-    if @fitness_device.fitness_device_usages.any?
-      redirect_to admin_fitness_devices_path, alert: '此設備已有使用記錄，無法刪除'
-    else
-      @fitness_device.destroy
-      redirect_to admin_fitness_devices_path, notice: '設備刪除成功'
-    end
+    @fitness_device.destroy
+    redirect_to admin_fitness_devices_path, notice: '設備及所有使用記錄已刪除'
   end
 
   def usage_history
@@ -73,6 +69,8 @@ class Admin::FitnessDevicesController < ApplicationAdminController
                                     .order(created_at: :desc)
                                     .limit(20)
                                     .offset(((params[:page]&.to_i || 1) - 1) * 20)
+  rescue ActiveRecord::RecordNotFound, NoMethodError
+    redirect_to admin_fitness_devices_path, alert: '設備不存在或已被刪除'
   end
 
   def bind_user
@@ -109,7 +107,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   def get_users_by_community
     community_id = params[:community_id]
     users = User.where(community_id: community_id)
-                .select(:id, :name, :email, :line_name, :id_card)
+                .select(:id, :name, :email, :id_card)
                 .order(:name)
 
     render json: {
@@ -118,9 +116,8 @@ class Admin::FitnessDevicesController < ApplicationAdminController
           id: user.id,
           name: user.name,
           email: user.email,
-          line_name: user.line_name,
           id_card: user.id_card,
-          display_text: "#{user.name} (#{user.line_name}) - #{user.id_card}"
+          display_text: "#{user.name} - #{user.id_card}"
         }
       end
     }
