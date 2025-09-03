@@ -1,5 +1,5 @@
 class Admin::FitnessDeviceTypesController < ApplicationAdminController
-  before_action :set_fitness_device_type, only: %i[edit update destroy]
+  before_action :set_fitness_device_type, only: %i[show edit update destroy]
   before_action :set_breadcrumb
 
   def index
@@ -27,6 +27,10 @@ class Admin::FitnessDeviceTypesController < ApplicationAdminController
 
   def edit
     @title_sub = '編輯設備類型'
+  end
+
+  def show
+    @title_sub = '查看設備類型'
   end
 
   def update
