@@ -1,52 +1,153 @@
-<%= render 'admin/shared/breadcrumb' %>
+<% content_for :head_css do %>
+<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    /* Info Box 基本樣式 */
+    .info-box {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: white;
+        min-height: 80px;
+    }
+
+    /* 圖示區域 */
+    .info-box-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.2);
+        margin-right: 15px;
+        font-size: 24px;
+        flex-shrink: 0;
+    }
+
+    /* 內容區域 */
+    .info-box-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+    }
+
+    /* 標題文字 */
+    .info-box-text {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 5px;
+        opacity: 0.9;
+    }
+
+    /* 數字/主要內容 */
+    .info-box-number {
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    /* 背景顏色變化 */
+    .info-box.bg-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    }
+
+    .info-box.bg-success {
+        background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+    }
+
+    .info-box.bg-warning {
+        background: linear-gradient(135deg, #ffc107 0%, #d39e00 100%);
+        color: #212529;
+    }
+
+    .info-box.bg-info {
+        background: linear-gradient(135deg, #17a2b8 0%, #117a8b 100%);
+    }
+
+    /* 響應式設計 */
+    @media (max-width: 768px) {
+        .info-box {
+            padding: 12px;
+            min-height: 70px;
+        }
+
+        .info-box-icon {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .info-box-number {
+            font-size: 20px;
+        }
+
+        .info-box-text {
+            font-size: 13px;
+        }
+    }
+
+    /* 懸停效果 */
+    .info-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+    }
+</style>
+<% end %>
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-chart-line me-2"></i>健身器材使用記錄</h3>
-                <div class="card-tools">
-                    <%= button_tag class: "btn btn-success btn-sm", onclick: "window.location.reload()" do %>
-                    <i class="fas fa-sync-alt me-1"></i>重新整理
-                    <% end %>
-                </div>
+                <h3 class="card-title">健身器材使用記錄</h3>
             </div>
             <div class="card-body">
-                <!-- 篩選器 -->
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "d-inline" do |f| %>
+                <!-- 搜尋篩選器 -->
+                <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "mb-4" do |f| %>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label">社區</label>
                         <%= f.select :community_id, options_from_collection_for_select(available_communities, :id, :name, params[:community_id]), 
                           { prompt: "所有社區" }, 
-                          { class: "form-select", onchange: "this.form.submit()" } %>
-                        <% end %>
+                          { class: "form-select form-control" } %>
                     </div>
-                    <div class="col-md-3">
-                        <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "d-inline" do |f| %>
-                        <%= f.hidden_field :community_id, value: params[:community_id] %>
+                    <div class="col-md-2">
+                        <label class="form-label">設備</label>
                         <%= f.select :device_id, options_from_collection_for_select(available_devices, :id, :display_name, params[:device_id]), 
                           { prompt: "所有設備" }, 
-                          { class: "form-select", onchange: "this.form.submit()" } %>
-                        <% end %>
+                          { class: "form-select form-control" } %>
                     </div>
-                    <div class="col-md-3">
-                        <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "d-inline" do |f| %>
-                        <%= f.hidden_field :community_id, value: params[:community_id] %>
-                        <%= f.hidden_field :device_id, value: params[:device_id] %>
+                    <div class="col-md-2">
+                        <label class="form-label">狀態</label>
                         <%= f.select :status, options_for_select([['所有狀態', ''], ['使用中', 'in_use'], ['已完成', 'completed']], params[:status]), 
                           {}, 
-                          { class: "form-select", onchange: "this.form.submit()" } %>
-                        <% end %>
+                          { class: "form-select form-control" } %>
                     </div>
-                    <div class="col-md-3">
-                        <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "d-inline" do |f| %>
-                        <%= f.hidden_field :community_id, value: params[:community_id] %>
-                        <%= f.hidden_field :device_id, value: params[:device_id] %>
-                        <%= f.hidden_field :status, value: params[:status] %>
-                        <%= f.date_field :date, value: params[:date], class: "form-control", placeholder: "選擇日期", onchange: "this.form.submit()" %>
-                        <% end %>
+                    <div class="col-md-2">
+                        <label class="form-label">開始日期</label>
+                        <%= f.date_field :start_date, value: params[:start_date], class: "form-control" %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">結束日期</label>
+                        <%= f.date_field :end_date, value: params[:end_date], class: "form-control" %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">使用者名稱</label>
+                        <%= f.text_field :user_name, value: params[:user_name], class: "form-control", placeholder: "輸入使用者名稱" %>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-auto">
+                        <%= f.submit "搜尋", class: "btn btn-primary" %>
+                        <%= link_to "重置", admin_fitness_device_usages_path, class: "btn btn-secondary ms-2" %>
+                    </div>
+                </div>
+                <% end %>
 
                 <!-- 統計資訊 -->
                 <div class="row mb-3">
@@ -55,7 +156,7 @@
                             <span class="info-box-icon"><i class="fas fa-list"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">總記錄數</span>
-                                <span class="info-box-number"><%= @usage_records.total_count %></span>
+                                <span class="info-box-number"><%= @usage_records.respond_to?(:total_count) ? @usage_records.total_count : @usage_records.count %></span>
                             </div>
                         </div>
                     </div>
@@ -101,9 +202,7 @@
                                 <th>開始時間</th>
                                 <th>結束時間</th>
                                 <th>使用時長</th>
-                                <th>消耗卡路里</th>
-                                <th>狀態</th>
-                                <th>備註</th>
+                                <!-- 移除：消耗卡路里、狀態、備註 欄位 -->
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -140,38 +239,11 @@
                                     <span class="text-muted">--</span>
                                     <% end %>
                                 </td>
-                                <td>
-                                    <% if usage.calories_burned %>
-                                    <%= number_with_delimiter(usage.calories_burned) %> 卡
-                                    <% else %>
-                                    <span class="text-muted">--</span>
-                                    <% end %>
-                                </td>
-                                <td>
-                                    <% if usage.in_use? %>
-                                    <span class="badge bg-warning">使用中</span>
-                                    <% else %>
-                                    <span class="badge bg-success">已完成</span>
-                                    <% end %>
-                                </td>
-                                <td>
-                                    <% if usage.notes.present? %>
-                                    <span data-bs-toggle="tooltip" title="<%= usage.notes %>">
-                                        <%= truncate(usage.notes, length: 20) %>
-                                    </span>
-                                    <% else %>
-                                    <span class="text-muted">--</span>
-                                    <% end %>
-                                </td>
+                                <!-- 已移除：消耗卡路里 / 狀態 / 備註 -->
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <%= link_to admin_fitness_device_usage_path(usage), class: "btn btn-sm btn-outline-primary" do %>
-                                        <i class="fas fa-eye"></i>
-                                        <% end %>
-
                                         <% if usage.in_use? %>
-                                        <%= button_to admin_fitness_device_usage_path(usage), method: :patch, 
-                                      params: { fitness_device_usage: { action: 'end_usage' } },
+                                        <%= button_to end_usage_admin_fitness_device_usage_path(usage), method: :patch,
                                       confirm: '確定要結束此次使用嗎？',
                                       class: "btn btn-sm btn-outline-warning",
                                       form_class: "d-inline" do %>
@@ -179,11 +251,9 @@
                                         <% end %>
                                         <% end %>
 
-                                        <%= link_to admin_fitness_device_usage_path(usage), method: :delete,
-                                  confirm: '確定要刪除此使用記錄嗎？',
-                                  class: "btn btn-sm btn-outline-danger" do %>
-                                        <i class="fas fa-trash"></i>
-                                        <% end %>
+                                        <a class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal_del_<%= usage.id %>" title="刪除">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -193,36 +263,82 @@
                 </div>
 
                 <!-- 分頁 -->
-                <div class="d-flex justify-content-center mt-3">
-                    <%= paginate @usage_records, theme: 'twitter-bootstrap-4' if respond_to?(:paginate) %>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                    <div>
+                        <% if defined?(Kaminari) && @usage_records.respond_to?(:total_count) %>
+                        顯示第 <%= @usage_records.offset_value + 1 %> - <%= [@usage_records.offset_value + @usage_records.current_page_record_count, @usage_records.total_count].min %> 筆，共 <%= @usage_records.total_count %> 筆記錄
+                        <% else %>
+                        共 <%= @usage_records.count %> 筆記錄
+                        <% end %>
+                    </div>
+                    <div>
+                        <% if defined?(Kaminari) && @usage_records.respond_to?(:total_count) %>
+                        <%= paginate @usage_records, theme: 'twitter-bootstrap-4' %>
+                        <% end %>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        // 初始化 DataTable
-        $('#usageTable').DataTable({
-            "paging": false,
-            "searching": false,
-            "ordering": true,
-            "info": false,
-            "autoWidth": false,
-            "responsive": true,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json"
-            },
-            "order": [
-                [3, "desc"]
-            ] // 按開始時間倒序排列
-        });
+<!-- 刪除確認 Modal（每筆記錄） -->
+<% @usage_records.each do |usage| %>
+<div class="modal" id="modal_del_<%= usage.id %>">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <i class="fas fa-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20">刪除使用記錄</h4>
+                <p class="mg-b-20 mg-x-20">確定要刪除 <strong><%= usage.user.name %></strong> 在 <strong><%= usage.fitness_device.name %></strong> 的使用記錄嗎？<br>
+                    <% if usage.in_use? %>
+                    <span class="text-danger">（使用者尚在使用中，刪除時會清空設備的使用者ID）</span>
+                    <% end %>
+                </p>
+                <%= button_to '刪除', admin_fitness_device_usage_path(usage), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
 
-        // 初始化 tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
+<% content_for :script_js do %>
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+<script>
+    (function() {
+        // 等待 DOM 完全就緒
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化 DataTable（確保 DataTables 與 jQuery 已在 layout 中載入）
+            if (window.jQuery && $.fn.DataTable) {
+                $('#usageTable').DataTable({
+                    paging: false,
+                    searching: false,
+                    ordering: true,
+                    info: false,
+                    autoWidth: false,
+                    responsive: true,
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/zh-HANT.json'
+                    },
+                    order: [
+                        [3, 'desc']
+                    ]
+                });
+            }
+
+            // 初始化 Bootstrap tooltips（確保 bootstrap 已載入）
+            try {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function(tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            } catch (e) {
+                // 忽略若 bootstrap 不存在的情況
+                console.debug('bootstrap tooltip init skipped:', e && e.message);
+            }
         });
-    });
+    })();
 </script>
+<% end %>

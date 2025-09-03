@@ -1,214 +1,209 @@
-<% set_breadcrumb title: '健身器材使用記錄', icon: 'fas fa-chart-line' %>
-<% set_breadcrumb title: "使用記錄詳情", icon: 'fas fa-eye' %>
+<% content_for :head_css do %>
+<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<% end %>
 
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">
-          <i class="fas fa-eye me-2"></i>使用記錄詳情
-        </h3>
-        <div class="card-tools">
-          <%= link_to admin_fitness_device_usages_path, class: "btn btn-secondary btn-sm" do %>
-            <i class="fas fa-arrow-left me-1"></i>返回列表
-          <% end %>
-          
-          <% if @usage_record.in_use? %>
-            <%= button_to admin_fitness_device_usage_path(@usage_record), method: :patch, 
-                          params: { fitness_device_usage: { action: 'end_usage' } },
-                          confirm: '確定要結束此次使用嗎？',
-                          class: "btn btn-warning btn-sm ms-1" do %>
-              <i class="fas fa-stop me-1"></i>結束使用
-            <% end %>
-          <% end %>
-          
-          <%= link_to admin_fitness_device_usage_path(@usage_record), method: :delete,
-                      confirm: '確定要刪除此使用記錄嗎？',
-                      class: "btn btn-danger btn-sm ms-1" do %>
-            <i class="fas fa-trash me-1"></i>刪除
-          <% end %>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="row">
-          <!-- 左側：基本資訊 -->
-          <div class="col-md-6">
-            <h5><i class="fas fa-info-circle me-2"></i>基本資訊</h5>
-            <table class="table table-borderless">
-              <tr>
-                <th width="120">使用者：</th>
-                <td>
-                  <div class="d-flex align-items-center">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-chart-line me-2"></i>健身器材使用記錄</h3>
+                <div class="card-tools">
+                    <%= button_tag class: "btn btn-success btn-sm", onclick: "window.location.reload()" do %>
+                    <i class="fas fa-sync-alt me-1"></i>重新整理
+                    <% end %>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- 搜尋篩選器 -->
+                <%= form_with url: admin_fitness_device_usages_path, method: :get, local: true, class: "mb-4" do |f| %>
+                <div class="row g-3">
+                    <div class="col-md-2">
+                        <label class="form-label">社區</label>
+                        <%= f.select :community_id, options_from_collection_for_select(available_communities, :id, :name, params[:community_id]), 
+                          { prompt: "所有社區" }, 
+                          { class: "form-select form-control" } %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">設備</label>
+                        <%= f.select :device_id, options_from_collection_for_select(available_devices, :id, :display_name, params[:device_id]), 
+                          { prompt: "所有設備" }, 
+                          { class: "form-select form-control" } %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">狀態</label>
+                        <%= f.select :status, options_for_select([['所有狀態', ''], ['使用中', 'in_use'], ['已完成', 'completed']], params[:status]), 
+                          {}, 
+                          { class: "form-select form-control" } %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">開始日期</label>
+                        <%= f.date_field :start_date, value: params[:start_date], class: "form-control" %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">結束日期</label>
+                        <%= f.date_field :end_date, value: params[:end_date], class: "form-control" %>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">使用者名稱</label>
+                        <%= f.text_field :user_name, value: params[:user_name], class: "form-control", placeholder: "輸入使用者名稱" %>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-auto">
+                        <%= f.submit "搜尋", class: "btn btn-primary" %>
+                        <%= link_to "重置", admin_fitness_device_usages_path, class: "btn btn-secondary ms-2" %>
+                    </div>
+                </div>
+                <% end %>
+
+                <!-- 統計資訊 -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <div class="info-box bg-info">
+                            <span class="info-box-icon"><i class="fas fa-list"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">總記錄數</span>
+                                <span class="info-box-number"><%= @usage_records.respond_to?(:total_count) ? @usage_records.total_count : @usage_records.count %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-box bg-success">
+                            <span class="info-box-icon"><i class="fas fa-check-circle"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">已完成</span>
+                                <span class="info-box-number"><%= @usage_records.where(status: :completed).count %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-box bg-warning">
+                            <span class="info-box-icon"><i class="fas fa-clock"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">使用中</span>
+                                <span class="info-box-number"><%= @usage_records.where(status: :in_use).count %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="info-box bg-primary">
+                            <span class="info-box-icon"><i class="fas fa-clock"></i></span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">平均時長</span>
+                                <span class="info-box-number">
+                                    <%= number_with_delimiter(@avg_duration&.round || 0) %> 分鐘
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 資料表格 -->
+                <div class="table-responsive">
+                    <table id="usageTable" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>使用者</th>
+                                <th>健身器材</th>
+                                <th>所屬社區</th>
+                                <th>開始時間</th>
+                                <th>結束時間</th>
+                                <th>使用時長</th>
+                                <!-- 移除：消耗卡路里、狀態、備註 欄位 -->
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @usage_records.each do |usage| %>
+                            <tr>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div>
+                                            <div class="fw-bold"><%= usage.user.name %></div>
+                                            <small class="text-muted"><%= usage.user.email if usage.user.email.present? %></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <div class="fw-bold"><%= usage.fitness_device.name %></div>
+                                        <small class="text-muted"><%= usage.fitness_device.fitness_device_type.name %></small>
+                                    </div>
+                                </td>
+                                <td><%= usage.fitness_device.community.name %></td>
+                                <td><%= usage.start_time.strftime('%m/%d %H:%M') if usage.start_time %></td>
+                                <td>
+                                    <% if usage.end_time %>
+                                    <%= usage.end_time.strftime('%m/%d %H:%M') %>
+                                    <% else %>
+                                    <span class="badge bg-warning">使用中</span>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <% if usage.duration_minutes %>
+                                    <%= usage.duration_formatted %>
+                                    <% else %>
+                                    <span class="text-muted">--</span>
+                                    <% end %>
+                                </td>
+                                <!-- 已移除：消耗卡路里 / 狀態 / 備註 -->
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <%= link_to admin_fitness_device_usage_path(usage), class: "btn btn-sm btn-outline-primary" do %>
+                                        <i class="fas fa-eye"></i>
+                                        <% end %>
+
+                                        <% if usage.in_use? %>
+                                        <%= button_to end_usage_admin_fitness_device_usage_path(usage), method: :patch,
+                                      confirm: '確定要結束此次使用嗎？',
+                                      class: "btn btn-sm btn-outline-warning",
+                                      form_class: "d-inline" do %>
+                                        <i class="fas fa-stop"></i>
+                                        <% end %>
+                                        <% end %>
+
+                                        <%= button_to admin_fitness_device_usage_path(usage), method: :delete,
+                                      confirm: '確定要刪除此使用記錄嗎？若使用者還在使用中，將會清空設備的使用者ID。',
+                                      class: "btn btn-sm btn-outline-danger",
+                                      form_class: "d-inline" do %>
+                                        <i class="fas fa-trash"></i>
+                                        <% end %>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分頁 -->
+                <div class="d-flex justify-content-between align-items-center mt-3">
                     <div>
-                      <div class="fw-bold"><%= @usage_record.user.name %></div>
-                      <% if @usage_record.user.email.present? %>
-                        <small class="text-muted"><%= @usage_record.user.email %></small>
-                      <% end %>
+                        <% if defined?(Kaminari) && @usage_records.respond_to?(:total_count) %>
+                        顯示第 <%= @usage_records.offset_value + 1 %> - <%= [@usage_records.offset_value + @usage_records.current_page_record_count, @usage_records.total_count].min %> 筆，共 <%= @usage_records.total_count %> 筆記錄
+                        <% else %>
+                        共 <%= @usage_records.count %> 筆記錄
+                        <% end %>
                     </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>健身器材：</th>
-                <td>
-                  <div>
-                    <div class="fw-bold"><%= @usage_record.fitness_device.name %></div>
-                    <small class="text-muted">
-                      <%= @usage_record.fitness_device.fitness_device_type.name %> 
-                      (<%= @usage_record.fitness_device.device_id %>)
-                    </small>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th>所屬社區：</th>
-                <td><%= @usage_record.fitness_device.community.name %></td>
-              </tr>
-              <tr>
-                <th>設備位置：</th>
-                <td><%= @usage_record.fitness_device.location || '未設定' %></td>
-              </tr>
-              <tr>
-                <th>狀態：</th>
-                <td>
-                  <% if @usage_record.in_use? %>
-                    <span class="badge bg-warning">使用中</span>
-                  <% else %>
-                    <span class="badge bg-success">已完成</span>
-                  <% end %>
-                </td>
-              </tr>
-            </table>
-          </div>
-          
-          <!-- 右側：時間和統計資訊 -->
-          <div class="col-md-6">
-            <h5><i class="fas fa-clock me-2"></i>時間資訊</h5>
-            <table class="table table-borderless">
-              <tr>
-                <th width="120">開始時間：</th>
-                <td>
-                  <% if @usage_record.start_time %>
-                    <%= @usage_record.start_time.strftime('%Y/%m/%d %H:%M:%S') %>
-                  <% else %>
-                    <span class="text-muted">未記錄</span>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-                <th>結束時間：</th>
-                <td>
-                  <% if @usage_record.end_time %>
-                    <%= @usage_record.end_time.strftime('%Y/%m/%d %H:%M:%S') %>
-                  <% else %>
-                    <span class="text-warning">使用中</span>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-                <th>使用時長：</th>
-                <td>
-                  <% if @usage_record.duration_minutes %>
-                    <span class="fw-bold text-primary"><%= @usage_record.duration_formatted %></span>
-                  <% elsif @usage_record.in_use? && @usage_record.start_time %>
-                    <span class="text-info">
-                      進行中 (<%= time_distance_in_words(@usage_record.start_time, Time.current) %>)
-                    </span>
-                  <% else %>
-                    <span class="text-muted">--</span>
-                  <% end %>
-                </td>
-              </tr>
-              <tr>
-                <th>消耗卡路里：</th>
-                <td>
-                  <% if @usage_record.calories_burned %>
-                    <span class="fw-bold text-success">
-                      <%= number_with_delimiter(@usage_record.calories_burned) %> 卡
-                    </span>
-                  <% else %>
-                    <span class="text-muted">--</span>
-                  <% end %>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-        
-        <!-- 備註 -->
-        <% if @usage_record.notes.present? %>
-          <div class="row mt-4">
-            <div class="col-12">
-              <h5><i class="fas fa-comment me-2"></i>備註</h5>
-              <div class="alert alert-info">
-                <%= simple_format(@usage_record.notes) %>
-              </div>
+                    <div>
+                        <% if defined?(Kaminari) && @usage_records.respond_to?(:total_count) %>
+                        <%= paginate @usage_records, theme: 'twitter-bootstrap-4' %>
+                        <% end %>
+                    </div>
+                </div>
             </div>
-          </div>
-        <% end %>
-        
-        <!-- 時間軸 -->
-        <div class="row mt-4">
-          <div class="col-12">
-            <h5><i class="fas fa-history me-2"></i>記錄時間軸</h5>
-            <div class="timeline">
-              <div class="time-label">
-                <span class="bg-primary">
-                  <%= @usage_record.created_at.strftime('%Y/%m/%d') %>
-                </span>
-              </div>
-              
-              <div>
-                <i class="fas fa-play bg-success"></i>
-                <div class="timeline-item">
-                  <span class="time">
-                    <i class="fas fa-clock"></i> 
-                    <%= @usage_record.start_time.strftime('%H:%M') if @usage_record.start_time %>
-                  </span>
-                  <h3 class="timeline-header">開始使用設備</h3>
-                  <div class="timeline-body">
-                    使用者 <%= @usage_record.user.name %> 開始使用 <%= @usage_record.fitness_device.name %>
-                  </div>
-                </div>
-              </div>
-              
-              <% if @usage_record.end_time %>
-                <div>
-                  <i class="fas fa-stop bg-danger"></i>
-                  <div class="timeline-item">
-                    <span class="time">
-                      <i class="fas fa-clock"></i> 
-                      <%= @usage_record.end_time.strftime('%H:%M') %>
-                    </span>
-                    <h3 class="timeline-header">結束使用</h3>
-                    <div class="timeline-body">
-                      使用時長：<%= @usage_record.duration_formatted %>
-                      <% if @usage_record.calories_burned %>
-                        <br>消耗卡路里：<%= number_with_delimiter(@usage_record.calories_burned) %> 卡
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              <% else %>
-                <div>
-                  <i class="fas fa-clock bg-warning"></i>
-                  <div class="timeline-item">
-                    <span class="time">
-                      <i class="fas fa-clock"></i> 目前
-                    </span>
-                    <h3 class="timeline-header text-warning">使用中</h3>
-                    <div class="timeline-body">
-                      <% if @usage_record.start_time %>
-                        已使用 <%= time_distance_in_words(@usage_record.start_time, Time.current) %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
+
+<% content_for :script_js do %>
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+<script>
+    (function() {
+            // 等待 DOM 完全就緒
+            document.addEventListener('DOMContentLoaded', function() {
+                        // 初始化 DataTable（確保 DataTables 與 jQuery 已在 layout 中載入）
+                        if (window.jQuery && $.fn.DataTable) {
+                            $('#usageTable').DataTable({
+                                        paging: false,
