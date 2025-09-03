@@ -10,6 +10,8 @@
 
 <!--Row-->
 <div class="row row-sm">
+    <!-- Toast container for non-blocking notifications -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; z-index: 1060;"></div>
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
         <div class="card">
             <div class="card-header pb-0">
@@ -79,7 +81,7 @@
                                             (<%= device.user.line_name %>)
                                             <% end %>
                                         </span>
-                                        <button type="button" class="btn btn-sm btn-outline-danger unbind-user-btn" data-device-id="<%= device.id %>" onclick="return confirm('確定要解除綁定嗎？')">
+                                        <button type="button" class="btn btn-sm btn-outline-danger unbind-user-btn" data-device-id="<%= device.id %>">
                                             <i class="las la-unlink"></i>
                                         </button>
                                     </div>
@@ -274,22 +276,26 @@
                     authenticity_token: $('meta[name="csrf-token"]').attr('content')
                 }, function(response) {
                     if (response.success) {
-                        alert(response.message);
-                        location.reload();
+                        showToast('success', response.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 800);
                     } else {
-                        alert(response.error);
+                        showToast('danger', response.error || '綁定失敗');
                     }
                 }).fail(function(xhr) {
                     const response = JSON.parse(xhr.responseText);
-                    alert(response.error || '綁定失敗');
+                    showToast('danger', response.error || '綁定失敗');
                 });
                 $('#bindUserModal').modal('hide');
             }
         });
 
-        // 解除綁定按鈕
+        // 解除綁定按鈕（加上 confirm）
         $('.unbind-user-btn').on('click', function() {
             const deviceId = $(this).data('device-id');
+            if (!confirm('確定要解除綁定嗎？')) return;
+
             $.ajax({
                 url: `/fitness_devices/${deviceId}/unbind_user`,
                 type: 'DELETE',
@@ -298,20 +304,50 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        alert(response.message);
-                        location.reload();
+                        showToast('success', response.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 800);
                     } else {
-                        alert(response.error);
+                        showToast('danger', response.error || '解除綁定失敗');
                     }
                 },
                 error: function(xhr) {
                     const response = JSON.parse(xhr.responseText);
-                    alert(response.error || '解除綁定失敗');
+                    showToast('danger', response.error || '解除綁定失敗');
                 }
             });
         });
     });
 
     // 刪除按鈕事件不再需要
+</script>
+<script>
+    // Lightweight toast helper using jQuery fade (no dependency on bootstrap.js toast)
+    function showToast(type, message) {
+        const id = 'toast-' + Date.now();
+        const toastHtml = `
+        <div id="${id}" class="p-2 mb-2 rounded shadow-sm" style="min-width:220px;">
+            <div class="d-flex align-items-start ${type === 'success' ? 'bg-success' : 'bg-danger'} text-white p-2 rounded">
+                <div class="mr-2 font-weight-bold">${type === 'success' ? '成功' : '錯誤'}</div>
+                <div class="flex-fill small">${message}</div>
+                <button type="button" class="close text-white ml-2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>`;
+
+        $('#toast-container').append(toastHtml);
+        const $toast = $('#' + id);
+        $toast.hide().fadeIn(200);
+        $toast.find('.close').on('click', function() {
+            $toast.fadeOut(200, function() {
+                $toast.remove();
+            });
+        });
+        setTimeout(function() {
+            $toast.fadeOut(400, function() {
+                $toast.remove();
+            });
+        }, 4000);
+    }
 </script>
 <% end %>

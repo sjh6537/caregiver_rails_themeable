@@ -82,10 +82,21 @@ class Admin::FitnessDevicesController < ApplicationAdminController
     end
 
     begin
-      @fitness_device.update!(user_id: user.id)
+      ActiveRecord::Base.transaction do
+        @fitness_device.update!(user_id: user.id)
+
+        # 建立一筆使用記錄，標記為使用中，記錄開始時間
+        FitnessDeviceUsage.create!(
+          fitness_device: @fitness_device,
+          user: user,
+          start_time: Time.current,
+          status: :in_use
+        )
+      end
+
       render json: {
         success: true,
-        message: "成功綁定使用者 #{user.name}",
+        message: "成功綁定使用者 #{user.name}，並建立使用記錄",
         current_user: user.name
       }
     rescue StandardError => e
@@ -94,7 +105,8 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def unbind_user
-    @fitness_device.update!(user_id: nil)
+    # 使用 model 中的封裝方法來處理解除綁定與寫入使用記錄結束時間
+    @fitness_device.unbind_user!
     render json: {
       success: true,
       message: '成功解除使用者綁定'
