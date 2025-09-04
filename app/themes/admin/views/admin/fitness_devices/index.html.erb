@@ -189,7 +189,7 @@
                 <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                 <h4 class="tx-danger mg-b-20"><%= t(:Delete_Device, default: '刪除健身器材') %></h4>
                 <p class="mg-b-20 mg-x-20"><%= t(:Confirm_Delete_Device, name: device.name, default: '確定要刪除「%{name}」這個健身器材嗎？') %><br><span class="text-danger">（<%= t(:Delete_Device_Will_Remove_Usage_Records, default: '刪除設備會連同所有使用記錄一併刪除') %>）</span></p>
-                <%= button_to t("Button.CONTINUE"), admin_fitness_device_path(device), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
+                <%= button_to t(:CONTINUE, scope: "Button"), admin_fitness_device_path(device), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
             </div>
         </div>
     </div>

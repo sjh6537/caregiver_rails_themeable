@@ -65,6 +65,10 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
+  # Reload translations in development
+  config.i18n.fallbacks = true
+  config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
+
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
 
