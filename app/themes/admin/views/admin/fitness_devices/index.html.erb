@@ -36,10 +36,10 @@
                             <tr>
                                 <th class="border-bottom-0 wd-lg-5p"><span>ID</span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Name, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span>類型</span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span>社區</span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span>序號</span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span>位置</span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Fitness_Device_Type, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Community, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Serial_Number, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Location, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_Status, scope: "Table", default: "狀態") %></span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Bind_User, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Enabled, scope: "Table") %></span></th>
@@ -60,7 +60,7 @@
                                     <%= device.fitness_device_type.name %>
 
                                     <% else %>
-                                    <span class="text-muted">無類型</span>
+                                    <span class="text-muted"><%= t(:No_Type, scope: "Table", default: "無類型") %></span>
                                     <% end %>
                                 </td>
                                 <td>
@@ -123,13 +123,13 @@
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="<%= edit_admin_fitness_device_path(device) %>" class="btn btn-sm btn-info" title="編輯">
+                                        <a href="<%= edit_admin_fitness_device_path(device) %>" class="btn btn-sm btn-info" title="<%= t(:EDIT, scope: "Button") %>">
                                             <i class="las la-pen"></i>
                                         </a>
-                                        <a href="<%= usage_history_admin_fitness_device_path(device) %>" class="btn btn-sm btn-warning" title="使用記錄">
+                                        <a href="<%= usage_history_admin_fitness_device_path(device) %>" class="btn btn-sm btn-warning" title="<%= t(:VIEW_USAGE_HISTORY, scope: "Button") %>">
                                             <i class="las la-history"></i>
                                         </a>
-                                        <a class="btn ripple btn-sm btn-danger" data-toggle="modal" data-target="#modal_del_<%= device.id %>" title="刪除">
+                                        <a class="btn ripple btn-sm btn-danger" data-toggle="modal" data-target="#modal_del_<%= device.id %>" title="<%= t(:DELETE, scope: "Button") %>">
                                             <i class="las la-trash"></i>
                                         </a>
                                     </div>
@@ -159,14 +159,14 @@
                 <div class="form-group">
                     <label for="community_select"><%= t(:Select_Community, scope: "Table", default: '選擇社區：') %></label>
                     <select class="form-control" id="community_select" required>
-                        <option value="">請選擇社區</option>
+                        <option value=""><%= t(:Select_Community, scope: "Placeholder", default: "請選擇社區") %></option>
                         <% Community.all.each do |community| %>
                         <option value="<%= community.id %>"><%= community.name %></option>
                         <% end %>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="user_select">選擇使用者：</label>
+                    <label for="user_select"><%= t(:Select_User, scope: "Table", default: "選擇使用者：") %></label>
                     <select class="form-control" id="user_select" required disabled>
                         <option value=""><%= t(:Please_Select_Community_First, default: '請先選擇社區') %></option>
                     </select>

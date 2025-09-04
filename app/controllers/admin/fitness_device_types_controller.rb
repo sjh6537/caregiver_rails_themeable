@@ -3,12 +3,12 @@ class Admin::FitnessDeviceTypesController < ApplicationAdminController
   before_action :set_breadcrumb
 
   def index
-    @title_sub = '設備類型管理'
+    @title_sub = t(:FITNESS_DEVICE_TYPES_TABLE, scope: 'Title')
     @fitness_device_types = FitnessDeviceType.order(:sort_order, :id)
   end
 
   def new
-    @title_sub = '新增設備類型'
+    @title_sub = t(:NEW_FITNESS_DEVICE_TYPE, scope: 'Title')
     @fitness_device_type = FitnessDeviceType.new
   end
 
@@ -17,28 +17,34 @@ class Admin::FitnessDeviceTypesController < ApplicationAdminController
 
     respond_to do |format|
       if @fitness_device_type.save
-        format.html { redirect_to admin_fitness_device_types_path, notice: '設備類型建立成功' }
+        format.html do
+          redirect_to admin_fitness_device_types_path,
+                      notice: t(:Created, scope: 'Notice', name: @fitness_device_type.name)
+        end
       else
-        @title_sub = '新增設備類型'
+        @title_sub = t(:NEW_FITNESS_DEVICE_TYPE, scope: 'Title')
         format.html { render :new }
       end
     end
   end
 
   def edit
-    @title_sub = '編輯設備類型'
+    @title_sub = t(:EDIT_FITNESS_DEVICE_TYPE, scope: 'Title')
   end
 
   def show
-    @title_sub = '查看設備類型'
+    @title_sub = t(:FITNESS_DEVICE_TYPE_INFO, scope: 'Title')
   end
 
   def update
     respond_to do |format|
       if @fitness_device_type.update(fitness_device_type_params)
-        format.html { redirect_to admin_fitness_device_types_path, notice: '設備類型更新成功' }
+        format.html do
+          redirect_to admin_fitness_device_types_path,
+                      notice: t(:Updated, scope: 'Notice', name: @fitness_device_type.name)
+        end
       else
-        @title_sub = '編輯設備類型'
+        @title_sub = t(:EDIT_FITNESS_DEVICE_TYPE, scope: 'Title')
         format.html { render :edit }
       end
     end
@@ -46,10 +52,11 @@ class Admin::FitnessDeviceTypesController < ApplicationAdminController
 
   def destroy
     if @fitness_device_type.fitness_devices.any?
-      redirect_to admin_fitness_device_types_path, alert: '此設備類型已有設備使用，無法刪除'
+      redirect_to admin_fitness_device_types_path, alert: t(:Cannot_Delete_Has_Devices, scope: 'Notice')
     else
+      name = @fitness_device_type.name
       @fitness_device_type.destroy
-      redirect_to admin_fitness_device_types_path, notice: '設備類型刪除成功'
+      redirect_to admin_fitness_device_types_path, notice: t(:Deleted, scope: 'Notice', name: name)
     end
   end
 
@@ -64,6 +71,6 @@ class Admin::FitnessDeviceTypesController < ApplicationAdminController
   end
 
   def set_breadcrumb
-    @title = '健身設備管理'
+    @title = t(:Fitness_Management, scope: 'Sidebar.Item')
   end
 end

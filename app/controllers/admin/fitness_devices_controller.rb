@@ -2,7 +2,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   before_action :set_fitness_device, only: %i[edit update destroy usage_history bind_user unbind_user]
 
   def index
-    @title_sub = '設備管理'
+    @title_sub = t(:FITNESS_DEVICES_TABLE, scope: 'Title')
     @fitness_devices = if current_admin.super_admin?
                          FitnessDevice.includes(:fitness_device_type, :user, :community)
                        else
@@ -13,7 +13,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def new
-    @title_sub = '新增設備'
+    @title_sub = t(:NEW_FITNESS_DEVICE, scope: 'Title')
     @fitness_device = FitnessDevice.new
     @fitness_device.community_id = current_admin.community_id unless current_admin.super_admin?
     @fitness_device_types = FitnessDeviceType.order(:name)
@@ -26,9 +26,11 @@ class Admin::FitnessDevicesController < ApplicationAdminController
 
     respond_to do |format|
       if @fitness_device.save
-        format.html { redirect_to admin_fitness_devices_path, notice: '設備建立成功' }
+        format.html do
+          redirect_to admin_fitness_devices_path, notice: t(:Created, scope: 'Notice', name: @fitness_device.name)
+        end
       else
-        @title_sub = '新增設備'
+        @title_sub = t(:NEW_FITNESS_DEVICE, scope: 'Title')
         @fitness_device_types = FitnessDeviceType.order(:name)
         @communities = get_available_communities
         format.html { render :new }
@@ -37,7 +39,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def edit
-    @title_sub = '編輯設備'
+    @title_sub = t(:EDIT_FITNESS_DEVICE, scope: 'Title')
     @fitness_device_types = FitnessDeviceType.order(:name)
     @communities = get_available_communities
     @users = User.where(community_id: @fitness_device.community_id).order(:name)
@@ -46,9 +48,11 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   def update
     respond_to do |format|
       if @fitness_device.update(fitness_device_params)
-        format.html { redirect_to admin_fitness_devices_path, notice: '設備更新成功' }
+        format.html do
+          redirect_to admin_fitness_devices_path, notice: t(:Updated, scope: 'Notice', name: @fitness_device.name)
+        end
       else
-        @title_sub = '編輯設備'
+        @title_sub = t(:EDIT_FITNESS_DEVICE, scope: 'Title')
         @fitness_device_types = FitnessDeviceType.order(:name)
         @communities = get_available_communities
         @users = User.where(community_id: @fitness_device.community_id).order(:name)
@@ -58,26 +62,27 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def destroy
+    name = @fitness_device.name
     @fitness_device.destroy
-    redirect_to admin_fitness_devices_path, notice: '設備及所有使用記錄已刪除'
+    redirect_to admin_fitness_devices_path, notice: t(:Deleted_With_Usage_Records, scope: 'Notice', name: name)
   end
 
   def usage_history
-    @title_sub = "#{@fitness_device.name} - 使用記錄"
+    @title_sub = "#{@fitness_device.name} - #{t(:Usage_History, scope: 'Table')}"
     @usage_records = @fitness_device.fitness_device_usages
                                     .includes(:user)
                                     .order(created_at: :desc)
                                     .limit(20)
                                     .offset(((params[:page]&.to_i || 1) - 1) * 20)
   rescue ActiveRecord::RecordNotFound, NoMethodError
-    redirect_to admin_fitness_devices_path, alert: '設備不存在或已被刪除'
+    redirect_to admin_fitness_devices_path, alert: t(:Device_Not_Found, scope: 'Notice')
   end
 
   def bind_user
     user = User.find(params[:user_id])
 
     if user.community_id != @fitness_device.community_id
-      render json: { error: '使用者與設備不在同一社區' }, status: :unprocessable_entity
+      render json: { error: t(:User_Device_Different_Community, scope: 'Notice') }, status: :unprocessable_entity
       return
     end
 
@@ -96,7 +101,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
 
       render json: {
         success: true,
-        message: "成功綁定使用者 #{user.name}，並建立使用記錄",
+        message: t(:Bind_User_Success, scope: 'Notice', user_name: user.name),
         current_user: user.name
       }
     rescue StandardError => e
@@ -109,7 +114,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
     @fitness_device.unbind_user!
     render json: {
       success: true,
-      message: '成功解除使用者綁定'
+      message: t(:Unbind_User_Success, scope: 'Notice')
     }
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -164,6 +169,6 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   end
 
   def set_breadcrumb
-    @title = '健身設備管理'
+    @title = t(:Fitness_Management, scope: 'Sidebar.Item')
   end
 end

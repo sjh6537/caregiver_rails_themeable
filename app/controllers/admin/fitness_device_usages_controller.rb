@@ -14,14 +14,14 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
     if @usage_record.in_use?
       if @usage_record.end_usage!
         redirect_to admin_fitness_device_usage_path(@usage_record),
-                    notice: '成功結束設備使用'
+                    notice: t(:End_Usage_Success, scope: 'Notice')
       else
         redirect_to admin_fitness_device_usage_path(@usage_record),
-                    alert: '結束使用失敗'
+                    alert: t(:End_Usage_Failed, scope: 'Notice')
       end
     else
       redirect_to admin_fitness_device_usage_path(@usage_record),
-                  alert: '無效的操作'
+                  alert: t(:Invalid_Operation, scope: 'Notice')
     end
   end
 
@@ -29,14 +29,14 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
     if @usage_record.in_use?
       if @usage_record.end_usage!
         redirect_to admin_fitness_device_usage_path(@usage_record),
-                    notice: '成功結束設備使用'
+                    notice: t(:End_Usage_Success, scope: 'Notice')
       else
         redirect_to admin_fitness_device_usage_path(@usage_record),
-                    alert: '結束使用失敗'
+                    alert: t(:End_Usage_Failed, scope: 'Notice')
       end
     else
       redirect_to admin_fitness_device_usage_path(@usage_record),
-                  alert: '設備已結束使用'
+                  alert: t(:Usage_Already_Ended, scope: 'Notice')
     end
   end
 
@@ -50,10 +50,10 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
 
     if @usage_record.destroy
       redirect_to admin_fitness_device_usages_path,
-                  notice: "成功刪除 #{user_name} 的 #{device_name} 使用記錄"
+                  notice: t(:Delete_Usage_Success, scope: 'Notice', user_name: user_name, device_name: device_name)
     else
       redirect_to admin_fitness_device_usages_path,
-                  alert: '刪除使用記錄失敗'
+                  alert: t(:Delete_Usage_Failed, scope: 'Notice')
     end
   end
 
@@ -96,7 +96,7 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
     # 檢查權限
     return if current_admin.super_admin? || @usage_record.fitness_device.community_id == current_admin.community_id
 
-    redirect_to admin_fitness_device_usages_path, alert: '您沒有權限查看此記錄'
+    redirect_to admin_fitness_device_usages_path, alert: t(:No_Permission_View_Record, scope: 'Notice')
   end
 
   def build_query
@@ -164,7 +164,7 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
   end
 
   def set_breadcrumb
-    @title = '健身設備管理'
-    @title_sub = '使用記錄'
+    @title = t(:Fitness_Management, scope: 'Sidebar.Item')
+    @title_sub = t(:FITNESS_DEVICE_USAGES_TABLE, scope: 'Title')
   end
 end

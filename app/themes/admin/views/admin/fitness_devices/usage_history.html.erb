@@ -3,10 +3,10 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
-                    <h4 class="card-title mg-b-0"><%= @fitness_device.name %> - 使用記錄</h4>
+                    <h4 class="card-title mg-b-0"><%= @fitness_device.name %> - <%= t(:Usage_History, scope: "Table") %></h4>
                     <div>
                         <%= link_to admin_fitness_devices_path, class: "btn btn-sm btn-outline-primary" do %>
-                        <i class="las la-arrow-left"></i> 返回設備列表
+                        <i class="las la-arrow-left"></i> <%= t(:Back_To_Device_List, scope: "Button", default: "返回設備列表") %>
                         <% end %>
                     </div>
                 </div>
@@ -16,17 +16,17 @@
                     <table id="usage-table" class="table mg-b-0 text-md-nowrap table-hover">
                         <thead>
                             <tr>
-                                <th>社區</th>
-                                <th>使用者名稱</th>
-                                <th>開始時間</th>
-                                <th>結束時間</th>
+                                <th><%= t(:Community, scope: "Table") %></th>
+                                <th><%= t(:User, scope: "Table") %></th>
+                                <th><%= t(:Start_Time, scope: "Table") %></th>
+                                <th><%= t(:End_Time, scope: "Table") %></th>
                             </tr>
                         </thead>
                         <tbody>
                             <% (@usage_records || []).each do |usage| %>
                             <tr>
                                 <td><%= usage.fitness_device&.community&.name || '-' %></td>
-                                <td><%= usage.user&.name || '未知使用者' %></td>
+                                <td><%= usage.user&.name || t(:Unknown_User, scope: "Table", default: "未知使用者") %></td>
                                 <td><%= usage.start_time&.strftime("%Y-%m-%d %H:%M") || "-" %></td>
                                 <td><%= usage.end_time&.strftime("%Y-%m-%d %H:%M") || "-" %></td>
                             </tr>
@@ -36,7 +36,7 @@
 
                     <% if (@usage_records || []).empty? %>
                     <div class="text-center py-4">
-                        <p class="text-muted">此設備尚無使用記錄</p>
+                        <p class="text-muted"><%= t(:No_Usage_Records, scope: "Table", default: "此設備尚無使用記錄") %></p>
                     </div>
                     <% end %>
                 </div>
