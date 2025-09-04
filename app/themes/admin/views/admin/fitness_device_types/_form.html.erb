@@ -1,126 +1,127 @@
-<%= content_for :head_css do %>
-<!-- Internal Data table css -->
-<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
-<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
-<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
-<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+<style>
+    span.error {
+        color: red;
+        font-size: 14px;
+    }
+</style>
+
+<%= simple_form_for [:admin, @fitness_device_type], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
+<%= f.error_notification %>
+
+<div class="mb-4 main-content-label tx-success">基本資訊</div>
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Name, scope: "Table") %> <span class="text-danger">*</span></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :name, label: false, :placeholder => t(:Name, scope: "Table") %>
+        </div>
+    </div>
+</div>
+
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Descrition, scope: "Table") %></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :description, label: false, :placeholder => t(:Descrition, scope: "Table") %>
+        </div>
+    </div>
+</div>
+
+<div class="mb-4 main-content-label tx-success">顯示設定</div>
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Icon, scope: "Table") %></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :icon, label: false, :placeholder => "例如: fas fa-running", hint: "請輸入 Font Awesome 圖示類別" %>
+        </div>
+    </div>
+</div>
+
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Icon_Color, scope: "Table") %></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :icon_color, as: :color, label: false, input_html: { class: "form-control", style: "height: 40px;" } %>
+        </div>
+    </div>
+</div>
+
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Sort_Order, scope: "Table") %></label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :sort_order, label: false, :placeholder => "排序順序 (數字)", input_html: { type: "number", min: 0 } %>
+        </div>
+    </div>
+</div>
+
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label"><%= t(:Enabled, scope: "Table") %></label>
+        </div>
+        <div class="col-md-9">
+            <div class="form-check">
+                <%= f.check_box :enabled, class: "form-check-input" %>
+                <label class="form-check-label">
+                    <%= t(:Enable_Fitness_Device_Type, scope: "Table") %>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group ">
+    <div class="row">
+        <div class="col-md-3">
+            <label class="form-label">備註</label>
+        </div>
+        <div class="col-md-9">
+            <%= f.input :notes, as: :text, label: false, :placeholder => "備註資訊", input_html: { rows: 3 } %>
+        </div>
+    </div>
+</div>
+
+<!-- ############# button ########### -->
+<% if @fitness_device_type.new_record? %>
+</div>
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:CREATE, scope: "Button") %></button>
+</div>
+</div>
+<% else %>
+</div>
+<div class="card-footer">
+    <button type="submit" class="btn btn-primary waves-effect waves-light"><%= t(:UPDATE, scope: "Button") %></button>
+    <a class="btn ripple btn-danger mg-l-10" data-target="#modal_del" data-toggle="modal" href="<%= admin_fitness_device_type_path(@fitness_device_type) %>"><%= t(:DELETE, scope: "Button") %></a>
+</div>
+</div>
 <% end %>
 
-<!--Row-->
-<div class="row row-sm">
-    <!-- Toast container for non-blocking notifications -->
-    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; z-index: 1060;"></div>
-    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
-        <div class="card">
-            <div class="card-header pb-0">
-                <div class="d-flex justify-content-between">
-                    <h4 class="card-title mg-b-0"><%= t(:FITNESS_DEVICES_TABLE, scope: "Title") %></h4>
-                    <i class="mdi mdi-dots-horizontal text-gray"></i>
-                </div>
+<% end %>
 
-                <div class="row row-xs wd-xl-80p mg-t-10">
-                    <div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
-                        <%= link_to(t(:CREATE_NEW_FITNESS_DEVICE, scope: "Button"), new_admin_fitness_device_path,
-                      :method => :GET,
-                      :class => "btn btn-success btn-block") %>
-                    </div>
-                </div>
+<% unless @fitness_device_type.new_record? %>
+<div class="modal" id="modal_del">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20"><%= t(:DEL_FITNESS_DEVICE_TYPE, scope: "Title") %></h4>
+                <p class="mg-b-20 mg-x-20">確定要刪除此健身器材類型嗎？</p>
+                <%= button_to t("Button.CONTINUE"), admin_fitness_device_type_path(@fitness_device_type), method: :delete, class: "btn btn-danger pd-x-25" %>
             </div>
-
-            <div class="card-body">
-                <div class="table-responsive border-top userlist-table">
-                    <table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
-                        <thead>
-                            <tr>
-                                <th class="border-bottom-0 wd-lg-5p"><span>ID</span></th>
-                                <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Name, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Fitness_Device_Type, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Community, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Serial_Number, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Location, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_Status, scope: "Table", default: "狀態") %></span></th>
-                                <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Bind_User, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Enabled, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-25p"><%= t(:Action, scope: "Table") %></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% @fitness_devices.each do |device| %>
-                            <tr>
-                                <td><%= device.id %></td>
-                                <td><%= device.name %></td>
-                                <td>
-                                    <% if device.fitness_device_type %>
-
-                                    <% if device.fitness_device_type.icon.present? %>
-                                    <i class="<%= device.fitness_device_type.icon %>" style="color: <%= device.fitness_device_type.icon_color %>"></i>
-                                    <% end %>
-                                    <%= device.fitness_device_type.name %>
-
-                                    <% else %>
-                                    <span class="text-muted"><%= t(:No_Type, scope: "Table", default: "無類型") %></span>
-                                    <% end %>
-                                </td>
-                                <td>
-                                    <% if device.community %>
-                                    <span class=""><%= device.community.name %></span>
-                                    <% else %>
-                                    <span class="text-muted">—</span>
-                                    <% end %>
-                                </td>
-                                <td><%= device.serial_number || '—' %></td>
-
-                                <td><%= device.location || '—' %></td>
-                                <td class="text-center">
-                                    <% if device.in_use? %>
-                                    <span class="badge bg-warning"><%= t(:In_Use, scope: "Table", default: "使用中") %></span>
-                                    <% elsif device.status.present? %>
-                                    <% case device.status.to_s.downcase %>
-                                    <% when 'available', 'available' %>
-                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
-                                    <% when 'broken', 'broken' %>
-                                    <span class="badge bg-danger"><%= t(:Broken, scope: "Table", default: "故障") %></span>
-                                    <% when 'repairing', 'repairing' %>
-                                    <span class="badge bg-secondary"><%= t(:Repairing, scope: "Table", default: "修理中") %></span>
-                                    <% else %>
-                                    <span class="badge bg-light text-dark"><%= t(:Unknown, scope: "Table", default: "未知") %></span>
-                                    <% end %>
-                                    <% else %>
-                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
-                                    <% end %>
-                                </td>
-                                <td>
-                                    <% if device.user %>
-                                    <div class="d-flex align-items-center">
-                                        <span class="badge badge-success mr-2">
-                                            <%= device.user.name %>
-                                            <% if device.user.line_name.present? %>
-                                            (<%= device.user.line_name %>)
-                                            <% end %>
-                                        </span>
-                                        <button type="button" class="btn btn-sm btn-outline-danger unbind-user-btn" data-device-id="<%= device.id %>">
-                                            <i class="las la-unlink"></i>
-                                        </button>
-                                    </div>
-                                    <% else %>
-                                    <button class="btn btn-sm btn-outline-primary bind-user-btn" data-device-id="<%= device.id %>" data-community-id="<%= device.community_id %>" data-toggle="modal" data-target="#bindUserModal">
-                                        <i class="las la-link"></i> <%= t(:Bind_User, scope: "Button", default: '綁定使用者') %>
-                                    </button>
-                                    <% end %>
-                                </td>
-                                <td class="text-center">
-                                    <% if device.enabled? %>
-                                    <span class="label text-success d-flex">
-                                        <div class="dot-label bg-success mr-1"></div><%= t(:Active, scope: "Table") %>
-                                    </span>
-                                    <% else %>
-                                    <span class="label text-danger d-flex">
-                                        <div class="dot-label bg-danger mr-1"></div><%= t(:Banned, scope: "Table") %>
-                                    </span>
-                                    <% end %>
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a href="<%= edit_admin_fitness_device_path(device) %>" class="btn btn-sm btn-info" title="<%= t(:EDIT, scope: "Button") %>">
+        </div>
+    </div>
+</div>
+<% end %>
