@@ -130,11 +130,11 @@
                     </div>
                     <div class="col-md-2">
                         <label class="form-label"><%= t(:Start_Date, scope: "Table", default: "開始日期") %></label>
-                        <%= f.date_field :start_date, value: params[:start_date], class: "form-control" %>
+                        <%= f.date_field :start_date, value: (@start_date.presence || params[:start_date]), class: "form-control" %>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label"><%= t(:End_Date, scope: "Table", default: "結束日期") %></label>
-                        <%= f.date_field :end_date, value: params[:end_date], class: "form-control" %>
+                        <%= f.date_field :end_date, value: (@end_date.presence || params[:end_date]), class: "form-control" %>
                     </div>
                     <div class="col-md-2">
                         <label class="form-label"><%= t(:User_Name, scope: "Table", default: "使用者名稱") %></label>

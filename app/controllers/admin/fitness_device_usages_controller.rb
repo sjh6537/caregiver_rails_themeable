@@ -3,6 +3,15 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
   before_action :set_breadcrumb, only: %i[index show]
 
   def index
+    # 若未提供日期參數，預設為最近一個月，並將日期回傳給 view 以便前端顯示
+    if params[:start_date].blank? && params[:end_date].blank?
+      @start_date = 1.month.ago.to_date.to_s
+      @end_date = Date.today.to_s
+    else
+      @start_date = params[:start_date]
+      @end_date = params[:end_date]
+    end
+
     @usage_records = build_query
     @avg_duration = calculate_average_duration(@usage_records)
   end
@@ -143,6 +152,12 @@ class Admin::FitnessDeviceUsagesController < ApplicationAdminController
     end
 
     # 排序和分頁
+    # 如果未提供日期範圍參數，預設只顯示最近一個月的記錄
+    if params[:start_date].blank? && params[:end_date].blank?
+      one_month_ago = 1.month.ago.beginning_of_day
+      usages = usages.where('start_time >= ?', one_month_ago)
+    end
+
     usages = usages.order(start_time: :desc)
 
     # 如果有 Kaminari gem，使用分頁
