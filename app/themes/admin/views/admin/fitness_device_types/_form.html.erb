@@ -8,7 +8,7 @@
 <%= simple_form_for [:admin, @fitness_device_type], :defaults => { :input_html => { :class => "form-control" } } do |f| %>
 <%= f.error_notification %>
 
-<div class="mb-4 main-content-label tx-success">基本資訊</div>
+<div class="mb-4 main-content-label tx-success"><%= t(:Basic_Information, scope: "Form") %></div>
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
@@ -31,14 +31,14 @@
     </div>
 </div>
 
-<div class="mb-4 main-content-label tx-success">顯示設定</div>
+<div class="mb-4 main-content-label tx-success"><%= t(:Display_Settings, scope: "Form") %></div>
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
             <label class="form-label"><%= t(:Icon, scope: "Table") %></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :icon, label: false, :placeholder => "例如: fas fa-running", hint: "請輸入 Font Awesome 圖示類別" %>
+            <%= f.input :icon, label: false, :placeholder => t(:Icon_Example, scope: "Placeholder"), hint: t(:Font_Awesome_Icon_Hint, scope: "Placeholder") %>
         </div>
     </div>
 </div>
@@ -60,7 +60,7 @@
             <label class="form-label"><%= t(:Sort_Order, scope: "Table") %></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :sort_order, label: false, :placeholder => "排序順序 (數字)", input_html: { type: "number", min: 0 } %>
+            <%= f.input :sort_order, label: false, :placeholder => t(:Sort_Order_Number, scope: "Placeholder"), input_html: { type: "number", min: 0 } %>
         </div>
     </div>
 </div>
@@ -84,10 +84,10 @@
 <div class="form-group ">
     <div class="row">
         <div class="col-md-3">
-            <label class="form-label">備註</label>
+            <label class="form-label"><%= t(:Notes, scope: "Table") %></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :notes, as: :text, label: false, :placeholder => "備註資訊", input_html: { rows: 3 } %>
+            <%= f.input :notes, as: :text, label: false, :placeholder => t(:Notes_Placeholder, scope: "Placeholder"), input_html: { rows: 3 } %>
         </div>
     </div>
 </div>

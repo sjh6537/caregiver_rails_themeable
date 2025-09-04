@@ -260,7 +260,7 @@
                     alert('載入使用者列表失敗，請稍後再試');
                 });
             } else {
-                $('#user_select').html('<option value="">請先選擇社區</option>').prop('disabled', true);
+                $('#user_select').html('<option value=""><%= t(:Please_Select_Community_First) %></option>').prop('disabled', true);
                 $('#confirm_bind').prop('disabled', true);
             }
         });
@@ -277,7 +277,7 @@
 
             // 重置選項
             $('#community_select').val('').prop('disabled', false);
-            $('#user_select').html('<option value="">請先選擇社區</option>').prop('disabled', true);
+            $('#user_select').html('<option value=""><%= t(:Please_Select_Community_First) %></option>').prop('disabled', true);
             $('#confirm_bind').prop('disabled', true);
 
             // 如果有社區ID，則自動選擇
