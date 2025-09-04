@@ -265,6 +265,10 @@ zh-TW:
     Available: 可用
     In_Use: 使用中
     Sort_Order: 排序
+    Device_Status: 狀態
+    Broken: 故障
+    Repairing: 修理中
+    Unknown: 未知
     Icon: 圖示
     Icon_Color: 圖示顏色
     Enabled: 啟用

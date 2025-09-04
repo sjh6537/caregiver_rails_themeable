@@ -119,6 +119,7 @@ class Admin::FitnessDevicesController < ApplicationAdminController
   def get_users_by_community
     community_id = params[:community_id]
     users = User.where(community_id: community_id)
+                .where.not(name: [nil, ''])
                 .select(:id, :name, :email, :id_card)
                 .order(:name)
 

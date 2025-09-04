@@ -40,7 +40,8 @@
                                 <th class="border-bottom-0 wd-lg-10p"><span>社區</span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span>序號</span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span>位置</span></th>
-                                <th class="border-bottom-0 wd-lg-15p"><span>綁定使用者</span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_Status, scope: "Table", default: "狀態") %></span></th>
+                                <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Bind_User, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Enabled, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-25p"><%= t(:Action, scope: "Table") %></th>
                             </tr>
@@ -72,6 +73,24 @@
                                 <td><%= device.serial_number || '—' %></td>
 
                                 <td><%= device.location || '—' %></td>
+                                <td class="text-center">
+                                    <% if device.in_use? %>
+                                    <span class="badge bg-warning"><%= t(:In_Use, scope: "Table", default: "使用中") %></span>
+                                    <% elsif device.status.present? %>
+                                    <% case device.status.to_s.downcase %>
+                                    <% when 'available', 'available' %>
+                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
+                                    <% when 'broken', 'broken' %>
+                                    <span class="badge bg-danger"><%= t(:Broken, scope: "Table", default: "故障") %></span>
+                                    <% when 'repairing', 'repairing' %>
+                                    <span class="badge bg-secondary"><%= t(:Repairing, scope: "Table", default: "修理中") %></span>
+                                    <% else %>
+                                    <span class="badge bg-light text-dark"><%= t(:Unknown, scope: "Table", default: "未知") %></span>
+                                    <% end %>
+                                    <% else %>
+                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
+                                    <% end %>
+                                </td>
                                 <td>
                                     <% if device.user %>
                                     <div class="d-flex align-items-center">
@@ -87,7 +106,7 @@
                                     </div>
                                     <% else %>
                                     <button class="btn btn-sm btn-outline-primary bind-user-btn" data-device-id="<%= device.id %>" data-community-id="<%= device.community_id %>" data-toggle="modal" data-target="#bindUserModal">
-                                        <i class="las la-link"></i> 綁定使用者
+                                        <i class="las la-link"></i> <%= t(:Bind_User, scope: "Button", default: '綁定使用者') %>
                                     </button>
                                     <% end %>
                                 </td>
@@ -131,14 +150,14 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="bindUserModalLabel">綁定使用者</h5>
+                <h5 class="modal-title" id="bindUserModalLabel"><%= t(:Bind_User, scope: "Button", default: '綁定使用者') %></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <label for="community_select">選擇社區：</label>
+                    <label for="community_select"><%= t(:Select_Community, scope: "Table", default: '選擇社區：') %></label>
                     <select class="form-control" id="community_select" required>
                         <option value="">請選擇社區</option>
                         <% Community.all.each do |community| %>
@@ -149,13 +168,13 @@
                 <div class="form-group">
                     <label for="user_select">選擇使用者：</label>
                     <select class="form-control" id="user_select" required disabled>
-                        <option value="">請先選擇社區</option>
+                        <option value=""><%= t(:Please_Select_Community_First, default: '請先選擇社區') %></option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="confirm_bind" disabled>確認綁定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t(:CANCEL, scope: "Button", default: '取消') %></button>
+                <button type="button" class="btn btn-primary" id="confirm_bind" disabled><%= t(:CONFIRM, scope: "Button", default: '確認綁定') %></button>
             </div>
         </div>
     </div>
@@ -168,8 +187,8 @@
             <div class="modal-body tx-center pd-y-20 pd-x-20">
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                <h4 class="tx-danger mg-b-20">刪除健身器材</h4>
-                <p class="mg-b-20 mg-x-20">確定要刪除「<%= device.name %>」這個健身器材嗎？<br><span class="text-danger">（刪除設備會連同所有使用記錄一併刪除）</span></p>
+                <h4 class="tx-danger mg-b-20"><%= t(:Delete_Device, default: '刪除健身器材') %></h4>
+                <p class="mg-b-20 mg-x-20"><%= t(:Confirm_Delete_Device, name: device.name, default: '確定要刪除「%{name}」這個健身器材嗎？') %><br><span class="text-danger">（<%= t(:Delete_Device_Will_Remove_Usage_Records, default: '刪除設備會連同所有使用記錄一併刪除') %>）</span></p>
                 <%= button_to t("Button.CONTINUE"), admin_fitness_device_path(device), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
             </div>
         </div>
