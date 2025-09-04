@@ -1,7 +1,7 @@
 <%= simple_form_for([:admin, @fitness_device], :html => { :class => 'forms-sample' }) do |f| %>
 <div class="row">
     <div class="col-md-3">
-        <label class="form-label"><%= t(:Name, scope: "Table") %></label>
+        <label class="form-label"><%= t(:Name, scope: "Table") %> <span class="text-danger">*</span></label>
     </div>
     <div class="col-md-9">
         <%= f.input :name, label: false, placeholder: "健身器材名稱", input_html: { class: "form-control" } %>
@@ -10,7 +10,7 @@
 
 <div class="row mg-t-15">
     <div class="col-md-3">
-        <label class="form-label">器材類型</label>
+        <label class="form-label">器材類型 <span class="text-danger">*</span></label>
     </div>
     <div class="col-md-9">
         <%= f.association :fitness_device_type, collection: (@fitness_device_types || FitnessDeviceType.all), 
