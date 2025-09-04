@@ -433,6 +433,13 @@ zh-TW:
     Confirm_End_Usage: 確定要結束此次使用嗎？
     Confirm_Delete_Usage_Record: 確定要刪除 %{user_name} 在 %{device_name} 的使用記錄嗎？
     Device_In_Use_Delete_Warning: 使用者尚在使用中，刪除時會清空設備的使用者ID
+    Load_User_List_Failed: 載入使用者列表失敗
+    Load_User_List_Failed_Try_Again: 載入使用者列表失敗，請稍後再試
+    Bind_Failed: 綁定失敗
+    Unbind_Failed: 解除綁定失敗
+    Confirm_Unbind: 確定要解除綁定嗎？
+    Success: 成功
+    Error: 錯誤
 
   Website:
     Member_Centre: 會員中心

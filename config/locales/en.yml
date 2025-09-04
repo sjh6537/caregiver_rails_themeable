@@ -44,6 +44,8 @@ en:
   Confirm_Delete_Device: 'Are you sure you want to delete the fitness device "%{name}"?'
   Delete_Device_Will_Remove_Usage_Records: 'Deleting the device will also remove all usage records'
   Device_In_Use_Delete_Warning: 'User is still using, deleting will clear the device user ID'
+  Load_User_List_Failed: 'Failed to load user list'
+  Load_User_List_Failed_Try_Again: 'Failed to load user list, please try again later'
 
   Sidebar:
     Super_Admin: Super Administrator
@@ -67,6 +69,8 @@ en:
       Fitness_Device_Types: Fitness Device Types
       Fitness_Devices: Fitness Devices
       Fitness_Device_Usages: Usage Records
+      Shops: Shops
+      Line_Message: Line Message
   Title:
       ADMINISTRATORS_TABLE: ADMINISTRATORS TABLE
       ADMINISTRATORS: ADMINISTRATORS
@@ -198,6 +202,7 @@ en:
       Icon_Color: Icon Color
       Enabled: Enabled
       Enable_Fitness_Device_Type: Enable this fitness device type
+      Select_Community: Select Community
       Enable_Fitness_Device: Enable this fitness device
       Notes: Notes
       No_Type: No Type
@@ -223,6 +228,7 @@ en:
       Default: Default
       Start_Time: Start Time
       End_Time: End Time
+      Location: Location
   Notice:
       Customer: Customer
       Admin: Administrator
@@ -265,6 +271,13 @@ en:
       Confirm_End_Usage: Are you sure you want to end this usage?
       Confirm_Delete_Usage_Record: Are you sure you want to delete %{user_name}'s usage record on %{device_name}?
       Device_In_Use_Delete_Warning: User is still using the device, deletion will clear the device's user ID
+      Load_User_List_Failed: Failed to load user list
+      Load_User_List_Failed_Try_Again: Failed to load user list, please refresh the page and try again
+      Bind_Failed: Binding failed
+      Unbind_Failed: Unbinding failed
+      Confirm_Unbind: Are you sure you want to unbind?
+      Success: Success
+      Error: Error
   Tab:
       Text: Text
       GraphAndText: Graph&Text

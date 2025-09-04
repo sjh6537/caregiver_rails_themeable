@@ -249,15 +249,15 @@
                 $.get('/fitness_devices/get_users_by_community', {
                     community_id: communityId
                 }, function(response) {
-                    let options = '<option value="">請選擇使用者</option>';
+                    let options = '<option value=""><%= t(:Select_User, scope: "Table") %></option>';
                     response.users.forEach(function(user) {
                         options += `<option value="${user.id}">${user.display_text}</option>`;
                     });
                     $('#user_select').html(options).prop('disabled', false);
                     $('#confirm_bind').prop('disabled', true);
                 }).fail(function(xhr) {
-                    console.error('載入使用者列表失敗:', xhr.responseText);
-                    alert('載入使用者列表失敗，請稍後再試');
+                    console.error('<%= t(:Load_User_List_Failed, scope: "Notice") %>:', xhr.responseText);
+                    alert('<%= t(:Load_User_List_Failed_Try_Again, scope: "Notice") %>');
                 });
             } else {
                 $('#user_select').html('<option value=""><%= t(:Please_Select_Community_First) %></option>').prop('disabled', true);
@@ -300,11 +300,11 @@
                             location.reload();
                         }, 800);
                     } else {
-                        showToast('danger', response.error || '綁定失敗');
+                        showToast('danger', response.error || '<%= t(:Bind_Failed, scope: "Notice") %>');
                     }
                 }).fail(function(xhr) {
                     const response = JSON.parse(xhr.responseText);
-                    showToast('danger', response.error || '綁定失敗');
+                    showToast('danger', response.error || '<%= t(:Bind_Failed, scope: "Notice") %>');
                 });
                 $('#bindUserModal').modal('hide');
             }
@@ -313,7 +313,7 @@
         // 解除綁定按鈕（加上 confirm）
         $('.unbind-user-btn').on('click', function() {
             const deviceId = $(this).data('device-id');
-            if (!confirm('確定要解除綁定嗎？')) return;
+            if (!confirm('<%= t(:Confirm_Unbind, scope: "Notice") %>')) return;
 
             $.ajax({
                 url: `/fitness_devices/${deviceId}/unbind_user`,
@@ -328,12 +328,12 @@
                             location.reload();
                         }, 800);
                     } else {
-                        showToast('danger', response.error || '解除綁定失敗');
+                        showToast('danger', response.error || '<%= t(:Unbind_Failed, scope: "Notice") %>');
                     }
                 },
                 error: function(xhr) {
                     const response = JSON.parse(xhr.responseText);
-                    showToast('danger', response.error || '解除綁定失敗');
+                    showToast('danger', response.error || '<%= t(:Unbind_Failed, scope: "Notice") %>');
                 }
             });
         });
@@ -348,7 +348,7 @@
         const toastHtml = `
         <div id="${id}" class="p-2 mb-2 rounded shadow-sm" style="min-width:220px;">
             <div class="d-flex align-items-start ${type === 'success' ? 'bg-success' : 'bg-danger'} text-white p-2 rounded">
-                <div class="mr-2 font-weight-bold">${type === 'success' ? '成功' : '錯誤'}</div>
+                <div class="mr-2 font-weight-bold">${type === 'success' ? '<%= t(:Success, scope: "Notice") %>' : '<%= t(:Error, scope: "Notice") %>'}</div>
                 <div class="flex-fill small">${message}</div>
                 <button type="button" class="close text-white ml-2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>

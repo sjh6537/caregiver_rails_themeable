@@ -272,7 +272,7 @@
                               total: @usage_records.total_count,
                               default: "顯示第 %{start} - %{end} 筆，共 %{total} 筆記錄") %>
                         <% else %>
-                        <%= t(:Total_Records_Count, total: @usage_records.count, default: "共 %{total} 筆記錄") %>
+                        <%= t(:Total_Records_Count, scope: "Table", total: @usage_records.count, default: "共 %{total} 筆記錄") %>
                         <% end %>
                     </div>
                     <div>
