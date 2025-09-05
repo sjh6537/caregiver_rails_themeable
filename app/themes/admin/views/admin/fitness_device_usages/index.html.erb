@@ -295,12 +295,11 @@
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                 <i class="fas fa-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                 <h4 class="tx-danger mg-b-20"><%= t(:Delete_Usage_Record, scope: "Title", default: "刪除使用記錄") %></h4>
-                <p class="mg-b-20 mg-x-20"><%= t(:Confirm_Delete_Usage_Record, 
-                    user_name: usage.user.name, 
-                    device_name: usage.fitness_device.name,
-                    default: "確定要刪除 %{user_name} 在 %{device_name} 的使用記錄嗎？") %><br>
+                <p class="mg-b-20 mg-x-20"><%= t(:Confirm_Delete_Usage_Record, scope: 'Notice',
+                    user_name: usage.user.name,
+                    device_name: usage.fitness_device.name) %><br>
                     <% if usage.in_use? %>
-                    <span class="text-danger">（<%= t(:Device_In_Use_Delete_Warning, default: "使用者尚在使用中，刪除時會清空設備的使用者ID") %>）</span>
+                    <span class="text-danger">（<%= t(:Device_In_Use_Delete_Warning, scope: 'Notice') %>）</span>
                     <% end %>
                 </p>
                 <%= button_to t(:DELETE, scope: "Button"), admin_fitness_device_usage_path(usage), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
