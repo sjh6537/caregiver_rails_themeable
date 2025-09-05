@@ -1,6 +1,15 @@
 <%= simple_form_for([:admin, @fitness_device], :html => { :class => 'forms-sample' }) do |f| %>
 <div class="row">
     <div class="col-md-3">
+        <label class="form-label"><%= t(:Device_ID, scope: "Table") %> <span class="text-danger">*</span></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :device_id, label: false, placeholder: t(:Device_ID_Placeholder, scope: "Placeholder", default: "請輸入設備ID"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
         <label class="form-label"><%= t(:Name, scope: "Table") %> <span class="text-danger">*</span></label>
     </div>
     <div class="col-md-9">
@@ -86,7 +95,7 @@
 
 <div class="row mg-t-15">
     <div class="col-md-3">
-        <label class="form-label"><%= t(:Status, scope: "Table") %></label>
+        <label class="form-label"><%= t(:Status, scope: "Table") %> <span class="text-danger">*</span></label>
     </div>
     <div class="col-md-9">
         <%= f.select :status, 
@@ -96,8 +105,8 @@
                 [t(:Broken, scope: "Status"), 'broken'],
                 [t(:Disabled, scope: "Status"), 'disabled']
             ], @fitness_device.status), 
-            { prompt: t(:Select_Status, scope: "Placeholder") }, 
-            { class: "form-control" } %>
+            {}, 
+            { class: "form-control", required: true } %>
     </div>
 </div>
 

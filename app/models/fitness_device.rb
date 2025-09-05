@@ -8,13 +8,13 @@ class FitnessDevice < ApplicationRecord
   # 驗證
   validates :device_id, presence: true, uniqueness: true
   validates :name, presence: true, length: { maximum: 50 }
+  validates :status, presence: true, inclusion: { in: %w[normal maintenance broken disabled] }
   validates :brand, length: { maximum: 50 }
   validates :model, length: { maximum: 50 }
   validates :serial_number, length: { maximum: 50 }
   validates :mac_address, length: { maximum: 50 }
   validates :ip_address, length: { maximum: 50 }
   validates :location, length: { maximum: 100 }
-  validates :status, length: { maximum: 20 }
   validates :img_path, length: { maximum: 100 }
   validates :notes, length: { maximum: 200 }
   validates :sort_order, numericality: { only_integer: true }

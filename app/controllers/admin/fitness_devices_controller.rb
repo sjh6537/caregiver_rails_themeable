@@ -16,6 +16,9 @@ class Admin::FitnessDevicesController < ApplicationAdminController
     @title_sub = t(:NEW_FITNESS_DEVICE, scope: 'Title')
     @fitness_device = FitnessDevice.new
     @fitness_device.community_id = current_admin.community_id unless current_admin.super_admin?
+    @fitness_device.status = 'normal' # 設定預設狀態為正常
+    @fitness_device.enabled = true # 設定預設為啟用
+    @fitness_device.sort_order = 0 # 設定預設排序為 0
     @fitness_device_types = FitnessDeviceType.order(:name)
     @communities = get_available_communities
   end

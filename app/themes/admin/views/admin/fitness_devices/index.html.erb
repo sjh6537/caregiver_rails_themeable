@@ -35,10 +35,10 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0 wd-lg-5p"><span>ID</span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_ID, scope: "Table", default: "設備編號") %></span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Name, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Fitness_Device_Type, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Community, scope: "Table") %></span></th>
-                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Serial_Number, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Location, scope: "Table") %></span></th>
                                 <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_Status, scope: "Table", default: "狀態") %></span></th>
                                 <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Bind_User, scope: "Table") %></span></th>
@@ -50,6 +50,7 @@
                             <% @fitness_devices.each do |device| %>
                             <tr>
                                 <td><%= device.id %></td>
+                                <td><%= device.device_id || '—' %></td>
                                 <td><%= device.name %></td>
                                 <td>
                                     <% if device.fitness_device_type %>
@@ -70,8 +71,6 @@
                                     <span class="text-muted">—</span>
                                     <% end %>
                                 </td>
-                                <td><%= device.serial_number || '—' %></td>
-
                                 <td><%= device.location || '—' %></td>
                                 <td class="text-center">
                                     <% if device.in_use? %>
