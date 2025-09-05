@@ -1,0 +1,68 @@
+<div class="row row-sm">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mg-b-0"><%= @fitness_device.name %> - <%= t(:Usage_History, scope: "Table") %></h4>
+                    <div>
+                        <%= link_to admin_fitness_devices_path, class: "btn btn-sm btn-outline-primary" do %>
+                        <i class="las la-arrow-left"></i> <%= t(:Back_To_Device_List, scope: "Button", default: "返回設備列表") %>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="usage-table" class="table mg-b-0 text-md-nowrap table-hover">
+                        <thead>
+                            <tr>
+                                <th><%= t(:Community, scope: "Table") %></th>
+                                <th><%= t(:User, scope: "Table") %></th>
+                                <th><%= t(:Start_Time, scope: "Table") %></th>
+                                <th><%= t(:End_Time, scope: "Table") %></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% (@usage_records || []).each do |usage| %>
+                            <tr>
+                                <td><%= usage.fitness_device&.community&.name || '-' %></td>
+                                <td><%= usage.user&.name || t(:Unknown_User, scope: "Table", default: "未知使用者") %></td>
+                                <td><%= usage.start_time&.strftime("%Y-%m-%d %H:%M") || "-" %></td>
+                                <td><%= usage.end_time&.strftime("%Y-%m-%d %H:%M") || "-" %></td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+
+                    <% if (@usage_records || []).empty? %>
+                    <div class="text-center py-4">
+                        <p class="text-muted"><%= t(:No_Usage_Records, scope: "Table", default: "此設備尚無使用記錄") %></p>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        if ($.fn.DataTable.isDataTable('#usage-table')) {
+            $('#usage-table').DataTable().destroy();
+        }
+
+        $('#usage-table').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.13.4/i18n/zh-HANT.json"
+            },
+            "responsive": true,
+            "pageLength": 20,
+            "order": [
+                [2, "desc"]
+            ], // 以「開始時間」欄（第三欄，index 2）降序排列
+            "columnDefs": []
+        });
+    });
+</script>
+<!-- 多餘 tr/td/btn group/row/col 結構已移除，結構修正 -->
+<!-- 結尾多餘 modal-content 區塊已移除，結構修正完成 -->

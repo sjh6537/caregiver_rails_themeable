@@ -58,6 +58,10 @@ zh-TW:
       Line_Message: 訊息推撥
       Message: 訊息
       Users: 用戶
+      Fitness_Management: 健身器材管理
+      Fitness_Device_Types: 健身器材類型
+      Fitness_Devices: 健身器材
+      Fitness_Device_Usages: 使用記錄
   Button:
     SIGN_IN: 登入
     SIGN_OUT: 登出
@@ -84,6 +88,8 @@ zh-TW:
     NEXT_STEP: 下一步
     PAGINATION: 分頁
     CANCEL: 取消
+    Cancel: 取消
+    Save: 儲存
     Current_Step: 目前階段
     loading: 載入中...
     LINE: "邀請 Line 好友"
@@ -111,6 +117,15 @@ zh-TW:
     RESET: 重置
     NEW: 新增
     CARE_RECEIVER: 被照護者
+    CREATE_NEW_FITNESS_DEVICE_TYPE: 新增健身器材類型
+    CREATE_NEW_FITNESS_DEVICE: 新增健身器材
+    BIND_USER: 綁定使用者
+    UNBIND_USER: 解除綁定
+    VIEW_USAGE_HISTORY: 查看使用記錄
+    END_USAGE: 結束使用
+    Back_To_Device_List: 返回設備列表
+    Search: 搜尋
+    Refresh: 重新整理
 
   Placeholder:
     Search: 搜尋
@@ -124,6 +139,26 @@ zh-TW:
     Search_Line_Notify_Service: 搜尋LINE NOTIFY服務
     Input_Exercise_Type: 請輸入運動類型
     Selected_Device: 選擇裝置
+    Fitness_Device_Name_Placeholder: 請輸入健身器材名稱...
+    Device_Serial_Number_Placeholder: 請輸入設備序號...
+    Device_Brand_Placeholder: 請輸入品牌名稱...
+    Device_Model_Placeholder: 請輸入型號...
+    Device_Location_Placeholder: 請輸入設備位置...
+    Device_MAC_Placeholder: 請輸入MAC地址...
+    Device_IP_Placeholder: 請輸入IP地址...
+    Sort_Order_Placeholder: 請輸入排序順序...
+    Device_Notes_Placeholder: 請輸入設備備註...
+    Select_Status: 請選擇狀態
+    Select_Community: 請選擇社區
+    All_Communities: 所有社區
+    All_Devices: 所有設備
+    All_Status: 所有狀態
+    Enter_User_Name: 輸入使用者名稱
+    Notes_Placeholder: 備註資訊
+    Select_Device_Type: 請選擇器材類型
+    Icon_Example: 例如 fas fa-running
+    Font_Awesome_Icon_Hint: 請輸入 Font Awesome 圖示類別
+    Sort_Order_Number: 排序順序 (數字)
 
   Table:
     Community: 社區
@@ -131,7 +166,7 @@ zh-TW:
     Text: 文字
     ShopName: 商家名稱
     Account: 帳號
-    Name: 姓名
+    Name: 名稱
     LineName: Line名稱
     Email: 信箱
     Sex: 性別
@@ -243,6 +278,60 @@ zh-TW:
     Fitness_Device: 運動裝置
     Not_Assigned: 未指派
     Select_community: 選擇社區
+    Fitness_Device_Type: 健身器材類型
+    Device_ID: 設備編號
+    Brand: 品牌
+    Model: 型號
+    Serial_Number: 序號
+    MAC_Address: MAC地址
+    IP_Address: IP地址
+    Current_User: 目前使用者
+    Last_Usage: 最後使用
+    Available: 可用
+    In_Use: 使用中
+    Sort_Order: 排序
+    Device_Status: 狀態
+    Broken: 故障
+    Repairing: 修理中
+    Unknown: 未知
+    Icon: 圖示
+    Icon_Color: 圖示顏色
+    Enabled: 啟用
+    Enable_Fitness_Device_Type: 啟用此健身器材類型
+    Enable_Fitness_Device: 啟用此健身器材
+    Notes: 備註
+    No_Type: 無類型
+    Select_User: 選擇使用者
+    Please_Select_Community_First: 請先選擇社區
+    Delete_Device: 刪除健身器材
+    Confirm_Delete_Device: 確定要刪除「%{name}」這個健身器材嗎？
+    Delete_Device_Will_Remove_Usage_Records: 刪除設備會連同所有使用記錄一併刪除
+    Unknown_User: 未知使用者
+    No_Usage_Records: 此設備尚無使用記錄
+    Total_Records: 總記錄數
+    Average_Duration: 平均時長
+    Minutes: 分鐘
+    Start_Date: 開始日期
+    End_Date: 結束日期
+    User_Name: 使用者名稱
+    Total_Records_Count: 共 %{total} 筆記錄
+    Showing_Records: 顯示第 %{start} - %{end} 筆，共 %{total} 筆記錄
+    Usage_Duration: 使用時長
+    Bind_User: 綁定使用者
+    Unbind_User: 解除綁定
+    Usage_History: 使用記錄
+    Default: 預設
+
+  Status:
+    Normal: 正常
+    Maintenance: 維護中
+    Broken: 故障
+    Disabled: 停用
+    Completed: 已完成
+
+  Form:
+    Basic_Information: 基本資訊
+    Display_Settings: 顯示設定
 
 
   Title:
@@ -293,6 +382,19 @@ zh-TW:
     FITNESS_REPORT: 運動報告
     CARE_RECEIVER: 被照護者
     CAREGIVER: 照護者
+    FITNESS_DEVICE_TYPES_TABLE: 健身器材類型表格
+    NEW_FITNESS_DEVICE_TYPE: 新增健身器材類型
+    EDIT_FITNESS_DEVICE_TYPE: 編輯健身器材類型
+    FITNESS_DEVICE_TYPE_INFO: 健身器材類型資訊
+    FITNESS_DEVICES_TABLE: 健身器材表格
+    NEW_FITNESS_DEVICE: 新增健身器材
+    EDIT_FITNESS_DEVICE: 編輯健身器材
+    FITNESS_DEVICE_USAGES_TABLE: 健身器材使用記錄表格
+    FITNESS_DEVICE_USAGE_INFO: 使用記錄資訊
+    DEL_FITNESS_DEVICE_TYPE: 刪除健身器材類型
+    Delete_Usage_Record: 刪除使用記錄
+    DEL_FITNESS_DEVICE: 刪除健身器材
+    DEL_FITNESS_DEVICE_USAGE: 刪除使用記錄
 
   Note:
     Del_Shop: 是否確定要刪除商家?
@@ -313,6 +415,31 @@ zh-TW:
     Created_Record_Fail: 建立失敗
     Updated_Record: 更新成功
     Updated_Record_Fail: 更新失敗
+    Cannot_Delete_Has_Devices: 此設備類型已有設備使用，無法刪除
+    Deleted_With_Usage_Records: 設備「%{name}」及所有使用記錄已刪除
+    Device_Not_Found: 設備不存在或已被刪除
+    User_Device_Different_Community: 使用者與設備不在同一社區
+    Bind_User_Success: 成功綁定使用者 %{user_name}，並建立使用記錄
+    Unbind_User_Success: 成功解除使用者綁定
+    End_Usage_Success: 成功結束設備使用
+    End_Usage_Failed: 結束使用失敗
+    Invalid_Operation: 無效的操作
+    Usage_Already_Ended: 設備已結束使用
+    Delete_Usage_Success: 成功刪除 %{user_name} 的 %{device_name} 使用記錄
+    Delete_Usage_Failed: 刪除使用記錄失敗
+    No_Permission_View_Record: 您沒有權限查看此記錄
+    Confirm_Delete_Device_Type: 確定要刪除「%{name}」這個健身器材類型嗎？
+    Confirm_Delete_Device_Type_Simple: 確定要刪除此健身器材類型嗎？
+    Confirm_End_Usage: 確定要結束此次使用嗎？
+    Confirm_Delete_Usage_Record: 確定要刪除 %{user_name} 在 %{device_name} 的使用記錄嗎？
+    Device_In_Use_Delete_Warning: 使用者尚在使用中，刪除時會清空設備的使用者ID
+    Load_User_List_Failed: 載入使用者列表失敗
+    Load_User_List_Failed_Try_Again: 載入使用者列表失敗，請稍後再試
+    Bind_Failed: 綁定失敗
+    Unbind_Failed: 解除綁定失敗
+    Confirm_Unbind: 確定要解除綁定嗎？
+    Success: 成功
+    Error: 錯誤
 
   Website:
     Member_Centre: 會員中心

@@ -75,6 +75,34 @@
                 </a>
             </li>
 
+            <% if current_admin.super_admin? %>
+            <li class="slide">
+                <a class="side-menu__item" data-toggle="slide" href="#">
+                    <i class="side-menu__icon fas fa-dumbbell"></i><span class="side-menu__label"><%= t(:Fitness_Management, scope: "Sidebar.Item") %></span><i class="angle fe fe-chevron-down"></i>
+                </a>
+                <ul class="slide-menu">
+                    <li>
+                        <a class="slide-item d-flex justify-content-between align-items-center" href="<%= admin_fitness_device_types_path %>">
+                            <span><%= t(:Fitness_Device_Types, scope: "Sidebar.Item") %></span>
+                            <span class="badge bg-info"><%= FitnessDeviceType.count %></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="slide-item d-flex justify-content-between align-items-center" href="<%= admin_fitness_devices_path %>">
+                            <span><%= t(:Fitness_Devices, scope: "Sidebar.Item") %></span>
+                            <span class="badge bg-success"><%= FitnessDevice.count %></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="slide-item d-flex justify-content-between align-items-center" href="<%= admin_fitness_device_usages_path %>">
+                            <span><%= t(:Fitness_Device_Usages, scope: "Sidebar.Item") %></span>
+                            <span class="badge bg-warning"><%= FitnessDeviceUsage.count %></span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <% end %>
+
         </ul>
     </div>
 </aside>

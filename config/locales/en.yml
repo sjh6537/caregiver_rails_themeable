@@ -38,6 +38,15 @@ en:
     Sign_in: Sign in
     Teacher: Teacher
     Student: Student
+  # Global translations (without specific scope)
+  Please_Select_Community_First: 'Please select a community first'
+  Delete_Device: 'Delete Fitness Device'
+  Confirm_Delete_Device: 'Are you sure you want to delete the fitness device "%{name}"?'
+  Delete_Device_Will_Remove_Usage_Records: 'Deleting the device will also remove all usage records'
+  Device_In_Use_Delete_Warning: 'User is still using, deleting will clear the device user ID'
+  Load_User_List_Failed: 'Failed to load user list'
+  Load_User_List_Failed_Try_Again: 'Failed to load user list, please try again later'
+
   Sidebar:
     Super_Admin: Super Administrator
     Admin: Administrator
@@ -56,6 +65,12 @@ en:
       Group: Group
       Teachers: Teachers
       Students: Students
+      Fitness_Management: Fitness Management
+      Fitness_Device_Types: Fitness Device Types
+      Fitness_Devices: Fitness Devices
+      Fitness_Device_Usages: Usage Records
+      Shops: Shops
+      Line_Message: Line Message
   Title:
       ADMINISTRATORS_TABLE: ADMINISTRATORS TABLE
       ADMINISTRATORS: ADMINISTRATORS
@@ -74,6 +89,20 @@ en:
       Information: / Information
       SURE_SEND: SEND MESSAGE
       USER_TABLE: USER TABLE
+      FITNESS_DEVICE_TYPES_TABLE: Fitness Device Types Table
+      NEW_FITNESS_DEVICE_TYPE: New Fitness Device Type
+      EDIT_FITNESS_DEVICE_TYPE: Edit Fitness Device Type
+      FITNESS_DEVICE_TYPE_INFO: Fitness Device Type Information
+      FITNESS_DEVICES_TABLE: Fitness Devices Table
+      NEW_FITNESS_DEVICE: New Fitness Device
+      EDIT_FITNESS_DEVICE: Edit Fitness Device
+      FITNESS_DEVICE_USAGES_TABLE: Fitness Device Usage Records Table
+      FITNESS_DEVICE_USAGE_INFO: Usage Record Information
+      DEL_FITNESS_DEVICE_TYPE: Delete Fitness Device Type
+      Delete_Usage_Record: Delete Usage Record
+      DEL_FITNESS_DEVICE: Delete Fitness Device
+      DEL_FITNESS_DEVICE_USAGE: Delete Usage Record
+      DEVICE_USAGE_HISTORY: Device Usage History
   Note:
       Cannot_del_Admin: "Note: administrator cannot delete member except super administrator."
       Cannot_del_Customer: "Note: Customer cannot delete except super administrator."
@@ -108,6 +137,21 @@ en:
       SEND: SEND
       CLEAR: CLEAR
       BROADCAST: BROADCAST
+      CREATE_NEW_FITNESS_DEVICE_TYPE: Create New Fitness Device Type
+      CREATE_NEW_FITNESS_DEVICE: Create New Fitness Device
+      BIND_USER: Bind User
+      UNBIND_USER: Unbind User
+      Bind_User: Bind User
+      CANCEL: Cancel
+      CONFIRM: Confirm
+      VIEW_USAGE_HISTORY: View Usage History
+      END_USAGE: End Usage
+      Back_To_Device_List: Back to Device List
+      Search: Search
+      Refresh: Refresh
+      RESET: Reset
+      Save: Save
+      Cancel: Cancel
   Table:
       Account: ACCOUNT
       Name: NAME
@@ -136,6 +180,55 @@ en:
       Line_Notify_Url: Line Notify Url
       User_Count: User Count
       Message: Message
+      Community: Community
+      Fitness_Device: Fitness Device
+      Fitness_Device_Type: Fitness Device Type
+      Device_ID: Device ID
+      Brand: Brand
+      Model: Model
+      Serial_Number: Serial Number
+      MAC_Address: MAC Address
+      IP_Address: IP Address
+      Current_User: Current User
+      Last_Usage: Last Usage
+      Available: Available
+      In_Use: In Use
+      Sort_Order: Sort Order
+      Device_Status: Status
+      Broken: Broken
+      Repairing: Repairing
+      Unknown: Unknown
+      Icon: Icon
+      Icon_Color: Icon Color
+      Enabled: Enabled
+      Enable_Fitness_Device_Type: Enable this fitness device type
+      Select_Community: Select Community
+      Enable_Fitness_Device: Enable this fitness device
+      Notes: Notes
+      No_Type: No Type
+      Select_User: Select User
+      Please_Select_Community_First: Please select community first
+      Delete_Device: Delete Fitness Device
+      Confirm_Delete_Device: Are you sure you want to delete "%{name}" fitness device?
+      Delete_Device_Will_Remove_Usage_Records: Deleting device will also remove all usage records
+      Unknown_User: Unknown User
+      No_Usage_Records: This device has no usage records yet
+      Total_Records: Total Records
+      Average_Duration: Average Duration
+      Minutes: Minutes
+      Start_Date: Start Date
+      End_Date: End Date
+      User_Name: User Name
+      Total_Records_Count: Total %{total} records
+      Showing_Records: Showing %{start} - %{end} of %{total} records
+      Usage_Duration: Usage Duration
+      Bind_User: Bind User
+      Unbind_User: Unbind User
+      Usage_History: Usage History
+      Default: Default
+      Start_Time: Start Time
+      End_Time: End Time
+      Location: Location
   Notice:
       Customer: Customer
       Admin: Administrator
@@ -156,7 +249,72 @@ en:
       Error_rm_service: "some thing error! %{user} remove %{service} service fail!!"
       Add_service_success: "%{user} add %{service} success!!"
       Rm_service_success: "%{user} remove %{service} success!!"
+      Created_Record: Created successfully
+      Created_Record_Fail: Creation failed
+      Updated_Record: Updated successfully
+      Updated_Record_Fail: Update failed
+      Cannot_Delete_Has_Devices: This device type has devices in use and cannot be deleted
+      Deleted_With_Usage_Records: Device "%{name}" and all usage records have been deleted
+      Device_Not_Found: Device not found or has been deleted
+      User_Device_Different_Community: User and device are not in the same community
+      Bind_User_Success: Successfully bound user %{user_name} and created usage record
+      Unbind_User_Success: Successfully unbound user
+      End_Usage_Success: Successfully ended device usage
+      End_Usage_Failed: Failed to end usage
+      Invalid_Operation: Invalid operation
+      Usage_Already_Ended: Device usage has already ended
+      Delete_Usage_Success: Successfully deleted %{user_name}'s %{device_name} usage record
+      Delete_Usage_Failed: Failed to delete usage record
+      No_Permission_View_Record: You don't have permission to view this record
+      Confirm_Delete_Device_Type: Are you sure you want to delete "%{name}" fitness device type?
+      Confirm_Delete_Device_Type_Simple: Are you sure you want to delete this fitness device type?
+      Confirm_End_Usage: Are you sure you want to end this usage?
+      Confirm_Delete_Usage_Record: Are you sure you want to delete %{user_name}'s usage record on %{device_name}?
+      Device_In_Use_Delete_Warning: User is still using the device, deletion will clear the device's user ID
+      Load_User_List_Failed: Failed to load user list
+      Load_User_List_Failed_Try_Again: Failed to load user list, please refresh the page and try again
+      Bind_Failed: Binding failed
+      Unbind_Failed: Unbinding failed
+      Confirm_Unbind: Are you sure you want to unbind?
+      Success: Success
+      Error: Error
   Tab:
       Text: Text
       GraphAndText: Graph&Text
       RichMenu: Rich Menu
+
+  Placeholder:
+    Search: Search
+    All_Communities: All Communities
+    All_Devices: All Devices
+    All_Device_Types: All Device Types
+    All_Status: All Status
+    Select_Community: Select Community
+    Select_Device_Type: Select Device Type
+    Select_Status: Select Status
+    Enter_User_Name: Enter User Name
+    Enter_Email: Enter Email
+    Fitness_Device_Name_Placeholder: Enter fitness device name...
+    Device_Serial_Number_Placeholder: Enter device serial number...
+    Device_Brand_Placeholder: Enter brand name...
+    Device_Model_Placeholder: Enter model...
+    Device_Location_Placeholder: Enter device location...
+    Device_MAC_Placeholder: Enter MAC address...
+    Device_IP_Placeholder: Enter IP address...
+    Sort_Order_Placeholder: Enter sort order...
+    Device_Notes_Placeholder: Enter device notes...
+    Notes_Placeholder: Notes information
+    Icon_Example: e.g. fas fa-running
+    Font_Awesome_Icon_Hint: Enter Font Awesome icon class
+    Sort_Order_Number: Sort order (number)
+
+  Status:
+    Normal: Normal
+    Maintenance: Maintenance
+    Broken: Broken
+    Disabled: Disabled
+    Completed: Completed
+
+  Form:
+    Basic_Information: Basic Information
+    Display_Settings: Display Settings

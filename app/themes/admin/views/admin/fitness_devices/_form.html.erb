@@ -1,0 +1,142 @@
+<%= simple_form_for([:admin, @fitness_device], :html => { :class => 'forms-sample' }) do |f| %>
+<div class="row">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Name, scope: "Table") %> <span class="text-danger">*</span></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :name, label: false, placeholder: t(:Fitness_Device_Name_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Fitness_Device_Type, scope: "Table") %> <span class="text-danger">*</span></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.association :fitness_device_type, collection: (@fitness_device_types || FitnessDeviceType.all), 
+            prompt: t(:Select_Device_Type, scope: "Placeholder", default: "請選擇器材類型"), label: false,
+            input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Serial_Number, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :serial_number, label: false, placeholder: t(:Device_Serial_Number_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Brand, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :brand, label: false, placeholder: t(:Device_Brand_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Model, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :model, label: false, placeholder: t(:Device_Model_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Location, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :location, label: false, placeholder: t(:Device_Location_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Community, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.association :community, collection: (@communities || Community.all), 
+            prompt: t(:Select_Community, scope: "Placeholder"), label: false,
+            input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:MAC_Address, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :mac_address, label: false, placeholder: t(:Device_MAC_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:IP_Address, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :ip_address, label: false, placeholder: t(:Device_IP_Placeholder, scope: "Placeholder"), input_html: { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Status, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.select :status, 
+            options_for_select([
+                [t(:Normal, scope: "Status"), 'normal'],
+                [t(:Maintenance, scope: "Status"), 'maintenance'],
+                [t(:Broken, scope: "Status"), 'broken'],
+                [t(:Disabled, scope: "Status"), 'disabled']
+            ], @fitness_device.status), 
+            { prompt: t(:Select_Status, scope: "Placeholder") }, 
+            { class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Sort_Order, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :sort_order, label: false, placeholder: t(:Sort_Order_Placeholder, scope: "Placeholder"), 
+            input_html: { type: "number", min: 0, value: @fitness_device.sort_order || 0, class: "form-control" } %>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Enabled, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <div class="form-check mg-t-10">
+            <%= f.check_box :enabled, class: "form-check-input" %>
+            <label class="form-check-label">
+                <%= t(:Enable_Fitness_Device, scope: "Table") %>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="row mg-t-15">
+    <div class="col-md-3">
+        <label class="form-label"><%= t(:Notes, scope: "Table") %></label>
+    </div>
+    <div class="col-md-9">
+        <%= f.input :notes, as: :text, label: false, placeholder: t(:Device_Notes_Placeholder, scope: "Placeholder"), 
+            input_html: { rows: 3, class: "form-control" } %>
+    </div>
+</div>
+
+<div class="mg-t-30">
+    <%= f.button :submit, t(:Save, scope: "Button"), class: "btn btn-primary pd-x-20" %>
+    <%= link_to t(:Cancel, scope: "Button"), admin_fitness_devices_path, class: "btn btn-secondary pd-x-20" %>
+</div>
+<% end %>

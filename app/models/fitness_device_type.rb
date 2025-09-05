@@ -2,6 +2,9 @@ class FitnessDeviceType < ApplicationRecord
   # 關聯關係
   has_many :fitness_devices, dependent: :restrict_with_error
 
+  # Scope
+  scope :enabled, -> { where(enabled: true) }
+
   # 驗證
   validates :name, presence: true, uniqueness: true, length: { maximum: 50 }
   validates :description, length: { maximum: 100 }

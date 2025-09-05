@@ -76,6 +76,24 @@ Rails.application.routes.draw do
                                            as: :request_category_switch
 
       resources :schedule_messages, except: %i[edit update show]
+
+      # 健身設備管理路由
+      resources :fitness_device_types
+      resources :fitness_devices do
+        collection do
+          get :get_users_by_community
+        end
+        member do
+          get :usage_history
+          post :bind_user
+          delete :unbind_user
+        end
+      end
+      resources :fitness_device_usages, only: %i[index show destroy] do
+        member do
+          patch :end_usage
+        end
+      end
     end
   end
 

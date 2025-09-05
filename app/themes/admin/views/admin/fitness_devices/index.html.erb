@@ -1,0 +1,372 @@
+<%= content_for :head_css do %>
+<!-- Internal Data table css -->
+<link href="/assets/valex/plugins/datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="/assets/valex/plugins/datatable/css/buttons.bootstrap4.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/datatable/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="/assets/valex/plugins/datatable/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/datatable/css/responsive.dataTables.min.css" rel="stylesheet">
+<link href="/assets/valex/plugins/select2/css/select2.min.css" rel="stylesheet">
+<% end %>
+
+<!--Row-->
+<div class="row row-sm">
+    <!-- Toast container for non-blocking notifications -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true" style="position: fixed; top: 1rem; right: 1rem; z-index: 1060;"></div>
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 grid-margin">
+        <div class="card">
+            <div class="card-header pb-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mg-b-0"><%= t(:FITNESS_DEVICES_TABLE, scope: "Title") %></h4>
+                    <i class="mdi mdi-dots-horizontal text-gray"></i>
+                </div>
+
+                <div class="row row-xs wd-xl-80p mg-t-10">
+                    <div class="col-sm-4 col-md-0 mg-t-10 mg-md-t-0">
+                        <%= link_to(t(:CREATE_NEW_FITNESS_DEVICE, scope: "Button"), new_admin_fitness_device_path,
+                      :method => :GET,
+                      :class => "btn btn-success btn-block") %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive border-top userlist-table">
+                    <table id="example" class="table key-buttons text-md-nowrap card-table mb-0 table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0 wd-lg-5p"><span>ID</span></th>
+                                <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Name, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Fitness_Device_Type, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Community, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Serial_Number, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Location, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Device_Status, scope: "Table", default: "狀態") %></span></th>
+                                <th class="border-bottom-0 wd-lg-15p"><span><%= t(:Bind_User, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-10p"><span><%= t(:Enabled, scope: "Table") %></span></th>
+                                <th class="border-bottom-0 wd-lg-25p"><%= t(:Action, scope: "Table") %></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% @fitness_devices.each do |device| %>
+                            <tr>
+                                <td><%= device.id %></td>
+                                <td><%= device.name %></td>
+                                <td>
+                                    <% if device.fitness_device_type %>
+
+                                    <% if device.fitness_device_type.icon.present? %>
+                                    <i class="<%= device.fitness_device_type.icon %>" style="color: <%= device.fitness_device_type.icon_color %>"></i>
+                                    <% end %>
+                                    <%= device.fitness_device_type.name %>
+
+                                    <% else %>
+                                    <span class="text-muted"><%= t(:No_Type, scope: "Table", default: "無類型") %></span>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <% if device.community %>
+                                    <span class=""><%= device.community.name %></span>
+                                    <% else %>
+                                    <span class="text-muted">—</span>
+                                    <% end %>
+                                </td>
+                                <td><%= device.serial_number || '—' %></td>
+
+                                <td><%= device.location || '—' %></td>
+                                <td class="text-center">
+                                    <% if device.in_use? %>
+                                    <span class="badge bg-warning"><%= t(:In_Use, scope: "Table", default: "使用中") %></span>
+                                    <% elsif device.status.present? %>
+                                    <% case device.status.to_s.downcase %>
+                                    <% when 'available', 'available' %>
+                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
+                                    <% when 'broken', 'broken' %>
+                                    <span class="badge bg-danger"><%= t(:Broken, scope: "Table", default: "故障") %></span>
+                                    <% when 'repairing', 'repairing' %>
+                                    <span class="badge bg-secondary"><%= t(:Repairing, scope: "Table", default: "修理中") %></span>
+                                    <% else %>
+                                    <span class="badge bg-light text-dark"><%= t(:Unknown, scope: "Table", default: "未知") %></span>
+                                    <% end %>
+                                    <% else %>
+                                    <span class="badge bg-success"><%= t(:Available, scope: "Table", default: "可使用") %></span>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <% if device.user %>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge badge-success mr-2">
+                                            <%= device.user.name %>
+                                            <% if device.user.line_name.present? %>
+                                            (<%= device.user.line_name %>)
+                                            <% end %>
+                                        </span>
+                                        <button type="button" class="btn btn-sm btn-outline-danger unbind-user-btn" data-device-id="<%= device.id %>">
+                                            <i class="las la-unlink"></i>
+                                        </button>
+                                    </div>
+                                    <% else %>
+                                    <button class="btn btn-sm btn-outline-primary bind-user-btn" data-device-id="<%= device.id %>" data-community-id="<%= device.community_id %>" data-toggle="modal" data-target="#bindUserModal">
+                                        <i class="las la-link"></i> <%= t(:Bind_User, scope: "Button", default: '綁定使用者') %>
+                                    </button>
+                                    <% end %>
+                                </td>
+                                <td class="text-center">
+                                    <% if device.enabled? %>
+                                    <span class="label text-success d-flex">
+                                        <div class="dot-label bg-success mr-1"></div><%= t(:Active, scope: "Table") %>
+                                    </span>
+                                    <% else %>
+                                    <span class="label text-danger d-flex">
+                                        <div class="dot-label bg-danger mr-1"></div><%= t(:Banned, scope: "Table") %>
+                                    </span>
+                                    <% end %>
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="<%= edit_admin_fitness_device_path(device) %>" class="btn btn-sm btn-info" title="<%= t(:EDIT, scope: "Button") %>">
+                                            <i class="las la-pen"></i>
+                                        </a>
+                                        <a href="<%= usage_history_admin_fitness_device_path(device) %>" class="btn btn-sm btn-warning" title="<%= t(:VIEW_USAGE_HISTORY, scope: "Button") %>">
+                                            <i class="las la-history"></i>
+                                        </a>
+                                        <a class="btn ripple btn-sm btn-danger" data-toggle="modal" data-target="#modal_del_<%= device.id %>" title="<%= t(:DELETE, scope: "Button") %>">
+                                            <i class="las la-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% end %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div><!-- COL END -->
+</div>
+<!-- row closed -->
+
+<!-- 綁定使用者 Modal -->
+<div class="modal fade" id="bindUserModal" tabindex="-1" role="dialog" aria-labelledby="bindUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bindUserModalLabel"><%= t(:Bind_User, scope: "Button", default: '綁定使用者') %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="community_select"><%= t(:Select_Community, scope: "Table", default: '選擇社區：') %></label>
+                    <select class="form-control" id="community_select" required>
+                        <option value=""><%= t(:Select_Community, scope: "Placeholder", default: "請選擇社區") %></option>
+                        <% Community.all.each do |community| %>
+                        <option value="<%= community.id %>"><%= community.name %></option>
+                        <% end %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="user_select"><%= t(:Select_User, scope: "Table", default: "選擇使用者：") %></label>
+                    <select class="form-control" id="user_select" required disabled>
+                        <option value=""><%= t(:Please_Select_Community_First, default: '請先選擇社區') %></option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><%= t(:CANCEL, scope: "Button", default: '取消') %></button>
+                <button type="button" class="btn btn-primary" id="confirm_bind" disabled><%= t(:CONFIRM, scope: "Button", default: '確認綁定') %></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% @fitness_devices.each do |device| %>
+<div class="modal" id="modal_del_<%= device.id %>">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <i class="las la-trash tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                <h4 class="tx-danger mg-b-20"><%= t(:Delete_Device, default: '刪除健身器材') %></h4>
+                <p class="mg-b-20 mg-x-20"><%= t(:Confirm_Delete_Device, name: device.name, default: '確定要刪除「%{name}」這個健身器材嗎？') %><br><span class="text-danger">（<%= t(:Delete_Device_Will_Remove_Usage_Records, default: '刪除設備會連同所有使用記錄一併刪除') %>）</span></p>
+                <%= button_to t(:CONTINUE, scope: "Button"), admin_fitness_device_path(device), method: :delete, class: "btn ripple btn-danger pd-x-25 delete_alerm" %>
+            </div>
+        </div>
+    </div>
+</div>
+<% end %>
+
+<%= content_for :script_js do %>
+<!-- Internal Data tables -->
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/responsive.dataTables.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/jquery.dataTables.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.bootstrap4.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.buttons.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.bootstrap4.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/jszip.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/pdfmake.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/vfs_fonts.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.html5.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.print.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/buttons.colVis.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/dataTables.responsive.min.js"></script>
+<script src="/assets/valex/plugins/datatable/js/responsive.bootstrap4.min.js"></script>
+
+<!--Internal  Datatable js -->
+<script src="/assets/valex/js/table-data.js"></script>
+
+<!-- Internal Select2.min js -->
+<script src="/assets/valex/plugins/select2/js/select2.min.js"></script>
+
+<!-- Internal Modal js-->
+<script src="/assets/valex/js/modal.js"></script>
+
+<script type="text/javascript">
+    let currentDeviceId = null;
+
+    $(document).ready(function() {
+        // 檢查 DataTable 是否已經初始化
+        if (!$.fn.DataTable.isDataTable('#example')) {
+            // 初始化 DataTable
+            $('#example').DataTable({
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/zh_Hant.json"
+                },
+                "responsive": true,
+                "order": [
+                    [0, "asc"]
+                ], // 按ID排序
+            });
+        }
+
+        // 社區選擇變更事件
+        $('#community_select').on('change', function() {
+            const communityId = $(this).val();
+            if (communityId) {
+                $.get('/fitness_devices/get_users_by_community', {
+                    community_id: communityId
+                }, function(response) {
+                    let options = '<option value=""><%= t(:Select_User, scope: "Table") %></option>';
+                    response.users.forEach(function(user) {
+                        options += `<option value="${user.id}">${user.display_text}</option>`;
+                    });
+                    $('#user_select').html(options).prop('disabled', false);
+                    $('#confirm_bind').prop('disabled', true);
+                }).fail(function(xhr) {
+                    console.error('<%= t(:Load_User_List_Failed, scope: "Notice") %>:', xhr.responseText);
+                    alert('<%= t(:Load_User_List_Failed_Try_Again, scope: "Notice") %>');
+                });
+            } else {
+                $('#user_select').html('<option value=""><%= t(:Please_Select_Community_First) %></option>').prop('disabled', true);
+                $('#confirm_bind').prop('disabled', true);
+            }
+        });
+
+        // 使用者選擇變更事件
+        $('#user_select').on('change', function() {
+            $('#confirm_bind').prop('disabled', !$(this).val());
+        });
+
+        // 綁定使用者按鈕點擊事件
+        $('.bind-user-btn').on('click', function() {
+            currentDeviceId = $(this).data('device-id');
+            const communityId = $(this).data('community-id');
+
+            // 重置選項
+            $('#community_select').val('').prop('disabled', false);
+            $('#user_select').html('<option value=""><%= t(:Please_Select_Community_First) %></option>').prop('disabled', true);
+            $('#confirm_bind').prop('disabled', true);
+
+            // 如果有社區ID，則自動選擇
+            if (communityId) {
+                $('#community_select').val(communityId).trigger('change');
+            }
+        });
+
+        // 確認綁定按鈕
+        $('#confirm_bind').on('click', function() {
+            const userId = $('#user_select').val();
+            if (currentDeviceId && userId) {
+                $.post(`/fitness_devices/${currentDeviceId}/bind_user`, {
+                    user_id: userId,
+                    authenticity_token: $('meta[name="csrf-token"]').attr('content')
+                }, function(response) {
+                    if (response.success) {
+                        showToast('success', response.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 800);
+                    } else {
+                        showToast('danger', response.error || '<%= t(:Bind_Failed, scope: "Notice") %>');
+                    }
+                }).fail(function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    showToast('danger', response.error || '<%= t(:Bind_Failed, scope: "Notice") %>');
+                });
+                $('#bindUserModal').modal('hide');
+            }
+        });
+
+        // 解除綁定按鈕（加上 confirm）
+        $('.unbind-user-btn').on('click', function() {
+            const deviceId = $(this).data('device-id');
+            if (!confirm('<%= t(:Confirm_Unbind, scope: "Notice") %>')) return;
+
+            $.ajax({
+                url: `/fitness_devices/${deviceId}/unbind_user`,
+                type: 'DELETE',
+                data: {
+                    authenticity_token: $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response.success) {
+                        showToast('success', response.message);
+                        setTimeout(function() {
+                            location.reload();
+                        }, 800);
+                    } else {
+                        showToast('danger', response.error || '<%= t(:Unbind_Failed, scope: "Notice") %>');
+                    }
+                },
+                error: function(xhr) {
+                    const response = JSON.parse(xhr.responseText);
+                    showToast('danger', response.error || '<%= t(:Unbind_Failed, scope: "Notice") %>');
+                }
+            });
+        });
+    });
+
+    // 刪除按鈕事件不再需要
+</script>
+<script>
+    // Lightweight toast helper using jQuery fade (no dependency on bootstrap.js toast)
+    function showToast(type, message) {
+        const id = 'toast-' + Date.now();
+        const toastHtml = `
+        <div id="${id}" class="p-2 mb-2 rounded shadow-sm" style="min-width:220px;">
+            <div class="d-flex align-items-start ${type === 'success' ? 'bg-success' : 'bg-danger'} text-white p-2 rounded">
+                <div class="mr-2 font-weight-bold">${type === 'success' ? '<%= t(:Success, scope: "Notice") %>' : '<%= t(:Error, scope: "Notice") %>'}</div>
+                <div class="flex-fill small">${message}</div>
+                <button type="button" class="close text-white ml-2" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        </div>`;
+
+        $('#toast-container').append(toastHtml);
+        const $toast = $('#' + id);
+        $toast.hide().fadeIn(200);
+        $toast.find('.close').on('click', function() {
+            $toast.fadeOut(200, function() {
+                $toast.remove();
+            });
+        });
+        setTimeout(function() {
+            $toast.fadeOut(400, function() {
+                $toast.remove();
+            });
+        }, 4000);
+    }
+</script>
+<% end %>

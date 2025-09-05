@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
   has_many :history_coins, dependent: :destroy, class_name: 'User::HistoryCoin'
   has_many :health_reports, dependent: :destroy, class_name: 'User::HealthReport'
   has_many :fitness_reports, dependent: :destroy, class_name: 'User::FitnessReport'
+  has_many :fitness_device_usages, dependent: :destroy
+  has_many :fitness_devices, dependent: :nullify
 
   belongs_to :community , optional: true , class_name: 'Community'
 

@@ -9,7 +9,7 @@ default: &default
 development:
   <<: *default
   database: padifield_development
-  host: localhost
+  host: db
   username: sa
   password: taiwan
 
