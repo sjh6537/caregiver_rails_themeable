@@ -1,8 +1,7 @@
 class Admin < ActiveRecord::Base
   belongs_to :community, optional: true
 
-  before_save :reset_super_admin
-  before_update :reset_super_admin
+  before_create :reset_super_admin
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -42,10 +41,8 @@ class Admin < ActiveRecord::Base
   end
 
   def reset_super_admin
-    self.super_admin = if Admin.count == 0
-                         true
-                       else
-                         id == 1
-                       end
+    return unless super_admin.nil?
+
+    self.super_admin = Admin.count == 0
   end
 end
