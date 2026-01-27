@@ -16,9 +16,18 @@ Rails.application.routes.draw do
 
   # 官網入口
   # 天福宮
-  controller :welcome_tianfu do
-    get 'welcome_tianfu' => :index
-    get 'welcome_tianfu/index' => :index
+  tianfu_hosts =
+    if Rails.env.production?
+      ["tianfu.miaoligo.com"]
+    else
+      ["tianfu.miaoligo.com", "localhost", "127.0.0.1"]
+    end
+
+  constraints(host: tianfu_hosts) do
+    get  "welcome_tianfu"       => "welcome_tianfu#index"
+    get  "welcome_tianfu/index" => "welcome_tianfu#index"
+
+    root to: redirect("/welcome_tianfu/index", status: 301), as: :tianfu_root
   end
 
   # 中庄社區，測試用
