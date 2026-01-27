@@ -1,4 +1,5 @@
 class WelcomeTianfuController < ApplicationController
+  layout false
   def index
     # --- 模擬資料準備 (建議之後搬移至 Controller) --- [cite: 1]
     @user_images = {
