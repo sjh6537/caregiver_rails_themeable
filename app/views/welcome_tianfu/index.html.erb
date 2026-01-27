@@ -1,0 +1,676 @@
+<!-- 引入 Tailwind CSS (若 Rails 專案已設定則可省略) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- 引入 Lucide Icons (用於前端 icon 渲染) -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<div class="font-sans text-stone-800 bg-stone-50 min-h-screen flex flex-col">
+  
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-transparent">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('home')">
+        <div class="bg-amber-500 text-red-900 w-10 h-10 flex items-center justify-center rounded-lg font-bold text-xl border-2 border-amber-300 shadow-lg">福</div>
+        <div class="flex flex-col">
+          <h1 id="nav-title" class="font-serif font-bold text-xl tracking-wide text-white">西湖天福宮</h1>
+          <span class="text-[10px] text-stone-300 tracking-wider">關聖帝君．忠義千秋</span>
+        </div>
+      </div>
+
+      <!-- Desktop Menu -->
+      <div class="hidden lg:flex space-x-6">
+        <% [['首頁', 'home'], ['最新消息', 'news'], ['天福宮簡介', 'about'], ['天福運籤', 'fortune'], ['服務方案', 'services'], ['關懷據點', 'care'], ['聯絡方式', 'contact']].each do |name, value| %>
+          <button 
+            onclick="navigateTo('<%= value %>')"
+            class="nav-link text-sm font-medium tracking-wide transition-colors duration-200 text-stone-200 hover:text-white"
+            data-page="<%= value %>"
+          >
+            <%= name %>
+          </button>
+        <% end %>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="lg:hidden text-white" onclick="toggleMobileMenu()">
+        <i data-lucide="menu" class="w-7 h-7"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden lg:hidden absolute top-full left-0 w-full bg-red-950 border-t border-red-900 shadow-xl flex flex-col p-4">
+       <% [['首頁', 'home'], ['最新消息', 'news'], ['天福宮簡介', 'about'], ['天福運籤', 'fortune'], ['服務方案', 'services'], ['關懷據點', 'care'], ['聯絡方式', 'contact']].each do |name, value| %>
+          <button 
+            onclick="navigateTo('<%= value %>'); toggleMobileMenu()"
+            class="py-3 text-left border-b border-red-900 last:border-0 text-stone-300"
+          >
+            <%= name %>
+          </button>
+        <% end %>
+    </div>
+  </nav>
+
+  <main class="flex-grow">
+    <!-- ================= VIEW: HOME ================= -->
+    <div id="view-home" class="page-view block animate-fade-in">
+      <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+          <div class="absolute inset-0 bg-gradient-to-t from-red-950 via-red-950/40 to-black/60"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <div class="inline-block mb-4 px-3 py-1 border border-amber-400/50 rounded-full bg-black/40 backdrop-blur-sm text-amber-300 text-sm tracking-widest font-medium">
+            主祀：關聖帝君｜忠義千秋・護佑平安
+          </div>
+          <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-4 drop-shadow-2xl leading-tight">
+            西湖天福宮
+          </h1>
+          <p class="text-xl md:text-2xl text-amber-100 mb-8 font-light tracking-wide border-b border-amber-500/50 pb-4 inline-block">
+            看見老街 × 走進信仰 × 動手體驗
+          </p>
+          <p class="text-stone-200 max-w-2xl mx-auto mb-10 leading-relaxed text-sm md:text-base opacity-90 font-light">
+            走入西湖，彷彿翻開一本尚未寫完的古籍。<br class="hidden md:block"/>
+            紅磚巷弄、家廟香煙、族群交會與開墾記憶，<br class="hidden md:block"/>
+            都在這片土地上交織成「可閱讀的地景、可對話的歷史」。
+          </p>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <button onclick="navigateTo('fortune')" class="w-full sm:w-auto px-8 py-4 bg-amber-600 hover:bg-amber-500 text-white rounded-full font-bold shadow-lg shadow-amber-900/30 transition-all transform hover:-translate-y-1 flex items-center justify-center space-x-2">
+              <i data-lucide="scroll" class="w-5 h-5"></i>
+              <span>我要線上求籤</span>
+            </button>
+            <button onclick="navigateTo('news')" class="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white border border-white/30 rounded-full font-bold transition-all flex items-center justify-center space-x-2">
+              <i data-lucide="calendar" class="w-5 h-5"></i>
+              <span>報名活動／看最新消息</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Preview News -->
+      <section class="py-20 bg-stone-50">
+        <div class="container mx-auto px-4">
+          <div class="flex justify-between items-end mb-12">
+            <div>
+              <span class="text-amber-700 font-bold tracking-wider text-sm uppercase">Latest News</span>
+              <h2 class="text-3xl font-serif font-bold text-stone-800 mt-2">最新消息</h2>
+            </div>
+            <button onclick="navigateTo('news')" class="text-stone-500 hover:text-amber-700 flex items-center text-sm font-medium transition">
+              更多消息 <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
+            </button>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-8">
+            <% @news_data.first(3).each do |item| %>
+              <div class="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-stone-100">
+                <div class="h-48 overflow-hidden relative">
+                  <img src="<%= item[:image] %>" alt="<%= item[:title] %>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute top-4 left-4 bg-amber-600 text-white text-xs px-3 py-1 rounded-full shadow-md">
+                    <%= item[:tag] %>
+                  </div>
+                </div>
+                <div class="p-6">
+                  <div class="text-stone-400 text-xs mb-2 flex items-center">
+                    <i data-lucide="calendar" class="mr-1 w-3 h-3"></i> <%= item[:date] %>
+                  </div>
+                  <h3 class="text-lg font-bold text-stone-800 mb-3 group-hover:text-amber-700 transition-colors line-clamp-1"><%= item[:title] %></h3>
+                  <p class="text-stone-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                    <%= item[:summary] %>
+                  </p>
+                  <button onclick="navigateTo('news')" class="text-amber-700 text-sm font-bold flex items-center hover:underline">
+                    閱讀詳情
+                  </button>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Short -->
+      <section class="py-20 bg-stone-900 text-stone-300 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-amber-900/10 -skew-x-12 transform origin-top pointer-events-none"></div>
+        <div class="container mx-auto px-4 relative z-10">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <span class="text-amber-500 font-bold tracking-wider text-sm uppercase">About Temple</span>
+              <h2 class="text-3xl md:text-4xl font-serif font-bold text-white mt-2 mb-6">天福宮簡介</h2>
+              <p class="leading-relaxed mb-6 text-stone-400">
+                天福宮位於苗栗縣西湖鄉金獅村，主祀關聖帝君，為地方重要信仰中心。
+              </p>
+              <p class="leading-relaxed mb-8 text-stone-400">
+                天福宮也見證地方變遷：早期因鸞堂信仰活動而興建，後因1935年地震遷至現址，延續至今，見證了西湖的歷史與信仰傳承。
+              </p>
+              <button onclick="navigateTo('about')" class="px-6 py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white rounded transition-colors">
+                了解更多沿革
+              </button>
+            </div>
+            <div class="relative">
+              <div class="bg-red-950/80 backdrop-blur-sm p-8 rounded-lg border border-amber-700/50 shadow-2xl">
+                <h3 className="text-2xl font-serif font-bold text-amber-400 mb-4">關聖帝君是誰？</h3>
+                <p class="text-stone-300 mb-6 leading-relaxed">
+                  關聖帝君又稱協天大帝、文衡聖帝、關帝爺；佛教亦稱其為伽藍護法。祂在民間也常被尊為商業守護神、軍警守護神與讀書人敬仰的神祇之一。
+                </p>
+                <button onclick="navigateTo('fortune')" class="w-full py-3 bg-amber-700 hover:bg-amber-600 text-white rounded font-bold transition flex items-center justify-center">
+                   <i data-lucide="scroll" class="mr-2 w-4 h-4"></i> 向關聖帝君求籤
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Care Section Preview -->
+      <section class="py-20 bg-white">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+          <div class="md:w-1/2">
+          </div>
+          <div class="md:w-1/2">
+            <span class="text-amber-700 font-bold tracking-wider text-sm uppercase">Community Care</span>
+            <h2 class="text-3xl font-serif font-bold text-stone-800 mb-6 mt-2">天福宮關懷據點</h2>
+            <p class="text-stone-700 leading-relaxed mb-6 text-lg">
+              關懷據點以「在地陪伴」為核心，透過志工團隊與據點活動，讓長輩在熟悉的生活圈中維持社會連結與支持。
+            </p>
+            <button onclick="navigateTo('care')" class="bg-stone-800 text-white px-8 py-3 rounded-lg hover:bg-stone-700 transition shadow-lg">
+              查看據點詳情
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ================= VIEW: NEWS ================= -->
+    <div id="view-news" class="page-view hidden animate-fade-in pt-24 pb-20 bg-stone-50 min-h-screen">
+      <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-serif font-bold text-center text-stone-800 mb-12">最新消息</h1>
+        <!-- Filters (Static for ERB Demo) -->
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+           <button class="px-6 py-2 rounded-full text-sm font-medium bg-amber-600 text-white shadow-md">全部</button>
+           <button class="px-6 py-2 rounded-full text-sm font-medium bg-white text-stone-600 border border-stone-200">活動</button>
+           <button class="px-6 py-2 rounded-full text-sm font-medium bg-white text-stone-600 border border-stone-200">公告</button>
+        </div>
+        
+        <div class="max-w-4xl mx-auto space-y-8">
+           <% @news_data.each do |item| %>
+            <div class="bg-white rounded-xl shadow-md overflow-hidden flex flex-col md:flex-row hover:shadow-lg transition duration-300 border border-stone-100">
+              <div class="md:w-1/3 h-64 md:h-auto relative">
+                <img src="<%= item[:image] %>" alt="<%= item[:title] %>" class="w-full h-full object-cover" />
+                <div class="absolute top-4 left-4 bg-stone-900/80 text-white text-xs px-3 py-1 rounded">
+                  <%= item[:tag] %>
+                </div>
+              </div>
+              <div class="md:w-2/3 p-8 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center text-stone-400 text-sm mb-3">
+                    <i data-lucide="calendar" class="mr-2 w-3 h-3"></i> <%= item[:date] %>
+                  </div>
+                  <h3 class="text-2xl font-bold text-stone-800 mb-3"><%= item[:title] %></h3>
+                  <p class="text-stone-600 font-medium mb-2"><%= item[:summary] %></p>
+                  <p class="text-stone-500 text-sm mb-4"><%= item[:content] %></p>
+                </div>
+                <div class="pt-4 border-t border-stone-100 flex justify-end">
+                   <button class="text-amber-700 font-bold text-sm hover:underline flex items-center">
+                     報名或詳情 <i data-lucide="arrow-right" class="ml-1 w-4 h-4"></i>
+                   </button>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW: ABOUT (With AI Guide) ================= -->
+    <div id="view-about" class="page-view hidden animate-fade-in pt-24 pb-20 bg-white min-h-screen">
+       <div class="container mx-auto px-4 max-w-3xl">
+        <div class="text-center mb-12">
+          <h1 class="text-4xl font-serif font-bold text-stone-800 mb-4">天福宮簡介</h1>
+          <div class="w-20 h-1 bg-amber-500 mx-auto rounded"></div>
+        </div>
+        
+        <div class="prose prose-lg prose-stone mx-auto">
+          <div class="bg-stone-50 p-6 rounded-lg mb-8 border-l-4 border-amber-600">
+            <h3 class="text-xl font-bold text-stone-800 mb-2">地理位置與主祀</h3>
+            <p class="text-stone-700 m-0">西湖天福宮位於苗栗縣西湖鄉金獅村2鄰9號，主祀神明為關聖帝君。</p>
+          </div>
+          
+          <h3 class="text-2xl font-serif text-amber-800 mt-10 mb-4 flex items-center">
+             <i data-lucide="home" class="mr-3 text-amber-700"></i> 沿革簡史
+          </h3>
+          <p class="leading-loose text-stone-700 mb-8">
+            日治初期當地鸞堂信仰盛行，三堂合建為廟，並於1913年建廟，後於1935年地震後遷至現址。
+          </p>
+
+           <h3 class="text-2xl font-serif text-amber-800 mt-10 mb-4 flex items-center">
+             <i data-lucide="sparkles" class="mr-3 text-amber-700"></i> 主祀：關聖帝君
+          </h3>
+          <p class="leading-loose text-stone-700 mb-4">
+             關聖帝君源自三國名將關羽的信仰傳承，因其忠義勇武形象被後世推崇。
+          </p>
+
+          <!-- AI Guide Section -->
+          <div class="bg-amber-50 border-2 border-amber-200 rounded-xl p-6 shadow-lg mt-12">
+            <h4 class="text-xl font-bold text-amber-800 mb-4 flex items-center">
+              <i data-lucide="message-square" class="mr-2"></i> 有問題嗎？詢問 AI 導覽員
+            </h4>
+            <div class="flex gap-2 mb-4">
+              <input type="text" id="guide-input" placeholder="例如：天福宮有什麼特色？" class="flex-grow border border-amber-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" />
+              <button onclick="askAIGuide()" id="guide-btn" class="bg-amber-600 text-white px-6 py-2 rounded font-bold hover:bg-amber-700 transition disabled:opacity-50">提問</button>
+            </div>
+            <div id="guide-response" class="hidden bg-white p-4 rounded-lg border border-amber-100 text-stone-700 animate-fade-in">
+              <span class="font-bold text-amber-600 block mb-1">導覽員：</span>
+              <p id="guide-text"></p>
+            </div>
+          </div>
+        </div>
+       </div>
+    </div>
+
+    <!-- ================= VIEW: FORTUNE (Interactive) ================= -->
+    <div id="view-fortune" class="page-view hidden animate-fade-in pt-24 pb-20 bg-stone-100 min-h-screen flex flex-col items-center">
+      <div class="container mx-auto px-4 max-w-2xl">
+        <div class="text-center mb-10">
+          <h1 class="text-4xl font-serif font-bold text-stone-800 mb-4">天福運籤</h1>
+          <p class="text-stone-500">籤詩，是在迷惘時替自己按下暫停鍵。先靜心、再詢問。</p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden min-h-[500px] flex flex-col relative border-t-8 border-amber-600">
+          
+          <!-- Step 1: Intro -->
+          <div id="fortune-intro" class="p-10 flex flex-col items-center justify-center flex-grow text-center">
+            <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mb-6">
+              <i data-lucide="scroll" class="w-12 h-12 text-red-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-6 text-stone-800">求籤流程</h3>
+            <ul class="text-left space-y-4 text-stone-600 mb-10 w-full max-w-xs mx-auto">
+              <li class="flex items-center"><span class="w-6 h-6 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center text-xs font-bold mr-3">1</span> 淨心：深呼吸三次</li>
+              <li class="flex items-center"><span class="w-6 h-6 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center text-xs font-bold mr-3">2</span> 稟告：姓名、住址與所求</li>
+              <li class="flex items-center"><span class="w-6 h-6 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center text-xs font-bold mr-3">3</span> 求籤：線上擲筊</li>
+            </ul>
+            <button onclick="setFortuneStep('form')" class="w-full bg-red-700 text-white py-4 rounded-xl font-bold hover:bg-red-800 transition shadow-lg">開始求籤</button>
+          </div>
+
+          <!-- Step 2: Form -->
+          <div id="fortune-form" class="p-10 flex-col flex-grow hidden">
+            <h3 class="text-xl font-bold mb-6 text-center text-stone-800">稟告關聖帝君</h3>
+            <form onsubmit="event.preventDefault(); setFortuneStep('praying');">
+               <div class="mb-4">
+                  <label class="block text-sm font-bold text-stone-600 mb-2">您的姓名</label>
+                  <input type="text" id="user-name" required class="w-full border border-stone-300 rounded-lg p-3" placeholder="請輸入姓名" />
+               </div>
+               <div class="mb-4">
+                  <label class="block text-sm font-bold text-stone-600 mb-2">所求事項</label>
+                   <div class="flex justify-between items-center mb-2">
+                    <button type="button" onclick="askAIPrayer()" id="prayer-ai-btn" class="text-xs bg-amber-100 text-amber-800 px-3 py-1 rounded-full flex items-center hover:bg-amber-200 transition">
+                      <i data-lucide="sparkles" class="w-3 h-3 mr-1"></i> AI 幫我寫疏文
+                    </button>
+                  </div>
+                  <textarea id="user-wish" required class="w-full border border-stone-300 rounded-lg p-3 h-32" placeholder="例如：最近工作不太順利..."></textarea>
+               </div>
+               <button type="submit" class="w-full bg-amber-600 text-white py-4 rounded-xl font-bold hover:bg-amber-700 transition shadow-lg mt-4">稟告完畢，準備求籤</button>
+            </form>
+          </div>
+
+          <!-- Step 3: Praying -->
+          <div id="fortune-praying" class="p-10 flex-col items-center justify-center flex-grow text-center hidden">
+             <div id="praying-spinner" class="hidden flex-col items-center">
+                <div class="w-16 h-16 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mb-6"></div>
+                <p class="text-lg font-medium text-stone-600">正在祈求神明指引...</p>
+             </div>
+             <div id="praying-action">
+                <p class="text-stone-500 mb-8">誠心向關聖帝君求賜靈籤</p>
+                <button onclick="drawFortune()" class="w-48 h-48 rounded-full bg-gradient-to-br from-red-600 to-red-800 text-white font-bold text-2xl shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex flex-col items-center justify-center border-4 border-amber-400">
+                  <span>點擊</span><span>擲筊抽籤</span>
+                </button>
+             </div>
+          </div>
+
+          <!-- Step 4: Result -->
+          <div id="fortune-result" class="p-8 flex-col flex-grow bg-[url('https://www.transparenttextures.com/patterns/rice-paper.png')] hidden">
+             <div class="border-4 double border-amber-800 p-6 flex flex-col items-center text-center relative h-full">
+                <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-amber-800 text-white px-4 py-1 rounded text-sm tracking-widest">關聖帝君靈籤</div>
+                <h2 id="res-title" class="text-3xl font-serif font-bold text-red-800 mt-6 mb-2"></h2>
+                <div class="w-full h-px bg-stone-300 my-4"></div>
+                <div id="res-poem" class="font-serif text-xl md:text-2xl text-stone-800 leading-loose mb-8 whitespace-pre-line tracking-wider"></div>
+                <div class="bg-amber-50 p-4 rounded-lg w-full text-left mb-6">
+                  <h4 class="font-bold text-amber-800 mb-2 text-sm">【解籤指引】</h4>
+                  <p id="res-explain" class="text-stone-700"></p>
+                </div>
+                
+                <!-- AI Interpretation -->
+                <div class="w-full bg-stone-50 p-4 rounded-lg border border-stone-200 mb-6">
+                   <h4 class="font-bold text-stone-700 mb-2 text-sm flex items-center"><i data-lucide="sparkles" class="mr-2 text-amber-600 w-4 h-4"></i> 請廟公指點迷津 (AI)</h4>
+                   <div class="flex gap-2">
+                      <input type="text" id="interp-input" placeholder="這支籤對我的運勢建議？" class="flex-grow border border-stone-300 rounded px-3 py-2 text-sm" />
+                      <button onclick="askAIMaster()" id="interp-btn" class="bg-amber-700 text-white px-4 py-2 rounded text-sm hover:bg-amber-800">詢問</button>
+                   </div>
+                   <div id="interp-result" class="hidden mt-2 text-left p-2 bg-white rounded border border-stone-100">
+                      <span class="font-bold text-amber-800">廟公說：</span>
+                      <p id="interp-text" class="text-stone-700 text-sm whitespace-pre-line"></p>
+                   </div>
+                </div>
+
+                <div class="mt-auto w-full flex space-x-4">
+                   <button onclick="setFortuneStep('intro')" class="flex-1 border border-stone-300 text-stone-600 py-3 rounded hover:bg-stone-50">重新求籤</button>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW: SERVICES (With AI Recommendation) ================= -->
+    <div id="view-services" class="page-view hidden animate-fade-in pt-24 pb-20 bg-stone-50 min-h-screen">
+      <div class="container mx-auto px-4">
+         <div class="text-center mb-16 max-w-3xl mx-auto">
+          <h1 class="text-4xl font-serif font-bold text-stone-800 mb-6">服務方案</h1>
+          <p class="text-lg text-stone-600">延續參拜祈福與運籤傳統，也透過關懷據點與文化行動，把照顧做在日常。</p>
+        </div>
+
+        <!-- AI Recommendation -->
+        <div class="max-w-3xl mx-auto mb-16 bg-white rounded-xl shadow-md p-6 border border-blue-100">
+           <h3 class="font-bold text-blue-800 mb-4 flex items-center">
+             <i data-lucide="help-circle" class="mr-2 w-6 h-6"></i> 不確定需要什麼服務嗎？問問 AI 助手
+           </h3>
+           <div class="flex gap-2">
+              <input type="text" id="service-input" placeholder="例如：最近運氣不好、想幫家人祈福..." class="flex-grow border border-blue-200 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <button onclick="recommendService()" id="service-btn" class="bg-blue-600 text-white px-6 py-2 rounded font-bold hover:bg-blue-700">推薦</button>
+           </div>
+           <div id="service-result" class="hidden mt-4 p-4 bg-blue-50 text-stone-700 rounded-lg animate-fade-in">
+             <span class="font-bold text-blue-700 block mb-1">推薦建議：</span>
+             <p id="service-text"></p>
+           </div>
+        </div>
+
+        <h3 class="text-2xl font-bold text-stone-800 mb-6 border-l-4 border-red-700 pl-4">宮廟祈福服務</h3>
+        <div class="grid md:grid-cols-3 gap-8 mb-16">
+          <% @services_data.each do |s| %>
+            <div class="bg-white rounded-xl shadow-md p-8 border-t-4 border-<%= s[:color] %>-600 hover:shadow-xl transition duration-300">
+              <div class="mb-4 text-<%= s[:color] %>-600"><i data-lucide="<%= s[:icon] %>" class="w-8 h-8"></i></div>
+              <h3 class="text-xl font-bold text-stone-800 mb-2"><%= s[:title] %></h3>
+              <p class="text-2xl font-bold text-amber-600 mb-4"><%= s[:price] %></p>
+              <p class="text-sm text-stone-500 mb-6"><%= s[:desc] %></p>
+              <button onclick="navigateTo('contact')" class="w-full bg-stone-100 text-stone-800 py-2 rounded font-bold hover:bg-stone-200">了解更多</button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW: CARE ================= -->
+    <div id="view-care" class="page-view hidden animate-fade-in pt-24 pb-20 bg-amber-50 min-h-screen">
+      <div class="container mx-auto px-4">
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden max-w-5xl mx-auto">
+          <div class="relative h-64 md:h-96">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+              <div class="p-8 md:p-12">
+                <h1 class="text-4xl font-serif font-bold text-white mb-2">天福宮關懷據點</h1>
+                <p class="text-amber-200 text-lg">讓長輩在熟悉的生活圈裡，重新連回人群、連回日常。</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="p-8 md:p-12 grid md:grid-cols-2 gap-12">
+            <div>
+              <h3 class="text-2xl font-bold text-stone-800 mb-6 border-l-4 border-amber-600 pl-4">我們做什麼</h3>
+              <div class="grid grid-cols-1 gap-4">
+                 <div class="flex bg-stone-50 p-4 rounded-lg">
+                    <div class="mr-4 mt-1 text-amber-600"><i data-lucide="heart" class="w-5 h-5"></i></div>
+                    <div><h4 class="font-bold text-stone-800">健康促進</h4><p class="text-stone-600 text-sm">量測、運動、健康知識</p></div>
+                 </div>
+                 <div class="flex bg-stone-50 p-4 rounded-lg">
+                    <div class="mr-4 mt-1 text-amber-600"><i data-lucide="users" class="w-5 h-5"></i></div>
+                    <div><h4 class="font-bold text-stone-800">社會參與</h4><p class="text-stone-600 text-sm">共餐、手作、節慶活動</p></div>
+                 </div>
+              </div>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-stone-800 mb-6 border-l-4 border-amber-600 pl-4">聯絡與支持</h3>
+              <p class="text-stone-700 leading-relaxed mb-6">歡迎社會大眾以捐款方式支持送餐與陪伴行動。</p>
+              <div class="bg-amber-100/50 border border-amber-200 p-6 rounded-xl mb-6">
+                <h4 class="font-bold text-amber-900 mb-2">據點基本資訊</h4>
+                <p class="text-amber-800 text-sm">地址：苗栗縣西湖鄉金獅村2鄰金獅9號</p>
+                <p class="text-amber-800 text-sm">電話：037-920208</p>
+              </div>
+              <button onclick="navigateTo('contact')" class="w-full bg-stone-800 text-white py-3 rounded-lg hover:bg-stone-700 transition shadow-lg mb-2">我要捐款支持送餐</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VIEW: CONTACT ================= -->
+    <div id="view-contact" class="page-view hidden animate-fade-in pt-24 pb-20 bg-stone-100 min-h-screen">
+      <div class="container mx-auto px-4 max-w-5xl">
+        <h1 class="text-4xl font-serif font-bold text-center text-stone-800 mb-6">聯絡我們</h1>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="space-y-8">
+            <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-red-700">
+              <h3 class="text-xl font-bold text-stone-800 mb-4 flex items-center">
+                <div class="bg-red-100 p-2 rounded-full mr-3 text-red-700"><i data-lucide="home" class="w-5 h-5"></i></div>
+                西湖天福宮
+              </h3>
+              <div class="space-y-4 text-stone-600 ml-2">
+                <p>地址：苗栗縣西湖鄉金獅村2鄰9號</p>
+                <p>電話：037-923966</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <h3 class="text-2xl font-bold text-stone-800 mb-6">傳送訊息</h3>
+            <form>
+               <div class="mb-4"><input type="text" class="w-full border p-2 rounded" placeholder="姓名"></div>
+               <div class="mb-4"><input type="text" class="w-full border p-2 rounded" placeholder="電話"></div>
+               <div class="mb-4"><textarea class="w-full border p-2 rounded h-32" placeholder="內容"></textarea></div>
+               <button class="w-full bg-stone-800 text-white py-3 rounded font-bold">送出訊息</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-stone-900 text-stone-400 py-12 border-t-4 border-amber-600">
+    <div class="container mx-auto px-4 text-center text-xs">
+      <p>© 2024 西湖天福宮 All Rights Reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ================= JAVASCRIPT LOGIC ================= -->
+<script>
+  // Initialize Icons
+  lucide.createIcons();
+
+  // Navigation Logic
+  function navigateTo(page) {
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Hide all views
+    document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.page-view').forEach(el => el.classList.remove('block'));
+    
+    // Show target view
+    const target = document.getElementById('view-' + page);
+    if(target) {
+       target.classList.remove('hidden');
+       target.classList.add('block');
+    }
+
+    // Update Nav Styles (Simple)
+    document.querySelectorAll('.nav-link').forEach(el => {
+       if(el.dataset.page === page) {
+         el.classList.add('text-amber-400', 'border-b-2', 'border-amber-400');
+         el.classList.remove('text-stone-200');
+       } else {
+         el.classList.remove('text-amber-400', 'border-b-2', 'border-amber-400');
+         el.classList.add('text-stone-200');
+       }
+    });
+  }
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  }
+  
+  // Navbar Scroll Effect
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    const title = document.getElementById('nav-title');
+    if (window.scrollY > 50) {
+      navbar.classList.add('bg-red-950/95', 'shadow-md', 'py-2');
+      navbar.classList.remove('bg-transparent', 'py-4');
+      title.classList.add('text-amber-400');
+      title.classList.remove('text-white');
+    } else {
+      navbar.classList.remove('bg-red-950/95', 'shadow-md', 'py-2');
+      navbar.classList.add('bg-transparent', 'py-4');
+      title.classList.remove('text-amber-400');
+      title.classList.add('text-white');
+    }
+  });
+
+  // --- Gemini API Logic ---
+  const apiKey = ""; // API Key
+
+  async function callGemini(prompt) {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+        }
+      );
+      if (!response.ok) throw new Error('API Error');
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || "廟公忙碌中...";
+    } catch (e) {
+      console.error(e);
+      return "連線錯誤，請稍後再試。";
+    }
+  }
+
+  // Feature: AI Guide
+  async function askAIGuide() {
+    const input = document.getElementById('guide-input').value;
+    const btn = document.getElementById('guide-btn');
+    const resBox = document.getElementById('guide-response');
+    const resText = document.getElementById('guide-text');
+    
+    if(!input) return;
+    btn.disabled = true;
+    btn.innerText = '...';
+    
+    const prompt = `你現在是苗栗西湖天福宮的「AI 導覽員」。請回答：${input}`;
+    const text = await callGemini(prompt);
+    
+    resText.innerText = text;
+    resBox.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerText = '提問';
+  }
+
+  // Feature: AI Recommendation
+  async function recommendService() {
+    const input = document.getElementById('service-input').value;
+    const btn = document.getElementById('service-btn');
+    const resBox = document.getElementById('service-result');
+    const resText = document.getElementById('service-text');
+    
+    if(!input) return;
+    btn.disabled = true;
+    btn.innerText = '...';
+    
+    const prompt = `使用者在找西湖天福宮服務（安太歲/平安燈/送餐捐款/文化體驗）。需求：${input}。請推薦適合項目。`;
+    const text = await callGemini(prompt);
+    
+    resText.innerText = text;
+    resBox.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerText = '推薦';
+  }
+
+  // --- Fortune Telling Logic ---
+  const fortunePoems = <%= raw @fortune_poems_json %>;
+  let currentResult = null;
+
+  function setFortuneStep(step) {
+    ['intro', 'form', 'praying', 'result'].forEach(s => {
+       const el = document.getElementById('fortune-' + s);
+       if(s === step) {
+         el.classList.remove('hidden');
+         el.classList.add('flex');
+       } else {
+         el.classList.add('hidden');
+         el.classList.remove('flex');
+       }
+    });
+  }
+
+  async function askAIPrayer() {
+    const wish = document.getElementById('user-wish').value;
+    const name = document.getElementById('user-name').value;
+    const btn = document.getElementById('prayer-ai-btn');
+    
+    if(!wish) { alert('請先輸入所求事項'); return; }
+    
+    btn.disabled = true;
+    btn.innerText = '潤飾中...';
+    
+    const prompt = `請將祈願內容改寫為誠懇疏文。姓名：${name}。內容：${wish}`;
+    const text = await callGemini(prompt);
+    
+    document.getElementById('user-wish').value = text;
+    btn.disabled = false;
+    btn.innerHTML = '<i data-lucide="sparkles" class="w-3 h-3 mr-1"></i> AI 幫我寫疏文';
+    lucide.createIcons();
+  }
+
+  function drawFortune() {
+    document.getElementById('praying-action').classList.add('hidden');
+    document.getElementById('praying-spinner').classList.remove('hidden');
+    document.getElementById('praying-spinner').classList.add('flex');
+    
+    setTimeout(() => {
+       const random = fortunePoems[Math.floor(Math.random() * fortunePoems.length)];
+       currentResult = random;
+       
+       document.getElementById('res-title').innerText = random.title;
+       document.getElementById('res-poem').innerText = random.poem;
+       document.getElementById('res-explain').innerText = random.explain;
+       
+       document.getElementById('praying-action').classList.remove('hidden');
+       document.getElementById('praying-spinner').classList.add('hidden');
+       document.getElementById('praying-spinner').classList.remove('flex');
+       
+       setFortuneStep('result');
+    }, 2000);
+  }
+
+  async function askAIMaster() {
+    const q = document.getElementById('interp-input').value;
+    const btn = document.getElementById('interp-btn');
+    const resBox = document.getElementById('interp-result');
+    const resText = document.getElementById('interp-text');
+    
+    if(!q) return;
+    btn.disabled = true;
+    btn.innerText = '...';
+    
+    const prompt = `你是西湖天福宮廟公。籤詩：${currentResult.poem}。信眾問：${q}。請指點。`;
+    const text = await callGemini(prompt);
+    
+    resText.innerText = text;
+    resBox.classList.remove('hidden');
+    btn.disabled = false;
+    btn.innerText = '詢問';
+  }
+</script>
+
+<style>
+  .animate-fade-in { animation: fadeIn 0.5s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>

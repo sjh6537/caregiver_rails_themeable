@@ -14,6 +14,14 @@ Rails.application.routes.draw do
   #       post 'health/measurements', to: 'admin/health#measurements', as: :measurements
   #  end
 
+  # 官網入口
+  # 天福宮
+  controller :welcome_tianfu do
+    get 'welcome_tianfu' => :index
+    get 'welcome_tianfu/index' => :index
+  end
+
+  #
   get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
   post 'health/measurements', to: 'admin/health#measurements', as: :measurements
   get 'health/check_id_card/:id_card', to: 'admin/health#check_id_card', as: :check_id_card
