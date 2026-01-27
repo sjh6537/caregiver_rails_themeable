@@ -21,6 +21,12 @@ Rails.application.routes.draw do
     get 'welcome_tianfu/index' => :index
   end
 
+  # 中庄社區，測試用
+  controller :welcome_zhongzhuang do
+    get 'welcome_zhongzhuang' => :index
+    get 'welcome_zhongzhuang/index' => :index
+  end
+
   #
   get 'health/idcard_list', to: 'admin/health#idcard_list', as: :idcard_list
   post 'health/measurements', to: 'admin/health#measurements', as: :measurements

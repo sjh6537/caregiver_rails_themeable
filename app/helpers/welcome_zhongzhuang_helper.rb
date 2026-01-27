@@ -1,0 +1,2 @@
+module WelcomeZhongzhuangHelper
+end
