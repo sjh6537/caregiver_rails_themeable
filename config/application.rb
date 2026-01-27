@@ -36,5 +36,7 @@ module LearningLife
     config.hosts << 'padifield.line.miaoligo.com'
     config.hosts << 'padifield.admin.miaoligo.com'
     config.hosts << 'padifield.linebot.miaoligo.com'
+    config.hosts << 'padifield.miaoligo.com'
+    config.hosts << 'tianfu.miaoligo.com'
   end
 end
