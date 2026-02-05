@@ -9,7 +9,7 @@
   <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-transparent">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <div class="flex items-center space-x-2 cursor-pointer" onclick="navigateTo('home')">
-        <div class="bg-amber-500 text-red-900 w-10 h-10 flex items-center justify-center rounded-lg font-bold text-xl border-2 border-amber-300 shadow-lg">福</div>
+        <%= image_tag 'tianfu/關公icon.png', class: 'w-10 h-10 object-contain rounded-lg' %>
         <div class="flex flex-col">
           <h1 id="nav-title" class="font-serif font-bold text-xl tracking-wide text-white">西湖天福宮</h1>
           <span class="text-[10px] text-stone-300 tracking-wider">關聖帝君．忠義千秋</span>
@@ -52,9 +52,10 @@
     <!-- ================= VIEW: HOME ================= -->
     <div id="view-home" class="page-view block animate-fade-in">
       <header class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-          <div class="absolute inset-0 bg-gradient-to-t from-red-950 via-red-950/40 to-black/60"></div>
-        </div>
+        <div class="fixed inset-0 z-0">
+          <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('<%= asset_path('tianfu/天福宮背景.png') %>');"></div>
+          <div class="absolute inset-0 bg-red-950/40"></div>
+        </div>        
         
         <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <div class="inline-block mb-4 px-3 py-1 border border-amber-400/50 rounded-full bg-black/40 backdrop-blur-sm text-amber-300 text-sm tracking-widest font-medium">
@@ -310,6 +311,13 @@
           </div>
 
           <!-- Step 3: Praying -->
+          <div id="praying-spinner" class="hidden flex-col items-center">
+              <video autoplay loop muted playsinline class="w-32 h-32 mb-6 rounded-full object-cover">
+                <source src="<%= asset_path('tianfu/關公動起來_01.webm') %>" type="video/webm">
+                您的瀏覽器不支援影片播放。
+              </video>
+              <p class="text-lg font-medium text-stone-600">正在祈求神明指引...</p>
+          </div>
           <div id="fortune-praying" class="p-10 flex-col items-center justify-center flex-grow text-center hidden">
              <div id="praying-spinner" class="hidden flex-col items-center">
                 <div class="w-16 h-16 border-4 border-amber-200 border-t-amber-600 rounded-full animate-spin mb-6"></div>
