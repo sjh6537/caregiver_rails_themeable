@@ -18,16 +18,16 @@ Rails.application.routes.draw do
   # 天福宮
   tianfu_hosts =
     if Rails.env.production?
-      ["tianfu.miaoligo.com"]
+      ['tianfu.miaoligo.com']
     else
-      ["tianfu.miaoligo.com", "localhost", "127.0.0.1"]
+      ['tianfu.miaoligo.com', 'localhost', '127.0.0.1']
     end
 
   constraints(host: tianfu_hosts) do
-    get  "welcome_tianfu"       => "welcome_tianfu#index"
-    get  "welcome_tianfu/index" => "welcome_tianfu#index"
+    get  'welcome_tianfu'       => 'welcome_tianfu#index'
+    get  'welcome_tianfu/index' => 'welcome_tianfu#index'
 
-    root to: redirect("/welcome_tianfu/index", status: 301), as: :tianfu_root
+    root to: redirect('/welcome_tianfu/index', status: 301), as: :tianfu_root
   end
 
   # 中庄社區，測試用
@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   post 'test/line_push', to: 'test#test_line_push'
   post 'test/health_report', to: 'test#test_health_report'
   post 'test/user_health_report', to: 'test#test_user_health_report'
+  get  'test/measurements', to: 'test#test_measurements'
 
   mount Sidekiq::Web, at: '/sidekiq'
 
@@ -142,6 +143,8 @@ Rails.application.routes.draw do
   get      '/user/coins'                  , to: 'web/user#coins'                 , as: :web_user_coins
   get      '/user/edit'                   , to: 'web/user#edit'                  , as: :web_user_edit
   patch    '/user'                        , to: 'web/user#update'                , as: :web_user_update
+  get      '/user/measurements'           , to: 'web/measurements#new'           , as: :web_user_measurements
+  post     '/user/measurements'           , to: 'web/measurements#create'
   get      '/user/agreement'              , to: 'web/user#agreement'             , as: :web_user_agreement
   post     '/user/accept_agreement'       , to: 'web/user#accept_agreement'      , as: :web_user_accept_agreement
   get      '/user/health_report'                 , to: 'web/user#health_report' ,

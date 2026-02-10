@@ -3,7 +3,10 @@ module ReportHelper
     text = title
     text += "#{I18n.t('Table.Measure_Time')}: #{format_time(report.measure_time)}\n"
     text += "#{I18n.t('Table.BMI')}: #{report.bmi}\n" if report.bmi.present?
+    text += "#{I18n.t('Table.Height')}: #{report.height}\n" if report.height.present?
     text += "#{I18n.t('Table.Weight')}: #{report.weight}\n" if report.weight.present?
+    text += "#{I18n.t('Table.Body_Fat')}: #{report.body_fat}\n" if report.body_fat.present?
+    text += "#{I18n.t('Table.BMR')}: #{report.bmr}\n" if report.bmr.present?
     text += "#{I18n.t('Table.Temperature')}: #{report.temperature}\n" if report.temperature.present?
     text += "#{I18n.t('Table.Blood_Pressure1')}: #{report.blood_pressure1}\n" if report.blood_pressure1.present?
     text += "#{I18n.t('Table.Blood_Pressure2')}: #{report.blood_pressure2}\n" if report.blood_pressure2.present?

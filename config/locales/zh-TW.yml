@@ -262,6 +262,7 @@ zh-TW:
     Report_Time: 量測時間
     Measure_Time: 量測時間
     BMI: BMI
+    Height: 身高
     Weight: 體重
     Blood_Pressure1: 收縮壓
     Blood_Pressure2: 舒張壓
@@ -276,6 +277,7 @@ zh-TW:
     Ketones: 酮體
     Uric_Acid: 尿酸
     Body_Fat: 體脂肪
+    BMR: 基礎代謝
     Fitness_Device: 運動裝置
     Not_Assigned: 未指派
     Select_community: 選擇社區
@@ -451,6 +453,28 @@ zh-TW:
     Coupons: 優惠卷
     My_Coupons: 我的優惠卷
     Redeem_Coupons: 兌換優惠卷
+    Measurements:
+      Greeting: "早安，%{name}"
+      SubGreeting: "今天也要保持健康喔！"
+      BannerTitle: "輸入健康量測"
+      BannerTip: "請保持心情平靜，測量三次取平均值"
+      SectionTitle: "今日測量任務"
+      TapToEnter: "點我輸入"
+      SaveRecord: "儲存紀錄"
+      BloodPressureTitle: "量血壓"
+      HeartRateTitle: "脈搏"
+      BloodOxygenTitle: "血氧"
+      BloodSugarTitle: "血糖"
+      TemperatureTitle: "體溫"
+      BodyCompositionTitle: "身體組成"
+      BodyCompositionHint: "身高 / 體脂 / BMI / BMR"
+      Range:
+        BloodPressureHigh: "90-120"
+        BloodPressureLow: "60-80"
+        HeartRate: "60-100"
+        BloodOxygen: "95-100"
+        BloodSugar: "空腹 70-100"
+        Temperature: "36-37.5"
 
     Note:
       You_have_caregiver: "你正被「%{name}」照護"

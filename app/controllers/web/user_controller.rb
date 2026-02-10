@@ -4,8 +4,11 @@ class Web::UserController < ApplicationWebController
   before_action :check_user_accepted, only: %i[show health_report fitness_report edit careds]
 
   def show
-    # 檢查使用者是否已填寫身份證
-    if @user.id_card.blank?
+    # 檢查使用者是否已填寫身份證（僅限特定社區）
+    required_communities = %w[CM001 CM002 CM004 CM005]
+    user_community_code = @user.community.sn
+
+    if required_communities.include?(user_community_code) && @user.id_card.blank?
       redirect_to web_user_edit_path, notice: I18n.t('Website.Note.Please_Fill_Basic_Info')
       return
     end

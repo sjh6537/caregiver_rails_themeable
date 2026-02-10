@@ -229,6 +229,40 @@ en:
       Start_Time: Start Time
       End_Time: End Time
       Location: Location
+      Height: Height
+      BMI: BMI
+      Weight: Weight
+      Blood_Pressure1: Systolic Pressure
+      Blood_Pressure2: Diastolic Pressure
+      Heart_Rate: Heart Rate
+      Blood_Sugar: Blood Sugar
+      Blood_Oxygen: Blood Oxygen
+      Temperature: Temperature
+      Body_Fat: Body Fat
+      BMR: Basal Metabolic Rate
+  Website:
+    Measurements:
+      Greeting: "Good morning, %{name}"
+      SubGreeting: "Keep healthy today!"
+      BannerTitle: "Enter Health Measurements"
+      BannerTip: "Please stay calm and take the average of three measurements"
+      SectionTitle: "Today's Measurement Tasks"
+      TapToEnter: "Tap to enter"
+      SaveRecord: "Save record"
+      BloodPressureTitle: "Blood Pressure"
+      HeartRateTitle: "Pulse"
+      BloodOxygenTitle: "Blood Oxygen"
+      BloodSugarTitle: "Blood Sugar"
+      TemperatureTitle: "Temperature"
+      BodyCompositionTitle: "Body Composition"
+      BodyCompositionHint: "Height / Body Fat / BMI / BMR"
+      Range:
+        BloodPressureHigh: "90-120"
+        BloodPressureLow: "60-80"
+        HeartRate: "60-100"
+        BloodOxygen: "95-100"
+        BloodSugar: "Fasting 70-100"
+        Temperature: "36-37.5"
   Notice:
       Customer: Customer
       Admin: Administrator

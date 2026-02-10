@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_09_02_092116) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_10_095500) do
   create_table "admins", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "account", limit: 50, default: "", null: false, comment: "帳號"
     t.string "name", limit: 50, default: "", null: false, comment: "姓名"
@@ -345,6 +345,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_09_02_092116) do
     t.float "ketones", comment: "酮體"
     t.timestamp "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.timestamp "updated_at", default: -> { "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }, null: false, comment: "更新時間"
+    t.float "height", comment: "身高"
+    t.integer "bmr", comment: "基礎代謝"
     t.index ["user_id"], name: "index_health_report_on_user_id"
   end
 

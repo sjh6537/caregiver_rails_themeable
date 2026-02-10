@@ -51,7 +51,9 @@
     </div>
 </div>
 
-<%= simple_form_for @user, :url => web_user_update_path, :defaults => { :id=>"edit_user" , :input_html => { :class => "form-control" } } do |f| %>
+<%= simple_form_for @user, :url => web_user_update_path,
+                    :defaults => { :id=>"edit_user" , :input_html => { :class => "form-control" } },
+                    :html => { data: { community_sn: @community&.sn } } do |f| %>
 <%= f.error_notification %>
 
 <div class="form-group ">
@@ -82,9 +84,12 @@
             <label class="form-label"><%= raw t("Table.ID_Card") %></label>
         </div>
         <div class="col-md-9">
-            <%= f.input :id_card, label: false, :placeholder => t("Table.ID_Card"), :required => true %>
+            <% required_id_card = ["CM001", "CM002", "CM004", "CM005"].include?(@community&.sn) %>
+            <%= f.input :id_card, label: false, :placeholder => t("Table.ID_Card"), :required => required_id_card %>
+            <% if required_id_card %>
             <spin id="alert_id_card" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.Please_Input_Text") %></spin>
             <spin id="alert_id_card_error" class="alert_text text-danger tx-12"><%= raw t("Notify.Note.ID_Card_Error") %></spin>
+            <% end %>
         </div>
     </div>
 </div>
@@ -143,14 +148,20 @@
         hide_alert();
         ret = true;
 
+        const requiredIdCardCommunities = ["CM001", "CM002", "CM004", "CM005"];
+        const communitySn = $('#edit_user').data('community-sn');
+        const isIdCardRequired = requiredIdCardCommunities.includes(String(communitySn));
+
         //身份證驗證
-        if ($('#user_id_card').val() == "") {
-            $('#alert_id_card').show();
-            ret = false;
-        } else {
-            if (!isValidTaiwanID($('#user_id_card').val())) {
-                $('#alert_id_card_error').show();
+        if (isIdCardRequired) {
+            if ($('#user_id_card').val() == "") {
+                $('#alert_id_card').show();
                 ret = false;
+            } else {
+                if (!isValidTaiwanID($('#user_id_card').val())) {
+                    $('#alert_id_card_error').show();
+                    ret = false;
+                }
             }
         }
 

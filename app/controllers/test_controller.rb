@@ -162,4 +162,16 @@ class TestController < ApplicationController
       }, status: :internal_server_error
     end
   end
+
+  # 四、測試量測新增頁面
+  def test_measurements
+    user = User.first
+    if user.nil?
+      render plain: 'no user found', status: :not_found
+      return
+    end
+
+    sign_in(user)
+    redirect_to web_user_measurements_path
+  end
 end

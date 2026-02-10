@@ -20,8 +20,8 @@
                 <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <%= f.label :bmi, t('Table.BMI'), class: "form-label" %>
-                            <%= f.number_field :bmi, class: "form-control", step: "0.1" %>
+                            <%= f.label :height, t('Table.Height'), class: "form-label" %>
+                            <%= f.number_field :height, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -35,79 +35,100 @@
                 <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
+                            <%= f.label :bmi, t('Table.BMI'), class: "form-label" %>
+                            <%= f.number_field :bmi, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :body_fat, t('Table.Body_Fat'), class: "form-label" %>
+                            <%= f.number_field :body_fat, class: "form-control", step: "0.1" %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <%= f.label :bmr, t('Table.BMR'), class: "form-label" %>
+                            <%= f.number_field :bmr, class: "form-control", step: "1" %>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
                             <%= f.label :temperature, t('Table.Temperature'), class: "form-label" %>
                             <%= f.number_field :temperature, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :blood_pressure1, t('Table.Blood_Pressure1'), class: "form-label" %>
                             <%= f.number_field :blood_pressure1, class: "form-control" %>
                         </div>
                     </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :blood_pressure2, t('Table.Blood_Pressure2'), class: "form-label" %>
                             <%= f.number_field :blood_pressure2, class: "form-control" %>
                         </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :heart_rate, t('Table.Heart_Rate'), class: "form-label" %>
                             <%= f.number_field :heart_rate, class: "form-control" %>
                         </div>
                     </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :blood_sugar, t('Table.Blood_Sugar'), class: "form-label" %>
                             <%= f.number_field :blood_sugar, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :blood_oxygen, t('Table.Blood_Oxygen'), class: "form-label" %>
                             <%= f.number_field :blood_oxygen, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :hemoglobin, t('Table.Hemoglobin'), class: "form-label" %>
                             <%= f.number_field :hemoglobin, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :hematocrit, t('Table.Hematocrit'), class: "form-label" %>
                             <%= f.number_field :hematocrit, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :uric_acid, t('Table.Uric_Acid'), class: "form-label" %>
                             <%= f.number_field :uric_acid, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
+                </div>
+
+                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :ketones, t('Table.Ketones'), class: "form-label" %>
                             <%= f.number_field :ketones, class: "form-control", step: "0.1" %>
                         </div>
                     </div>
-                </div>
-
-                <div class="row mb-4">
                     <div class="col-lg-6">
                         <div class="form-group">
                             <%= f.label :total_cholesterol, t('Table.Total_Cholesterol'), class: "form-label" %>

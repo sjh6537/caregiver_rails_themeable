@@ -1,0 +1,786 @@
+<style>
+    :root {
+        --measure-primary: #ff7a1a;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    .measure-page {
+        background: #f7f7f7;
+        min-height: 100vh;
+        font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    .measure-header {
+        background: #ff7a1a;
+        color: #fff;
+        padding: 12px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0;
+    }
+
+    .measure-header-back {
+        width: 48px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .measure-header-title {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 2px;
+        flex: 1;
+        text-align: center;
+    }
+
+    .measure-header-right {
+        width: 48px;
+        text-align: right;
+        font-size: 20px;
+    }
+
+    .measure-content {
+        padding: 0 16px 40px;
+    }
+
+    .measure-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 18px 0 14px;
+    }
+
+    .measure-greet {
+        font-size: 22px;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .measure-sub {
+        color: #6b7280;
+        margin-top: 4px;
+        font-size: 14px;
+    }
+
+    .measure-home {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #fff3eb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--measure-primary);
+        border: 1px solid #ffd5bb;
+        text-decoration: none;
+    }
+
+    .measure-section-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 800;
+        color: #111827;
+        margin: 8px 0 16px;
+        font-size: 18px;
+    }
+
+    .measure-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+
+    .measure-card-full {
+        grid-column: 1 / -1;
+    }
+
+    .measure-card {
+        background: #fff;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        cursor: pointer;
+        transition: border-color 0.2s;
+    }
+
+    .measure-card:hover {
+        border-color: #ff7a1a;
+    }
+
+    .measure-card-inner {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .measure-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        flex-shrink: 0;
+    }
+
+    .measure-icon.red {
+        color: #ff5d4d;
+        background: #ffeaea;
+    }
+
+    .measure-icon.pink {
+        color: #ef4fa6;
+        background: #ffe6f3;
+    }
+
+    .measure-icon.teal {
+        color: #14b8a6;
+        background: #dff7f4;
+    }
+
+    .measure-icon.purple {
+        color: #8b5cf6;
+        background: #efe7ff;
+    }
+
+    .measure-icon.blue {
+        color: #3b82f6;
+        background: #e6f0ff;
+    }
+
+    .measure-card-text h4 {
+        font-size: 16px;
+        margin: 0 0 4px 0;
+        font-weight: 700;
+        color: #1f2937;
+    }
+
+    .measure-hint {
+        color: #ff7a1a;
+        font-size: 13px;
+        margin: 0;
+        font-weight: 700;
+    }
+
+    .measure-card-arrow {
+        margin-left: auto;
+        color: #d1d5db;
+        font-size: 18px;
+    }
+
+    .measure-view {
+        display: none;
+    }
+
+    .measure-view.active {
+        display: block;
+    }
+
+    .measure-form-page {
+        padding: 40px 16px;
+        text-align: center;
+    }
+
+    .measure-form-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+
+    .measure-form-tip {
+        color: #6b7280;
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .measure-input-group {
+        text-align: left;
+        margin-bottom: 20px;
+    }
+
+    .measure-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 15px;
+        color: #1f2937;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .measure-range {
+        background: #f1f5f9;
+        border-radius: 999px;
+        font-size: 12px;
+        padding: 3px 10px;
+        color: #6b7280;
+        font-weight: 500;
+    }
+
+    .measure-input {
+        width: 100%;
+        border: 2px solid #ff7a1a;
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-size: 32px;
+        font-weight: 700;
+        color: #9ca3af;
+        background: #fff;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .measure-input:focus {
+        outline: none;
+        border-color: #ff7a1a;
+        color: #1f2937;
+    }
+
+    .measure-input-unit {
+        position: relative;
+    }
+
+    .measure-input-unit input {
+        padding-right: 60px;
+    }
+
+    .measure-unit {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #9ca3af;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .measure-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .measure-photo-btn {
+        border: 2px dashed #d1d5db;
+        border-radius: 14px;
+        padding: 16px;
+        background: #fff;
+        color: #6b7280;
+        font-size: 15px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 20px 0;
+    }
+
+    .measure-submit {
+        width: 100%;
+        padding: 16px;
+        border-radius: 999px;
+        border: none;
+        background: #ff7a1a;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 800;
+        box-shadow: 0 12px 20px rgba(255, 122, 26, 0.25);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .measure-flash {
+        margin: 16px;
+    }
+
+    @media (max-width: 576px) {
+        .measure-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>
+
+<div class="measure-page">
+
+
+    <!-- 主頁列表視圖 -->
+    <div id="list-view" class="measure-view active">
+        <div class="measure-header">
+            <div class="measure-header-back"></div>
+            <div class="measure-header-title">柑健康</div>
+            <div class="measure-header-right">
+                <!-- <i class="far fa-bell"></i> -->
+            </div>
+        </div>
+
+        <div class="measure-content">
+            <div class="measure-top">
+                <div>
+                    <div class="measure-greet"><%= t('Website.Measurements.Greeting', name: (@user.name.presence || @user.line_name)) %></div>
+                    <div class="measure-sub"><%= t('Website.Measurements.SubGreeting') %></div>
+                </div>
+
+                <a class="measure-home"><i class="fas fa-user"></i></a>
+            </div>
+            <% if notice.present? %>
+            <div class="alert alert-success measure-flash"><%= notice %></div>
+            <% end %>
+            <% if @health_report&.errors&.any? %>
+            <div class="alert alert-danger measure-flash">
+                <ul class="mb-0">
+                    <% @health_report.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                    <% end %>
+                </ul>
+            </div>
+            <% end %>
+            <div class="measure-section-title">
+                <i class="fas fa-heartbeat" style="color: var(--measure-primary);"></i>
+                <%= t('Website.Measurements.SectionTitle') %>
+            </div>
+
+            <div class="measure-grid">
+                <div class="measure-card measure-card-full" data-target="bp-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon red">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>量血壓</h4>
+                            <p class="measure-hint">點我輸入</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measure-card" data-target="hr-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon pink">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>脈搏</h4>
+                            <p class="measure-hint">點我輸入</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measure-card" data-target="ox-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon teal">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>血氧</h4>
+                            <p class="measure-hint">點我輸入</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measure-card" data-target="sugar-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon purple">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>血糖</h4>
+                            <p class="measure-hint">點我輸入</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measure-card" data-target="temp-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon blue">
+                            <i class="fas fa-thermometer-half"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>體溫</h4>
+                            <p class="measure-hint">點我輸入</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="measure-card measure-card-full" data-target="body-view">
+                    <div class="measure-card-inner">
+                        <div class="measure-icon blue">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <div class="measure-card-text">
+                            <h4>身體組成</h4>
+                            <p class="measure-hint">身高 / 體脂 / BMR</p>
+                        </div>
+                        <div class="measure-card-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 血壓輸入視圖 -->
+    <div id="bp-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">輸入血壓</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #ff5d4d;">
+                <i class="fas fa-heart"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜，測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>收縮壓 (高)</span>
+                    <span class="measure-range">正常值 90~120</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[blood_pressure1]" type="number" step="1" placeholder="120" data-validate="number">
+                    <span class="measure-unit">mmHg</span>
+                </div>
+            </div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>舒張壓 (低)</span>
+                    <span class="measure-range">正常值 60~80</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[blood_pressure2]" type="number" step="1" placeholder="80" data-validate="number">
+                    <span class="measure-unit">mmHg</span>
+                </div>
+            </div>
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+
+    <!-- 脈搏輸入視圖 -->
+    <div id="hr-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">輸入脈搏</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #ef4fa6;">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜，測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>心率/脈搏</span>
+                    <span class="measure-range">正常值 60~100</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[heart_rate]" type="number" step="1" placeholder="72" data-validate="number">
+                    <span class="measure-unit">bpm</span>
+                </div>
+            </div>
+
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+
+    <!-- 血氧輸入視圖 -->
+    <div id="ox-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">輸入血氧</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #14b8a6;">
+                <i class="fas fa-tint"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜,測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>血氧濃度</span>
+                    <span class="measure-range">正常值 95~100</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[blood_oxygen]" type="number" max="100" step="1" placeholder="98" data-validate="number">
+                    <span class="measure-unit">%</span>
+                </div>
+            </div>
+
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+
+    <!-- 血糖輸入視圖 -->
+    <div id="sugar-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">輸入血糖</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #8b5cf6;">
+                <i class="fas fa-tint"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜,測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>血糖值</span>
+                    <span class="measure-range">空腹 70~100</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[blood_sugar]" type="number" step="1" placeholder="95" data-validate="number">
+                    <span class="measure-unit">mg/dL</span>
+                </div>
+            </div>
+
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+
+    <!-- 體溫輸入視圖 -->
+    <div id="temp-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">輸入體溫</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #3b82f6;">
+                <i class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜,測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>體溫</span>
+                    <span class="measure-range">正常值 36~37.5</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[temperature]" type="number" min="30" max="45" step="0.1" placeholder="36.5" data-validate="number">
+                    <span class="measure-unit">℃</span>
+                </div>
+            </div>
+
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+
+    <!-- 身體組成輸入視圖 -->
+    <div id="body-view" class="measure-view">
+        <div class="measure-header">
+            <div class="measure-header-back" data-back="list-view">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="measure-header-title">身體組成</div>
+            <div class="measure-header-right"></div>
+        </div>
+        <%= form_with url: web_user_measurements_path, method: :post, local: true, class: "measure-form-wrapper" do %>
+        <div class="measure-form-page">
+            <div class="measure-form-icon" style="color: #3b82f6;">
+                <i class="fas fa-balance-scale"></i>
+            </div>
+            <div class="measure-form-tip">請保持心情平靜,測量三次取平均值</div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>身高</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[height]" type="number" step="0.1" placeholder="160" data-validate="number">
+                    <span class="measure-unit">cm</span>
+                </div>
+            </div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>體重</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[weight]" type="number" step="0.1" placeholder="60" data-validate="number">
+                    <span class="measure-unit">kg</span>
+                </div>
+            </div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>體脂肪率</span>
+                    <span class="measure-range">男<25, 女<30</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[body_fat]" type="number" step="1" placeholder="28" data-validate="number">
+                    <span class="measure-unit">%</span>
+                </div>
+            </div>
+            <div class="measure-input-group">
+                <div class="measure-label">
+                    <span>基礎代謝 (BMR)</span>
+                </div>
+                <div class="measure-input-unit">
+                    <input class="measure-input" name="user_health_report[bmr]" type="number" step="1" placeholder="1200" data-validate="number">
+                </div>
+            </div>
+
+            <button class="measure-submit" type="submit">
+                <i class="fas fa-check-circle"></i>
+                儲存記錄
+            </button>
+        </div>
+        <% end %>
+    </div>
+</div>
+
+<script>
+    // 視圖切換功能
+    function showView(viewId) {
+        // 隱藏所有視圖
+        document.querySelectorAll('.measure-view').forEach(function(view) {
+            view.classList.remove('active');
+        });
+
+        // 顯示指定視圖
+        const targetView = document.getElementById(viewId);
+        if (targetView) {
+            targetView.classList.add('active');
+        }
+    }
+
+    // 卡片點擊事件 - 導航到對應的輸入畫面
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.measure-card');
+
+        cards.forEach(function(card) {
+            card.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                if (target) {
+                    showView(target);
+                }
+            });
+        });
+
+        // 返回按鈕事件
+        const backButtons = document.querySelectorAll('.measure-header-back');
+        backButtons.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                showView('list-view');
+            });
+        });
+
+        // 表單提交驗證
+        const forms = document.querySelectorAll('form');
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                const inputs = this.querySelectorAll('input[data-validate="number"]');
+                let hasError = false;
+                let emptyCount = 0;
+
+                inputs.forEach(function(input) {
+                    if (input.value.trim() === '') {
+                        emptyCount++;
+                    } else {
+                        // 檢查是否為有效數字
+                        const value = parseFloat(input.value);
+                        if (isNaN(value)) {
+                            hasError = true;
+                            input.style.borderColor = '#ff4444';
+                        } else {
+                            input.style.borderColor = '';
+                        }
+                    }
+                });
+
+                // 如果所有欄位都是空的，顯示警告
+                if (emptyCount === inputs.length) {
+                    e.preventDefault();
+                    alert('請至少輸入一個數值');
+                    return;
+                }
+
+                // 如果有非數字輸入，阻止提交
+                if (hasError) {
+                    e.preventDefault();
+                    alert('請輸入有效的數值');
+                    return;
+                }
+
+                // 表單驗證通過，提交後將回到列表頁面
+            });
+        });
+
+        // 即時輸入過濾 - 只允許數字和小數點
+        const numberInputs = document.querySelectorAll('input[data-validate="number"]');
+        numberInputs.forEach(function(input) {
+            input.addEventListener('input', function(e) {
+                const value = this.value;
+                // 允許數字、小數點和減號
+                const filteredValue = value.replace(/[^\d.-]/g, '');
+
+                // 確保只有一個小數點
+                const parts = filteredValue.split('.');
+                if (parts.length > 2) {
+                    this.value = parts[0] + '.' + parts.slice(1).join('');
+                } else {
+                    this.value = filteredValue;
+                }
+
+                // 重置邊框顏色
+                this.style.borderColor = '';
+            });
+        });
+    });
+</script>

@@ -71,6 +71,59 @@ rails s
 bundle exec sidekiq
 ```
 
+## 開發環境（Docker）
+
+此專案在 Docker 環境下執行，常見服務包含 web / db / nginx。
+
+1. 啟動容器（在部署專案的 compose 目錄）
+```bash
+docker compose up -d
+```
+
+2. 檢查容器狀態
+```bash
+docker ps
+```
+
+3. 追蹤 web 容器日誌
+```bash
+docker logs -f padi_my_deploy-web-1
+```
+
+4. 進入 web 容器執行指令
+```bash
+docker exec -it padi_my_deploy-web-1 bash
+```
+
+## 開發環境測試網址（macOS）
+
+macOS 可使用 `lvh.me` 解析至本機並支援子網域：
+
+- 會員端：`http://lvh.me:3000`
+- 管理端：`http://admin.lvh.me:3000/login`
+
+若使用其他 Port，請自行替換。
+
+## LINE 登入與 ngrok
+
+本專案使用 LINE Login（回呼路徑為 `/callback/`），開發時請用 ngrok 對外。
+
+1. 啟動 ngrok（對外轉發 3000）
+```bash
+ngrok http 3000
+```
+
+2. 將 LINE Developers Console 的 Callback URL / LIFF Endpoint URL 指向 ngrok
+
+例如：
+
+- Callback URL：`https://<你的-ngrok-網域>/callback/`
+- LIFF Endpoint URL：`https://<你的-ngrok-網域>/`
+
+3. 測試登入
+
+用 LINE App 開啟 LIFF URL 或直接造訪 `https://<你的-ngrok-網域>/login`。
+
 ## 部署說明
 
 正式環境使用提供的部署腳本執行以下步驟:
