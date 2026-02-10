@@ -1,17 +1,38 @@
+<% content_for :hide_breadcrumb, true %>
+
 <style>
     :root {
         --measure-primary: #ff7a1a;
     }
 
+    html,
     body {
         margin: 0;
         padding: 0;
+    }
+
+    body.main-body {
+        background: #f7f7f7;
+    }
+
+    .main-content.horizontal-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .main-content.horizontal-content .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .measure-page {
         background: #f7f7f7;
         min-height: 100vh;
         font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+        margin: 0;
+        padding: 0;
     }
 
     .measure-header {
@@ -300,7 +321,7 @@
     }
 
     .measure-flash {
-        margin: 16px;
+        margin: 10px;
     }
 
     @media (max-width: 576px) {
@@ -332,8 +353,9 @@
 
                 <a class="measure-home"><i class="fas fa-user"></i></a>
             </div>
-            <% if notice.present? %>
-            <div class="alert alert-success measure-flash"><%= notice %></div>
+            <% my_notice = flash[:my_notice] %>
+            <% if my_notice.present? %>
+            <div class="alert alert-success measure-flash"><%= my_notice %></div>
             <% end %>
             <% if @health_report&.errors&.any? %>
             <div class="alert alert-danger measure-flash">

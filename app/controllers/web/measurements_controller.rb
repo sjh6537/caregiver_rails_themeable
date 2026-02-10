@@ -16,7 +16,7 @@ class Web::MeasurementsController < ApplicationWebController
 
     if @health_report.save
       # send_report_notification(@health_report)
-      redirect_to web_user_measurements_path , notice: I18n.t('Notice.Created_Record')
+      redirect_to web_user_measurements_path, flash: { my_notice: I18n.t('Notice.Created_Record') }
     else
       @user = current_user
       render :new, status: :unprocessable_entity
