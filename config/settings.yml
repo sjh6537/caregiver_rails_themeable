@@ -1,5 +1,5 @@
 default: &default_settings
-  site_name: "稻相顧"
+  site_name: ""
   site_name_eng: "padifield"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"
@@ -27,7 +27,7 @@ development:
   <<: *default_settings
 
 production:
-  site_name: "稻相顧"
+  site_name: ""
   site_name_eng: "padifield"
   #site_host: "caregiver.admin.miaoligo.com"
   #site_email_host: "caregiver.com"

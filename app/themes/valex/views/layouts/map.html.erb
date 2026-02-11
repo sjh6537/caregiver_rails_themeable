@@ -1,112 +1,114 @@
 <!DOCTYPE html>
 <html lang="tw">
-    <head>
-        <title><%= APP_CONFIG[:site_name] %></title>
 
-        <meta charset="UTF-8">
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta http-equiv="X-UA-Compatible" content="IE=9" />
-        <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
-        <meta name="Author" content="Spruko Technologies Private Limited">
-        <meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
+<head>
+    <title><%= current_user&.community&.name.presence || APP_CONFIG[:site_name] %></title>
 
-        <%= csrf_meta_tags %>
-        <%= csp_meta_tag %>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
+    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Author" content="Spruko Technologies Private Limited">
+    <meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4" />
 
-        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
-        <!-- google font -->
-        <link href="http://fonts.googleapis.com/css?family=Aclonica:regular" rel="stylesheet" type="text/css" />
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-        <!-- **Font Awesome** -->
-        <!-- <link rel="stylesheet" href="/assets/valex/4.7.0/css/font-awesome.min.css"> -->
+    <!-- google font -->
+    <link href="http://fonts.googleapis.com/css?family=Aclonica:regular" rel="stylesheet" type="text/css" />
 
-        <!-- Favicon -->
-        <link rel="icon" href="/assets/valex/img/brand/favicon.png" type="image/x-icon"/>
+    <!-- **Font Awesome** -->
+    <!-- <link rel="stylesheet" href="/assets/valex/4.7.0/css/font-awesome.min.css"> -->
 
-        <!-- Icons css -->
-        <link href="/assets/valex/css/icons.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/valex/img/brand/favicon.png" type="image/x-icon" />
 
-        <!--  Right-sidemenu css -->
-        <!-- <link href="/assets/valex/plugins/sidebar/sidebar.css" rel="stylesheet"> -->
+    <!-- Icons css -->
+    <link href="/assets/valex/css/icons.css" rel="stylesheet">
 
-        <!--  Custom Scroll bar-->
-        <!-- <link href="/assets/valex/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/> -->
+    <!--  Right-sidemenu css -->
+    <!-- <link href="/assets/valex/plugins/sidebar/sidebar.css" rel="stylesheet"> -->
 
-        <!--- Style css --->
-        <link href="/assets/valex/css/style.css" rel="stylesheet">
+    <!--  Custom Scroll bar-->
+    <!-- <link href="/assets/valex/plugins/mscrollbar/jquery.mCustomScrollbar.css" rel="stylesheet"/> -->
 
-        <!--- Dark-mode css --->
-        <link href="/assets/valex/css/style-dark.css" rel="stylesheet">
+    <!--- Style css --->
+    <link href="/assets/valex/css/style.css" rel="stylesheet">
 
-        <!---Skinmodes css-->
-        <link href="/assets/valex/css/skin-modes.css" rel="stylesheet" />
+    <!--- Dark-mode css --->
+    <link href="/assets/valex/css/style-dark.css" rel="stylesheet">
 
-        <!---orange css-->
-        <link href="/assets/valex/orange.css" rel="stylesheet" />
+    <!---Skinmodes css-->
+    <link href="/assets/valex/css/skin-modes.css" rel="stylesheet" />
 
-        <%= yield :head_css %>
+    <!---orange css-->
+    <link href="/assets/valex/orange.css" rel="stylesheet" />
 
-    </head>
+    <%= yield :head_css %>
 
-    <body class="main-body">
+</head>
 
-        <!-- Loader 轉圈圈-->
-        <div id="global-loader">
-            <img src="/assets/valex/img/loader.svg" class="loader-img" alt="Loader">
-        </div>
-        <!-- /Loader -->
+<body class="main-body">
 
-        <%= yield %>
+    <!-- Loader 轉圈圈-->
+    <div id="global-loader">
+        <img src="/assets/valex/img/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /Loader -->
 
-        <!-- Jquery js-->
-        <script src="/assets/valex/plugins/jquery/jquery.min.js"></script>
+    <%= yield %>
 
-        <!-- Bootstrap js-->
-        <script src="/assets/valex/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Jquery js-->
+    <script src="/assets/valex/plugins/jquery/jquery.min.js"></script>
 
-        <!-- Ionicons js-->
-        <script src="/assets/valex/plugins/ionicons/ionicons.js"></script>
+    <!-- Bootstrap js-->
+    <script src="/assets/valex/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Moment js -->
-        <script src="/assets/valex/plugins/moment/moment.js"></script>
+    <!-- Ionicons js-->
+    <script src="/assets/valex/plugins/ionicons/ionicons.js"></script>
 
-        <!-- P-scroll js -->
-        <!-- <script src="/assets/valex/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script> -->
-        <!-- <script src="/assets/valex/plugins/perfect-scrollbar/p-scroll.js"></script> -->
+    <!-- Moment js -->
+    <script src="/assets/valex/plugins/moment/moment.js"></script>
 
-        <!-- Rating js-->
-        <script src="/assets/valex/plugins/rating/jquery.rating-stars.js"></script>
-        <script src="/assets/valex/plugins/rating/jquery.barrating.js"></script>
+    <!-- P-scroll js -->
+    <!-- <script src="/assets/valex/plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script> -->
+    <!-- <script src="/assets/valex/plugins/perfect-scrollbar/p-scroll.js"></script> -->
 
-        <!-- Custom Scroll bar Js-->
-        <!-- <script src="/assets/valex/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script> -->
+    <!-- Rating js-->
+    <script src="/assets/valex/plugins/rating/jquery.rating-stars.js"></script>
+    <script src="/assets/valex/plugins/rating/jquery.barrating.js"></script>
 
-		<!-- Horizontalmenu js-->
-		<!-- <script src="/assets/valex/plugins/sidebar/sidebar.js"></script> -->
-		<!-- <script src="/assets/valex/plugins/sidebar/sidebar-custom.js"></script> -->
+    <!-- Custom Scroll bar Js-->
+    <!-- <script src="/assets/valex/plugins/mscrollbar/jquery.mCustomScrollbar.concat.min.js"></script> -->
 
-		<!-- Horizontalmenu js-->
-		<script src="/assets/valex/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
+    <!-- Horizontalmenu js-->
+    <!-- <script src="/assets/valex/plugins/sidebar/sidebar.js"></script> -->
+    <!-- <script src="/assets/valex/plugins/sidebar/sidebar-custom.js"></script> -->
 
-        <!-- Right-sidebar js -->
-        <!--
+    <!-- Horizontalmenu js-->
+    <script src="/assets/valex/plugins/horizontal-menu/horizontal-menu-2/horizontal-menu.js"></script>
+
+    <!-- Right-sidebar js -->
+    <!--
         <script src="/assets/valex/plugins/sidebar/sidebar.js"></script>
         <script src="/assets/valex/plugins/sidebar/sidebar-custom.js"></script>
         -->
 
-        <!-- Sticky js-->
-        <script src="/assets/valex/js/sticky.js"></script>
+    <!-- Sticky js-->
+    <script src="/assets/valex/js/sticky.js"></script>
 
-        <!-- eva-icons js -->
-        <script src="/assets/valex/js/eva-icons.min.js"></script>
+    <!-- eva-icons js -->
+    <script src="/assets/valex/js/eva-icons.min.js"></script>
 
-        <!-- custom js -->
-        <script src="/assets/valex/js/custom.js"></script>
+    <!-- custom js -->
+    <script src="/assets/valex/js/custom.js"></script>
 
-        <%= yield :script_js %>
+    <%= yield :script_js %>
 
-    </body>
+</body>
+
 </html>
