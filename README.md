@@ -61,7 +61,7 @@ rake db:create
 rake db:migrate
 ```
 
-6. 啟動開發伺服器
+6. 啟動開發伺服器(測試環境)
 ```bash
 rails s
 ```
@@ -93,6 +93,11 @@ docker logs -f padi_my_deploy-web-1
 4. 進入 web 容器執行指令
 ```bash
 docker exec -it padi_my_deploy-web-1 bash
+```
+
+## 正式環境設定(需加上 RAILS_ENV=production)
+```bash
+rails db:migrate RAILS_ENV=production
 ```
 
 ## 開發環境測試網址（macOS）
@@ -130,6 +135,11 @@ ngrok http 3000
 
 ```bash
 sh update.sh
+```
+
+或者登入 web 容器後手動執行:
+```bash
+sh start_rails.sh
 ```
 
 此腳本會:
