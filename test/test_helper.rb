@@ -3,6 +3,6 @@ require_relative "../config/environment"
 require "rails/test_help"
 
 class ActiveSupport::TestCase
-  # This project uses DB views; keep single DB to avoid missing-view issues on cloned test DBs.
-  parallelize(workers: 1)
+  # This project uses DB views, so we keep tests in a single DB.
+  # Do not enable parallel workers unless test DB cloning for views is handled.
 end
