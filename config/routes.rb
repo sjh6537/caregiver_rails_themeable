@@ -140,6 +140,7 @@ Rails.application.routes.draw do
 
   get      ''                             , to: 'web/dashboard#index'            , as: :root
   get      '/error'                       , to: 'web/notice#error'               , as: :error_notice
+  get      '/error/not_found'             , to: 'web/notice#not_found'           , as: :error_not_found
 
   get      '/user'                        , to: 'web/user#show'                  , as: :web_user_show
   get      '/user/friends'                , to: 'web/user#friends'               , as: :web_user_friends

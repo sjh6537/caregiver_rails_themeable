@@ -1,0 +1,10 @@
+<div class="row row-sm">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="tx-16 mb-2">系統訊息</h4>
+        <p class="mb-0 text-muted"><%= flash[:notice].presence || flash[:alert].presence || "發生未預期錯誤，請稍後再試。" %></p>
+      </div>
+    </div>
+  </div>
+</div>
