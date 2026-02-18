@@ -50,6 +50,12 @@
             <% end %>
 
             <li class="slide">
+                <a class="side-menu__item" href="<%= edit_admin_community_theme_path %>">
+                    <i class="side-menu__icon fas fa-palette"></i><span class="side-menu__label">社群主題設定</span>
+                </a>
+            </li>
+
+            <li class="slide">
                 <a class="side-menu__item" href="<%= admin_users_path %>">
                     <i class="side-menu__icon far fa-solid fa-user"></i><span class="side-menu__label"><%= t("Sidebar.Item.Users") %></span><span class="badge badge-success side-badge"><%= current_admin.super_admin? ? User.count : User.where(community_id: current_admin.community_id).count %></span>
                 </a>

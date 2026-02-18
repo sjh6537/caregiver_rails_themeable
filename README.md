@@ -24,6 +24,16 @@ app/themes/communities/demo/views/web/dashboard/index.html.erb
 
 找不到時會自動 fallback 到 `app/themes/valex/views/web/dashboard/index.html.erb`。
 
+### 後台主題可視化設定
+
+管理員可在後台直接調整主題與圖檔：
+
+- 路徑：`/community_theme/edit`
+- 功能：`theme_key`、`layout_preset`、顏色（含即時預覽）、Logo/封面/背景圖上傳
+- 權限：
+  - `super_admin` 可切換不同社群編輯
+  - 一般管理員僅可編輯自己的社群
+
 ## Docker Compose 開發環境
 
 本專案提供 `Dockerfile.dev` + `docker-compose.dev.yml`，可用同一套環境開發 Web 與 Sidekiq：
@@ -50,7 +60,7 @@ docker compose -f docker-compose.dev.yml down
 已新增 workflow：`.github/workflows/ci.yml`，在 push / PR 時會自動執行：
 
 1. 安裝 Ruby 與系統套件（mysql client dev）
-2. `bin/rails db:prepare`
+2. `bin/rails db:create db:migrate`
 3. `bin/rails zeitwerk:check`
 4. 檢查 `test/**/*_test.rb` 是否存在（沒有測試會直接 fail）
 5. `bin/rails test`

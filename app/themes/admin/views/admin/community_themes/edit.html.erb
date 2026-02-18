@@ -1,0 +1,340 @@
+<style>
+  .theme-setting-grid {
+    display: grid;
+    gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .theme-preview {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--community-color-background);
+    color: var(--community-color-text);
+    background-image: var(--community-background-image);
+    background-size: cover;
+    background-position: center;
+  }
+
+  .theme-preview-cover {
+    min-height: 150px;
+    background: linear-gradient(135deg, var(--community-color-primary), var(--community-color-secondary));
+    background-image: var(--community-cover-image);
+    background-size: cover;
+    background-position: center;
+    color: #fff;
+  }
+
+  .theme-preview-pill {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    color: #fff;
+    background-color: var(--community-color-accent);
+  }
+
+  .theme-preview-logo {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    background: #fff;
+  }
+</style>
+
+<% settings = @community.theme_settings_hash %>
+<% setting_labels = {
+  "primary" => "主色",
+  "secondary" => "次色",
+  "accent" => "重點色",
+  "background" => "背景色",
+  "surface" => "卡片色",
+  "text" => "文字色",
+  "muted_text" => "次要文字色"
+} %>
+<% logo_url = if @community.theme_logo.attached?
+                url_for(@community.theme_logo)
+              elsif @community.logo.present?
+                @community.logo
+              else
+                "/assets/valex/img/logo/logo.png"
+              end %>
+<% cover_url = @community.theme_cover_image.attached? ? url_for(@community.theme_cover_image) : nil %>
+<% background_url = @community.theme_background_image.attached? ? url_for(@community.theme_background_image) : nil %>
+
+<div class="row row-sm">
+  <div class="col-xl-8 col-lg-7 col-md-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="card-title mg-b-0">社群主題設定</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <% if current_admin.super_admin? && @communities.size > 1 %>
+          <div class="mb-4">
+            <%= form_with url: edit_admin_community_theme_path, method: :get, local: true do %>
+              <div class="form-group mb-0">
+                <label class="form-label">切換社群</label>
+                <%= select_tag :community_id,
+                               options_from_collection_for_select(@communities, :id, :name, @community.id),
+                               class: "form-control",
+                               onchange: "this.form.submit();" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <%= form_with model: @community,
+                      url: admin_community_theme_path(community_id: @community.id),
+                      method: :patch,
+                      local: true,
+                      multipart: true do |f| %>
+          <%= f.hidden_field :id %>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">Theme Key</label>
+                <%= f.text_field :theme_key, class: "form-control", placeholder: "例如 valex" %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">Layout Preset</label>
+                <%= f.text_field :layout_preset, class: "form-control", placeholder: "例如 valex" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">社群網域（可選）</label>
+            <%= f.text_field :host, class: "form-control", placeholder: "例如 demo.example.com" %>
+          </div>
+
+          <hr>
+          <div class="mb-3">
+            <h6 class="mb-3">色彩設定</h6>
+            <div class="theme-setting-grid">
+              <% Community::DEFAULT_THEME_SETTINGS.each_key do |key| %>
+                <% css_var = "--community-color-#{key.tr('_', '-')}" %>
+                <div class="border rounded p-2">
+                  <label class="form-label mb-1"><%= setting_labels[key] || key %></label>
+                  <div class="d-flex align-items-center">
+                    <input
+                      type="color"
+                      name="community[theme_settings][<%= key %>]"
+                      id="theme-color-<%= key %>"
+                      value="<%= settings[key] %>"
+                      class="form-control form-control-color js-theme-color"
+                      data-setting-key="<%= key %>"
+                      data-css-var="<%= css_var %>"
+                      style="width: 54px;">
+                    <input
+                      type="text"
+                      value="<%= settings[key] %>"
+                      class="form-control ml-2 js-theme-hex"
+                      data-setting-key="<%= key %>"
+                      maxlength="9"
+                      placeholder="#000000">
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <hr>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">社群 Logo</label>
+                <%= f.file_field :theme_logo, class: "form-control-file", id: "community_theme_logo" %>
+                <% if @community.theme_logo.attached? %>
+                  <div class="custom-control custom-checkbox mt-2">
+                    <input type="checkbox" class="custom-control-input js-remove-image" id="remove_theme_logo" name="community[remove_theme_logo]" value="1">
+                    <label class="custom-control-label" for="remove_theme_logo">移除目前 Logo</label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">封面圖</label>
+                <%= f.file_field :theme_cover_image, class: "form-control-file", id: "community_theme_cover_image" %>
+                <% if @community.theme_cover_image.attached? %>
+                  <div class="custom-control custom-checkbox mt-2">
+                    <input type="checkbox" class="custom-control-input js-remove-image" id="remove_theme_cover_image" name="community[remove_theme_cover_image]" value="1">
+                    <label class="custom-control-label" for="remove_theme_cover_image">移除目前封面圖</label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label class="form-label">背景圖</label>
+                <%= f.file_field :theme_background_image, class: "form-control-file", id: "community_theme_background_image" %>
+                <% if @community.theme_background_image.attached? %>
+                  <div class="custom-control custom-checkbox mt-2">
+                    <input type="checkbox" class="custom-control-input js-remove-image" id="remove_theme_background_image" name="community[remove_theme_background_image]" value="1">
+                    <label class="custom-control-label" for="remove_theme_background_image">移除目前背景圖</label>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn btn-primary">儲存主題設定</button>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-5 col-md-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title mg-b-0">即時預覽</h4>
+      </div>
+      <div class="card-body">
+        <div id="theme-preview"
+             class="theme-preview"
+             data-default-logo="<%= logo_url %>"
+             data-default-cover="<%= cover_url.to_s %>"
+             data-default-background="<%= background_url.to_s %>"
+             style="
+               --community-color-primary: <%= settings["primary"] %>;
+               --community-color-secondary: <%= settings["secondary"] %>;
+               --community-color-accent: <%= settings["accent"] %>;
+               --community-color-background: <%= settings["background"] %>;
+               --community-color-surface: <%= settings["surface"] %>;
+               --community-color-text: <%= settings["text"] %>;
+               --community-color-muted-text: <%= settings["muted_text"] %>;
+               --community-cover-image: <%= cover_url.present? ? "url('#{cover_url}')" : "none" %>;
+               --community-background-image: <%= background_url.present? ? "url('#{background_url}')" : "none" %>;
+             ">
+          <div class="theme-preview-cover p-3 d-flex justify-content-between align-items-start">
+            <img id="preview-logo" class="theme-preview-logo" src="<%= logo_url %>" alt="logo preview">
+            <span class="theme-preview-pill">Preview</span>
+          </div>
+          <div class="p-3" style="background: var(--community-color-surface);">
+            <h5 class="mb-1" style="color: var(--community-color-primary);"><%= @community.name.presence || "社群名稱" %></h5>
+            <p class="mb-2" style="color: var(--community-color-muted-text);">
+              這裡會即時反映色彩、Logo、封面與背景圖變更。
+            </p>
+            <button type="button" class="btn btn-sm" style="background: var(--community-color-primary); color: #fff;">
+              主要按鈕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for :script_js do %>
+  <script>
+    (function() {
+      function isValidHexColor(value) {
+        return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(value || "");
+      }
+
+      function setPreviewImageVar(preview, cssVarName, urlValue) {
+        var cssValue = urlValue ? ("url('" + urlValue + "')") : "none";
+        preview.style.setProperty(cssVarName, cssValue);
+      }
+
+      function bindFilePreview(preview, fileInputId, removeCheckboxId, onUrlReady) {
+        var fileInput = document.getElementById(fileInputId);
+        var removeCheckbox = document.getElementById(removeCheckboxId);
+        if (!fileInput) return;
+
+        var applyCurrent = function() {
+          if (removeCheckbox && removeCheckbox.checked) {
+            onUrlReady("");
+            return;
+          }
+
+          var file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+
+          var reader = new FileReader();
+          reader.onload = function(event) {
+            onUrlReady(event.target.result);
+          };
+          reader.readAsDataURL(file);
+        };
+
+        fileInput.addEventListener("change", applyCurrent);
+        if (removeCheckbox) {
+          removeCheckbox.addEventListener("change", function() {
+            if (removeCheckbox.checked) {
+              onUrlReady("");
+            }
+          });
+        }
+      }
+
+      function initializeThemePreview() {
+        var preview = document.getElementById("theme-preview");
+        if (!preview || preview.dataset.bound === "1") return;
+        preview.dataset.bound = "1";
+
+        var colorInputs = document.querySelectorAll(".js-theme-color");
+        var hexInputs = document.querySelectorAll(".js-theme-hex");
+
+        colorInputs.forEach(function(colorInput) {
+          var settingKey = colorInput.dataset.settingKey;
+          var cssVar = colorInput.dataset.cssVar;
+          var hexInput = document.querySelector(".js-theme-hex[data-setting-key='" + settingKey + "']");
+
+          var updateFromColor = function() {
+            if (hexInput) hexInput.value = colorInput.value;
+            if (cssVar) preview.style.setProperty(cssVar, colorInput.value);
+          };
+
+          colorInput.addEventListener("input", updateFromColor);
+          updateFromColor();
+        });
+
+        hexInputs.forEach(function(hexInput) {
+          var settingKey = hexInput.dataset.settingKey;
+          var colorInput = document.querySelector(".js-theme-color[data-setting-key='" + settingKey + "']");
+
+          hexInput.addEventListener("input", function() {
+            var value = hexInput.value.trim();
+            if (!isValidHexColor(value)) return;
+            if (!colorInput) return;
+
+            colorInput.value = value;
+            var cssVar = colorInput.dataset.cssVar;
+            if (cssVar) preview.style.setProperty(cssVar, value);
+          });
+        });
+
+        var logoPreview = document.getElementById("preview-logo");
+        var defaultLogo = preview.dataset.defaultLogo || "";
+        var defaultCover = preview.dataset.defaultCover || "";
+        var defaultBackground = preview.dataset.defaultBackground || "";
+
+        bindFilePreview(preview, "community_theme_logo", "remove_theme_logo", function(urlValue) {
+          if (!logoPreview) return;
+          logoPreview.src = urlValue || defaultLogo;
+        });
+
+        bindFilePreview(preview, "community_theme_cover_image", "remove_theme_cover_image", function(urlValue) {
+          setPreviewImageVar(preview, "--community-cover-image", urlValue || defaultCover);
+        });
+
+        bindFilePreview(preview, "community_theme_background_image", "remove_theme_background_image", function(urlValue) {
+          setPreviewImageVar(preview, "--community-background-image", urlValue || defaultBackground);
+        });
+      }
+
+      document.addEventListener("turbolinks:load", initializeThemePreview);
+      document.addEventListener("DOMContentLoaded", initializeThemePreview);
+    })();
+  </script>
+<% end %>
