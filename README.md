@@ -71,6 +71,98 @@ docker compose -f docker-compose.dev.yml up --build
 docker compose -f docker-compose.dev.yml down
 ```
 
+## GitHub Codespaces 協同開發
+
+本專案已設定 `.devcontainer/devcontainer.json`，**直接沿用既有** `docker-compose.dev.yml` 與 `Dockerfile.dev`，在 [GitHub Codespaces](https://github.com/features/codespaces) 上使用與本地相同的 Docker 環境。
+
+### 使用方式
+
+1. 在 GitHub 專案頁面點選 **Code** → **Codespaces** → **Create codespace on main**（或選擇分支）。
+2. 等待容器建置完成（會啟動 **web**、**db**、**redis**、**sidekiq**，與本地 `docker compose -f docker-compose.dev.yml up` 一致）。
+3. **web** 容器會自動執行 `db:migrate` 並啟動 Rails（port 3000），無需手動下指令。
+4. 使用 Ports 面板中 3000 的「在瀏覽器開啟」連結存取應用。
+
+你連線進入的是 **web** 容器，可在此終端執行 `rails c`、`bin/rails test`、改程式等；Sidekiq 已在同一個 compose 裡運行。
+
+### 環境說明
+
+- 與 **Docker Compose 開發環境** 同一套：`docker-compose.dev.yml` + `Dockerfile.dev`。
+- 已轉發埠：3000（Rails）、3306（MySQL）、6379（Redis）。
+
+### 注意事項
+
+- 機密請使用 [Codespaces 的 Repository / User secrets](https://docs.github.com/en/codespaces/managing-codespaces-for-your-organization/managing-encrypted-secrets-for-codespaces)，勿把 `master.key` 或密碼寫進 repo。
+- 若需跑測試：`DB_HOST=db bin/rails test`（test 環境請依 `config/database.yml` 或 ENV 自訂 DB 名稱）。
+
+## 本地啟動測試
+
+本專案使用 **Minitest**（`bin/rails test`）。測試環境需 **MySQL** 與 **Redis**。
+
+### 方式一：本機直接跑（未用 Docker）
+
+1. **安裝依賴**
+   - Ruby 3.2.3、MySQL 8、Redis
+   - MySQL 用戶：root / root（或自訂，見下方 ENV）
+   - 系統需有 `default-libmysqlclient-dev`（Ubuntu）或對應的 MySQL client 開發庫（macOS: `brew install mysql` 通常已含）
+
+2. **建立測試資料庫並跑測試**
+   ```bash
+   cd /path/to/caregiver_rails_themeable-1
+   bundle install
+
+   # 使用預設 test 設定（database.yml 的 test：127.0.0.1, root/root, DB 名 caregiver_test）
+   RAILS_ENV=test bin/rails db:create db:migrate
+   bin/rails test
+   ```
+
+3. **自訂 DB 連線**（可設環境變數）
+   ```bash
+   export DB_HOST=127.0.0.1
+   export DB_PORT=3306
+   export DB_USERNAME=root
+   export DB_PASSWORD=root
+   export DB_TEST_DATABASE=caregiver_test
+   export REDIS_URL=redis://127.0.0.1:6379/1
+
+   RAILS_ENV=test bin/rails db:create db:migrate
+   bin/rails test
+   ```
+
+### 方式二：在 Docker / Codespaces 裡跑
+
+若用 `docker compose -f docker-compose.dev.yml up` 或 GitHub Codespaces，請在 **web 容器內**執行。MySQL 容器裡 **sa 只有 `padifield_development` 權限**，建立/使用測試庫 `caregiver_test` 需用 **root**：
+
+**一鍵（建 test DB + 跑測試）：**
+```bash
+docker compose -f docker-compose.dev.yml exec web bash -lc '
+  export RAILS_ENV=test DB_HOST=db DB_USERNAME=root DB_PASSWORD=root DB_TEST_DATABASE=caregiver_test REDIS_URL=redis://redis:6379/1
+  bin/rails db:create db:migrate && bin/rails test
+'
+```
+
+或先進入容器再執行：
+```bash
+docker compose -f docker-compose.dev.yml exec web bash -l
+# 容器內：
+export RAILS_ENV=test DB_HOST=db DB_USERNAME=root DB_PASSWORD=root DB_TEST_DATABASE=caregiver_test REDIS_URL=redis://redis:6379/1
+bin/rails db:create db:migrate
+bin/rails test
+```
+
+### 常用指令
+
+| 指令 | 說明 |
+|------|------|
+| `bin/rails test` | 跑全部測試 |
+| `bin/rails test test/path/to/foo_test.rb` | 跑單一檔案 |
+| `bin/rails test test/path/to/foo_test.rb:12` | 跑單一 test case（行號） |
+| `bin/rails zeitwerk:check` | 檢查 autoload（CI 也會跑） |
+
+### 注意
+
+- 測試前務必先 `db:create db:migrate`，否則會因沒有 test DB 而失敗。
+- Redis 若未啟動，部分測試可能失敗，請確保 Redis 在跑（本機或 Docker 的 redis 容器）。
+
 ## GitHub Actions 持續整合（CI）
 
 已新增工作流程：`.github/workflows/ci.yml`，在 push / PR 時會自動執行：

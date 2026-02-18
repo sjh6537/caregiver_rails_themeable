@@ -5,9 +5,9 @@
                     <div class="main-header-left ">
                         <div class="responsive-logo">
                             <a href="index.html"><img src="/assets/valex/img/logo/logo.png" class="logo-1" alt="logo"></a>
-                            <a href="index.html"><img src="/assets/valex/img/logo/logo-white.png" class="dark-logo-1" alt="logo"></a>
-                            <a href="index.html"><img src="/assets/valex/img/logo/favicon.png" class="logo-2" alt="logo"></a>
-                            <a href="index.html"><img src="/assets/valex/img/logo/favicon.png" class="dark-logo-2" alt="logo"></a>
+                            <a href="index.html"><img src="/assets/valex/img/logo/logo.png" class="dark-logo-1" alt="logo"></a>
+                            <a href="index.html"><img src="/assets/valex/img/logo/logo.png" class="logo-2" alt="logo"></a>
+                            <a href="index.html"><img src="/assets/valex/img/logo/logo.png" class="dark-logo-2" alt="logo"></a>
                         </div>
                         <div class="app-sidebar__toggle" data-toggle="sidebar">
                             <a class="open-toggle" href="#"><i class="header-icon far fa-arrow-alt-circle-left" ></i></a>
@@ -87,17 +87,17 @@
                                         <div class="d-flex wd-100p">
                                             <div class="main-img-user"><img alt="" src="/assets/valex/img/logo/logo.png" class=""></div>
                                             <div class="ml-3 my-auto">
-                                                <h6><%= current_admin.name %></h6>
-                                                <span><%= current_admin.type %></span>
+                                                <h6><%= current_admin&.name.presence || t("Sidebar.Guest", default: "未登入") %></h6>
+                                                <span><%= current_admin&.type.presence || "" %></span>
                                             </div>
                                         </div>
                                     </div>
+                                    <% if current_admin %>
                                     <a class="dropdown-item" href=<%= admin_admin_path(current_admin.id) %> ><i class="bx bx-user-circle"></i>Profile</a>
                                     <a class="dropdown-item" href=<%= edit_admin_admin_path(current_admin.id) %> ><i class="bx bx-cog"></i>Edit Profile</a>
-                                    <% if current_admin.class.name == :admin %>
                                     <a class="dropdown-item" data-method="delete" href="<%= destroy_admin_session_path %>" ><i class="bx bx-log-out"></i> Sign Out</a>
                                     <% else %>
-                                    <a class="dropdown-item" data-method="delete" href=<%= destroy_user_session_path %> ><i class="bx bx-log-out"></i> Sign Out</a>
+                                    <a class="dropdown-item" href="<%= new_admin_session_path %>"><i class="bx bx-log-in"></i> 登入</a>
                                     <% end %>
                                 </div>
                             </div>

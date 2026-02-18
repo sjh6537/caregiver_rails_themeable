@@ -29,6 +29,17 @@
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 zh-TW:
+  activerecord:
+    errors:
+      models:
+        admin:
+          attributes:
+            account:
+              taken: "此帳號已被使用"
+            email:
+              taken: "此信箱已被使用"
+      messages:
+        taken: "已被使用"
   devise:
     admin:
       not_found_in_database: "找不到該用戶"
@@ -41,7 +52,11 @@ zh-TW:
       not_found_in_database: "電子郵件或密碼錯誤"
       timeout: "您的登入已過期，請重新登入"
       inactive: "您的帳號尚未啟用"
+  errors:
+    admin_host_use_admin_login: "此網址為管理後台，請使用管理員帳號登入。"
+    no_community: "找不到對應的社區，請確認網址或聯絡管理員。"
   Login:
+    CMS_System: "%{name} 後台管理"
     Account: 帳號
     Email: 信箱
     Password: 密碼

@@ -79,7 +79,7 @@
               <div class="form-group mb-0">
                 <label class="form-label">切換社群</label>
                 <%= select_tag :community_id,
-                               options_from_collection_for_select(@communities, :id, :name, @community.id),
+                               options_from_collection_for_select(@communities, :id, :name_with_sn, @community.id),
                                class: "form-control",
                                onchange: "this.form.submit();" %>
               </div>

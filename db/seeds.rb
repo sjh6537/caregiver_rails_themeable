@@ -264,15 +264,18 @@ else
 
 end
 
-# 建立管理者帳號
+# 建立管理者帳號（chenfun 為超級管理員，leo 為一般管理員）
 admin1 = Admin.find_by(account: 'chenfun')
 admin2 = Admin.find_by(account: 'leo')
 if admin1.nil?
-  Admin.create!(account: 'chenfun', password: '123456', name: 'chenfun', email: 'chenfun168@gmail.com')
-  puts "Created admin account 'chenfun'"
+  Admin.create!(account: 'chenfun', password: '123456', name: 'chenfun', email: 'chenfun168@gmail.com', super_admin: true)
+  puts "Created admin account 'chenfun' (super_admin)"
+else
+  admin1.update_column(:super_admin, true) unless admin1.super_admin?
+  puts "Ensured 'chenfun' is super_admin"
 end
 if admin2.nil?
-  Admin.create!(account: 'leo', password: '123456', name: 'leo', email: 'B8808040@gmail.com') if admin1.nil?
+  Admin.create!(account: 'leo', password: '123456', name: 'leo', email: 'B8808040@gmail.com')
   puts "Created admin account 'leo'"
 end
 

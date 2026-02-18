@@ -38,6 +38,11 @@ class Community < ApplicationRecord
     sanitize_path_segment(layout_preset, fallback: "valex")
   end
 
+  # 供後台下拉選單顯示：名稱 (sn)，方便辨識並用 ?sn= 到前台預覽
+  def name_with_sn
+    sn.present? ? "#{name} (#{sn})" : name.to_s
+  end
+
   def theme_settings_hash
     settings = theme_settings.is_a?(Hash) ? theme_settings.stringify_keys : {}
     DEFAULT_THEME_SETTINGS.merge(settings.slice(*DEFAULT_THEME_SETTINGS.keys))

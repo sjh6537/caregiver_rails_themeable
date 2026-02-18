@@ -11,7 +11,7 @@
     <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :calss => "form-horizontal"}) do |f| %>
 
         <span class="TOP"></span>
-        <p style="font-family: Helvetica;font-size: 14pt;text-align: ce<%= APP_CONFIG[:site_name] %>r: gray;"><%= t(APP_CONFIG[:site_name], :scope => "Login",:name => APP_CONFIG[:site_name]) %></p>
+        <p style="font-family: Helvetica;font-size: 14pt;text-align: center; color: gray;"><%= t("Login.CMS_System", name: APP_CONFIG[:site_name].presence || APP_CONFIG[:site_name_eng]) %></p>
         <br />
 
         <span style="color:red">

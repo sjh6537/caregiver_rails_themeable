@@ -1,5 +1,8 @@
 // screen-reader utilities
 // -------------------------
+@import 'functions';
+@import 'variables';
+@import 'mixins';
 
 // only display content to screen readers
 .sr-only,

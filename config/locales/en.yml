@@ -30,6 +30,20 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    errors:
+      models:
+        admin:
+          attributes:
+            account:
+              taken: "has already been taken"
+            email:
+              taken: "has already been taken"
+      messages:
+        taken: "has already been taken"
+  errors:
+    admin_host_use_admin_login: "This URL is for the admin backend. Please sign in with an admin account."
+    no_community: "No community found. Please check the URL or contact the administrator."
   Login:
     CMS_System: "%{name} SCHOOL CMS"
     Account: Account

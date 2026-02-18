@@ -1,5 +1,8 @@
 // bordered + pulled icons
 // -------------------------
+// 若被 Sprockets 單獨編譯時需先載入變數（依賴 functions）
+@import 'functions';
+@import 'variables';
 
 .#{$fa-css-prefix}-border {
   border-color: var(--#{$fa-css-prefix}-border-color, #{$fa-border-color});

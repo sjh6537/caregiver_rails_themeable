@@ -1,5 +1,7 @@
 // animating icons
 // --------------------------
+// 若被 Sprockets 單獨編譯時未先載入 _variables，至少要有 prefix 預設值
+$fa-css-prefix: fa !default;
 
 .#{$fa-css-prefix}-beat {
   animation-name: #{$fa-css-prefix}-beat;

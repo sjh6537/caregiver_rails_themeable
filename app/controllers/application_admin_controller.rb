@@ -16,7 +16,7 @@ class ApplicationAdminController < ApplicationController
   end
 
   def resolve_admin_layout
-    return "admin" if lookup_context.exists?("admin", "layouts", true)
+    return "admin" if lookup_context.exists?("admin", "layouts", false)
 
     "application"
   end

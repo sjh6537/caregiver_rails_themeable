@@ -1,4 +1,5 @@
 /* ###### 4.6 Parsley ###### */
+@import '../variables';
 
 input.parsley-error:focus, textarea.parsley-error:focus, input.parsley-success:focus, textarea.parsley-success:focus {
   box-shadow: none !important;

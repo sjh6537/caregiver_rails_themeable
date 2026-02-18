@@ -22,7 +22,7 @@ class ApplicationWebController < ApplicationController
 
   def resolve_web_layout
     requested_layout = current_layout_preset
-    return requested_layout if lookup_context.exists?(requested_layout, "layouts", true)
+    return requested_layout if lookup_context.exists?(requested_layout, "layouts", false)
 
     "valex"
   end

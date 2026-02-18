@@ -1,5 +1,7 @@
 // variables
 // --------------------------
+// 若被 Sprockets 單獨編譯時需先載入 functions（本檔使用 fa-divide）
+@import 'functions';
 
 $fa-css-prefix          : fa !default;
 $fa-style               : 900 !default;

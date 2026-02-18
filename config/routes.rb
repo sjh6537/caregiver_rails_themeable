@@ -54,7 +54,17 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   #================= Admin Subdomain =============================
-  constraints subdomain: APP_CONFIG[:admin_subdomain] do
+  # 使用與 ApplicationController#admin_subdomain_request? 相同邏輯，讓 admin.localhost 等也能匹配
+  admin_subdomain_constraint = lambda do |request|
+    configured = APP_CONFIG[:admin_subdomain].to_s.downcase
+    next false if configured.blank?
+
+    host = request.host.to_s.downcase
+    subdomain = request.subdomain.to_s.downcase
+    subdomain == configured || host == configured || host.start_with?("#{configured}.")
+  end
+
+  constraints admin_subdomain_constraint do
     # admin account create by super admin , so don't need registrations....
     devise_for :admin, skip: %i[sessions registrations confirmations passwords]
     as :admin do

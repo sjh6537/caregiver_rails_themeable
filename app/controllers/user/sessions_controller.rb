@@ -81,8 +81,13 @@ class User::SessionsController < Devise::SessionsController
   end
 
   def check_community
-    if current_community.nil?
-      redirect_to error_notice_path, notice: 'not find community, because sn is empty' and return
+    return unless current_community.nil?
+
+    notice = if admin_subdomain_request?
+      I18n.t("errors.admin_host_use_admin_login", default: "此網址為管理後台，請使用管理員帳號登入。")
+    else
+      I18n.t("errors.no_community", default: "找不到對應的社區，請確認網址或聯絡管理員。")
     end
+    redirect_to error_notice_path, alert: notice
   end
 end

@@ -1,5 +1,8 @@
 // sizing icons
 // -------------------------
+@import 'functions';
+@import 'variables';
+@import 'mixins';
 
 // literal magnification scale
 @for $i from 1 through 10 {
