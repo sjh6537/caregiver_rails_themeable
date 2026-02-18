@@ -66,7 +66,11 @@ Rails.application.routes.draw do
     namespace :admin, path: '/' do
       root to: 'dashboard#index', as: :root
       resources :admins
-      resource :community_theme, only: %i[edit update]
+      resource :community_theme, only: %i[edit update] do
+        get :export_json
+        patch :import_json
+        patch :reset_palette
+      end
 
       get       'users/all_schedules'                 , to: 'users#all_schedules'       , as: :all_schedules
       post      'users/delete_schedules/:schedule_id' , to: 'users#delete_schedules'    , as: :delete_schedules

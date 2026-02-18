@@ -30,6 +30,7 @@ app/themes/communities/demo/views/web/dashboard/index.html.erb
 
 - 路徑：`/community_theme/edit`
 - 功能：`theme_key`、`layout_preset`、顏色（含即時預覽）、Logo/封面/背景圖上傳
+- 工具：一鍵「重設為預設色盤」、主題 JSON 匯入/匯出
 - 權限：
   - `super_admin` 可切換不同社群編輯
   - 一般管理員僅可編輯自己的社群

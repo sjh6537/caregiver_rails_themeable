@@ -189,6 +189,17 @@
             <button type="submit" class="btn btn-primary">儲存主題設定</button>
           </div>
         <% end %>
+
+        <div class="d-flex flex-wrap mt-3">
+          <%= link_to "匯出主題 JSON",
+                      export_json_admin_community_theme_path(community_id: @community.id),
+                      class: "btn btn-outline-primary" %>
+          <%= button_to "重設為預設色盤",
+                        reset_palette_admin_community_theme_path(community_id: @community.id),
+                        method: :patch,
+                        class: "btn btn-outline-danger ml-2",
+                        form: { class: "d-inline-block", data: { turbo_confirm: "確定要把色盤重設為預設值嗎？" } } %>
+        </div>
       </div>
     </div>
   </div>
@@ -229,6 +240,42 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row row-sm mt-1">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header pb-0">
+        <h4 class="card-title mg-b-0">主題 JSON 匯入 / 匯出</h4>
+      </div>
+      <div class="card-body">
+        <p class="text-muted">
+          可先匯出目前主題 JSON，調整後再匯入。支援欄位：<code>theme_key</code>、<code>layout_preset</code>、<code>host</code>、<code>theme_settings</code>。
+        </p>
+        <%= form_with url: import_json_admin_community_theme_path(community_id: @community.id),
+                      method: :patch,
+                      scope: :theme_import,
+                      multipart: true,
+                      local: true do |f| %>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">上傳 JSON 檔案</label>
+                <%= f.file_field :file, class: "form-control-file", accept: "application/json,.json" %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-label">或貼上 JSON 內容</label>
+                <%= f.text_area :json_text, class: "form-control", rows: 8, placeholder: "{\n  \"theme_key\": \"valex\",\n  \"layout_preset\": \"valex\",\n  \"theme_settings\": {\n    \"primary\": \"#4f46e5\"\n  }\n}" %>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">匯入主題 JSON</button>
+        <% end %>
       </div>
     </div>
   </div>
