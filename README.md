@@ -6,6 +6,8 @@
 
 本專案已移除舊版 `themes_on_rails`，改用 Rails 原生方式做主題切換：
 
+- 設計文件：`docs/theme_design.md`
+
 - `Community` 新增 `theme_key` / `layout_preset` / `theme_settings` / `host`
 - `ApplicationController` 透過 `prepend_view_path` 依序套用：
   1. `app/themes/communities/<sn>/views`
