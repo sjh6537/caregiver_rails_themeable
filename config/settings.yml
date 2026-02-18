@@ -26,6 +26,9 @@ default: &default_settings
 development:
   <<: *default_settings
 
+test:
+  <<: *default_settings
+
 production:
   site_name: ""
   site_name_eng: "padifield"

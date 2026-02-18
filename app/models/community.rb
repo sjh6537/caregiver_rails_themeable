@@ -1,26 +1,21 @@
 class Community < ApplicationRecord
-  # Validations
-  # validates :sn, presence: true, uniqueness: true, length: { maximum: 20 }
-  # validates :name, presence: true, length: { maximum: 50 }
-  # validates :name_eng, length: { maximum: 100 }, allow_blank: true
-  # validates :description, length: { maximum: 50 }, allow_blank: true
-  # validates :agreement_path, length: { maximum: 200 }, allow_blank: true
-  # validates :token, uniqueness: true, length: { maximum: 200 }, allow_blank: true
-  # validates :logo, length: { maximum: 200 }, allow_blank: true
-  # validates :status, length: { maximum: 50 }, allow_blank: true
-  # validates :address, length: { maximum: 200 }, allow_blank: true
-  # validates :phone, length: { maximum: 20 }, allow_blank: true
-  # validates :email, length: { maximum: 50 }, allow_blank: true
-  # validates :contact_name, length: { maximum: 50 }, allow_blank: true
-  # validates :contact_phone, length: { maximum: 20 }, allow_blank: true
-  # validates :contact_title, length: { maximum: 50 }, allow_blank: true
-  # validates :note, length: { maximum: 50 }, allow_blank: true
-  # validates :comment, length: { maximum: 50 }, allow_blank: true
+  DEFAULT_THEME_SETTINGS = {
+    "primary" => "#4f46e5",
+    "secondary" => "#7c3aed",
+    "accent" => "#f59e0b",
+    "background" => "#f8fafc",
+    "surface" => "#ffffff",
+    "text" => "#0f172a",
+    "muted_text" => "#475569"
+  }.freeze
 
   # Relationships
   has_many :users, dependent: :destroy
   has_many :admins, dependent: :nullify
   has_one :community_profile, dependent: :destroy
+  has_one_attached :theme_logo
+  has_one_attached :theme_cover_image
+  has_one_attached :theme_background_image
 
   # Scopes
   scope :enabled, -> { where(enable: true) }
@@ -28,13 +23,56 @@ class Community < ApplicationRecord
 
   # Callbacks
   before_validation :ensure_sn_presence
+  before_validation :normalize_theme_fields
   # 建立社區時，會自動建立一筆空的社區資料
   after_create :ensure_community_profile
+
+  validates :theme_key, :layout_preset, presence: true
+  validates :host, uniqueness: true, allow_blank: true
+
+  def safe_theme_key
+    sanitize_path_segment(theme_key, fallback: "valex")
+  end
+
+  def safe_layout_preset
+    sanitize_path_segment(layout_preset, fallback: "valex")
+  end
+
+  def theme_settings_hash
+    settings = theme_settings.is_a?(Hash) ? theme_settings.stringify_keys : {}
+    DEFAULT_THEME_SETTINGS.merge(settings.slice(*DEFAULT_THEME_SETTINGS.keys))
+  end
+
+  def css_variables
+    settings = theme_settings_hash
+
+    {
+      "--community-color-primary" => settings["primary"],
+      "--community-color-secondary" => settings["secondary"],
+      "--community-color-accent" => settings["accent"],
+      "--community-color-background" => settings["background"],
+      "--community-color-surface" => settings["surface"],
+      "--community-color-text" => settings["text"],
+      "--community-color-muted-text" => settings["muted_text"]
+    }
+  end
 
   private
 
   def ensure_sn_presence
     self.sn = SecureRandom.hex(10) if sn.blank?
+  end
+
+  def normalize_theme_fields
+    self.host = host.to_s.strip.downcase.presence
+    self.theme_key = sanitize_path_segment(theme_key, fallback: "valex")
+    self.layout_preset = sanitize_path_segment(layout_preset, fallback: "valex")
+    self.theme_settings = theme_settings_hash
+  end
+
+  def sanitize_path_segment(value, fallback:)
+    cleaned = value.to_s.downcase.gsub(/[^a-z0-9_-]/, "")
+    cleaned.presence || fallback
   end
 
   def ensure_community_profile

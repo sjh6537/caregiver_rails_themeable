@@ -1,0 +1,42 @@
+:root {
+  --community-color-primary: #4f46e5;
+  --community-color-secondary: #7c3aed;
+  --community-color-accent: #f59e0b;
+  --community-color-background: #f8fafc;
+  --community-color-surface: #ffffff;
+  --community-color-text: #0f172a;
+  --community-color-muted-text: #475569;
+  --community-cover-image: none;
+  --community-background-image: none;
+}
+
+.theme-text-primary {
+  color: var(--community-color-primary);
+}
+
+.theme-text-muted {
+  color: var(--community-color-muted-text);
+}
+
+.theme-bg-primary {
+  background-color: var(--community-color-primary);
+  color: #fff;
+}
+
+.theme-surface {
+  background-color: var(--community-color-surface);
+}
+
+.community-cover {
+  background-image: var(--community-cover-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.community-background {
+  background-image: var(--community-background-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

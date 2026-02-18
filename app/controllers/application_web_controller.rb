@@ -1,6 +1,6 @@
 class ApplicationWebController < ApplicationController
-  include ApplicationHelper
   before_action :set_current_user
+  layout :resolve_web_layout
 
   private
 
@@ -18,5 +18,12 @@ class ApplicationWebController < ApplicationController
 
     authenticate_user!
     # @current_user = User.find(1) # 設置預設用戶
+  end
+
+  def resolve_web_layout
+    requested_layout = current_layout_preset
+    return requested_layout if lookup_context.exists?(requested_layout, "layouts", true)
+
+    "valex"
   end
 end

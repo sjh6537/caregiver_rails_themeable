@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title><%= @webtitle %></title>
+    <title><%= current_community&.name.presence || @webtitle %></title>
 
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -14,6 +14,7 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= render "shared/community_theme_styles" %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -27,7 +28,7 @@
         -->
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" / href="/assets/valex/img/logo/logo.ico">
+    <link rel="icon" type="image/x-icon" / href="<%= community_logo_url || '/assets/valex/img/logo/logo.ico' %>">
 
     <!-- Icons css -->
     <link href="/assets/valex/css/icons.css" rel="stylesheet">
@@ -56,7 +57,7 @@
     <link href="/assets/valex/css/custom.css" rel="stylesheet">
 </head>
 
-<body class="main-body app sidebar-mini">
+<body class="main-body app sidebar-mini community-background" data-community-sn="<%= current_community&.sn || 'default' %>" data-theme-key="<%= current_theme_key %>">
 
     <!-- Loader 轉圈圈-->
     <div id="global-loader">

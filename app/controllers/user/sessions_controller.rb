@@ -2,7 +2,6 @@ class User::SessionsController < Devise::SessionsController
   skip_before_action :verify_authenticity_token
   before_action :check_community
   include LineHelper
-  include ApplicationHelper
   # include Devise::Controllers::Rememberable
 
   def destroy

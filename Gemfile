@@ -80,17 +80,7 @@ gem 'turbolinks'
 gem 'simple_form'
 
 
-# fix lib
-#controller_additions.rb
-#    #module ClassMethods
-#    class_methods do
-#version.rb
-#    0.4.2
-#engine.rb
-#    initializer 'themes_on_rails.precompile' do |app|
-#action_controller.rb
-#    case Rails::VERSION::MAJOR
-gem 'themes_on_rails', git: 'https://github.com/b8809040/themes_on_rails.git' # multi themes
+# 以 Rails 原生 prepend_view_path 實作主題切換，移除舊版 themes_on_rails 依賴
 
 gem "kt-paperclip", "~> 6.4", ">= 6.4.1"
 

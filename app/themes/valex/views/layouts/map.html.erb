@@ -2,7 +2,7 @@
 <html lang="tw">
 
 <head>
-    <title><%= current_user&.community&.name.presence || APP_CONFIG[:site_name] %></title>
+    <title><%= current_community&.name.presence || APP_CONFIG[:site_name].presence || APP_CONFIG[:site_name_eng] %></title>
 
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
@@ -14,6 +14,7 @@
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= render "shared/community_theme_styles" %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -25,7 +26,7 @@
     <!-- <link rel="stylesheet" href="/assets/valex/4.7.0/css/font-awesome.min.css"> -->
 
     <!-- Favicon -->
-    <link rel="icon" href="/assets/valex/img/brand/favicon.png" type="image/x-icon" />
+    <link rel="icon" href="<%= community_logo_url || '/assets/valex/img/brand/favicon.png' %>" type="image/x-icon" />
 
     <!-- Icons css -->
     <link href="/assets/valex/css/icons.css" rel="stylesheet">
@@ -52,7 +53,7 @@
 
 </head>
 
-<body class="main-body">
+<body class="main-body community-background" data-community-sn="<%= current_community&.sn || 'default' %>" data-theme-key="<%= current_theme_key %>">
 
     <!-- Loader 轉圈圈-->
     <div id="global-loader">

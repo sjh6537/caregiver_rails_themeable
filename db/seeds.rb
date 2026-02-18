@@ -76,6 +76,14 @@ else
   end
 end
 
+Community.find_each do |community|
+  community.update(
+    theme_key: community.theme_key.presence || "valex",
+    layout_preset: community.layout_preset.presence || "valex",
+    theme_settings: community.theme_settings.presence || Community::DEFAULT_THEME_SETTINGS
+  )
+end
+
 # 找到 user id 是 1 的資料
 # user = User.find_by(id: 1)
 

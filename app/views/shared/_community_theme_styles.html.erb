@@ -1,0 +1,10 @@
+<% css_variables = theme_css_variables %>
+<style id="community-theme-variables">
+  :root {
+    <% css_variables.each do |name, value| %>
+      <%= name %>: <%= value %>;
+    <% end %>
+    --community-cover-image: <%= community_cover_image_url.present? ? "url('#{community_cover_image_url}')" : "none" %>;
+    --community-background-image: <%= community_background_image_url.present? ? "url('#{community_background_image_url}')" : "none" %>;
+  }
+</style>

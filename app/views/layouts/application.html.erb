@@ -2,16 +2,17 @@
 <html>
 
 <head>
-    <title>LearningLife</title>
+    <title><%= current_community&.name.presence || APP_CONFIG[:site_name].presence || APP_CONFIG[:site_name_eng] || "LearningLife" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= render "shared/community_theme_styles" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 </head>
 
-<body>
+<body class="community-background" data-community-sn="<%= current_community&.sn || 'default' %>" data-theme-key="<%= current_theme_key %>">
     <%= yield %>
 </body>
 
