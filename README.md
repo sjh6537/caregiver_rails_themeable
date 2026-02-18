@@ -2,6 +2,61 @@
 
 這是一個基於 Ruby on Rails 開發的照護相關應用程式，整合了 LINE Bot 功能以及背景工作處理。
 
+## Themeable 多社群架構（Rails 7/8 相容）
+
+本專案已移除舊版 `themes_on_rails`，改用 Rails 原生方式做主題切換：
+
+- `Community` 新增 `theme_key` / `layout_preset` / `theme_settings` / `host`
+- `ApplicationController` 透過 `prepend_view_path` 依序套用：
+  1. `app/themes/communities/<sn>/views`
+  2. `app/themes/<theme_key>/views`
+  3. 預設 fallback（`valex` 或 `admin`）
+- `theme_settings` 會注入成 CSS Variables（`--community-color-*`）
+- `Community` 支援 `theme_logo / theme_cover_image / theme_background_image`（ActiveStorage）
+
+### 每個社群覆蓋單一 view 的做法
+
+例如要覆蓋 `Web::DashboardController#index`：
+
+```bash
+app/themes/communities/demo/views/web/dashboard/index.html.erb
+```
+
+找不到時會自動 fallback 到 `app/themes/valex/views/web/dashboard/index.html.erb`。
+
+## Docker Compose 開發環境
+
+本專案提供 `Dockerfile.dev` + `docker-compose.dev.yml`，可用同一套環境開發 Web 與 Sidekiq：
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+啟動後：
+
+- Web: `http://localhost:3000`
+- MySQL: `localhost:3306`
+- Redis: `localhost:6379`
+- Sidekiq 使用同一份程式碼與 Gem 環境
+
+停止：
+
+```bash
+docker compose -f docker-compose.dev.yml down
+```
+
+## GitHub Actions CI
+
+已新增 workflow：`.github/workflows/ci.yml`，在 push / PR 時會自動執行：
+
+1. 安裝 Ruby 與系統套件（mysql client dev）
+2. `bin/rails db:prepare`
+3. `bin/rails zeitwerk:check`
+4. 檢查 `test/**/*_test.rb` 是否存在（沒有測試會直接 fail）
+5. `bin/rails test`
+
+目前預設已附上一個 smoke test：`test/integration/health_check_test.rb`。
+
 ## 系統需求
 
 * Ruby 版本: 3.2.3

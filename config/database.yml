@@ -4,26 +4,30 @@ default: &default
   collation: utf8mb4_unicode_ci
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-
-
 development:
   <<: *default
-  database: padifield_development
-  host: db
-  username: sa
-  password: taiwan
+  database: <%= ENV.fetch("DB_DEVELOPMENT_DATABASE", "padifield_development") %>
+  host: <%= ENV.fetch("DB_HOST", "db") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
+  username: <%= ENV.fetch("DB_USERNAME", "sa") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "taiwan") %>
 
 test:
   <<: *default
-  database: mysql_db_test
+  database: <%= ENV.fetch("DB_TEST_DATABASE", "caregiver_test") %>
+  host: <%= ENV.fetch("DB_HOST", "127.0.0.1") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
+  username: <%= ENV.fetch("DB_USERNAME", "root") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "root") %>
 
 production:
   <<: *default
-  database: mysql_db_production
-  username: padifield
-  password: padifield2025
-  host: 18.139.163.70  # 改成你的 MySQL host，如果是遠端可填 IP
-  sslca: /home/padifield/padifield_rails/db/ca.pem
-  sslcert: /home/padifield/padifield_rails/db/client-cert.pem
-  sslkey: /home/padifield/padifield_rails/db/client-key.pem
-  sslverify: true
+  database: <%= ENV.fetch("DB_PRODUCTION_DATABASE", "mysql_db_production") %>
+  host: <%= ENV.fetch("DB_HOST", "18.139.163.70") %>
+  port: <%= ENV.fetch("DB_PORT", 3306) %>
+  username: <%= ENV.fetch("DB_USERNAME", "padifield") %>
+  password: <%= ENV.fetch("DB_PASSWORD", "padifield2025") %>
+  sslca: <%= ENV["DB_SSL_CA"] %>
+  sslcert: <%= ENV["DB_SSL_CERT"] %>
+  sslkey: <%= ENV["DB_SSL_KEY"] %>
+  sslverify: <%= ENV.fetch("DB_SSL_VERIFY", "true") %>
