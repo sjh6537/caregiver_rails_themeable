@@ -94,8 +94,10 @@ Desktop.ini
 .windsurfrules
 /config/credentials/*
 
-# github prompts
+# github prompts (allow workflows)
 /.github/*
+!/.github/workflows/
+!/.github/workflows/*.yml
 
 # Redis
 dump.rdb
